@@ -1,0 +1,25 @@
+1. Gradle Enterprise gives you the data to speed up your build, improve build reliability and accelerate build debugging.
+
+2. build scan is a shareable record of a build that provides insights into what happened and why.
+
+//Gradle Plugins
+
+3. SpotBugs:- Performs quality checks on your project's Java source files using SpotBugs and generates reports from these checks
+
+4. Shadow is an extension of the Gradle Jar task that optimizes FatJar/UberJar creation by using JarInputStream and JarOutputStream to copy file contents
+
+5.de.undercouch.download:- This is a download task for Gradle. It displays progress information just as Gradle does when it retrieves an artifact from a repository.
+
+6. gradle-release is a plugin for providing a Maven-like release process to project using Gradle.
+
+///
+
+7. ext:- External properties
+
+8. JaCoCo is a free Java code coverage library distributed under the Eclipse Public License.
+
+9. Maven-publish => which allows you to publish build artifacts to an Apache Maven repository.
+
+10. You can use the onlyIf() method to attach a predicate to a task. The task’s actions are only executed if the predicate evaluates to true.
+
+11. Changing the value of the transitive flag to false prevents the download of transitive dependencies, so you'll have to add whatever is required yourself
