@@ -32,11 +32,9 @@ public class Utils {
 
     static BMap generateOptionsMap(BMap mysqlOptions) {
         if (mysqlOptions != null) {
-            BMap<BString, Object> options = ValueCreator.createMapValue();
-            System.out.println("\n options income\n"+mysqlOptions); 
-            System.out.println("\n options init 3\n"+options);            
+            BMap<BString, Object> options = ValueCreator.createMapValue();    
             addSSLOptions(mysqlOptions.getMapValue(Constants.Options.SSL), options);
-            System.out.println("\n options after ssl\n"+options);                
+
             long connectTimeout = getTimeout(mysqlOptions.get(Constants.Options.CONNECT_TIMEOUT_SECONDS));
             if (connectTimeout > 0) {
                 options.put(Constants.DatabaseProps.CONNECT_TIMEOUT, connectTimeout);
@@ -46,8 +44,8 @@ public class Utils {
             if (socketTimeout > 0) {
                 options.put(Constants.DatabaseProps.SOCKET_TIMEOUT, socketTimeout);
             }
+
             long loginTimeout = getTimeout(mysqlOptions.get(Constants.Options.LOGIN_TIMEOUT_SECONDS));
-            System.out.println("\n lt\n"+loginTimeout); 
             if (loginTimeout > 0) {
                 options.put(Constants.DatabaseProps.LOGIN_TIMEOUT, loginTimeout);
             }
@@ -61,26 +59,32 @@ public class Utils {
             if (dbMetadataCacheFields > 0) {
                 options.put(Constants.DatabaseProps.DB_METADATA_CACHE_FIELDS, dbMetadataCacheFields);
             }
+
             long dbMetadataCacheFieldsMiB = getIntegerValue(mysqlOptions.get(Constants.Options.DB_METADATA_CACHE_FIELDS_MIB));
             if (dbMetadataCacheFieldsMiB > 0) {
                 options.put(Constants.DatabaseProps.DB_METADATA_CACHE_FIELDS_MIB, dbMetadataCacheFieldsMiB);
             }
+
             long prepareThreshold = getIntegerValue(mysqlOptions.get(Constants.Options.PREPARE_THRESHOLD));
             if (prepareThreshold > 0) {
                 options.put(Constants.DatabaseProps.PREPARE_THRESHOLD, prepareThreshold);
             }
+
             long preparedStatementCacheQueries = getIntegerValue(mysqlOptions.get(Constants.Options.PREPARED_STATEMENT_CACHE_QUERIES));
             if (preparedStatementCacheQueries > 0) {
                 options.put(Constants.DatabaseProps.PREPARED_STATEMENT_CACHE_QUERIES, preparedStatementCacheQueries);
             }
+
             long preparedStatementCacheSize = getIntegerValue(mysqlOptions.get(Constants.Options.PREPARED_STATEMENT_CACHE_SIZE_MIB));
             if (preparedStatementCacheSize > 0) {
                 options.put(Constants.DatabaseProps.PREPARED_STATEMENT_CACHE_SIZE_MIB, preparedStatementCacheSize);
             }
+
             long cancelSignalTimeout = getTimeout(mysqlOptions.get(Constants.Options.CANCEL_SIGNAL_TIMEOUT));
             if (cancelSignalTimeout > 0) {
                 options.put(Constants.DatabaseProps.CANCEL_SIGNAL_TIMEOUT, cancelSignalTimeout);
             }
+
             int tcpKeepAlive = getBooleanValue(mysqlOptions.get(Constants.Options.TCP_KEEP_ALIVE));
             if (tcpKeepAlive >= 0 ) {
                 if(tcpKeepAlive == 1){
@@ -90,8 +94,6 @@ public class Utils {
                     options.put(Constants.DatabaseProps.TCP_KEEP_ALIVE, false);
                 }
             }
-
-            System.out.println("\n final option\n"+options);
             return options;
         }
         return null;
@@ -118,12 +120,6 @@ public class Utils {
     }
 
     public static long getTimeout(Object secondsInt) {
-        // if (secondsDecimal instanceof BDecimal) {
-        //     BDecimal timeoutSec = (BDecimal) secondsDecimal;
-        //     if (timeoutSec.floatValue() > 0) {
-        //         return Double.valueOf(timeoutSec.floatValue() * 1000).longValue();
-        //     }
-        // }
         if (secondsInt instanceof Long) {
             Long timeoutSec = (Long) secondsInt;
             if (timeoutSec.longValue() > 0) {
@@ -137,14 +133,12 @@ public class Utils {
         if (sslConfig == null) {
             options.put(Constants.DatabaseProps.SSL_MODE, Constants.DatabaseProps.SSL_MODE_DISABLED);
         } else {
-
-
-
             BString mode = sslConfig.getStringValue(Constants.SSLConfig.MODE);
-            if (mode.getValue().equalsIgnoreCase(Constants.SSLConfig.VERIFY_CERT_MODE)) {
-                mode = Constants.DatabaseProps.SSL_MODE_VERIFY_CA;
-            }
             options.put(Constants.DatabaseProps.SSL_MODE, mode);
+
+            /*
+             Need to figure out
+            */
 
             BMap sslkey = sslConfig.getMapValue(Constants.SSLConfig.SSL_KEY);
             if (sslkey != null) {
@@ -153,7 +147,6 @@ public class Utils {
                                 Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
                 options.put(Constants.SSLConfig.SSL_PASWORD, sslkey
                         .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
-                // options.put(Constants.DatabaseProps.CLIENT_KEYSTORE_TYPE, Constants.DatabaseProps.KEYSTORE_TYPE_PKCS12);
             }
 
             BString sslrootcert = sslConfig.getStringValue(Constants.SSLConfig.SSL_ROOT_CERT);
@@ -166,25 +159,7 @@ public class Utils {
                 options.put(Constants.SSLConfig.SSL_CERT,sslcert);
             }
 
-            // BMap clientCertKeystore = sslConfig.getMapValue(Constants.SSLConfig.CLIENT_CERT_KEYSTORE);
-            // if (clientCertKeystore != null) {
-            //     options.put(Constants.DatabaseProps.CLIENT_KEYSTORE_URL, StringUtils.fromString(
-            //             Constants.FILE + clientCertKeystore.getStringValue(
-            //                     Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
-            //     options.put(Constants.DatabaseProps.CLIENT_KEYSTORE_PASSWORD, clientCertKeystore
-            //             .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
-            //     options.put(Constants.DatabaseProps.CLIENT_KEYSTORE_TYPE, Constants.DatabaseProps.KEYSTORE_TYPE_PKCS12);
-            // }
-
-            // BMap trustCertKeystore = sslConfig.getMapValue(Constants.SSLConfig.TRUST_CERT_KEYSTORE);
-            // if (trustCertKeystore != null) {
-            //     options.put(Constants.DatabaseProps.TRUST_KEYSTORE_URL, StringUtils.fromString(
-            //             Constants.FILE + trustCertKeystore.getStringValue(
-            //                     Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
-            //     options.put(Constants.DatabaseProps.TRUST_KEYSTORE_PASSWORD, trustCertKeystore
-            //             .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
-            //     options.put(Constants.DatabaseProps.TRUST_KEYSTORE_TYPE, Constants.DatabaseProps.KEYSTORE_TYPE_PKCS12);
-            // }
+            
         }
     }
 }

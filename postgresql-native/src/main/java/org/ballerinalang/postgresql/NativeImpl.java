@@ -34,7 +34,6 @@ public class NativeImpl {
 
     public static Object createClient(BObject client, BMap<BString, Object> clientConfig,
                                       BMap<BString, Object> globalPool) {
-        // String url = "jdbc:mysql://" + clientConfig.getStringValue(Constants.ClientConfiguration.HOST);
         String url = "jdbc:postgresql://" + clientConfig.getStringValue(Constants.ClientConfiguration.HOST);
         Long portValue = clientConfig.getIntValue(Constants.ClientConfiguration.PORT);
         if (portValue > 0) {
@@ -49,37 +48,25 @@ public class NativeImpl {
         if (database != null && !database.isEmpty()) {
             url += "/" + database;
         }
+
         System.out.println("Initialization Url :- "+url);
+        
         BMap options = clientConfig.getMapValue(Constants.ClientConfiguration.OPTIONS);
         BMap properties = null;
         Properties poolProperties = null;
         if (options != null) {
-            System.out.println("Options\n"+options);
             properties = Utils.generateOptionsMap(options);
-
-            System.out.println("Properties\n"+properties);
 
             Object connectTimeout = properties.get(Constants.DatabaseProps.CONNECT_TIMEOUT);
             if (connectTimeout != null) {
                 poolProperties = new Properties();
                 poolProperties.setProperty(Constants.POOL_CONNECT_TIMEOUT, connectTimeout.toString());
             }
-            System.out.println("poolProperties\n"+poolProperties);
         }
 
         BMap connectionPool = clientConfig.getMapValue(Constants.ClientConfiguration.CONNECTION_POOL_OPTIONS);
 
-        System.out.println("connectionPool\n"+ connectionPool);
-
         String datasourceName = Constants.MYSQL_DATASOURCE_NAME;
-        // if (options != null && options.getBooleanValue(Constants.Options.USE_XA_DATASOURCE)) {
-            
-        //     datasourceName = Constants.MYSQL_XA_DATASOURCE_NAME;
-        // }
-
-        System.out.println("1111111111");
-        System.out.println("\nThis is ballerinax-postgresql module\n");
-        System.out.println("connectionPool:- "+connectionPool+"\n"+"datasourceName:- "+datasourceName+"\n"+"globalPool:-\n"+globalPool);
 
         SQLDatasource.SQLDatasourceParams sqlDatasourceParams = new SQLDatasource.SQLDatasourceParams()
                 .setUrl(url).setUser(user)
@@ -89,7 +76,6 @@ public class NativeImpl {
                 .setConnectionPool(connectionPool, globalPool)
                 .setPoolProperties(poolProperties);
 
-        System.out.println(sqlDatasourceParams.toString());
 
         return ClientUtils.createClient(client, sqlDatasourceParams);
     }
