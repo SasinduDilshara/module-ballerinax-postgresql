@@ -11,7 +11,7 @@ plugins {
   id "com.gradle.enterprise" version "3.5"
 }
 
-rootProject.name = 'module-ballerinax-postgresql'
+rootProject.name = 'ballerina-postgresql'
 
 include(':build-config:checkstyle')
 include ':postgresql-native', ':postgresql-ballerina'

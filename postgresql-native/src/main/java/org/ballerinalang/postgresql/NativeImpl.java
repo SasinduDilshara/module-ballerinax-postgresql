@@ -78,8 +78,8 @@ public class NativeImpl {
         // }
 
         System.out.println("1111111111");
-
-        System.out.println(connectionPool+"\n"+datasourceName+"\n"+globalPool);
+        System.out.println("\nThis is ballerinax-postgresql module\n");
+        System.out.println("connectionPool:- "+connectionPool+"\n"+"datasourceName:- "+datasourceName+"\n"+"globalPool:-\n"+globalPool);
 
         SQLDatasource.SQLDatasourceParams sqlDatasourceParams = new SQLDatasource.SQLDatasourceParams()
                 .setUrl(url).setUser(user)

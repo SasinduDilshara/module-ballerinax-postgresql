@@ -155,7 +155,6 @@ type ClientConfiguration record {|
 # PostgreSQL database options.
 #
 # + ssl - SSL Configuration to be used
-# + useXADatasource - Boolean value to enable XADatasource
 # + connectTimeoutInSeconds - Timeout to be used when connecting to the postgresql server
 # + socketTimeoutInSeconds - Socket timeout during the read/write operations with postgresql server,
 #                            0 means no socket timeout
