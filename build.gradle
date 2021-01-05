@@ -222,7 +222,7 @@ subprojects {
         ballerinaStdLibs "org.ballerinalang:auth-ballerina:${stdlibAuthVersion}"
         ballerinaStdLibs "org.ballerinalang:http-ballerina:${stdlibHttpVersion}"
 
-        externalJars (group: 'org.postgresql', name: 'postgresql',, version: "${postgreSQLDriverVersion}") {
+        externalJars (group: 'org.postgresql', name: 'postgresql', version: "${postgreSQLDriverVersion}") {
             transitive = false
         }
     }
