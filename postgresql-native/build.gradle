@@ -27,11 +27,10 @@ configurations {
 }
 
 dependencies {
+    compile files('lib/postgres-jdbc.jar')
     jacocoRuntime "org.jacoco:org.jacoco.agent:${jacoco.toolVersion}:runtime"
-
     checkstyle project(":build-config:checkstyle")
     checkstyle "com.puppycrawl.tools:checkstyle:${puppycrawlCheckstyleVersion}"
-    compile files('lib/postgres-jdbc.jar')
 }
 
 tasks.withType(JavaCompile) {
