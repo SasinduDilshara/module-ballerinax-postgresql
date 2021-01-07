@@ -338,6 +338,44 @@ public class PGUtils {
             return interval;
             
         }
+
+
+        public static Object convertInt4Range(Object value){
+            Type type = TypeUtils.getType(value);
+            PGobject int4rangeObject; 
+            if(value instanceof BString){
+                String stringValue = value.toString();
+                int4rangeObject = setPGobject(PGConstants.PGtypes.INT4RANGE,stringValue);
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> rangeValue = PGhelper.getRecordType(value);
+
+                if(rangeValue.containsKey(PGConstants.Int4Range.UPPER) && rangeValue.containsKey(PGConstants.Int4Range.LOWER)
+                    && rangeValue.containsKey(PGConstants.Int4Range.UPPERINCLUSIVE) && rangeValue.containsKey(PGConstants.Int4Range.LOWERINCLUSIVE)){
+
+                    String upperValue = rangeValue.get(PGConstants.Int4Range.UPPER).toString();
+                    String lowerValue = rangeValue.get(PGConstants.Int4Range.LOWER).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue.get(PGConstants.Int4Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue.get(PGConstants.Int4Range.LOWERINCLUSIVE))).booleanValue();
+
+                    String range = PGhelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
+
+                    int4rangeObject = setPGobject(PGConstants.PGtypes.INT4RANGE,range);
+                }
+                else{
+                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
+                    return null;
+                }
+                                
+            }
+            else{
+                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            System.out.println("PGRANGE:- "+int4rangeObject.getValue()+"\n");
+            return int4rangeObject;
+            
+        }
         
 
         public static PGobject setPGobject(String type, String value){

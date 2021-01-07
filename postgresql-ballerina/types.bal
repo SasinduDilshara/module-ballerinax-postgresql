@@ -141,6 +141,16 @@ public class IntervalValue {
     }
 }
 
+//Range values
+public class Int4rangeValue {
+    any value;
+
+    public function init(record{int upper; int lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value = ()) {
+        self.value = convertInt4Range(value);
+    }
+}
+
+
 
 
 
@@ -200,5 +210,10 @@ function convertJsonPath(string? value) returns any = @java:Method {
 
 
 function convertInterval(record{int years = 0; int months = 0;int days = 0; int hours = 0; int minutes = 0; decimal seconds = 0;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+
+function convertInt4Range(record{int upper; int lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value) returns any = @java:Method {
     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
 } external;

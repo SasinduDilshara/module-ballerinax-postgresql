@@ -32,6 +32,13 @@ public final class PGConstants {
         public static final String SECONDS = "seconds";
     }
 
+    public static final class Int4Range{
+        public static final String UPPER = "upper";
+        public static final String LOWER = "lower";
+        public static final String UPPERINCLUSIVE = "upperInclusive";
+        public static final String LOWERINCLUSIVE = "lowerInclusive";
+    }
+
     public static final class PGtypes{
         public static final String INET = "inet";
         public static final String CIDR = "cidr";
@@ -49,6 +56,10 @@ public final class PGConstants {
         public static final String JSON = "json";
         public static final String JSONB = "jsonb";
         public static final String JSONPATH = "jsonpath";
+
+        public static final String INT4RANGE = "int4range";
+        public static final String INT8RANGE = "int8range";
+        public static final String NUMRANGE = "numrange";
     }
     public static final class TypedValueFields {
         public static final BString VALUE = fromString("value");
