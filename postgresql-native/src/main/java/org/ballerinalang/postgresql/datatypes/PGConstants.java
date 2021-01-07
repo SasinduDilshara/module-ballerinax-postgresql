@@ -32,7 +32,7 @@ public final class PGConstants {
         public static final String SECONDS = "seconds";
     }
 
-    public static final class Int4Range{
+    public static final class Range{
         public static final String UPPER = "upper";
         public static final String LOWER = "lower";
         public static final String UPPERINCLUSIVE = "upperInclusive";
@@ -60,6 +60,9 @@ public final class PGConstants {
         public static final String INT4RANGE = "int4range";
         public static final String INT8RANGE = "int8range";
         public static final String NUMRANGE = "numrange";
+        public static final String TSRANGE = "tsrange";
+        public static final String TSTZRANGE = "tstzrange";
+        public static final String DATERANGE= "daterange";
     }
     public static final class TypedValueFields {
         public static final BString VALUE = fromString("value");

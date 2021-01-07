@@ -1,4 +1,5 @@
 import ballerina/java;
+import ballerina/time;
 
 public class InetValue {
     any value;
@@ -150,6 +151,46 @@ public class Int4rangeValue {
     }
 }
 
+public class Int8rangeValue {
+    any value;
+
+    public function init(record{int upper; int lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value = ()) {
+        self.value = convertInt8Range(value);
+    }
+}
+
+public class NumrangeValue {
+    any value;
+
+    public function init(record{decimal upper; decimal lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value = ()) {
+        self.value = convertNumRange(value);
+    }
+}
+
+public class TsrangeValue {
+    any value;
+
+    public function init(record{time:Time|string upper; time:Time|string lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value = ()) {
+        self.value = convertTsRange(value);
+    }
+}
+
+public class TstzrangeValue {
+    any value;
+
+    public function init(record{time:Time|string  upper; time:Time|string  lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value = ()) {
+        self.value = convertTstzRange(value);
+    }
+}
+
+public class DaterangeValue {
+    any value;
+
+    public function init(record{time:Time|string  upper; time:Time|string  lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value = ()) {
+        self.value = convertDateRange(value);
+    }
+}
+
 
 
 
@@ -215,5 +256,25 @@ function convertInterval(record{int years = 0; int months = 0;int days = 0; int 
 
 
 function convertInt4Range(record{int upper; int lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertInt8Range(record{int upper; int lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertNumRange(record{decimal upper; decimal lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertTsRange(record{time:Time|string upper; time:Time|string lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertTstzRange(record{time:Time|string upper; time:Time|string lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertDateRange(record{time:Time|string upper; time:Time|string lower; boolean upperInclusive = false; boolean lowerInclusive = false;}|string? value) returns any = @java:Method {
     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
 } external;

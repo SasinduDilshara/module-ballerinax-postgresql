@@ -350,13 +350,13 @@ public class PGUtils {
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
                 Map<String,Object> rangeValue = PGhelper.getRecordType(value);
 
-                if(rangeValue.containsKey(PGConstants.Int4Range.UPPER) && rangeValue.containsKey(PGConstants.Int4Range.LOWER)
-                    && rangeValue.containsKey(PGConstants.Int4Range.UPPERINCLUSIVE) && rangeValue.containsKey(PGConstants.Int4Range.LOWERINCLUSIVE)){
+                if(rangeValue.containsKey(PGConstants.Range.UPPER) && rangeValue.containsKey(PGConstants.Range.LOWER)
+                    && rangeValue.containsKey(PGConstants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(PGConstants.Range.LOWERINCLUSIVE)){
 
-                    String upperValue = rangeValue.get(PGConstants.Int4Range.UPPER).toString();
-                    String lowerValue = rangeValue.get(PGConstants.Int4Range.LOWER).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue.get(PGConstants.Int4Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue.get(PGConstants.Int4Range.LOWERINCLUSIVE))).booleanValue();
+                    String upperValue = rangeValue.get(PGConstants.Range.UPPER).toString();
+                    String lowerValue = rangeValue.get(PGConstants.Range.LOWER).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = PGhelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
@@ -376,6 +376,193 @@ public class PGUtils {
             return int4rangeObject;
             
         }
+
+        public static Object convertInt8Range(Object value){
+            Type type = TypeUtils.getType(value);
+            PGobject int8rangeObject; 
+            if(value instanceof BString){
+                String stringValue = value.toString();
+                int8rangeObject = setPGobject(PGConstants.PGtypes.INT8RANGE,stringValue);
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> rangeValue = PGhelper.getRecordType(value);
+
+                if(rangeValue.containsKey(PGConstants.Range.UPPER) && rangeValue.containsKey(PGConstants.Range.LOWER)
+                    && rangeValue.containsKey(PGConstants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(PGConstants.Range.LOWERINCLUSIVE)){
+
+                    String upperValue = rangeValue.get(PGConstants.Range.UPPER).toString();
+                    String lowerValue = rangeValue.get(PGConstants.Range.LOWER).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.LOWERINCLUSIVE))).booleanValue();
+
+                    String range = PGhelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
+
+                    int8rangeObject = setPGobject(PGConstants.PGtypes.INT8RANGE,range);
+                }
+                else{
+                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
+                    return null;
+                }
+                                
+            }
+            else{
+                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            System.out.println("PGRANGE:- "+int8rangeObject.getValue()+"\n");
+            return int8rangeObject;
+            
+        }
+
+        public static Object convertNumRange(Object value){
+            Type type = TypeUtils.getType(value);
+            PGobject numrangeObject; 
+            if(value instanceof BString){
+                String stringValue = value.toString();
+                numrangeObject = setPGobject(PGConstants.PGtypes.NUMRANGE,stringValue);
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> rangeValue = PGhelper.getRecordType(value);
+
+                if(rangeValue.containsKey(PGConstants.Range.UPPER) && rangeValue.containsKey(PGConstants.Range.LOWER)
+                    && rangeValue.containsKey(PGConstants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(PGConstants.Range.LOWERINCLUSIVE)){
+
+                    String upperValue = rangeValue.get(PGConstants.Range.UPPER).toString();
+                    String lowerValue = rangeValue.get(PGConstants.Range.LOWER).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.LOWERINCLUSIVE))).booleanValue();
+
+                    String range = PGhelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
+
+                    numrangeObject = setPGobject(PGConstants.PGtypes.NUMRANGE,range);
+                }
+                else{
+                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
+                    return null;
+                }
+                                
+            }
+            else{
+                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            System.out.println("PGRANGE:- "+numrangeObject.getValue()+"\n");
+            return numrangeObject;
+            
+        }
+
+        public static Object convertTsRange(Object value){
+            Type type = TypeUtils.getType(value);
+            PGobject tsrangeObject; 
+            if(value instanceof BString){
+                String stringValue = value.toString();
+                tsrangeObject = setPGobject(PGConstants.PGtypes.TSRANGE,stringValue);
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> rangeValue = PGhelper.getRecordType(value);
+
+                if(rangeValue.containsKey(PGConstants.Range.UPPER) && rangeValue.containsKey(PGConstants.Range.LOWER)
+                    && rangeValue.containsKey(PGConstants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(PGConstants.Range.LOWERINCLUSIVE)){
+
+                    String upperValue = rangeValue.get(PGConstants.Range.UPPER).toString();
+                    String lowerValue = rangeValue.get(PGConstants.Range.LOWER).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.LOWERINCLUSIVE))).booleanValue();
+
+                    String range = PGhelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
+
+                    tsrangeObject = setPGobject(PGConstants.PGtypes.TSRANGE,range);
+                }
+                else{
+                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
+                    return null;
+                }
+                                
+            }
+            else{
+                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            System.out.println("PGRANGE:- "+tsrangeObject.getValue()+"\n");
+            return tsrangeObject;
+            
+        }
+
+        public static Object convertTstzRange(Object value){
+            Type type = TypeUtils.getType(value);
+            PGobject tstzrangeObject; 
+            if(value instanceof BString){
+                String stringValue = value.toString();
+                tstzrangeObject = setPGobject(PGConstants.PGtypes.TSTZRANGE,stringValue);
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> rangeValue = PGhelper.getRecordType(value);
+
+                if(rangeValue.containsKey(PGConstants.Range.UPPER) && rangeValue.containsKey(PGConstants.Range.LOWER)
+                    && rangeValue.containsKey(PGConstants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(PGConstants.Range.LOWERINCLUSIVE)){
+
+                    String upperValue = rangeValue.get(PGConstants.Range.UPPER).toString();
+                    String lowerValue = rangeValue.get(PGConstants.Range.LOWER).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.LOWERINCLUSIVE))).booleanValue();
+
+                    String range = PGhelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
+
+                    tstzrangeObject = setPGobject(PGConstants.PGtypes.TSTZRANGE,range);
+                }
+                else{
+                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
+                    return null;
+                }
+                                
+            }
+            else{
+                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            System.out.println("PGRANGE:- "+tstzrangeObject.getValue()+"\n");
+            return tstzrangeObject;
+            
+        }
+
+        public static Object convertDateRange(Object value){
+            Type type = TypeUtils.getType(value);
+            PGobject daterangeObject; 
+            if(value instanceof BString){
+                String stringValue = value.toString();
+                daterangeObject = setPGobject(PGConstants.PGtypes.DATERANGE,stringValue);
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> rangeValue = PGhelper.getRecordType(value);
+
+                if(rangeValue.containsKey(PGConstants.Range.UPPER) && rangeValue.containsKey(PGConstants.Range.LOWER)
+                    && rangeValue.containsKey(PGConstants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(PGConstants.Range.LOWERINCLUSIVE)){
+
+                    String upperValue = rangeValue.get(PGConstants.Range.UPPER).toString();
+                    String lowerValue = rangeValue.get(PGConstants.Range.LOWER).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue.get(PGConstants.Range.LOWERINCLUSIVE))).booleanValue();
+
+                    String range = PGhelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
+
+                    daterangeObject = setPGobject(PGConstants.PGtypes.DATERANGE,range);
+                }
+                else{
+                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
+                    return null;
+                }
+                                
+            }
+            else{
+                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            System.out.println("PGRANGE:- "+daterangeObject.getValue()+"\n");
+            return daterangeObject;
+            
+        }
+
+        
         
 
         public static PGobject setPGobject(String type, String value){
