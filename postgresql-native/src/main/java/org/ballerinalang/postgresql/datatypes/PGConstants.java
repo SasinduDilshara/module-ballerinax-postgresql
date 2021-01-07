@@ -7,11 +7,10 @@ import static io.ballerina.runtime.api.utils.StringUtils.fromString;
 
 public final class PGConstants {
 
-    public static final class PGpoint{
+    public static final class Geometric{
         public static final String X = "x";
         public static final String Y = "y";
-    }
-    public static final class PGline{
+        public static final String R = "r";
         public static final String X1 = "x1";
         public static final String Y1 = "y1";
         public static final String X2 = "x2";

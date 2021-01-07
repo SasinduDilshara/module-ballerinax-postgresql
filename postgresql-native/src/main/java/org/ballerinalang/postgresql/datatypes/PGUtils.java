@@ -149,8 +149,8 @@ public class PGUtils {
                 Map<String,Object> pointValue = PGhelper.getRecordType(value);
 
                 point = new PGpoint(
-                    ((BDecimal)(pointValue.get(PGConstants.PGpoint.X))).decimalValue().doubleValue(),
-                    ((BDecimal)(pointValue.get(PGConstants.PGpoint.Y))).decimalValue().doubleValue()
+                    ((BDecimal)(pointValue.get(PGConstants.Geometric.X))).decimalValue().doubleValue(),
+                    ((BDecimal)(pointValue.get(PGConstants.Geometric.Y))).decimalValue().doubleValue()
                 );                
             }
             System.out.println("\nPGPOINT:- "+point.getValue()+"\n");
@@ -175,24 +175,24 @@ public class PGUtils {
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
                 Map<String,Object> lineValue = PGhelper.getRecordType(value);
 
-                if(lineValue.containsKey(PGConstants.PGline.A) && lineValue.containsKey(PGConstants.PGline.B)
-                            && lineValue.containsKey(PGConstants.PGline.C)){
+                if(lineValue.containsKey(PGConstants.Geometric.A) && lineValue.containsKey(PGConstants.Geometric.B)
+                            && lineValue.containsKey(PGConstants.Geometric.C)){
                         line = new PGline(
-                            ((BDecimal)(lineValue.get(PGConstants.PGline.A))).decimalValue().doubleValue(),
-                            ((BDecimal)(lineValue.get(PGConstants.PGline.B))).decimalValue().doubleValue(),
-                            ((BDecimal)(lineValue.get(PGConstants.PGline.C))).decimalValue().doubleValue()
+                            ((BDecimal)(lineValue.get(PGConstants.Geometric.A))).decimalValue().doubleValue(),
+                            ((BDecimal)(lineValue.get(PGConstants.Geometric.B))).decimalValue().doubleValue(),
+                            ((BDecimal)(lineValue.get(PGConstants.Geometric.C))).decimalValue().doubleValue()
                         );    
 
                     System.out.println("\nPGLINE:- "+line.getValue()+"\n");
                 }
 
-                else if(lineValue.containsKey(PGConstants.PGline.X1) && lineValue.containsKey(PGConstants.PGline.Y1)
-                && lineValue.containsKey(PGConstants.PGline.X2) && lineValue.containsKey(PGConstants.PGline.Y2)){
+                else if(lineValue.containsKey(PGConstants.Geometric.X1) && lineValue.containsKey(PGConstants.Geometric.Y1)
+                && lineValue.containsKey(PGConstants.Geometric.X2) && lineValue.containsKey(PGConstants.Geometric.Y2)){
                     line = new PGline(
-                        ((BDecimal)(lineValue.get(PGConstants.PGline.X1))).decimalValue().doubleValue(),
-                        ((BDecimal)(lineValue.get(PGConstants.PGline.Y1))).decimalValue().doubleValue(),
-                        ((BDecimal)(lineValue.get(PGConstants.PGline.X2))).decimalValue().doubleValue(),
-                        ((BDecimal)(lineValue.get(PGConstants.PGline.Y2))).decimalValue().doubleValue()
+                        ((BDecimal)(lineValue.get(PGConstants.Geometric.X1))).decimalValue().doubleValue(),
+                        ((BDecimal)(lineValue.get(PGConstants.Geometric.Y1))).decimalValue().doubleValue(),
+                        ((BDecimal)(lineValue.get(PGConstants.Geometric.X2))).decimalValue().doubleValue(),
+                        ((BDecimal)(lineValue.get(PGConstants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
 
                     System.out.println("\nPGLINE:- "+line.getValue()+"\n");
@@ -200,10 +200,10 @@ public class PGUtils {
                 }
 
 
-            //     else if(lineValue.containsKey(PGConstants.PGline.P1) && lineValue.containsKey(PGConstants.PGline.P2)){
+            //     else if(lineValue.containsKey(PGConstants.Geometric.P1) && lineValue.containsKey(PGConstants.Geometric.P2)){
                     
-            //         Object cordinate1 = lineValue.get(PGConstants.PGline.P1);
-            //         Object cordinate2 = lineValue.get(PGConstants.PGline.P2);
+            //         Object cordinate1 = lineValue.get(PGConstants.Geometric.P1);
+            //         Object cordinate2 = lineValue.get(PGConstants.Geometric.P2);
 
             //         if(cordinate1 instanceof BObject && cordinate2 instanceof BObject){
 
@@ -238,6 +238,143 @@ public class PGUtils {
                 return null;
             }
             return line;
+            
+        }
+
+        public static Object convertLseg(Object value){
+            PGlseg lseg;
+            Type type = TypeUtils.getType(value);
+            // type.getTag() != TypeTags.RECORD_TYPE_TAG
+
+            if(value instanceof BString){
+                try{
+                    lseg = new PGlseg(value.toString());
+                }
+                catch(Exception ex){
+                    System.out.println("PGlseg CATCH ERROR\n"+ex);
+                    return null;
+                }
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> lsegValue = PGhelper.getRecordType(value);
+
+                if(lsegValue.containsKey(PGConstants.Geometric.X1) && lsegValue.containsKey(PGConstants.Geometric.Y1)
+                && lsegValue.containsKey(PGConstants.Geometric.X2) && lsegValue.containsKey(PGConstants.Geometric.Y2)){
+                    lseg = new PGlseg(
+                        ((BDecimal)(lsegValue.get(PGConstants.Geometric.X1))).decimalValue().doubleValue(),
+                        ((BDecimal)(lsegValue.get(PGConstants.Geometric.Y1))).decimalValue().doubleValue(),
+                        ((BDecimal)(lsegValue.get(PGConstants.Geometric.X2))).decimalValue().doubleValue(),
+                        ((BDecimal)(lsegValue.get(PGConstants.Geometric.Y2))).decimalValue().doubleValue()
+                    );  
+
+                    System.out.println("\nPGlseg:- "+lseg.getValue()+"\n");
+                    
+                }
+
+                else{
+                        System.out.println("PGlseg CATCH ERROR WRONG SYNTAX RECORD\n");
+                        return null;
+                }
+                // String sqlType = typedValue.getType().getName();
+                // Object value = typedValue.get(Constants.TypedValueFields.VALUE);
+            
+            }
+            else{
+                System.out.println("PGlseg CATCH ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            return lseg;
+            
+        }
+
+        public static Object convertBox(Object value){
+            PGbox box;
+            Type type = TypeUtils.getType(value);
+            // type.getTag() != TypeTags.RECORD_TYPE_TAG
+
+            if(value instanceof BString){
+                try{
+                    box = new PGbox(value.toString());
+                }
+                catch(Exception ex){
+                    System.out.println("PGbox CATCH ERROR\n"+ex);
+                    return null;
+                }
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> boxValue = PGhelper.getRecordType(value);
+
+                if(boxValue.containsKey(PGConstants.Geometric.X1) && boxValue.containsKey(PGConstants.Geometric.Y1)
+                && boxValue.containsKey(PGConstants.Geometric.X2) && boxValue.containsKey(PGConstants.Geometric.Y2)){
+                    box = new PGbox(
+                        ((BDecimal)(boxValue.get(PGConstants.Geometric.X1))).decimalValue().doubleValue(),
+                        ((BDecimal)(boxValue.get(PGConstants.Geometric.Y1))).decimalValue().doubleValue(),
+                        ((BDecimal)(boxValue.get(PGConstants.Geometric.X2))).decimalValue().doubleValue(),
+                        ((BDecimal)(boxValue.get(PGConstants.Geometric.Y2))).decimalValue().doubleValue()
+                    );  
+
+                    System.out.println("\nPGbox:- "+box.getValue()+"\n");
+                    
+                }
+
+                else{
+                        System.out.println("PGbox CATCH ERROR WRONG SYNTAX RECORD\n");
+                        return null;
+                }
+                // String sqlType = typedValue.getType().getName();
+                // Object value = typedValue.get(Constants.TypedValueFields.VALUE);
+            
+            }
+            else{
+                System.out.println("PGbox CATCH ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            return box;
+            
+        }
+
+        public static Object convertCircle(Object value){
+            PGcircle circle;
+            Type type = TypeUtils.getType(value);
+            // type.getTag() != TypeTags.RECORD_TYPE_TAG
+
+            if(value instanceof BString){
+                try{
+                    circle = new PGcircle(value.toString());
+                }
+                catch(Exception ex){
+                    System.out.println("PGcircle CATCH ERROR\n"+ex);
+                    return null;
+                }
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> circleValue = PGhelper.getRecordType(value);
+
+                if(circleValue.containsKey(PGConstants.Geometric.X) && circleValue.containsKey(PGConstants.Geometric.Y)
+                && circleValue.containsKey(PGConstants.Geometric.R)){
+                    circle = new PGcircle(
+                        ((BDecimal)(circleValue.get(PGConstants.Geometric.X))).decimalValue().doubleValue(),
+                        ((BDecimal)(circleValue.get(PGConstants.Geometric.Y))).decimalValue().doubleValue(),
+                        ((BDecimal)(circleValue.get(PGConstants.Geometric.R))).decimalValue().doubleValue()
+                    );  
+
+                    System.out.println("\nPGcircle:- "+circle.getValue()+"\n");
+                    
+                }
+
+                else{
+                        System.out.println("PGcircle CATCH ERROR WRONG SYNTAX RECORD\n");
+                        return null;
+                }
+                // String sqlType = typedValue.getType().getName();
+                // Object value = typedValue.get(Constants.TypedValueFields.VALUE);
+            
+            }
+            else{
+                System.out.println("PGcircle CATCH ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            return circle;
             
         }
 

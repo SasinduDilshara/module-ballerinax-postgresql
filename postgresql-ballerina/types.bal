@@ -51,40 +51,40 @@ public class LineValue {
 public class LsegValue {
     any value;
 
-    public function init(record{decimal x; decimal y;}? value = ()) {
-        self.value = convertPoint(value);
+    public function init(record{decimal x1; decimal y1;decimal x2; decimal y2;}|string? value = ()) {
+        self.value = convertLseg(value);
     }  
 }
 
 public class BoxValue {
     any value;
 
-    public function init(record{decimal x; decimal y;}? value = ()) {
-        self.value = convertPoint(value);
+    public function init(record{decimal x1; decimal y1;decimal x2; decimal y2;}|string? value = ()) {
+        self.value = convertBox(value);
     }  
 }
 
-public class PathValue {
-    any value;
+// public class PathValue {
+//     any value;
 
-    public function init(record{decimal x; decimal y;}? value = ()) {
-        self.value = convertPoint(value);
-    }  
-}
+//     public function init(record{decimal x; decimal y;}? value = ()) {
+//         self.value = convertPoint(value);
+//     }  
+// }
 
-public class PolygonValue {
-    any value;
+// public class PolygonValue {
+//     any value;
 
-    public function init(record{decimal x; decimal y;}? value = ()) {
-        self.value = convertPoint(value);
-    }  
-}
+//     public function init(record{decimal x; decimal y;}? value = ()) {
+//         self.value = convertPoint(value);
+//     }  
+// }
 
 public class CircleValue {
     any value;
 
-    public function init(record{decimal x; decimal y;}? value = ()) {
-        self.value = convertPoint(value);
+    public function init(record{decimal x; decimal y; decimal r;}|string? value = ()) {
+        self.value = convertCircle(value);
     }  
 }
 
@@ -219,6 +219,21 @@ function convertPoint(record{decimal x; decimal y;}|string? value) returns any =
 
 function convertLine(record{decimal x1; decimal y1;decimal x2; decimal y2;}|
                     record{decimal a; decimal b; decimal c;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertLseg(record{decimal x1; decimal y1;decimal x2; decimal y2;}
+                                        |string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertBox(record{decimal x1; decimal y1;decimal x2; decimal y2;}
+                                        |string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertCircle(record{decimal x; decimal y;decimal r;}
+                                        |string? value) returns any = @java:Method {
     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
 } external;
 
