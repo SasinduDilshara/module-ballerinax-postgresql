@@ -36,7 +36,8 @@ public class PointValue {
         self.value = convertPoint(value);
     }
 }
-
+// record{decimal x1; decimal y1;decimal x2; decimal y2;}|
+//                     record{decimal a; decimal b; decimal c;}|record{PointValue p1; PointValue p2;}|string?
 public class LineValue {
     any value;
 
@@ -86,6 +87,30 @@ public class CircleValue {
     }  
 }
 
+//UUID Value
+public class UuidValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertUuid(value);
+    }  
+}
+
+//Text search types
+public class TsvectorValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertTsVector(value);
+    }  
+}
+
+public class TsqueryValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertTsQuery(value);
+    }  
+}
+
+
 
 function convertInet(string? value) returns any = @java:Method {
     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
@@ -111,5 +136,21 @@ function convertPoint(record{decimal x; decimal y;}|string? value) returns any =
 
 function convertLine(record{decimal x1; decimal y1;decimal x2; decimal y2;}|
                     record{decimal a; decimal b; decimal c;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+
+
+function convertUuid(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+
+
+function convertTsVector(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertTsQuery(string? value) returns any = @java:Method {
     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
 } external;

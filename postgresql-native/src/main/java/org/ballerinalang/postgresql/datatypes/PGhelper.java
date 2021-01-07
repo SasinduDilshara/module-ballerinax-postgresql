@@ -67,7 +67,7 @@ public class PGhelper{
 
     public static Map<String,Object> getRecordType(Object value){
 
-        System.out.println("Inside getRecordedType");
+        System.out.println("Inside getRecordedType :- "+value.toString()+" "+((BMap)value).toString()+"\n((BMap) value).get(fromString(key))"+((BMap) value).get(fromString("p1")));
         Map<String,Object> result = new HashMap<>();
         String key;
         Object bValue;
@@ -82,7 +82,8 @@ public class PGhelper{
             key = field.getFieldName();
             bValue = ((BMap) value).get(fromString(key));
             result.put(key,bValue);
-            System.out.println("Field name:- "+" "+fromString(field.getFieldName())+" bValue:- "+bValue+"  "+"field:- "+field);
+            System.out.println("Field name:- "+" "+fromString(field.getFieldName())+" bValue:- "+bValue+"  "+"Key "+key+"field:- "+field);
+            System.out.println("(BMap) value):- "+" "+(BMap) value+" ((BMap) value).get(fromString(key)):- "+((BMap) value).get(fromString(key))+" "+"((BMap) value).getkey:- "+"  "+"Key "+key+"field:- "+field);
         }
         System.out.println("result:- "+result);
         return result;

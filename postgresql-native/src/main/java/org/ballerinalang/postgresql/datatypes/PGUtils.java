@@ -99,15 +99,8 @@ public class PGUtils {
 
         public static Object convertInet(Object value){
                 String stringValue = value.toString();
-                PGobject pgobject =  new PGobject();
-                pgobject.setType(PGConstants.PGtypes.INET);
-                try{
-                    pgobject.setValue(stringValue);
-
-                }
-                catch(Exception ex){
-                    System.out.println("PGINET CATCH ERROR\n"+ex);
-                }
+                
+                PGobject pgobject = setPGobject(PGConstants.PGtypes.INET,stringValue);
                 System.out.println("\nPGINET:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
                 
                 return pgobject;
@@ -115,15 +108,7 @@ public class PGUtils {
 
         public static Object convertCidr(Object value){
             String stringValue = value.toString();
-            PGobject pgobject =  new PGobject();
-            pgobject.setType(PGConstants.PGtypes.CIDR);
-            try{
-                pgobject.setValue(stringValue);
-
-            }
-            catch(Exception ex){
-                System.out.println("PGCIDR CATCH ERROR\n"+ex);
-            }
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.CIDR, stringValue);
             System.out.println("\nPGCIDR:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
             
             return pgobject;
@@ -131,15 +116,7 @@ public class PGUtils {
 
         public static Object convertMac(Object value){
             String stringValue = value.toString();
-            PGobject pgobject =  new PGobject();
-            pgobject.setType(PGConstants.PGtypes.MACADDR);
-            try{
-                pgobject.setValue(stringValue);
-
-            }
-            catch(Exception ex){
-                System.out.println("PGMAC CATCH ERROR\n"+ex);
-            }
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.MACADDR, stringValue);
             System.out.println("\nPGMAC:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
             
             return pgobject;
@@ -147,15 +124,7 @@ public class PGUtils {
 
         public static Object convertMac8(Object value){
             String stringValue = value.toString();
-            PGobject pgobject =  new PGobject();
-            pgobject.setType(PGConstants.PGtypes.MACADDR8);
-            try{
-                pgobject.setValue(stringValue);
-
-            }
-            catch(Exception ex){
-                System.out.println("PGMAC8 CATCH ERROR\n"+ex);
-            }
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.MACADDR8, stringValue);
             System.out.println("\nPGMAC8:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
             
             return pgobject;
@@ -214,6 +183,7 @@ public class PGUtils {
 
                     System.out.println("\nPGLINE:- "+line.getValue()+"\n");
                 }
+
                 else if(lineValue.containsKey(PGConstants.PGline.X1) && lineValue.containsKey(PGConstants.PGline.Y1)
                 && lineValue.containsKey(PGConstants.PGline.X2) && lineValue.containsKey(PGConstants.PGline.Y2)){
                     line = new PGline(
@@ -226,6 +196,33 @@ public class PGUtils {
                     System.out.println("\nPGLINE:- "+line.getValue()+"\n");
                     
                 }
+
+
+            //     else if(lineValue.containsKey(PGConstants.PGline.P1) && lineValue.containsKey(PGConstants.PGline.P2)){
+                    
+            //         Object cordinate1 = lineValue.get(PGConstants.PGline.P1);
+            //         Object cordinate2 = lineValue.get(PGConstants.PGline.P2);
+
+            //         if(cordinate1 instanceof BObject && cordinate2 instanceof BObject){
+
+            //             Object point1 = ((BObject)cordinate1).get(PGConstants.TypedValueFields.VALUE);
+            //             Object point2 = ((BObject)cordinate2).get(PGConstants.TypedValueFields.VALUE);
+                        
+            //                 line = new PGline(
+                                
+            //                     (PGpoint)point1,
+            //                     (PGpoint)point2
+            //                 );  
+
+            //                 System.out.println("\nPGLINE with 2 points:- "+line.getValue()+"\n");
+                        
+            //             }
+            //             else{
+            //                 System.out.println("Didnt found BObject for two points\n");
+            //                 return null;
+            //             }
+            // }
+
                 else{
                         System.out.println("PGLINE CATCH ERROR WRONG SYNTAX RECORD\n");
                         return null;
@@ -242,4 +239,42 @@ public class PGUtils {
             
         }
 
-}
+        public static Object convertUuid(Object value){
+            String stringValue = value.toString();
+            
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.UUID,stringValue);
+            System.out.println("\nPGUUID:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+        public static Object convertTsVector(Object value){
+            String stringValue = value.toString();
+            
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.TSVECTOR,stringValue);
+            System.out.println("\nPGVector:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+        public static Object convertTsQuery(Object value){
+            String stringValue = value.toString();
+            
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.TSQUERY,stringValue);
+            System.out.println("\nPGQuery:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+        public static PGobject setPGobject(String type, String value){
+            PGobject pgobject =  new PGobject();
+            pgobject.setType(type);
+            try{
+                pgobject.setValue(value);
+
+            }catch(Exception ex){
+                System.out.println(type+" CATCH ERROR\n"+ex);
+            }
+            return pgobject;
+        }
+    }

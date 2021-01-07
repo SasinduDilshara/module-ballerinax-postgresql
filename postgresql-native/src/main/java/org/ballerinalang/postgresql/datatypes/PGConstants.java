@@ -1,5 +1,10 @@
 package org.ballerinalang.postgresql.datatypes;
 
+
+import io.ballerina.runtime.api.values.BString;
+
+import static io.ballerina.runtime.api.utils.StringUtils.fromString;
+
 public final class PGConstants {
 
     public static final class PGpoint{
@@ -14,6 +19,8 @@ public final class PGConstants {
         public static final String A = "a";
         public static final String B = "b";
         public static final String C = "c";
+        public static final String P1 = "p1";
+        public static final String P2 = "p2";
     }
 
     public static final class PGtypes{
@@ -24,6 +31,14 @@ public final class PGConstants {
 
         public static final String POINT = "point";
         public static final String LINE = "line";
+
+        public static final String UUID = "uuid";
+
+        public static final String TSVECTOR = "tsvector";
+        public static final String TSQUERY = "tsquery";
+    }
+    public static final class TypedValueFields {
+        public static final BString VALUE = fromString("value");
     }
 
 
