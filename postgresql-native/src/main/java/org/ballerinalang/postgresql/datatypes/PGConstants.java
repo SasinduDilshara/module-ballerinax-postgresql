@@ -23,6 +23,15 @@ public final class PGConstants {
         public static final String P2 = "p2";
     }
 
+    public static final class Interval{
+        public static final String YEARS = "years";
+        public static final String MONTHS = "months";
+        public static final String DAYS = "days";
+        public static final String HOURS = "hours";
+        public static final String MINUTES = "minutes";
+        public static final String SECONDS = "seconds";
+    }
+
     public static final class PGtypes{
         public static final String INET = "inet";
         public static final String CIDR = "cidr";
@@ -36,6 +45,10 @@ public final class PGConstants {
 
         public static final String TSVECTOR = "tsvector";
         public static final String TSQUERY = "tsquery";
+
+        public static final String JSON = "json";
+        public static final String JSONB = "jsonb";
+        public static final String JSONPATH = "jsonpath";
     }
     public static final class TypedValueFields {
         public static final BString VALUE = fromString("value");

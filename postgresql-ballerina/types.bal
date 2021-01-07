@@ -110,6 +110,38 @@ public class TsqueryValue {
     }  
 }
 
+//Json
+public class JsonValue {
+    any value;
+    public function init(json|string? value = ()) {
+        self.value = convertJson(value);
+    }  
+}
+
+public class JsonbValue {
+    any value;
+    public function init(json|string? value = ()) {
+        self.value = convertJsonb(value);
+    }  
+}
+
+public class JsonpathValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertJsonPath(value);
+    }  
+}
+
+//Interval
+public class IntervalValue {
+    any value;
+
+    public function init(record{int years = 0; int months = 0;int days = 0; int hours = 0; int minutes = 0; decimal seconds = 0;}|string? value = ()) {
+        self.value = convertInterval(value);
+    }
+}
+
+
 
 
 function convertInet(string? value) returns any = @java:Method {
@@ -152,5 +184,21 @@ function convertTsVector(string? value) returns any = @java:Method {
 } external;
 
 function convertTsQuery(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+
+function convertJson(json|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+function convertJsonb(json|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+function convertJsonPath(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+
+function convertInterval(record{int years = 0; int months = 0;int days = 0; int hours = 0; int minutes = 0; decimal seconds = 0;}|string? value) returns any = @java:Method {
     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
 } external;

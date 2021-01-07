@@ -21,6 +21,8 @@ package org.ballerinalang.postgresql.datatypes;
 
 import org.postgresql.util.PGobject;
 import org.postgresql.geometric.*;
+import org.postgresql.util.PGInterval;
+
 
 import io.ballerina.runtime.api.Module;
 import io.ballerina.runtime.api.PredefinedTypes;
@@ -265,6 +267,78 @@ public class PGUtils {
             
             return pgobject;
         }
+
+        public static Object convertJson(Object value){
+            String stringValue = value.toString();
+            System.out.println("Json string value:- "+stringValue+"\n");
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.JSON,stringValue);
+            System.out.println("\nPGJSON:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+        public static Object convertJsonb(Object value){
+            String stringValue = value.toString();
+            System.out.println("JsonB string value:- "+stringValue+"\n");
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.JSONB,stringValue);
+            System.out.println("\nPGJSONB:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+        public static Object convertJsonPath(Object value){
+            String stringValue = value.toString();
+            System.out.println("Json path string value:- "+stringValue+"\n");
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.JSONPATH,stringValue);
+            System.out.println("\nPGJSON PATH:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertInterval(Object value){
+            Type type = TypeUtils.getType(value);
+            PGInterval interval; 
+            if(value instanceof BString){
+                try{
+                    interval = new PGInterval(value.toString());
+                }
+                catch(Exception ex){
+                    System.out.println("PGInterval CATCH ERROR\n"+ex);
+                    return null;
+                }
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> intervalValue = PGhelper.getRecordType(value);
+
+                if(intervalValue.containsKey(PGConstants.Interval.YEARS) && intervalValue.containsKey(PGConstants.Interval.MONTHS)
+                    && intervalValue.containsKey(PGConstants.Interval.DAYS) && intervalValue.containsKey(PGConstants.Interval.HOURS)
+                    && intervalValue.containsKey(PGConstants.Interval.MINUTES) && intervalValue.containsKey(PGConstants.Interval.SECONDS)){
+
+                    interval = new PGInterval(
+                        ((Number)(intervalValue.get(PGConstants.Interval.YEARS))).intValue(),
+                        ((Number)(intervalValue.get(PGConstants.Interval.MONTHS))).intValue(),
+                        ((Number)(intervalValue.get(PGConstants.Interval.DAYS))).intValue(),
+                        ((Number)(intervalValue.get(PGConstants.Interval.HOURS))).intValue(),
+                        ((Number)(intervalValue.get(PGConstants.Interval.MINUTES))).intValue(),
+                        ((BDecimal)(intervalValue.get(PGConstants.Interval.SECONDS))).decimalValue().doubleValue()
+                    );
+                }
+                else{
+                    System.out.println("PGINTERVALCATCH - 1 ERROR WRONG SYNTAX RECORD\n");
+                    return null;
+                }
+                                
+            }
+            else{
+                System.out.println("PGINTERVALCATCH -2  ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            System.out.println("PGInterval:- "+interval.getValue()+"\n");
+            return interval;
+            
+        }
+        
 
         public static PGobject setPGobject(String type, String value){
             PGobject pgobject =  new PGobject();
