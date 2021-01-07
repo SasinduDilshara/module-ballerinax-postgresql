@@ -122,9 +122,9 @@ public class PGUtils {
 
             }
             catch(Exception ex){
-                System.out.println("PGINET CATCH ERROR\n"+ex);
+                System.out.println("PGCIDR CATCH ERROR\n"+ex);
             }
-            System.out.println("\nPGINET:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            System.out.println("\nPGCIDR:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
             
             return pgobject;
         }
@@ -138,9 +138,9 @@ public class PGUtils {
 
             }
             catch(Exception ex){
-                System.out.println("PGINET CATCH ERROR\n"+ex);
+                System.out.println("PGMAC CATCH ERROR\n"+ex);
             }
-            System.out.println("\nPGINET:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            System.out.println("\nPGMAC:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
             
             return pgobject;
         }
@@ -154,9 +154,9 @@ public class PGUtils {
 
             }
             catch(Exception ex){
-                System.out.println("PGINET CATCH ERROR\n"+ex);
+                System.out.println("PGMAC8 CATCH ERROR\n"+ex);
             }
-            System.out.println("\nPGINET:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            System.out.println("\nPGMAC8:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
             
             return pgobject;
         }
@@ -170,7 +170,7 @@ public class PGUtils {
                     point = new PGpoint(value.toString());
                 }
                 catch(Exception ex){
-                    System.out.println("PGINET CATCH ERROR\n"+ex);
+                    System.out.println("PGPOINT CATCH ERROR\n"+ex);
                     return null;
                 }
             }
@@ -184,6 +184,61 @@ public class PGUtils {
             }
             System.out.println("\nPGPOINT:- "+point.getValue()+"\n");
             return point;
+            
+        }
+
+        public static Object convertLine(Object value){
+            PGline line;
+            Type type = TypeUtils.getType(value);
+            // type.getTag() != TypeTags.RECORD_TYPE_TAG
+
+            if(value instanceof BString){
+                try{
+                    line = new PGline(value.toString());
+                }
+                catch(Exception ex){
+                    System.out.println("PGLINE CATCH ERROR\n"+ex);
+                    return null;
+                }
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> lineValue = PGhelper.getRecordType(value);
+
+                if(lineValue.containsKey(PGConstants.PGline.A) && lineValue.containsKey(PGConstants.PGline.B)
+                            && lineValue.containsKey(PGConstants.PGline.C)){
+                        line = new PGline(
+                            ((BDecimal)(lineValue.get(PGConstants.PGline.A))).decimalValue().doubleValue(),
+                            ((BDecimal)(lineValue.get(PGConstants.PGline.B))).decimalValue().doubleValue(),
+                            ((BDecimal)(lineValue.get(PGConstants.PGline.C))).decimalValue().doubleValue()
+                        );    
+
+                    System.out.println("\nPGLINE:- "+line.getValue()+"\n");
+                }
+                else if(lineValue.containsKey(PGConstants.PGline.X1) && lineValue.containsKey(PGConstants.PGline.Y1)
+                && lineValue.containsKey(PGConstants.PGline.X2) && lineValue.containsKey(PGConstants.PGline.Y2)){
+                    line = new PGline(
+                        ((BDecimal)(lineValue.get(PGConstants.PGline.X1))).decimalValue().doubleValue(),
+                        ((BDecimal)(lineValue.get(PGConstants.PGline.Y1))).decimalValue().doubleValue(),
+                        ((BDecimal)(lineValue.get(PGConstants.PGline.X2))).decimalValue().doubleValue(),
+                        ((BDecimal)(lineValue.get(PGConstants.PGline.Y2))).decimalValue().doubleValue()
+                    );  
+
+                    System.out.println("\nPGLINE:- "+line.getValue()+"\n");
+                    
+                }
+                else{
+                        System.out.println("PGLINE CATCH ERROR WRONG SYNTAX RECORD\n");
+                        return null;
+                }
+                // String sqlType = typedValue.getType().getName();
+                // Object value = typedValue.get(Constants.TypedValueFields.VALUE);
+            
+            }
+            else{
+                System.out.println("PGLINE CATCH ERROR WRONG SYNTAX RECORD\n");
+                return null;
+            }
+            return line;
             
         }
 

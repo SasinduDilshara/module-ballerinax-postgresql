@@ -40,8 +40,9 @@ public class PointValue {
 public class LineValue {
     any value;
 
-    public function init(record{decimal x; decimal y;}? value = ()) {
-        self.value = convertPoint(value);
+    public function init(record{decimal x1; decimal y1;decimal x2; decimal y2;}|
+                    record{decimal a; decimal b; decimal c;}|string? value = ()) {
+        self.value = convertLine(value);
     }  
 }
 
@@ -105,5 +106,10 @@ function convertMac8(string? value) returns any = @java:Method {
 
 
 function convertPoint(record{decimal x; decimal y;}|string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertLine(record{decimal x1; decimal y1;decimal x2; decimal y2;}|
+                    record{decimal a; decimal b; decimal c;}|string? value) returns any = @java:Method {
     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
 } external;
