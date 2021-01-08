@@ -34,8 +34,8 @@ public final class PGConstants {
     public static final class Range{
         public static final String UPPER = "upper";
         public static final String LOWER = "lower";
-        public static final String UPPERINCLUSIVE = "upperInclusive";
-        public static final String LOWERINCLUSIVE = "lowerInclusive";
+        public static final String UPPERINCLUSIVE = "isUpperboundInclusive";
+        public static final String LOWERINCLUSIVE = "isLowerboundInclusive";
     }
 
     public static final class PGtypes{
@@ -62,6 +62,11 @@ public final class PGConstants {
         public static final String TSRANGE = "tsrange";
         public static final String TSTZRANGE = "tstzrange";
         public static final String DATERANGE= "daterange";
+
+        public static final String BIT = "bit";
+        public static final String VARBIT = "varbit";
+
+        public static final String PGLSN = "pg_lsn";
     }
     public static final class TypedValueFields {
         public static final BString VALUE = fromString("value");

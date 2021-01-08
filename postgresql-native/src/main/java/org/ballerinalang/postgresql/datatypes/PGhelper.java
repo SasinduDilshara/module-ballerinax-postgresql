@@ -114,5 +114,24 @@ public class PGhelper{
 
     }
 
+    public static String setCustomType(Map<String,Object> record){
+
+        String customValue = "";
+        customValue+= "(";
+
+        for (Map.Entry<String,Object> entry : record.entrySet()){  
+
+            customValue += entry.getValue().toString();
+            customValue += ", ";
+
+        } 
+        int length = customValue.length();
+        customValue = customValue.substring(0, length);
+        customValue+= ")";
+
+        return customValue;
+
+    }
+
 }
 

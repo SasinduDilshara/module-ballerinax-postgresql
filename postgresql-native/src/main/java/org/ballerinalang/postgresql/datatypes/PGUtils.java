@@ -22,7 +22,7 @@ package org.ballerinalang.postgresql.datatypes;
 import org.postgresql.util.PGobject;
 import org.postgresql.geometric.*;
 import org.postgresql.util.PGInterval;
-
+import org.postgresql.util.PGmoney;
 
 import io.ballerina.runtime.api.Module;
 import io.ballerina.runtime.api.PredefinedTypes;
@@ -699,7 +699,89 @@ public class PGUtils {
             
         }
 
+
+
+        public static Object convertPglsn(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.PGLSN,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+
+        public static Object convertBitn(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.BIT,stringValue);
+            System.out.println("\nPGBIT(N) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+        public static Object convertVarbit(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.BIT,stringValue);
+            System.out.println("\nPGVARBIT(N) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+        public static Object convertBit(Object value){
+            String stringValue;
+            if(value instanceof Boolean){
+                Boolean booleanValue = (Boolean)value;
+                stringValue = booleanValue?"1":"0";
+            }
+            else{
+                stringValue = value.toString();
+            }
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.VARBIT,stringValue);
+            System.out.println("\nPGBIT(1) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
         
+        public static Object convertMoney(Object value){
+
+            PGmoney money;
+            if(value instanceof BString){
+                String stringValue = value.toString();
+                money = setPGmoney(stringValue);
+            }
+            else if(value instanceof BDecimal){
+                double decimalValue = ((BDecimal)value).decimalValue().doubleValue();
+                money = setPGmoney(decimalValue);
+            }
+            else{
+                System.out.println("Money wrong syntax");
+                return null;
+            }
+           
+            return money;
+        }
+
+        public static Object convertCustomType(BString datatype,Object value){
+            String stringValue;
+            Type type = TypeUtils.getType(value);
+            String typeName = datatype.toString();
+            if(value instanceof BString){
+                stringValue = value.toString();
+            }
+            else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
+                Map<String,Object> customValue = PGhelper.getRecordType(value);
+                stringValue = PGhelper.setCustomType(customValue);
+            }
+            else{
+                System.out.println("Custom wrong syntax");
+                return null;
+            }
+            PGobject pgobject = setPGobject(typeName,stringValue);
+            System.out.println(typeName+" VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
         
 
         public static PGobject setPGobject(String type, String value){
@@ -712,5 +794,29 @@ public class PGUtils {
                 System.out.println(type+" CATCH ERROR\n"+ex);
             }
             return pgobject;
+        }
+
+        public static PGmoney setPGmoney(double value){
+            PGmoney money;
+            try{
+                money = new PGmoney(value);
+
+            }catch(Exception ex){
+                System.out.println(" CATCH ERROR MONEY:-:\n"+ex);
+                return null;
+            }
+            return money;
+        }
+
+        public static PGmoney setPGmoney(String value){
+            PGmoney money;
+            try{
+                money = new PGmoney(value);
+
+            }catch(Exception ex){
+                System.out.println(" CATCH ERROR MONEY:-:\n"+ex);
+                return null;
+            }
+            return money;
         }
     }

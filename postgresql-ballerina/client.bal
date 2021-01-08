@@ -158,6 +158,21 @@ type ClientConfiguration record {|
 # + connectTimeoutInSeconds - Timeout to be used when connecting to the postgresql server
 # + socketTimeoutInSeconds - Socket timeout during the read/write operations with postgresql server,
 #                            0 means no socket timeout
+# + loginTimeoutInSeconds - Specify how long to wait for establishment of a database connection.The timeout 
+#                           is specified in seconds.
+# + rowFetchSize - Determine the number of rows fetched in ResultSet by one fetch with trip to the database
+# + dbMetadataCacheFields - Specifies the maximum number of fields to be cached per connection.
+#                           A value of 0 disables the cache.
+# + dbMetadataCacheFieldsMiB - Specifies the maximum size (in megabytes) of fields to be cached per connection. 
+#                            A value of 0 disables the cache.
+# + prepareThreshold - Determine the number of PreparedStatement executions required before switching over to use 
+#                            server side prepared statements
+# + preparedStatementCacheQueries - Determine the number of queries that are cached in each connection.
+# + preparedStatementCacheSize - Determine the maximum size (in mebibytes) of the prepared queries
+# + cancelSignalTimeoutInSeconds - Cancel command is sent out of band over its own connection, so cancel 
+#                                 message can itself get stuck. So the timeout seconds for that.
+# + tcpKeepAlive - Enable or disable TCP keep-alive probe
+
 
 public type Options record {|
   SSLConfig ssl?;
