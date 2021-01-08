@@ -67,6 +67,17 @@ public final class PGConstants {
         public static final String VARBIT = "varbit";
 
         public static final String PGLSN = "pg_lsn";
+
+        public static final String REGCLASS = "regclass";
+        public static final String REGCONFIG = "regconfig";
+        public static final String REGDICTIONARY = "regdictionary";
+        public static final String REGNAMESPACE = "regnamespace";
+        public static final String REGOPER = "regoper";
+        public static final String REGOPERATOR = "regoperator";
+        public static final String REGPROC = "regproc";
+        public static final String REGPROCEDURE = "regprocedure";
+        public static final String REGROLE = "regrole";
+        public static final String REGTYPE= "regtype";
     }
     public static final class TypedValueFields {
         public static final BString VALUE = fromString("value");

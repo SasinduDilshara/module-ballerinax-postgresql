@@ -219,7 +219,7 @@ public class DaterangeValue {
 }
 
 
-# Represents Pglsn PostgreSQL Field
+# Represents Pg_lsn PostgreSQL Field
 public class PglsnValue {
     any value;
     public function init(string? value = ()) {
@@ -253,7 +253,7 @@ public class PGBitValue {
         self.value = convertBit(value);
     }  
 }
-
+   
 
 # Represents Money PostgreSQL Field
 public class MoneyValue {
@@ -273,6 +273,89 @@ public class CustomTypeValue {
         self.value = convertCustomType(typeName,value);
     }  
 }
+
+
+# PostgreSQL Object identifier Data types.
+# Represents regclass PostgreSQL Field
+public class RegclassValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegclass(value);
+    }  
+}
+
+# Represents regconfig PostgreSQL Field
+public class RegconfigValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegconfig(value);
+    }  
+}
+
+# Represents regdictionary PostgreSQL Field
+public class RegdictionaryValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegdictionary(value);
+    }  
+}
+
+# Represents regnamespace PostgreSQL Field
+public class RegnamespaceValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegnamespace(value);
+    }  
+}
+
+# Represents regoper PostgreSQL Field
+public class RegoperValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegoper(value);
+    }  
+}
+
+# Represents regoperator PostgreSQL Field
+public class RegoperatorValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegoperator(value);
+    }  
+}
+
+# Represents regproc PostgreSQL Field
+public class RegprocValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegproc(value);
+    }  
+}
+
+# Represents regprocedure PostgreSQL Field
+public class RegprocedureValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegprocedure(value);
+    }  
+}
+
+# Represents regrole PostgreSQL Field
+public class RegroleValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegrole(value);
+    }  
+}
+
+# Represents regtype PostgreSQL Field
+public class RegtypeValue {
+    any value;
+    public function init(string? value = ()) {
+        self.value = convertRegtype(value);
+    }  
+}
+
 
 
 
@@ -404,3 +487,48 @@ function convertMoney(decimal|string? value) returns any = @java:Method {
 function convertCustomType(string typeName,record{}|string? value) returns any = @java:Method {
     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
 } external;
+
+
+
+function convertRegclass(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegconfig(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegdictionary(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegnamespace(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegoper(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegoperator(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegproc(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegprocedure(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegrole(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+function convertRegtype(string? value) returns any = @java:Method {
+    'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
+} external;
+
+
+

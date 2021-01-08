@@ -784,6 +784,95 @@ public class PGUtils {
         }
         
 
+        public static Object convertRegclass(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGCLASS,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+        public static Object convertRegconfig(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGCONFIG,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertRegdictionary(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGDICTIONARY,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertRegnamespace(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGNAMESPACE,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertRegoper(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGOPER,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertRegoperator(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGOPERATOR,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertRegproc(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGPROC,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertRegprocedure(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGPROCEDURE,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertRegrole(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGROLE,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+
+
+        public static Object convertRegtype(Object value){
+            String stringValue = value.toString();
+            PGobject pgobject = setPGobject(PGConstants.PGtypes.REGTYPE,stringValue);
+            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
+            
+            return pgobject;
+        }
+        
+
         public static PGobject setPGobject(String type, String value){
             PGobject pgobject =  new PGobject();
             pgobject.setType(type);
