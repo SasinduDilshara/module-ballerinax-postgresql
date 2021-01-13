@@ -6,22 +6,22 @@ version = "0.1.0"
 [[dependency]]
 org = "ballerina"
 name = "sql"
-version = "0.5.4"
+version = "0.5.3"
 
 [[dependency]]
 org = "ballerina"
 name = "crypto"
-version = "1.0.5"
+version = "1.0.4"
 
 [[dependency]]
 org = "ballerina"
 name = "io"
-version = "0.5.5"
+version = "0.5.4"
 
 [[dependency]]
 org = "ballerina"
 name = "time"
-version = "1.0.6"
+version = "1.0.5"
 
 [[dependency]]
 org = "ballerina"
@@ -31,15 +31,16 @@ version = "1.0.5"
 [[platform.java11.dependency]]
 path = "../postgresql-native/build/libs/postgresql-native-0.1.0.jar"
 groupId = "org.ballerinalang"
-artifactId = "mysql-native"
+artifactId = "postgresql-native"
 version = "0.1.0"
 
 
 [[platform.java11.dependency]]
-path = "/home/sasindu/Desktop/Important/Project/MyRepository/Code/module-ballerinax-postgresql/postgresql-ballerina/build/target/jballerina-tools-2.0.0-Preview8-SNAPSHOT/repo/balo/ballerina/sql/0.5.4/platform/java11/sql-native-0.5.4-SNAPSHOT.jar"
+path = "/home/sasindu/Desktop/Important/Project/MyRepository/Code/module-ballerinax-postgresql/postgresql-ballerina/build/target/jballerina-tools-2.0.0-Preview8/repo/balo/ballerina/sql/0.5.3/platform/java11/sql-native-0.5.3.jar"
 groupId = "org.ballerinalang"
 artifactId = "ballerina-sql"
-version = "0.5.4-SNAPSHOT"
+version = "0.5.3"
+# version = "0.5.4-SNAPSHOT"
 
 
 [[platform.java11.dependency]]
