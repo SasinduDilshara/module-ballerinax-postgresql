@@ -5,6 +5,7 @@ public function initTestScripts(){
     _ = createDatabases();
     _ = connectionInitDb();
     _ = initPool();
+    _ = localTransactionInitDb();
 }
 
 public function createDatabases(){
@@ -25,8 +26,29 @@ public function createDatabases(){
             CREATE DATABASE POOL_DB_1;
             DROP DATABASE IF EXISTS POOL_DB_2;
             CREATE DATABASE POOL_DB_2;
-    
     `;
+
+    result_ = postgresClient->execute(q1);
+
+        if(result_ is sql:Error){
+            io:println("Init Database drop failed\n",result_);
+        }
+        else{
+            io:println("Init Database drop passed\n",result_);
+        }
+        e_ = postgresClient.close();
+
+        if(e_ is sql:Error){
+            io:println("Client close1 fail\n",e_);
+        }
+        else{
+            io:println("Client close 1 pass");
+        }
+        q1 = `
+                DROP DATABASE IF EXISTS LOCAL_TRANSACTION;
+                CREATE DATABASE LOCAL_TRANSACTION;
+                
+        `;
 
     result_ = postgresClient->execute(q1);
 
@@ -205,6 +227,52 @@ function initPool(){
         }
 
     }
+}
 
+public function localTransactionInitDb() {
+    sql:ExecutionResult|sql:Error result4;
+    sql:Error? e5;
 
+    Client|sql:Error postgresClient5 = new(username="postgres",password="postgres",database = "local_transaction");
+
+    if(postgresClient5 is sql:Error){
+        io:println("Client init failed\n",postgresClient5);
+    }
+    else{
+        io:println("Client init Succcess");
+
+        sql:ParameterizedQuery q5 = `
+            DROP TABLE IF EXISTS Customers;
+            CREATE TABLE Customers(
+                    customerId SERIAL,
+                    firstName  VARCHAR(300),
+                    lastName  VARCHAR(300),
+                    registrationID INTEGER,
+                    creditLimit DOUBLE PRECISION,
+                    country  VARCHAR(300),
+                    PRIMARY KEY (customerId)
+            );
+        
+        `;
+
+        result4 = postgresClient5->execute(q5);
+
+        if(result4 is sql:Error){
+            io:println("Table drop failed\n",result4);
+        }
+        else{
+            io:println("Table drop passed\n",result4);
+        }
+
+        e5 = postgresClient5.close();
+
+        if(e5 is sql:Error){
+            io:println("Client close2 fail\n",e5);
+        }
+        else{
+            io:println("Client close 2 pass");
+        }
+
+        
+    }
 }
