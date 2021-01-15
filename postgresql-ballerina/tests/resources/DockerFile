@@ -15,7 +15,7 @@
 FROM postgresql:42.2.18
 
 # Connection test case
-COPY sql-scripts/connection/connections-test-data.sql /docker-entrypoint-initdb.d/
+COPY /sql-scripts/connection/connections-test-data.sql /docker-entrypoint-initdb.d/
 
 
 ENV POSTGRESQL_ROOT_PASSWORD postgres

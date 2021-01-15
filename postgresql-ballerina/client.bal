@@ -175,7 +175,7 @@ type ClientConfiguration record {|
 
 
 public type Options record {|
-  SSLConfig ssl?;
+  SSLConfig ssl = {};
   int connectTimeoutInSeconds?;
   int socketTimeoutInSeconds?;
   int loginTimeoutInSeconds?;

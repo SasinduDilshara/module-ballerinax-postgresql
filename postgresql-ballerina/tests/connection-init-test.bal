@@ -16,7 +16,8 @@
 import ballerina/sql;
 import ballerina/test;
 
-string connectDB = "CONNECT_DB";
+// string connectDB = "CONNECT_DB";
+string connectDB = "connect_db";
 
 @test:Config {
     groups: ["connection", "connection-init"]
@@ -29,8 +30,17 @@ function testConnectionWithNoFields() {
 @test:Config {
     groups: ["connection", "connection-init"]
 }
+function testConnectionWithUsernameAndPassword() {
+    Client dbClient = checkpanic new (username = user, password = password);
+    var exitCode = dbClient.close();
+    test:assertExactEquals(exitCode, (), "Initialising connection with only username and password fail.");
+}
+
+@test:Config {
+    groups: ["connection", "connection-init"]
+}
 function testWithURLParams() {
-    Client dbClient = checkpanic new (host, user, password, connectDB, port);
+    Client dbClient = checkpanic new (username = user, password = password, database = connectDB, host = host, port = port);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with params fails.");
 }
@@ -47,9 +57,66 @@ function testWithoutHost() {
 @test:Config {
     groups: ["connection", "connection-init"]
 }
+function testWithoutPort() {
+    Client dbClient = checkpanic new (username = user, password = password, database = connectDB, host = host);
+    var exitCode = dbClient.close();
+    test:assertExactEquals(exitCode, (), "Initialising connection without port fails.");
+}
+
+@test:Config {
+    groups: ["connection", "connection-init"]
+}
+function testWithoutDB() {
+    Client dbClient = checkpanic new (username = user, password = password, port = port, host = host);
+    var exitCode = dbClient.close();
+    test:assertExactEquals(exitCode, (), "Initialising connection without database fails.");
+}
+
+@test:Config {
+    groups: ["connection", "connection-init"]
+}
 function testWithOptions() {
     Options options = {
-        connectTimeoutInSeconds: 60
+        ssl: {
+            mode: "PREFER"
+        },
+        connectTimeoutInSeconds: 50,
+        socketTimeoutInSeconds: 60,
+        loginTimeoutInSeconds: 60,
+        rowFetchSize:20,
+        dbMetadataCacheFields:65536,
+        dbMetadataCacheFieldsMiB:5,
+        prepareThreshold:5,
+        preparedStatementCacheQueries:256,
+        preparedStatementCacheSize:5,
+        cancelSignalTimeoutInSeconds:10,
+        tcpKeepAlive:true
+    };
+    Client dbClient = checkpanic new (username = user, password = password, database = connectDB,
+        port = port, options = options);
+    var exitCode = dbClient.close();
+    test:assertExactEquals(exitCode, (), "Initialising connection with options fails.");
+}
+
+@test:Config {
+    groups: ["connection", "connection-init"]
+}
+function testWithOptions2() {
+    Options options = {
+        ssl: {
+            mode: "PREFER"
+        },
+        connectTimeoutInSeconds: 0,
+        socketTimeoutInSeconds: 0,
+        loginTimeoutInSeconds: 0,
+        rowFetchSize:0,
+        dbMetadataCacheFields:0,
+        dbMetadataCacheFieldsMiB:0,
+        prepareThreshold:0,
+        preparedStatementCacheQueries:0,
+        preparedStatementCacheSize:0,
+        cancelSignalTimeoutInSeconds:0,
+        tcpKeepAlive:false
     };
     Client dbClient = checkpanic new (username = user, password = password, database = connectDB,
         port = port, options = options);
@@ -74,14 +141,105 @@ function testWithConnectionPool() {
 @test:Config {
     groups: ["connection", "connection-init"]
 }
+function testWithConnectionPool2() {
+    sql:ConnectionPool connectionPool = {
+        maxOpenConnections: 25,
+        maxConnectionLifeTimeInSeconds : 15,
+        minIdleConnections : 15
+    };
+    Client dbClient = checkpanic new (username = user, password = password, database = connectDB,
+        port = port, connectionPool = connectionPool);
+    var exitCode = dbClient.close();
+    test:assertExactEquals(exitCode, (), "Initialising connection with option max connection pool fails.");
+    test:assertEquals(connectionPool.maxOpenConnections, 25, "Configured max connection config is wrong.");
+    test:assertEquals(connectionPool.maxConnectionLifeTimeInSeconds, <decimal>15, "Configured max connection life time second is wrong.");
+    test:assertEquals(connectionPool.minIdleConnections, 15, "Configured min idle connection is wrong.");
+}
+
+@test:Config {
+    groups: ["connection", "connection-init"]
+}
 function testWithConnectionParams() {
     sql:ConnectionPool connectionPool = {
-        maxOpenConnections: 25
+        maxOpenConnections: 25,
+        maxConnectionLifeTimeInSeconds : 15,
+        minIdleConnections : 15
     };
     Options options = {
-        connectTimeoutInSeconds: 60
+        ssl: {
+            mode: "PREFER"
+        },
+        connectTimeoutInSeconds: 50,
+        socketTimeoutInSeconds: 60,
+        loginTimeoutInSeconds: 60,
+        rowFetchSize:20,
+        dbMetadataCacheFields:65536,
+        dbMetadataCacheFieldsMiB:5,
+        prepareThreshold:5,
+        preparedStatementCacheQueries:256,
+        preparedStatementCacheSize:5,
+        cancelSignalTimeoutInSeconds:10,
+        tcpKeepAlive:true
     };
-    Client dbClient = checkpanic new (host, user, password, connectDB, port, options, connectionPool);
+    Client dbClient = checkpanic new (host = host, username = user, password = password, database = connectDB, port = port, options = options, connectionPool = connectionPool);
+    var exitCode = dbClient.close();
+    test:assertExactEquals(exitCode, (), "Initialising connection with connection params fails.");
+}
+
+
+@test:Config {
+    groups: ["connection", "connection-init"]
+}
+function testWithConnectionParams2() {
+    sql:ConnectionPool connectionPool = {
+        maxOpenConnections: 25,
+        maxConnectionLifeTimeInSeconds : 15,
+        minIdleConnections : 15
+    };
+    Options options = {
+        ssl: {
+            mode: "PREFER"
+        },
+        connectTimeoutInSeconds: 50,
+        socketTimeoutInSeconds: 60,
+        loginTimeoutInSeconds: 60,
+        rowFetchSize:20,
+        dbMetadataCacheFields:65536,
+        dbMetadataCacheFieldsMiB:5,
+        prepareThreshold:5,
+        preparedStatementCacheQueries:256,
+        preparedStatementCacheSize:5,
+        cancelSignalTimeoutInSeconds:10,
+        tcpKeepAlive:false
+    };
+    Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool);
+    var exitCode = dbClient.close();
+    test:assertExactEquals(exitCode, (), "Initialising connection with connection params fails.");
+}
+
+@test:Config {
+    groups: ["connection", "connection-init"]
+}
+function testWithConnectionParams3() {
+    sql:ConnectionPool connectionPool = {
+        maxOpenConnections: 25,
+        maxConnectionLifeTimeInSeconds : 15,
+        minIdleConnections : 15
+    };
+    Options options = {
+        connectTimeoutInSeconds: 50,
+        socketTimeoutInSeconds: 60,
+        loginTimeoutInSeconds: 60,
+        rowFetchSize:20,
+        dbMetadataCacheFields:65536,
+        dbMetadataCacheFieldsMiB:5,
+        prepareThreshold:5,
+        preparedStatementCacheQueries:256,
+        preparedStatementCacheSize:5,
+        cancelSignalTimeoutInSeconds:10,
+        tcpKeepAlive:false
+    };
+    Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with connection params fails.");
 }
