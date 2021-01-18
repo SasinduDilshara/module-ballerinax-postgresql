@@ -29,3 +29,29 @@ CREATE TABLE StringTypes (
    name_type name,
    PRIMARY KEY (id)
 );
+
+INSERT INTO StringTypes (id, varchar_type) VALUES (1, 'test data');
+
+DROP TABLE IF EXISTS BooleanTypes;
+
+CREATE TABLE BooleanTypes (
+   id SERIAL,
+   boolean_type boolean,
+   PRIMARY KEY (id)
+);
+
+INSERT INTO BooleanTypes (boolean_type) VALUES (true);
+
+DROP TABLE IF EXISTS DateTimeTypes;
+
+CREATE TABLE DateTimeTypes (
+   id SERIAL,
+   date_type DATE,
+   time_type TIME,
+   timetz_type TIMETZ,
+   timestamp_type TIMESTAMP,
+   timestamptz_type TIMESTAMPTZ,
+   PRIMARY KEY (id)
+);
+
+INSERT INTO DateTimeTypes (date_type) VALUES ('1999-01-08');

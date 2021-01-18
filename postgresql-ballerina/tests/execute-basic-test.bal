@@ -254,6 +254,40 @@ function testInsertWithNilStringAndSelectTable() {
     checkpanic dbClient.close();
 }
 
+type BooleanData record {
+    int id;
+    boolean boolean_type;   
+};
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: ["testInsertWithNilStringAndSelectTable"]
+}
+function testInsertWithBooleanAndSelectTable() {
+    Client dbClient = checkpanic new (host, user, password, executeDb, port);
+    string intIDVal = "15";
+    string insertQuery = "Insert into BooleanTypes (id, boolean_type "
+        + ") values ("
+        + intIDVal + ",'true')";
+    sql:ExecutionResult result = checkpanic dbClient->execute(insertQuery);
+    
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+
+    string query = string `SELECT * from BooleanTypes where id = ${intIDVal}`;
+    stream<record{}, error> queryResult = dbClient->query(query, BooleanData);
+    stream<BooleanData, sql:Error> streamData = <stream<BooleanData, sql:Error>>queryResult;
+    record {|BooleanData value;|}? data = checkpanic streamData.next();
+    checkpanic streamData.close();
+
+    BooleanData expectedInsertRow = {
+        id: 15,
+        boolean_type: true
+    };
+    test:assertEquals(data?.value, expectedInsertRow, "Incorrect InsetId returned.");
+
+    checkpanic dbClient.close();
+}
+
 @test:Config {
     groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertWithNilStringAndSelectTable"]
@@ -309,7 +343,7 @@ type ResultCount record {
     groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertTableWithDataTypeError"]
 }
-function testUpdateData() {
+function testUpdateNumericData() {
     Client dbClient = checkpanic new (host, user, password, executeDb, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("Update NumericTypes set int_type = 11 where int_type = 10");
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
@@ -319,7 +353,112 @@ function testUpdateData() {
     stream<ResultCount, sql:Error> streamData = <stream<ResultCount, sql:Error>>queryResult;
     record {|ResultCount value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
-    test:assertEquals(data?.value?.countVal, 1, "Update command was not successful.");
+    test:assertEquals(data?.value?.countVal, 1, "Numeric table Update command was not successful.");
+
+    checkpanic dbClient.close();
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: ["testUpdateNumericData"]
+}
+function testUpdateStringData() {
+    Client dbClient = checkpanic new (host, user, password, executeDb, port);
+    sql:ExecutionResult result = checkpanic dbClient->execute("Update StringTypes set varchar_type = 'updatedstr' where varchar_type = 'str1'");
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    
+    stream<record{}, error> queryResult = dbClient->query("SELECT count(*) as countval from StringTypes"
+        + " where varchar_type = 'updatedstr'", ResultCount);
+    stream<ResultCount, sql:Error> streamData = <stream<ResultCount, sql:Error>>queryResult;
+    record {|ResultCount value;|}? data = checkpanic streamData.next();
+    checkpanic streamData.close();
+    test:assertEquals(data?.value?.countVal, 1, "String table Update command was not successful.");
+
+    checkpanic dbClient.close();
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: ["testUpdateStringData"]
+}
+function testUpdateBooleanData() {
+    Client dbClient = checkpanic new (host, user, password, executeDb, port);
+    string intId = "25";
+    sql:ExecutionResult result = checkpanic dbClient->execute("insert into BooleanTypes (id, boolean_type) values ("+
+                    intId+", true)");
+    result = checkpanic dbClient->execute("Update BooleanTypes set boolean_type = false where id = 25");
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    
+    stream<record{}, error> queryResult = dbClient->query("SELECT count(*) as countval from BooleanTypes"
+        + " where id = 25", ResultCount);
+    stream<ResultCount, sql:Error> streamData = <stream<ResultCount, sql:Error>>queryResult;
+    record {|ResultCount value;|}? data = checkpanic streamData.next();
+    checkpanic streamData.close();
+    test:assertEquals(data?.value?.countVal, 1, "Boolean table Update command was not successful.");
+
+    checkpanic dbClient.close();
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: ["testUpdateStringData"]
+}
+function testDeleteNumericData() {
+    Client dbClient = checkpanic new (host, user, password, executeDb, port);
+    sql:ExecutionResult result = checkpanic dbClient->execute("insert into NumericTypes (int_type) values (51)");
+    result = checkpanic dbClient->execute("Delete from NumericTypes where int_type = 51");
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    
+    stream<record{}, error> queryResult = dbClient->query("SELECT count(*) as countval from NumericTypes"
+        + " where int_type = 51", ResultCount);
+    stream<ResultCount, sql:Error> streamData = <stream<ResultCount, sql:Error>>queryResult;
+    record {|ResultCount value;|}? data = checkpanic streamData.next();
+    checkpanic streamData.close();
+    test:assertEquals(data?.value?.countVal, 0, "Numeric table Delete command was not successful.");
+
+    checkpanic dbClient.close();
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: ["testDeleteNumericData"]
+}
+function testDeleteStringData() {
+    Client dbClient = checkpanic new (host, user, password, executeDb, port);
+    string intId = "55";
+    sql:ExecutionResult result = checkpanic dbClient->execute("insert into StringTypes (id, varchar_type) values ("+
+                    intId+", 'deletestr')");
+    result = checkpanic dbClient->execute("Delete from StringTypes where varchar_type = 'deletestr'");
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    
+    stream<record{}, error> queryResult = dbClient->query("SELECT count(*) as countval from StringTypes"
+        + " where varchar_type = 'deletestr'", ResultCount);
+    stream<ResultCount, sql:Error> streamData = <stream<ResultCount, sql:Error>>queryResult;
+    record {|ResultCount value;|}? data = checkpanic streamData.next();
+    checkpanic streamData.close();
+    test:assertEquals(data?.value?.countVal, 0, "String table Delete command was not successful.");
+
+    checkpanic dbClient.close();
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: ["testDeleteNumericData"]
+}
+function testDeleteBooleanData() {
+    Client dbClient = checkpanic new (host, user, password, executeDb, port);
+    string intId = "65";
+    sql:ExecutionResult result = checkpanic dbClient->execute("insert into BooleanTypes (id, boolean_type) values ("+
+                    intId+", false)");
+    result = checkpanic dbClient->execute("Delete from BooleanTypes where id = 65");
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    
+    stream<record{}, error> queryResult = dbClient->query("SELECT count(*) as countval from BooleanTypes"
+        + " where id = 65", ResultCount);
+    stream<ResultCount, sql:Error> streamData = <stream<ResultCount, sql:Error>>queryResult;
+    record {|ResultCount value;|}? data = checkpanic streamData.next();
+    checkpanic streamData.close();
+    test:assertEquals(data?.value?.countVal, 0, "Boolean table Delete command was not successful.");
 
     checkpanic dbClient.close();
 }
