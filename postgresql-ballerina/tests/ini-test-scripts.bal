@@ -6,6 +6,7 @@ public function initTestScripts(){
     _ = connectionInitDb();
     _ = initPool();
     _ = localTransactionInitDb();
+    _ = basicExcuteInitDB();
 }
 
 public function createDatabases(){
@@ -26,6 +27,8 @@ public function createDatabases(){
             CREATE DATABASE POOL_DB_1;
             DROP DATABASE IF EXISTS POOL_DB_2;
             CREATE DATABASE POOL_DB_2;
+            DROP DATABASE IF EXISTS EXECUTE_DB;
+            CREATE DATABASE EXECUTE_DB;
     `;
 
     result_ = postgresClient->execute(q1);
@@ -47,7 +50,6 @@ public function createDatabases(){
         q1 = `
                 DROP DATABASE IF EXISTS LOCAL_TRANSACTION;
                 CREATE DATABASE LOCAL_TRANSACTION;
-                
         `;
 
     result_ = postgresClient->execute(q1);
@@ -275,4 +277,71 @@ public function localTransactionInitDb() {
 
         
     }
+}
+
+public function basicExcuteInitDB(){
+
+    sql:ExecutionResult|sql:Error result5;
+    sql:Error? e6;
+
+    Client|sql:Error postgresClient6 = new(username="postgres",password="postgres",database = "execute_db");
+
+    if(postgresClient6 is sql:Error){
+        io:println("Client init failed\n",postgresClient6);
+    }
+    else{
+        io:println("Client init Succcess");
+
+        sql:ParameterizedQuery q5 = `
+            DROP TABLE IF EXISTS NumericTypes;
+
+            CREATE TABLE NumericTypes (
+                id SERIAL,
+                smallint_type SMALLINT,
+                int_type INT,
+                bigint_type BIGINT,
+                decimal_type DECIMAL,
+                numeric_type NUMERIC,
+                real_type REAL,
+                double_type DOUBLE PRECISION,
+                PRIMARY KEY (id)
+            );
+
+            INSERT INTO NumericTypes (int_type) VALUES (10);
+
+            DROP TABLE IF EXISTS StringTypes;
+
+            CREATE TABLE StringTypes (
+                id INT,
+                varchar_type CHARACTER VARYING(255),
+                charmax_type CHARACTER(10),
+                char_type CHARACTER,
+                text_type text,
+                name_type name,
+                PRIMARY KEY (id)
+            );
+        
+        `;
+
+        result5 = postgresClient6->execute(q5);
+
+        if(result5 is sql:Error){
+            io:println("Table drop failed\n",result5);
+        }
+        else{
+            io:println("Table drop passed\n",result5);
+        }
+
+        e6 = postgresClient6.close();
+
+        if(e6 is sql:Error){
+            io:println("Client close2 fail\n",e6);
+        }
+        else{
+            io:println("Client close 2 pass");
+        }
+
+        
+    }
+
 }
