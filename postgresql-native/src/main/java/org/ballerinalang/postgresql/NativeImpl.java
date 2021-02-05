@@ -43,10 +43,11 @@ public class NativeImpl {
         String user = userVal == null ? null : userVal.getValue();
         BString passwordVal = clientConfig.getStringValue(Constants.ClientConfiguration.PASSWORD);
         String password = passwordVal == null ? null : passwordVal.getValue();
+        url += "/";
         BString databaseVal = clientConfig.getStringValue(Constants.ClientConfiguration.DATABASE);
         String database = databaseVal == null ? null : databaseVal.getValue();
         if (database != null && !database.isEmpty()) {
-            url += "/" + database;
+            url += database;
         }
 
         System.out.println("Initialization Url :- "+url);

@@ -121,8 +121,8 @@ task revertTomlFile {
 }
 
 assemble {
-    dependsOn(":postgresql-native:build")
     dependsOn(copyStdlibs)
+    dependsOn(":postgresql-native:build")
 }
 
 task ballerinaTest {

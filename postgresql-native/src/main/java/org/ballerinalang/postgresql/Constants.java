@@ -83,7 +83,16 @@ public final class Constants {
 
     static final class DatabaseProps {
         static final BString SSL_MODE = StringUtils.fromString("sslMode");
-        static final BString SSL_MODE_DISABLED = StringUtils.fromString("DISABLED");
+        static final BString SSL_MODE_DISABLED = StringUtils.fromString("DISABLE");
+        static final BString SSL_MODE_VERIFY_CA = StringUtils.fromString("VERIFY_CA");
+
+        static final BString KEYSTORE_TYPE_PKCS12 = StringUtils.fromString("PKCS12");
+        static final BString CLIENT_KEYSTORE_URL = StringUtils.fromString("clientCertificateKeyStoreUrl");
+        static final BString CLIENT_KEYSTORE_PASSWORD = StringUtils.fromString("clientCertificateKeyStorePassword");
+        static final BString CLIENT_KEYSTORE_TYPE = StringUtils.fromString("clientCertificateKeyStoreType");
+        static final BString TRUST_KEYSTORE_URL = StringUtils.fromString("trustCertificateKeyStoreUrl");
+        static final BString TRUST_KEYSTORE_PASSWORD = StringUtils.fromString("trustCertificateKeyStorePassword");
+        static final BString TRUST_KEYSTORE_TYPE = StringUtils.fromString("trustCertificateKeyStoreType");
 
         static final BString DB_METADATA_CACHE_FIELDS = StringUtils.fromString("databaseMetadataCacheFields");
         static final BString DB_METADATA_CACHE_FIELDS_MIB = StringUtils.fromString("databaseMetadataCacheFieldsMiB");

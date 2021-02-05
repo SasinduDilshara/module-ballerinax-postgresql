@@ -25,7 +25,7 @@ plugins {
 ext.ballerinaLangVersion = project.ballerinaLangVersion
 
 allprojects {
-    group = 'org.ballerinalang'
+    group = project.group
     version = project.version
 
     apply plugin: 'jacoco'
@@ -94,6 +94,7 @@ allprojects {
         }
 
         maven {
+            // url = 'https://maven.pkg.github.com/ballerina-platform/module-ballerina-os'
             url = 'https://maven.pkg.github.com/ballerina-platform/module-ballerina-system'
             credentials {
                 username System.getenv("packageUser")
@@ -208,6 +209,7 @@ subprojects {
         ballerinaStdLibs "org.ballerinalang:time-ballerina:${stdlibTimeVersion}"
         ballerinaStdLibs "org.ballerinalang:stringutils-ballerina:${stdlibStringUtilsVersion}"
         ballerinaStdLibs "org.ballerinalang:system-ballerina:${stdlibSystemVersion}"
+        // ballerinaStdLibs "org.ballerinalang:os-ballerina:${stdlibOsVersion}"
         ballerinaStdLibs "org.ballerinalang:runtime-ballerina:${stdlibRuntimeVersion}"
         ballerinaStdLibs "org.ballerinalang:crypto-ballerina:${stdlibCryptoVersion}"
         ballerinaStdLibs "org.ballerinalang:log-ballerina:${stdlibLogVersion}"
@@ -222,8 +224,8 @@ subprojects {
         ballerinaStdLibs "org.ballerinalang:auth-ballerina:${stdlibAuthVersion}"
         ballerinaStdLibs "org.ballerinalang:http-ballerina:${stdlibHttpVersion}"
 
-        externalJars (group: 'org.postgresql', name: 'postgresql',, version: "${postgreSQLDriverVersion}") {
-            transitive = false
+        externalJars (group: 'org.postgresql', name: 'postgresql', version: "${postgreSQLDriverVersion}") {
+            transitive = true
         }
     }
 }
