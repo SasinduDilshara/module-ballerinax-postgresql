@@ -44,14 +44,10 @@ public final class Constants {
      */
     public static final class Options {
         static final BString SSL = StringUtils.fromString("ssl");
-        static final BString USE_XA_DATASOURCE = StringUtils.fromString("useXADatasource");
         static final BString CONNECT_TIMEOUT_SECONDS = StringUtils.fromString("connectTimeoutInSeconds");
         static final BString SOCKET_TIMEOUT_SECONDS = StringUtils.fromString("socketTimeoutInSeconds");
         static final BString LOGIN_TIMEOUT_SECONDS = StringUtils.fromString("loginTimeoutInSeconds");
-
-
         static final BString ROW_FETCH_SIZE = StringUtils.fromString("rowFetchSize");
-
         static final BString DB_METADATA_CACHE_FIELDS = StringUtils.fromString("dbMetadataCacheFields");
         static final BString DB_METADATA_CACHE_FIELDS_MIB = StringUtils.fromString("dbMetadataCacheFieldsMiB");
         static final BString PREPARE_THRESHOLD = StringUtils.fromString("prepareThreshold");
@@ -59,6 +55,11 @@ public final class Constants {
         static final BString PREPARED_STATEMENT_CACHE_SIZE_MIB = StringUtils.fromString("preparedStatementCacheSize");
         static final BString CANCEL_SIGNAL_TIMEOUT = StringUtils.fromString("cancelSignalTimeoutInSeconds");
         static final BString TCP_KEEP_ALIVE = StringUtils.fromString("tcpKeepAlive");
+
+        /* 
+            Use in upcoming versions
+        */
+        static final BString USE_XA_DATASOURCE = StringUtils.fromString("useXADatasource");
     }
 
     /**
@@ -66,23 +67,19 @@ public final class Constants {
      */
     static final class SSLConfig {
         static final BString MODE = StringUtils.fromString("mode");
-
         static final BString SSL_KEY = StringUtils.fromString("sslkey");
         static final BString SSL_PASWORD = StringUtils.fromString("sslpassword");
         static final BString SSL_ROOT_CERT = StringUtils.fromString("sslrootcert");
         static final BString SSL_CERT = StringUtils.fromString("sslcert");
 
-
-
-        static final String VERIFY_CERT_MODE = "VERIFY_CERT";
-        static final BString CLIENT_CERT_KEYSTORE = StringUtils.fromString("clientCertKeystore");
-        static final BString TRUST_CERT_KEYSTORE = StringUtils.fromString("trustCertKeystore");
-        // The following constants are used to process ballerina `crypto:KeyStore`
-        static final class CryptoKeyStoreRecord {
+         // The following constants are used to process ballerina `crypto:KeyStore`
+         static final class CryptoKeyStoreRecord {
             static final BString KEY_STORE_RECORD_PATH_FIELD = StringUtils.fromString("path");
             static final BString KEY_STORE_RECORD_PASSWORD_FIELD = StringUtils.fromString("password");
         }
-    }
+
+        }
+    
 
     static final class DatabaseProps {
         static final BString SSL_MODE = StringUtils.fromString("sslMode");
@@ -97,7 +94,6 @@ public final class Constants {
         static final BString TRUST_KEYSTORE_PASSWORD = StringUtils.fromString("trustCertificateKeyStorePassword");
         static final BString TRUST_KEYSTORE_TYPE = StringUtils.fromString("trustCertificateKeyStoreType");
 
-
         static final BString DB_METADATA_CACHE_FIELDS = StringUtils.fromString("databaseMetadataCacheFields");
         static final BString DB_METADATA_CACHE_FIELDS_MIB = StringUtils.fromString("databaseMetadataCacheFieldsMiB");
         static final BString PREPARE_THRESHOLD = StringUtils.fromString("prepareThreshold");
@@ -105,21 +101,18 @@ public final class Constants {
         static final BString PREPARED_STATEMENT_CACHE_SIZE_MIB = StringUtils.fromString("preparedStatementCacheSizeMiB");
         static final BString CANCEL_SIGNAL_TIMEOUT = StringUtils.fromString("cancelSignalTimeout");
         static final BString TCP_KEEP_ALIVE = StringUtils.fromString("tcpKeepAlive");
-
-
         static final BString CONNECT_TIMEOUT = StringUtils.fromString("connectTimeout");
         static final BString SOCKET_TIMEOUT = StringUtils.fromString("socketTimeout");
         static final BString LOGIN_TIMEOUT = StringUtils.fromString("loginTimeout");
-
         static final BString ROW_FETCH_SIZE = StringUtils.fromString("defaultRowFetchSize");
 
     }
-
-    // static final String MYSQL_DATASOURCE_NAME = "com.mysql.cj.jdbc.MysqlDataSource";
-    // static final String MYSQL_DATASOURCE_NAME = "com.impossibl.postgres.jdbc.PGDataSource";
     static final String MYSQL_DATASOURCE_NAME = "org.postgresql.ds.PGSimpleDataSource";
-    // static final String MYSQL_XA_DATASOURCE_NAME = "com.mysql.cj.jdbc.MysqlXADataSource";
-    static final String MYSQL_XA_DATASOURCE_NAME = "org.postgresql.xa.PGXADataSource";
     static final String FILE = "file:";
     static final String POOL_CONNECT_TIMEOUT = "ConnectionTimeout";
+
+    /**
+     * Constants for ssl configuration.
+     */
+    static final String MYSQL_XA_DATASOURCE_NAME = "org.postgresql.xa.PGXADataSource";
 }
