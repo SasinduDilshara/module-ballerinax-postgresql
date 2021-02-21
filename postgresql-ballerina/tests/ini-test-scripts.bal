@@ -7,6 +7,7 @@ public function initTestScripts(){
     _ = initPool();
     _ = localTransactionInitDb();
     _ = basicExcuteInitDB();
+    _ = executeParamsInitDB();
 }
 
 public function createDatabases(){
@@ -21,6 +22,8 @@ public function createDatabases(){
         _ = createQuery(`CREATE DATABASE POOL_DB_1`);
         _ = createQuery(`DROP DATABASE IF EXISTS POOL_DB_2`);
         _ = createQuery(`CREATE DATABASE POOL_DB_2`);
+        _ = createQuery(`DROP DATABASE IF EXISTS EXECUTE_PARAMS_DB`);
+        _ = createQuery(`CREATE DATABASE EXECUTE_PARAMS_DB`);
     }
 
 public function connectionInitDb() {
@@ -176,6 +179,108 @@ public function basicExcuteInitDB(){
 
     _ = executeQuery("execute_db", q5);
 
+}
+
+public function executeParamsInitDB(){
+    sql:ParameterizedQuery query = `
+    
+    DROP TABLE IF EXISTS DataTable;
+
+    CREATE TABLE IF NOT EXISTS DataTable(
+    row_id       INTEGER,
+    int_type     INTEGER,
+    long_type    BIGINT,
+    float_type   FLOAT,
+    double_type  DOUBLE PRECISION,
+    boolean_type BOOLEAN,
+    string_type  VARCHAR(50),
+    decimal_type DECIMAL(20, 2),
+    PRIMARY KEY (row_id)
+    );
+
+    INSERT INTO DataTable (row_id, int_type, long_type, float_type, double_type, boolean_type, string_type, decimal_type)
+    VALUES(1, 1, 9223372036854774807, 123.34, 2139095039, true, 'Hello', 23.45);
+
+    INSERT INTO DataTable (row_id) VALUES (2);
+
+    INSERT INTO DataTable (row_id, int_type, long_type, float_type, double_type, boolean_type, string_type, decimal_type)
+    VALUES(3, 1, 9372036854774807, 124.34, 29095039, false, '1', 25.45);
+
+    DROP TABLE IF EXISTS ComplexTypes;
+
+    CREATE TABLE IF NOT EXISTS ComplexTypes(
+    row_id         INTEGER NOT NULL,
+    bytea_type     BYTEA,
+    text_type       TEXT,
+    PRIMARY KEY (row_id)
+    );
+
+    INSERT INTO ComplexTypes (row_id, bytea_type, text_type) VALUES
+    (1, '77736F322062616C6C6572696E6120626C6F6220746573742E', 'very long text');
+
+    INSERT INTO ComplexTypes (row_id, bytea_type, text_type) VALUES
+    (2, '77736F322062616C6C6572696E6120626C6F6220746573742E', 'very long text');
+
+    INSERT INTO ComplexTypes (row_id, bytea_type, text_type) VALUES
+    (3, null, null);
+
+    DROP TABLE IF EXISTS NumericTypes;
+
+    CREATE TABLE NumericTypes (
+    id SERIAL,
+    int_type INT ,
+    bigint_type BIGINT,
+    smallint_type SMALLINT ,
+    decimal_type DECIMAL(10,3) ,
+    numeric_type NUMERIC(10,3) ,
+    float_type FLOAT ,
+    real_type REAL ,
+    serial_type SERIAL,
+    smallserial_type SMALLSERIAL,
+    bigserial_type BIGSERIAL,
+    PRIMARY KEY (id)
+    );
+
+    INSERT INTO NumericTypes (id, int_type, bigint_type, smallint_type, decimal_type, numeric_type,
+        float_type, real_type, serial_type, smallserial_type, bigserial_type) VALUES (1, -2147483648, -9223372036854774808, -32768, -812823, -812823 ,-123.456, -234.23, 1,
+        1, 1);
+
+    INSERT INTO NumericTypes (id, int_type, bigint_type, smallint_type, decimal_type, numeric_type,
+        float_type, real_type, serial_type, smallserial_type, bigserial_type) VALUES (2, 2147483647, 9223372036854775807, 32767, 83.2, 87.1, 123.456, 24.3, 2147483647, 32767,
+        9223372036854775807);
+
+    DROP TABLE IF EXISTS DateTimeTypes;
+
+    CREATE TABLE IF NOT EXISTS DateTimeTypes(
+    row_id         INTEGER NOT NULL,
+    date_type      DATE,
+    time_type      TIME,
+    timetz_type      TIMETZ,
+    timestamp_type TIMESTAMP,
+    timestamptz_type TIMESTAMPTZ,
+    PRIMARY KEY (row_id)
+    );
+
+    INSERT INTO DateTimeTypes (row_id, date_type, time_type, timetz_type, timestamp_type, timestamptz_type) VALUES
+    (1,'2017-02-03', '11:35:45', '04:05:06.789-8', '2017-02-03 11:53:00', '2004-10-19 10:23:54+02');
+    
+    DROP TABLE IF EXISTS StringTypes;
+
+    CREATE TABLE StringTypes (
+    id SERIAL,
+    char_type CHAR(15),
+    varchar_type VARCHAR,
+    text_type TEXT ,
+    name_type NAME,
+    PRIMARY KEY (id)
+    );
+
+    INSERT INTO StringTypes (id, char_type, varchar_type, text_type, name_type) VALUES (1, 'This is a char', 'This is a varchar', 'This is a text', 'This is a name');
+
+    INSERT INTO StringTypes (id, char_type, varchar_type, text_type, name_type) VALUES (2, 'This is a char', 'This is a varchar', 'This is a text', 'This is a name');
+
+    `;
+    _ = executeQuery("execute_params_db", query);
 }
 
 public function createQuery(sql:ParameterizedQuery query){
