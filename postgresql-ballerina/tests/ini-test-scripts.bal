@@ -8,6 +8,7 @@ public function initTestScripts(){
     _ = localTransactionInitDb();
     _ = basicExcuteInitDB();
     _ = executeParamsInitDB();
+    _ = batchExcuteInitDB();
 }
 
 public function createDatabases(){
@@ -24,6 +25,8 @@ public function createDatabases(){
         _ = createQuery(`CREATE DATABASE POOL_DB_2`);
         _ = createQuery(`DROP DATABASE IF EXISTS EXECUTE_PARAMS_DB`);
         _ = createQuery(`CREATE DATABASE EXECUTE_PARAMS_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS BATCH_EXECUTE_DB`);
+        _ = createQuery(`CREATE DATABASE BATCH_EXECUTE_DB`);
     }
 
 public function connectionInitDb() {
@@ -281,6 +284,31 @@ public function executeParamsInitDB(){
 
     `;
     _ = executeQuery("execute_params_db", query);
+}
+
+public function batchExcuteInitDB(){
+
+    sql:ParameterizedQuery q5 = `
+        DROP TABLE IF EXISTS DataTable;
+
+        CREATE TABLE DataTable(
+        id SERIAL,
+        int_type     INTEGER UNIQUE,
+        long_type    BIGINT,
+        float_type   FLOAT,
+        PRIMARY KEY (id)
+        );
+
+        INSERT INTO DataTable (int_type, long_type, float_type)
+        VALUES(1, 9223372036854774807, 123.34);
+
+
+        INSERT INTO DataTable (int_type, long_type, float_type)
+        VALUES(2, 9372036854774807, 124.34);
+                `;
+
+    _ = executeQuery("batch_execute_db", q5);
+
 }
 
 public function createQuery(sql:ParameterizedQuery query){
