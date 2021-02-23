@@ -22,14 +22,14 @@ INSERT INTO DataTable (row_id, int_type, long_type, numeric_type, double_type, b
 INSERT INTO DataTable (row_id) VALUES (2);
 
 INSERT INTO DataTable (row_id, int_type, long_type, numeric_type, double_type, boolean_type, string_type, decimal_type)
-  VALUES(3, 1, 9372036854774807, 124.34, 29095039, false, '1', 25.45);
+  VALUES(3, 1, 9372036854774807, 124.45, 29095039, false, '1', 25.45);
 
 DROP TABLE IF EXISTS ComplexTypes;
 
 CREATE TABLE IF NOT EXISTS ComplexTypes(
   row_id         INTEGER NOT NULL,
   bytea_type     BYTEA,
-  text_type       TEXT
+  text_type       TEXT,
   PRIMARY KEY (row_id)
 );
 
@@ -42,7 +42,7 @@ INSERT INTO ComplexTypes (row_id, bytea_type, text_type) VALUES
 DROP TABLE IF EXISTS NumericTypes;
 
 CREATE TABLE NumericTypes (
-   id INT AUTO_INCREMENT,
+   id SERIAL,
    int_type INT NOT NULL,
    bigint_type BIGINT NOT NULL,
    smallint_type SMALLINT NOT NULL ,
@@ -54,7 +54,7 @@ CREATE TABLE NumericTypes (
 );
 
 INSERT INTO NumericTypes (id, int_type, bigint_type, smallint_type, decimal_type, numeric_type,
-    double_type, real_type) VALUES (1, 2147483647, 9223372036854774807, 32767, 8388607, 1234.567, 1234.567, 1234.567,
+    double_type, real_type) VALUES (1, 2147483647, 9223372036854774807, 32767, 8388607, 1234.567, 1234.567,
     1234.567);
 
 INSERT INTO NumericTypes (id, int_type, bigint_type, smallint_type, decimal_type, numeric_type,
@@ -68,12 +68,12 @@ CREATE TABLE IF NOT EXISTS DateTimeTypes(
   date_type      DATE,
   time_type      TIME,
   timetz_type      TIMETZ,
-  timestamp_type TIMESTAMPTZ,
-  timestamptz_type  DATETIME,
+  timestamp_type TIMESTAMP,
+  timestamptz_type  TIMESTAMPTZ,
   PRIMARY KEY (row_id)
 );
 
-INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type) VALUES
+INSERT INTO DateTimeTypes (row_id, date_type, time_type, timetz_type, timestamp_type, timestamptz_type) VALUES
   (1,'2017-02-03', '11:35:45', '11:35:45+3','2017-02-03 11:53:00', '2017-02-03 11:53:00+2');
 
 
