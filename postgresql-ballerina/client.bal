@@ -17,7 +17,7 @@
 import ballerina/crypto;
 import ballerina/jballerina.java;
 import ballerina/sql;
-import ballerina/io;
+// import ballerina/io;
 
 # Represents a PostgreSQL database client.
 public client class Client {
@@ -48,7 +48,6 @@ public client class Client {
             connectionPool: connectionPool
         };
 
-        io:println("initialization method =================================================================================================================");
         return createClient(self, clientConfig, sql:getGlobalConnectionPool());
     }
 
@@ -61,7 +60,6 @@ public client class Client {
     # + return - Stream of records in the type of `rowType`
     remote function query(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? rowType = ())
     returns @tainted stream <record {}, sql:Error> {
-        io:println("query method =================================================================================================================");
         if (self.clientActive) {
             return nativeQuery(self, sqlQuery, rowType);
         } else {
@@ -77,7 +75,6 @@ public client class Client {
     # + return - Summary of the sql update query as `ExecutionResult` or returns `Error`
     #           if any error occurred when executing the query
     remote function execute(@untainted string|sql:ParameterizedQuery sqlQuery) returns sql:ExecutionResult|sql:Error {
-        io:println("execute method =================================================================================================================");
         if (self.clientActive) {
             return nativeExecute(self, sqlQuery);
         } else {
@@ -96,7 +93,6 @@ public client class Client {
     #            remaining commands in the batch after a failure. The summary of the executed queries in case of error
     #            can be accessed as `(<sql:BatchExecuteError> result).detail()?.executionResults`.
     remote function batchExecute(@untainted sql:ParameterizedQuery[] sqlQueries) returns sql:ExecutionResult[]|sql:Error {
-        io:println("batch execute method =================================================================================================================");
         if (sqlQueries.length() == 0) {
             return error sql:ApplicationError(" Parameter 'sqlQueries' cannot be empty array");
         }
@@ -115,7 +111,6 @@ public client class Client {
     # + return - Summary of the execution is returned in `ProcedureCallResult` or `sql:Error`
     remote function call(@untainted string|sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes = [])
     returns sql:ProcedureCallResult|sql:Error {
-        io:println("call method =================================================================================================================");
         if (self.clientActive) {
             return nativeCall(self, sqlQuery, rowTypes);
         } else {
@@ -128,7 +123,6 @@ public client class Client {
     # + return - Possible error during closing the client
     public function close() returns sql:Error? {
         self.clientActive = false;
-        io:println("close method =================================================================================================================");
         return close(self);
     }
 }
