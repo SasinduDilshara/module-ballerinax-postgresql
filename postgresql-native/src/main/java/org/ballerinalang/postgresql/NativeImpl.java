@@ -50,7 +50,7 @@ public class NativeImpl {
             url += database;
         }
 
-        System.out.println("Initialization Url :- "+url);
+        // System.out.println("Initialization Url :- "+url);
         
         BMap options = clientConfig.getMapValue(Constants.ClientConfiguration.OPTIONS);
         BMap properties = null;
