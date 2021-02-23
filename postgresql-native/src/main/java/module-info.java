@@ -18,8 +18,12 @@
 
 module io.ballerina.stdlib.postgresql {
     requires io.ballerina.runtime;
+    requires io.ballerina.stdlib.io;
+    requires io.ballerina.stdlib.time;
     requires io.ballerina.stdlib.sql;
+    requires io.ballerina.lang;
     requires org.postgresql.jdbc;
     requires java.sql;
     exports org.ballerinalang.postgresql;
+    exports org.ballerinalang.postgresql.nativeimpl;
 }
