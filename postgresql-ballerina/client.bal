@@ -210,7 +210,7 @@ public type SSLConfig record {|
 
 function createClient(Client postgresqlClient, ClientConfiguration clientConf,
     sql:ConnectionPool globalConnPool) returns sql:Error? = @java:Method {
-    'class: "org.ballerinalang.postgresql.NativeImpl"
+    'class: "org.ballerinalang.postgresql.nativeimpl.ClientProcessor"
 } external;
 
 function nativeQuery(Client sqlClient, string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? rowType)
@@ -234,5 +234,5 @@ returns sql:ProcedureCallResult|sql:Error = @java:Method {
 } external;
 
 function close(Client postgresqlClient) returns sql:Error? = @java:Method {
-    'class: "org.ballerinalang.postgresql.NativeImpl"
+    'class: "org.ballerinalang.postgresql.nativeimpl.ClientProcessor"
 } external;
