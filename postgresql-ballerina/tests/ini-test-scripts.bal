@@ -1,7 +1,7 @@
 import ballerina/io;
 import ballerina/sql;
 
-public function initTestScripts(){
+public function initTestScripts() {
     _ = createDatabases();
     _ = connectionInitDb();
     _ = initPool();
@@ -10,9 +10,10 @@ public function initTestScripts(){
     _ = executeParamsInitDB();
     _ = batchExcuteInitDB();
     _ = simpleQueryInitDB();
+    _ = complexQueryInitDB();
 }
 
-public function createDatabases(){
+public function createDatabases() {
     
         _ = createQuery(`DROP DATABASE IF EXISTS CONNECT_DB`);
         _ = createQuery(`CREATE DATABASE CONNECT_DB`);
@@ -30,6 +31,8 @@ public function createDatabases(){
         _ = createQuery(`CREATE DATABASE BATCH_EXECUTE_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS QUERY_SIMPLE_PARAMS_DB`);
         _ = createQuery(`CREATE DATABASE QUERY_SIMPLE_PARAMS_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS QUERY_COMPLEX_PARAMS_DB`);
+        _ = createQuery(`CREATE DATABASE QUERY_COMPLEX_PARAMS_DB`);
     }
 
 public function connectionInitDb() {
@@ -56,7 +59,7 @@ public function connectionInitDb() {
         _ = executeQuery("connect_db", q2);
 }
 
-function initPool(){
+function initPool() {
     sql:ParameterizedQuery q2 = `
             DROP TABLE IF EXISTS Customers;
 
@@ -124,7 +127,7 @@ public function localTransactionInitDb() {
         
 }
 
-public function basicExcuteInitDB(){
+public function basicExcuteInitDB() {
 
     sql:ParameterizedQuery q5 = `
             DROP TABLE IF EXISTS NumericTypes;
@@ -187,7 +190,7 @@ public function basicExcuteInitDB(){
 
 }
 
-public function executeParamsInitDB(){
+public function executeParamsInitDB() {
     sql:ParameterizedQuery query = `
     
     DROP TABLE IF EXISTS DataTable;
@@ -289,7 +292,7 @@ public function executeParamsInitDB(){
     _ = executeQuery("execute_params_db", query);
 }
 
-public function batchExcuteInitDB(){
+public function batchExcuteInitDB() {
 
     sql:ParameterizedQuery q5 = `
         DROP TABLE IF EXISTS DataTable;
@@ -314,7 +317,7 @@ public function batchExcuteInitDB(){
 
 }
 
-public function simpleQueryInitDB(){
+public function simpleQueryInitDB() {
 
     sql:ParameterizedQuery q5 = `
         DROP TABLE IF EXISTS DataTable;
@@ -398,11 +401,155 @@ public function simpleQueryInitDB(){
 
 }
 
-public function createQuery(sql:ParameterizedQuery query){
+public function complexQueryInitDB() {
+    sql:ParameterizedQuery query = 
+    `
+        DROP TABLE IF EXISTS DataTable;
+
+        CREATE TABLE IF NOT EXISTS DataTable(
+        ROW_ID       INTEGER,
+        INT_TYPE     INTEGER,
+        LONG_TYPE    BIGINT,
+        DOUBLE_PRECISION_TYPE    DOUBLE PRECISION,
+        NUMERIC_TYPE  NUMERIC,
+        BOOLEAN_TYPE BOOLEAN,
+        STRING_TYPE  VARCHAR(50),
+        DECIMAL_TYPE DECIMAL(20, 2),
+        PRIMARY KEY (ROW_ID)
+        );
+
+        INSERT INTO DataTable (ROW_ID, INT_TYPE, LONG_TYPE, DOUBLE_PRECISION_TYPE , NUMERIC_TYPE, BOOLEAN_TYPE, STRING_TYPE, DECIMAL_TYPE)
+        VALUES(1, 1, 9223372036854774807, 123.34, 2139095039, TRUE, 'Hello', 23.45);
+
+        INSERT INTO DataTable (ROW_ID) VALUES (2);
+
+        DROP TABLE IF EXISTS DataTableRep;
+
+        CREATE TABLE IF NOT EXISTS DataTableRep(
+        ROW_ID       INTEGER,
+        INT_TYPE     INTEGER,
+        PRIMARY KEY (ROW_ID)
+        );
+
+        INSERT INTO DataTableRep (ROW_ID, INT_TYPE) VALUES (1, 100);
+
+        INSERT INTO DataTableRep (ROW_ID, INT_TYPE) VALUES (2, 200);
+
+        DROP TABLE IF EXISTS FloatTable;
+
+        CREATE TABLE IF NOT EXISTS FloatTable(
+        ROW_ID       INTEGER,
+        DOUBLE_PRECISION_TYPE    DOUBLE PRECISION,
+        REAL_TYPE  REAL,
+        NUMERIC_TYPE NUMERIC(10,2),
+        DECIMAL_TYPE  DECIMAL(10,2),
+        PRIMARY KEY (ROW_ID)
+        );
+
+        INSERT INTO FloatTable (ROW_ID, DOUBLE_PRECISION_TYPE , REAL_TYPE, NUMERIC_TYPE, DECIMAL_TYPE) VALUES
+        (1, 238999.34, 238999.34, 238999.34, 238999.34);
+
+        DROP TABLE IF EXISTS ComplexTypes;
+
+        CREATE TABLE IF NOT EXISTS ComplexTypes(
+        ROW_ID         INTEGER NOT NULL,
+        BYTEA_TYPE      BYTEA,
+        TEXT_TYPE      TEXT,
+        PRIMARY KEY (ROW_ID)
+        );
+
+        INSERT INTO ComplexTypes (ROW_ID, BYTEA_TYPE, TEXT_TYPE) VALUES
+        (1, '77736F322062616C6C6572696E6120626C6F6220746573742E', 'very long text');
+
+        INSERT INTO ComplexTypes (ROW_ID, BYTEA_TYPE, TEXT_TYPE) VALUES
+        (2, null, null);
+
+        DROP TABLE IF EXISTS DateTimeTypes;
+
+        CREATE TABLE IF NOT EXISTS DateTimeTypes(
+        ROW_ID         INTEGER NOT NULL,
+        DATE_TYPE      DATE,
+        TIME_TYPE      TIME,
+        TIMETZ_TYPE      TIMETZ,
+        TIMESTAMP_TYPE timestamp,
+        TIMESTAMPTZ_TYPE timestamptz,
+        PRIMARY KEY (ROW_ID)
+        );
+
+        DROP TABLE IF EXISTS DataTypeTableNillable;
+
+        CREATE TABLE IF NOT EXISTS DataTypeTableNillable(
+        ROW_ID       INTEGER,
+        INT_TYPE     INTEGER,
+        LONG_TYPE    BIGINT,
+        DOUBLE_PRECISION_TYPE   DOUBLE PRECISION,
+        REAL_TYPE    REAL,
+        BOOLEAN_TYPE BOOLEAN,
+        STRING_TYPE  VARCHAR(50),
+        NUMERIC_TYPE NUMERIC(10,3),
+        DECIMAL_TYPE DECIMAL(10,3),
+        SMALLINT_TYPE SMALLINT,
+        BYTEA_TYPE  BYTEA,
+        DATE_TYPE      DATE,
+        TIME_TYPE      TIME,
+        TIMETZ_TYPE      TIMETZ,
+        TIMESTAMP_TYPE TIMESTAMP,
+        TIMESTAMPTZ_TYPE TIMESTAMPTZ,
+        PRIMARY KEY (ROW_ID)
+        );
+        DROP TABLE IF EXISTS DataTypeTableNillableBinary;
+
+        CREATE TABLE IF NOT EXISTS DataTypeTableNillableBinary(
+        ROW_ID       INTEGER,
+        BYTEA_TYPE    BYTEA,
+        PRIMARY KEY (ROW_ID)
+        );
+
+        INSERT INTO DataTypeTableNillable (ROW_ID, INT_TYPE, LONG_TYPE, DOUBLE_PRECISION_TYPE , REAL_TYPE, BOOLEAN_TYPE, STRING_TYPE,
+        NUMERIC_TYPE, DECIMAL_TYPE, SMALLINT_TYPE, BYTEA_TYPE, DATE_TYPE, TIME_TYPE,
+        TIMETZ_TYPE, TIMESTAMP_TYPE, TIMESTAMPTZ_TYPE) VALUES
+        (1, 10, 9223372036854774807, 2139095039, 1234.567, TRUE, 'Hello',1234.567, 1234.567, 5555,
+        '77736F322062616C6C6572696E612062696E61727920746573742E', '2017-02-03', '11:35:45', '11:35:45+3',
+        '2017-02-03 11:53:00', '2017-02-03 11:53:00+3');
+
+        INSERT INTO DataTypeTableNillable (ROW_ID, INT_TYPE, LONG_TYPE, DOUBLE_PRECISION_TYPE , REAL_TYPE, BOOLEAN_TYPE, STRING_TYPE,
+        NUMERIC_TYPE, DECIMAL_TYPE, SMALLINT_TYPE, BYTEA_TYPE, DATE_TYPE, TIME_TYPE,
+        TIMETZ_TYPE, TIMESTAMP_TYPE, TIMESTAMPTZ_TYPE) VALUES
+        (2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+
+        INSERT INTO DataTypeTableNillableBinary (ROW_ID, BYTEA_TYPE) VALUES
+        (3, '77736F322062616C6C6572696E6120626C6F6220746573742E');
+
+        INSERT INTO DataTypeTableNillableBinary (ROW_ID, BYTEA_TYPE) VALUES (4, null);
+
+        DROP TABLE IF EXISTS Person;
+
+        CREATE TABLE IF NOT EXISTS Person(
+        ID       INTEGER,
+        AGE      INTEGER,
+        SALARY   DOUBLE PRECISION,
+        NAME  VARCHAR(50),
+        PRIMARY KEY (ID)
+        );
+
+        INSERT INTO Person (ID, AGE, SALARY, NAME) VALUES (1, 25, 400.25, 'John');
+
+        INSERT INTO Person (ID, AGE, SALARY, NAME) VALUES (2, 35, 600.25, 'Anne');
+
+        INSERT INTO Person (ID, AGE, SALARY, NAME) VALUES (3, 45, 600.25, 'Mary');
+
+        INSERT INTO Person (ID, AGE, SALARY, NAME) VALUES (10, 22, 100.25, 'Peter');
+
+    `;
+
+    _ = executeQuery("query_complex_params_db", query);
+}
+
+public function createQuery(sql:ParameterizedQuery query) {
 
     Client|sql:Error postgresClient = new(username="postgres",password="postgres");
 
-    if(postgresClient is sql:Error){
+    if(postgresClient is sql:Error) {
         io:println("Client init failed\n",postgresClient);
     }
     else{
@@ -410,7 +557,7 @@ public function createQuery(sql:ParameterizedQuery query){
         sql:Error? e__;
 
         result__ = postgresClient->execute(query);
-        if(result__ is sql:Error){
+        if(result__ is sql:Error) {
             io:println("Init Database drop failed\n",result__);
         }
         else{
@@ -418,7 +565,7 @@ public function createQuery(sql:ParameterizedQuery query){
         }
         e__ = postgresClient.close();
 
-        if(e__ is sql:Error){
+        if(e__ is sql:Error) {
             io:println("Client close1 fail\n",e__);
         }
         else{
@@ -428,11 +575,11 @@ public function createQuery(sql:ParameterizedQuery query){
 
 }
 
-public function executeQuery(string database, sql:ParameterizedQuery query){
+public function executeQuery(string database, sql:ParameterizedQuery query) {
 
     Client|sql:Error postgresClient = new(username="postgres",password="postgres", database = database);
 
-    if(postgresClient is sql:Error){
+    if(postgresClient is sql:Error) {
         io:println("Client init failed\n",postgresClient);
     }
     else{
@@ -440,7 +587,7 @@ public function executeQuery(string database, sql:ParameterizedQuery query){
         sql:Error? e__;
 
         result__ = postgresClient->execute(query);
-        if(result__ is sql:Error){
+        if(result__ is sql:Error) {
             io:println("Init Execute drop failed\n",result__);
         }
         else{
@@ -448,7 +595,7 @@ public function executeQuery(string database, sql:ParameterizedQuery query){
         }
         e__ = postgresClient.close();
 
-        if(e__ is sql:Error){
+        if(e__ is sql:Error) {
             io:println("Client close1 fail\n",e__);
         }
         else{
