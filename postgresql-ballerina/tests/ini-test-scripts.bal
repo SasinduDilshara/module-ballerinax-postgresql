@@ -11,6 +11,7 @@ public function initTestScripts() {
     _ = batchExcuteInitDB();
     _ = simpleQueryInitDB();
     _ = complexQueryInitDB();
+    _ = proceduresInitDB(); 
 }
 
 public function createDatabases() {
@@ -33,6 +34,8 @@ public function createDatabases() {
         _ = createQuery(`CREATE DATABASE QUERY_SIMPLE_PARAMS_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS QUERY_COMPLEX_PARAMS_DB`);
         _ = createQuery(`CREATE DATABASE QUERY_COMPLEX_PARAMS_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS PROCEDURES_DB`);
+        _ = createQuery(`CREATE DATABASE PROCEDURES_DB`);
     }
 
 public function connectionInitDb() {
@@ -543,6 +546,15 @@ public function complexQueryInitDB() {
     `;
 
     _ = executeQuery("query_complex_params_db", query);
+}
+
+public function proceduresInitDB() {
+    sql:ParameterizedQuery query = 
+    `
+    
+    `;
+
+    _ = executeQuery("procedures_db", query);
 }
 
 public function createQuery(sql:ParameterizedQuery query) {
