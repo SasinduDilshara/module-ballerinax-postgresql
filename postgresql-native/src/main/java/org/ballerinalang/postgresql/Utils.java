@@ -30,7 +30,7 @@ import io.ballerina.runtime.api.values.BString;
  */
 public class Utils {
 
-    static BMap generateOptionsMap(BMap postgresqlOptions) {
+    public static BMap generateOptionsMap(BMap postgresqlOptions) {
         if (postgresqlOptions != null) {
             BMap<BString, Object> options = ValueCreator.createMapValue();    
             addSSLOptions(postgresqlOptions.getMapValue(Constants.Options.SSL), options);
@@ -103,7 +103,7 @@ public class Utils {
         return null;
     }
 
-    public static int getBooleanValue(Object value){
+    private static int getBooleanValue(Object value){
         if (value instanceof Boolean) {
             if(((Boolean)value) == true){
                 return 1;
@@ -113,7 +113,7 @@ public class Utils {
         return -1;
     }
 
-    public static long getIntegerValue(Object value){
+    private static long getIntegerValue(Object value){
         if (value instanceof Long) {
             Long output_value = (Long) value;
             if (output_value.longValue() > 0) {
@@ -123,7 +123,7 @@ public class Utils {
         return -1;
     }
 
-    public static long getTimeout(Object secondsInt) {
+    private static long getTimeout(Object secondsInt) {
         if (secondsInt instanceof Long) {
             Long timeoutSec = (Long) secondsInt;
             if (timeoutSec.longValue() > 0) {
