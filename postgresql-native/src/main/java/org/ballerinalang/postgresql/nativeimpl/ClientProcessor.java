@@ -23,6 +23,7 @@ import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
 import org.ballerinalang.sql.datasource.SQLDatasource;
 import org.ballerinalang.postgresql.Constants;
+import org.ballerinalang.postgresql.Utils;
 
 import java.util.Properties;
 
