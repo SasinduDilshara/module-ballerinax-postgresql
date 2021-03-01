@@ -1,7 +1,7 @@
 [[dependency]]
 org = "ballerina"
 name = "sql"
-version = "0.6.0-alpha4"
+version = "@stdlib.sql.version@"
 
 [[dependency]]
 org = "ballerina"
