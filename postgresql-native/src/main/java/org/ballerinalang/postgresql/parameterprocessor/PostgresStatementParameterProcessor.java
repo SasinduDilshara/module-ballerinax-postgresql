@@ -30,7 +30,6 @@ import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
 import io.ballerina.runtime.api.values.BXml;
-import org.ballerinalang.sql.Constants;
 import org.ballerinalang.sql.exception.ApplicationError;
 import org.ballerinalang.stdlib.io.channels.base.Channel;
 import org.ballerinalang.stdlib.io.channels.base.CharacterChannel;
@@ -38,6 +37,7 @@ import org.ballerinalang.stdlib.io.readers.CharacterChannelReader;
 import org.ballerinalang.stdlib.io.utils.IOConstants;
 import org.ballerinalang.stdlib.io.utils.IOUtils;
 import org.ballerinalang.stdlib.time.util.TimeUtils;
+import org.ballerinalang.postgresql.Constants;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -160,7 +160,7 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             }
         } else if (value instanceof BObject) {
             BObject objectValue = (BObject) value;
-            if (objectValue.getType().getName().equalsIgnoreCase(Constants.READ_BYTE_CHANNEL_STRUCT) &&
+            if (objectValue.getType().getName().equalsIgnoreCase(org.ballerinalang.sql.Constants.READ_BYTE_CHANNEL_STRUCT) &&
                     objectValue.getType().getPackage().toString()
                         .equalsIgnoreCase(IOUtils.getIOPackage().toString())) {
                 Channel byteChannel = (Channel) objectValue.getNativeData(IOConstants.BYTE_CHANNEL_NAME);
@@ -216,12 +216,19 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
                                           int index, BObject typedValue)
             throws SQLException, ApplicationError, IOException {
         String sqlType = typedValue.getType().getName();
-        throw new ApplicationError("Unsupported SQL type: " + sqlType);
+        Object value = typedValue.get(org.ballerinalang.sql.Constants.TypedValueFields.VALUE);
+        switch (sqlType) {
+            case Constants.PGtypes.INET:
+                
+                break;
+            default:
+                throw new ApplicationError("Unsupported SQL type: " + sqlType);
+        }
     }
 
     @Override
     protected Object[] getCustomArrayData(Object value) throws ApplicationError {
-        throw throwInvalidParameterError(value, Constants.SqlTypes.ARRAY);
+        throw throwInvalidParameterError(value, org.ballerinalang.sql.Constants.SqlTypes.ARRAY);
     }
 
     @Override
@@ -387,7 +394,7 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             }
             return new Object[]{arrayData, "BINARY"};
         } else {
-            throw throwInvalidParameterError(value, Constants.SqlTypes.ARRAY);
+            throw throwInvalidParameterError(value, org.ballerinalang.sql.Constants.SqlTypes.ARRAY);
         }
     }
 
