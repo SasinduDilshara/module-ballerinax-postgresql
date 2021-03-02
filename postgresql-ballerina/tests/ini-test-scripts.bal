@@ -12,6 +12,7 @@ public function initTestScripts() {
     _ = simpleQueryInitDB();
     _ = complexQueryInitDB();
     _ = proceduresInitDB(); 
+    _ = networkInitDB(); 
 }
 
 public function createDatabases() {
@@ -36,6 +37,8 @@ public function createDatabases() {
         _ = createQuery(`CREATE DATABASE QUERY_COMPLEX_PARAMS_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS PROCEDURES_DB`);
         _ = createQuery(`CREATE DATABASE PROCEDURES_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS NETWORK_DB`);
+        _ = createQuery(`CREATE DATABASE NETWORK_DB`);
     }
 
 public function connectionInitDb() {
@@ -555,6 +558,56 @@ public function proceduresInitDB() {
     `;
 
     _ = executeQuery("procedures_db", query);
+}
+
+public function networkInitDB() {
+
+    string networkDatabaseName = "network_db";
+    string networkTableName = "NetworkTypes";
+    sql:ParameterizedQuery networkTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS NetworkTypes;
+    CREATE TABLE IF NOT EXISTS NetworkTypes(
+        row_id SERIAL,
+        inet_type inet,
+        cidr_type cidr,
+        macaddr_type macaddr,
+        macaddr8_type macaddr8,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery networkTableInsertQuery = 
+    `
+        INSERT INTO NetworkTypes(
+            inet_type,
+            cidr_type,
+            macaddr_type,
+            macaddr8_type
+            ) 
+        VALUES (
+            '192.168.0.1/24',
+            '::ffff:1.2.3.0/120',
+            '08:00:2b:01:02:03',
+            '08-00-2b-01-02-03-04-05'
+            );
+
+        INSERT INTO NetworkTypes(
+            inet_type,
+            cidr_type,
+            macaddr_type,
+            macaddr8_type
+            ) 
+        VALUES (
+            '192.168.0.2/28',
+            '10.1.2.3/32',
+            '08-00-2b-01-02-03',
+            '08-00-2b-01-02-03-04-05'
+            );
+    `;
+    _ = executeQuery("network_db", networkTableCreateQuery);
+    _ = executeQuery("network_db", networkTableInsertQuery);
 }
 
 public function createQuery(sql:ParameterizedQuery query) {
