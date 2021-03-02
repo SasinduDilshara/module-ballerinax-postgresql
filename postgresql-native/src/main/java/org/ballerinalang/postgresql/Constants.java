@@ -158,19 +158,19 @@ public final class Constants {
 
         public static final String UUID = "UuidValue";
 
-        public static final String TSVECTOR = "tsvector";
-        public static final String TSQUERY = "tsquery";
+        public static final String TSVECTOR = "TsvectorValue";
+        public static final String TSQUERY = "TsqueryValue";
 
-        public static final String JSON = "json";
-        public static final String JSONB = "jsonb";
-        public static final String JSONPATH = "jsonpath";
+        public static final String JSON = "JsonValue";
+        public static final String JSONB = "JsonbValue";
+        public static final String JSONPATH = "JsonpathValue";
 
-        public static final String INT4RANGE = "int4range";
-        public static final String INT8RANGE = "int8range";
-        public static final String NUMRANGE = "numrange";
-        public static final String TSRANGE = "tsrange";
-        public static final String TSTZRANGE = "tstzrange";
-        public static final String DATERANGE= "daterange";
+        public static final String INT4RANGE = "Int4rangeValue";
+        public static final String INT8RANGE = "Int8rangeValue";
+        public static final String NUMRANGE = "NumrangeValue";
+        public static final String TSRANGE = "TsrangeValue";
+        public static final String TSTZRANGE = "TstzrangeValue";
+        public static final String DATERANGE= "DaterangeValue";
 
         public static final String BIT = "bit";
         public static final String VARBIT = "varbit";
@@ -237,6 +237,7 @@ public final class Constants {
     public static final String POSTGRESQL_DATASOURCE_NAME = "org.postgresql.ds.PGSimpleDataSource";
     static final String FILE = "file:";
     public static final String POOL_CONNECT_TIMEOUT = "ConnectionTimeout";
+    public static final String CUSTOM_RESULT_ITERATOR_OBJECT = "CustomResultIterator";
 
     /**
      * Constants for ssl configuration.

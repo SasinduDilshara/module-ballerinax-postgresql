@@ -14,6 +14,9 @@ public function initTestScripts() {
     // _ = proceduresInitDB(); 
     _ = networkInitDB(); 
     _ = geometricInitDB(); 
+    _ = uuidInitDB(); 
+    _ = tsInitDB();
+    _ = jsonInitDB(); 
 }
 
 public function createDatabases() {
@@ -42,6 +45,12 @@ public function createDatabases() {
         _ = createQuery(`CREATE DATABASE NETWORK_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS GEOMETRIC_DB`);
         _ = createQuery(`CREATE DATABASE GEOMETRIC_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS UUID_DB`);
+        _ = createQuery(`CREATE DATABASE UUID_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS TS_DB`);
+        _ = createQuery(`CREATE DATABASE TS_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS JSON_DB`);
+        _ = createQuery(`CREATE DATABASE JSON_DB`);
     }
 
 public function connectionInitDb() {
@@ -643,6 +652,93 @@ function geometricInitDB() {
     `;
     _ = executeQuery("geometric_db", geometricTableCreateQuery);
     _ = executeQuery("geometric_db", geometricTableInsertQuery);
+}
+
+public function uuidInitDB() {
+        sql:ParameterizedQuery uuidTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS UuidTypes;
+    CREATE TABLE IF NOT EXISTS UuidTypes(
+        row_id SERIAL,
+        uuid_type UUID,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery uuidTableInsertQuery = 
+    `
+        INSERT INTO UuidTypes(
+            uuid_type
+            ) 
+        VALUES (
+            'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+            );
+
+    `;
+    _ = executeQuery("uuid_db", uuidTableCreateQuery);
+    _ = executeQuery("uuid_db", uuidTableInsertQuery);
+}
+
+public function tsInitDB() {
+        sql:ParameterizedQuery tsTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS TextSearchTypes;
+    CREATE TABLE IF NOT EXISTS TextSearchTypes(
+        row_id SERIAL,
+        tsvector_type TSVECTOR,
+        tsquery_type TSQUERY,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery tsTableInsertQuery = 
+    `
+        INSERT INTO TextSearchTypes(
+            tsvector_type,
+            tsquery_type
+            ) 
+        VALUES (
+            'a fat cat sat on a mat and ate a fat rat',
+            'fat & rat'
+            );
+
+    `;
+    _ = executeQuery("ts_db", tsTableCreateQuery);
+    _ = executeQuery("ts_db", tsTableInsertQuery);
+}
+public function jsonInitDB() {
+    sql:ParameterizedQuery jsonTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS JsonTypes;
+    CREATE TABLE IF NOT EXISTS JsonTypes(
+        row_id SERIAL,
+        json_type JSON,
+        jsonb_type JSONB,
+        jsonpath_type JSONPATH,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery jsonTableInsertQuery = 
+    `
+        INSERT INTO JsonTypes(
+            json_type,
+            jsonb_type,
+            jsonpath_type
+            ) 
+        VALUES (
+            '{'key': 'value'}',
+            '{'key': 'value'}',
+            '$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 1)'
+            );
+
+    `;
+    _ = executeQuery("json_db", jsonTableCreateQuery);
+    _ = executeQuery("json_db", jsonTableInsertQuery);
+
 }
 
 public function createQuery(sql:ParameterizedQuery query) {

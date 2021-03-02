@@ -71,7 +71,10 @@ import org.ballerinalang.sql.parameterprocessor.DefaultResultParameterProcessor;
  */
 public class PostgresResultParameterProcessor extends DefaultResultParameterProcessor {
     private static final Object lock = new Object();
-    private static volatile DefaultResultParameterProcessor instance;
+    private static volatile PostgresResultParameterProcessor instance;
+    private static volatile BObject iteratorObject;
+    private static final Object lock2 = new Object();
+
 
     private static final ArrayType stringArrayType = TypeCreator.createArrayType(PredefinedTypes.TYPE_STRING);
     private static final ArrayType booleanArrayType = TypeCreator.createArrayType(PredefinedTypes.TYPE_BOOLEAN);
@@ -83,11 +86,11 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
             .getInstance(TimeZone.getTimeZone(Constants.TIMEZONE_UTC.getValue()));
 
 
-    public static DefaultResultParameterProcessor getInstance() {
+    public static PostgresResultParameterProcessor getInstance() {
         if (instance == null) {
             synchronized (lock) {
                 if (instance == null) {
-                    instance = new DefaultResultParameterProcessor();
+                    instance = new PostgresResultParameterProcessor();
                 }
             }
         }
@@ -574,6 +577,15 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     }
 
     protected BObject getIteratorObject() {
+        // if (iteratorObject == null) {
+        //     synchronized (lock2) {
+        //         if (iteratorObject == null) {
+        //             iteratorObject = ValueCreator.createObjectValue(
+        //                     org.ballerinalang.postgresql.ModuleUtils.getModule(), "CustomResultIterator", new Object[0]);
+        //         }
+        //     }
+        // }
+        // return iteratorObject;
         return null;
     }
 
@@ -581,19 +593,24 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
                                         Statement statement,
                                         Connection connection, List<ColumnDefinition> columnDefinitions,
                                         StructureType streamConstraint) {
+        System.out.println("before iter obj");
         BObject iteratorObject = this.getIteratorObject();
+        System.out.println("after iter obj");
         BObject resultIterator = ValueCreator.createObjectValue(ModuleUtils.getModule(),
                 Constants.RESULT_ITERATOR_OBJECT, new Object[]{null, iteratorObject});
+        System.out.println("resultIterator 1");
         resultIterator.addNativeData(Constants.RESULT_SET_NATIVE_DATA_FIELD, resultSet);
         resultIterator.addNativeData(Constants.STATEMENT_NATIVE_DATA_FIELD, statement);
         resultIterator.addNativeData(Constants.CONNECTION_NATIVE_DATA_FIELD, connection);
         resultIterator.addNativeData(Constants.COLUMN_DEFINITIONS_DATA_FIELD, columnDefinitions);
         resultIterator.addNativeData(Constants.RECORD_TYPE_DATA_FIELD, streamConstraint);
+        System.out.println("resultIterator ");
         return resultIterator;
     }
 
     public Object getCustomResult(ResultSet resultSet, int columnIndex, ColumnDefinition columnDefinition)
             throws ApplicationError {
+        System.out.println("Start");
         int sqlType = columnDefinition.getSqlType();
         Type ballerinaType = columnDefinition.getBallerinaType();
         // switch (sqlType) {

@@ -1,5 +1,5 @@
-// import ballerina/jballerina.java;
-// import ballerina/time;
+import ballerina/jballerina.java;
+import ballerina/sql;
 # PostgreSQL Network Data types.
 
 # Represents Inet PostgreSQL Field
@@ -101,57 +101,57 @@ public class CircleValue {
     }  
 }
 
-// # Represents UUID PostgreSQL Field
-// public class UuidValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertUuid(value);
-//     }  
-// }
+# Represents UUID PostgreSQL Field
+public class UuidValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # PostgreSQL Text search Data types.
+# PostgreSQL Text search Data types.
 
-// # Represents Text vector PostgreSQL Field
-// public class TsvectorValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertTsVector(value);
-//     }  
-// }
+# Represents Text vector PostgreSQL Field
+public class TsvectorValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents Text query PostgreSQL Field
-// public class TsqueryValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertTsQuery(value);
-//     }  
-// }
+# Represents Text query PostgreSQL Field
+public class TsqueryValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # PostgreSQL Json Data types.
+# PostgreSQL Json Data types.
 
-// # Represents Json PostgreSQL Field
-// public class JsonValue {
-//     any value;
-//     public function init(json|string? value = ()) {
-//         self.value = convertJson(value);
-//     }  
-// }
+# Represents Json PostgreSQL Field
+public class JsonValue {
+    public json|string? value;
+    public function init(json|string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents Jsonb PostgreSQL Field
-// public class JsonbValue {
-//     any value;
-//     public function init(json|string? value = ()) {
-//         self.value = convertJsonb(value);
-//     }  
-// }
+# Represents Jsonb PostgreSQL Field
+public class JsonbValue {
+    public json|string? value;
+    public function init(json|string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents Jsonpath PostgreSQL Field
-// public class JsonpathValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertJsonPath(value);
-//     }  
-// }
+# Represents Jsonpath PostgreSQL Field
+public class JsonpathValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
 // # Represents Time interval PostgreSQL Field
 // public class IntervalValue {
@@ -530,13 +530,19 @@ public class CircleValue {
 //     'class: "org.ballerinalang.postgresql.datatypes.PGUtils"
 // } external;
 
-public type CustomResultIterator object {
-    isolated function nextResult(ResultIterator iterator) returns record {}|Error? = @java:Method {
-        'class: "org.ballerinalang.postgresql.ClientProcessor"
-    } external;
+public class CustomResultIterator {
 
-    isolated function getNextQueryResult(ProcedureCallResult callResult) returns boolean|Error= @java:Method {
-        'class: "org.ballerinalang.postgresql.RecordIteratorUtils"
-    } external;
-};
+    public isolated function nextResult(sql:ResultIterator iterator) returns record {}|sql:Error? = @java:Method {
+        'class: "org.ballerinalang.postgresql.RecordIteratorUtils",
+        paramTypes: ["io.ballerina.runtime.api.values.BObject", "io.ballerina.runtime.api.values.BObject"]
+    } external; 
 
+    public isolated function getNextQueryResult(sql:ProcedureCallResult callResult) returns boolean|sql:Error = @java:Method {
+    'class: "org.ballerinalang.postgresql.RecordIteratorUtils",
+    paramTypes: ["io.ballerina.runtime.api.values.BObject", "io.ballerina.runtime.api.values.BObject"]
+    } external;
+}
+// public type CustomResultIterator object {
+//     isolated function nextResult(ResultIterator iterator) returns record {}|Error?;
+//     isolated function getNextQueryResult(ProcedureCallResult callResult) returns boolean|Error;
+// };

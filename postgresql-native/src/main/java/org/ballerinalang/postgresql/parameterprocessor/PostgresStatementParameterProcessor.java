@@ -254,6 +254,24 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.BOX:
                 setBox(preparedStatement, index, value);
                 break;
+            case Constants.PGTypeNames.UUID:
+                setUuid(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.TSVECTOR:
+                setTsvector(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.TSQUERY:
+                setTsquery(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.JSON:
+                setJson(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.JSONB:
+                setJsonb(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.JSONPATH:
+                setJsonpath(preparedStatement, index, value);
+                break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
         }
@@ -365,6 +383,66 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             preparedStatement.setObject(index, null);
         } else {
             Object object = Convertor.convertBox(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setUuid(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertUuid(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setTsvector(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertTsVector(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setTsquery(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertTsQuery(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setJson(PreparedStatement preparedStatement, int index, Object value)
+    throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertJson(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setJsonb(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertJsonb(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setJsonpath(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertJsonPath(value);
             preparedStatement.setObject(index, object);
         }
     }
