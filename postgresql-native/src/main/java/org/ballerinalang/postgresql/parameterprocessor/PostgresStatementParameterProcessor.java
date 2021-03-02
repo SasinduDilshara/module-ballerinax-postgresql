@@ -62,6 +62,7 @@ import static io.ballerina.runtime.api.utils.StringUtils.fromString;
 import static org.ballerinalang.sql.utils.Utils.throwInvalidParameterError;
 import org.ballerinalang.sql.parameterprocessor.DefaultStatementParameterProcessor;
 import org.ballerinalang.postgresql.Constants;
+import org.ballerinalang.postgresql.helper.Convertor;
 
 /**
  * Represent the Process methods for statements.
@@ -218,12 +219,62 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             throws SQLException, ApplicationError, IOException {
         String sqlType = typedValue.getType().getName();
         Object value = typedValue.get(org.ballerinalang.sql.Constants.TypedValueFields.VALUE);
+        System.out.println("\n\n\n\n\n\n\n"+sqlType+" "+value+"\n\n\n\n\n\n\n");
         switch (sqlType) {
-            case Constants.PGtypes.INET:
-                System.out.println("Value");
+            case Constants.PGTypeNames.INET:
+                setInet(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.CIDR:
+                setCidr(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.MACADDR:
+                setMacaddr(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.MACADDR8:
+                setMaacadr8(preparedStatement, index, value);
                 break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
+        }
+    }
+
+    private void setInet(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertInet(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setCidr(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertCidr(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setMacaddr(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertMac(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setMaacadr8(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertMac8(value);
+            preparedStatement.setObject(index, object);
         }
     }
 

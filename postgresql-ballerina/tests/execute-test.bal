@@ -13,12 +13,12 @@ function testInsertIntoNetworkDataTable() {
     InetValue inetValue = new ("192.168.0.1/24");
     CidrValue cidrValue = new ("::ffff:1.2.3.0/120");
     MacaddrValue macaddrValue = new ("08:00:2b:01:02:03");
-    Macaddr8Value macaddr8Value = new ("08-00-2b-01-02-03-04-0");
+    Macaddr8Value macaddr8Value = new ("08-00-2b-01-02-03-04-00");
 
     sql:ParameterizedQuery sqlQuery =
       `
-    INSERT INTO NetworkTable (row_id, inet_type, cidr_type, macaddr_type, macaddr8_type)
+    INSERT INTO NetworkTypes (row_id, inet_type, cidr_type, macaddr_type, macaddr8_type)
             VALUES(${rowId}, ${inetValue}, ${cidrValue}, ${macaddrValue}, ${macaddr8Value})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "network_db"), 1, rowId);
 }

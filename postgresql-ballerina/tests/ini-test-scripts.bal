@@ -593,18 +593,6 @@ public function networkInitDB() {
             '08-00-2b-01-02-03-04-05'
             );
 
-        INSERT INTO NetworkTypes(
-            inet_type,
-            cidr_type,
-            macaddr_type,
-            macaddr8_type
-            ) 
-        VALUES (
-            '192.168.0.2/28',
-            '10.1.2.3/32',
-            '08-00-2b-01-02-03',
-            '08-00-2b-01-02-03-04-05'
-            );
     `;
     _ = executeQuery("network_db", networkTableCreateQuery);
     _ = executeQuery("network_db", networkTableInsertQuery);

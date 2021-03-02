@@ -488,8 +488,8 @@ function insertIntoDateTimeTable4() {
 
 }
 
-function executeQueryPostgresqlClient(sql:ParameterizedQuery sqlQuery) returns sql:ExecutionResult {
-    Client dbClient = checkpanic new (host, user, password, executeParamsDb, port);
+function executeQueryPostgresqlClient(sql:ParameterizedQuery sqlQuery, string database = executeParamsDb) returns sql:ExecutionResult {
+    Client dbClient = checkpanic new (host, user, password, database, port);
     sql:ExecutionResult result = checkpanic dbClient->execute(sqlQuery);
     checkpanic dbClient.close();
     return result;

@@ -17,7 +17,7 @@ function testInsertIntoNetworkDataTable() {
 
     sql:ParameterizedQuery sqlQuery =
       `
-    INSERT INTO NetworkTable (row_id, inet_type, cidr_type, macaddr_type, macaddr8_type)
+    INSERT INTO NetworkTypes (row_id, inet_type, cidr_type, macaddr_type, macaddr8_type)
             VALUES(${rowId}, ${inetValue}, ${cidrValue}, ${macaddrValue}, ${macaddr8Value})
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery), 1, rowId);
