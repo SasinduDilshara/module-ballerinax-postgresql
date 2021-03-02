@@ -13,6 +13,7 @@ public function initTestScripts() {
     // _ = complexQueryInitDB();
     // _ = proceduresInitDB(); 
     _ = networkInitDB(); 
+    _ = geometricInitDB(); 
 }
 
 public function createDatabases() {
@@ -39,6 +40,8 @@ public function createDatabases() {
         // _ = createQuery(`CREATE DATABASE PROCEDURES_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS NETWORK_DB`);
         _ = createQuery(`CREATE DATABASE NETWORK_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS GEOMETRIC_DB`);
+        _ = createQuery(`CREATE DATABASE GEOMETRIC_DB`);
     }
 
 public function connectionInitDb() {
@@ -596,6 +599,50 @@ public function networkInitDB() {
     `;
     _ = executeQuery("network_db", networkTableCreateQuery);
     _ = executeQuery("network_db", networkTableInsertQuery);
+}
+
+function geometricInitDB() {
+    sql:ParameterizedQuery geometricTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS GeometricTypes;
+    CREATE TABLE IF NOT EXISTS GeometricTypes(
+        row_id SERIAL,
+        point_type POINT,
+        line_type LINE,
+        lseg_type LSEG,
+        path_type PATH,
+        circle_type CIRCLE,
+        box_type BOX,
+        polygon_type POLYGON,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery geometricTableInsertQuery = 
+    `
+        INSERT INTO GeometricTypes(
+            point_type,
+            line_type,
+            lseg_type,
+            box_type,
+            path_type,
+            polygon_type,
+            circle_type
+            ) 
+        VALUES (
+            '(1,2)',
+            '{1,2,3}',
+            '((1,1),(2,2))',
+            '((1,1),(2,2))',
+            '[(1,1),(2,2)]',
+            '((1,1),(2,2))',
+            '<1,1,1>'
+            );
+
+    `;
+    _ = executeQuery("geometric_db", geometricTableCreateQuery);
+    _ = executeQuery("geometric_db", geometricTableInsertQuery);
 }
 
 public function createQuery(sql:ParameterizedQuery query) {

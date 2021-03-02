@@ -148,10 +148,15 @@ public final class Constants {
         public static final String MACADDR = "MacaddrValue";
         public static final String MACADDR8 = "Macaddr8Value";
 
-        public static final String POINT = "point";
-        public static final String LINE = "line";
+        public static final String POINT = "PointValue";
+        public static final String LINE = "LineValue";
+        public static final String LSEG = "LsegValue";
+        public static final String PATH = "PathValue";
+        public static final String BOX = "BoxValue";
+        public static final String POLYGON = "PolygonValue";
+        public static final String CIRCLE = "CircleValue";
 
-        public static final String UUID = "uuid";
+        public static final String UUID = "UuidValue";
 
         public static final String TSVECTOR = "tsvector";
         public static final String TSQUERY = "tsquery";

@@ -176,6 +176,7 @@ public class Convertor {
                     System.out.println("PGLINE CATCH ERROR\n"+ex);
                     return null;
                 }
+                System.out.println("\nPGLINE:- "+line.getValue()+"\n");
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
                 Map<String,Object> lineValue = ConversionHelper.getRecordType(value);

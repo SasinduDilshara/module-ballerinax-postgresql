@@ -233,6 +233,27 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.MACADDR8:
                 setMaacadr8(preparedStatement, index, value);
                 break;
+                case Constants.PGTypeNames.POINT:
+                setPoint(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.LINE:
+                setLine(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.LSEG:
+                setLseg(preparedStatement, index, value);
+                break;
+            // case Constants.PGTypeNames.PATH:
+            //     setPath(preparedStatement, index, value);
+            //     break;
+            // case Constants.PGTypeNames.POLYGON:
+            //     setPolygon(preparedStatement, index, value);
+            //     break;
+            case Constants.PGTypeNames.CIRCLE:
+                setCircle(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.BOX:
+                setBox(preparedStatement, index, value);
+                break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
         }
@@ -274,6 +295,76 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             preparedStatement.setObject(index, null);
         } else {
             Object object = Convertor.convertMac8(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setPoint(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertPoint(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setLine(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertLine(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setLseg(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertLseg(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    // private void setPath(PreparedStatement preparedStatement, int index, Object value)
+    //         throws SQLException {
+    //     if (value == null) {
+    //         preparedStatement.setObject(index, null);
+    //     } else {
+    //         Object object = Convertor.convertPath(value);
+    //         preparedStatement.setObject(index, object);
+    //     }
+    // }
+
+    // private void setPolygon(PreparedStatement preparedStatement, int index, Object value)
+    //         throws SQLException {
+    //     if (value == null) {
+    //         preparedStatement.setObject(index, null);
+    //     } else {
+    //         Object object = Convertor.convertPolygon(value);
+    //         preparedStatement.setObject(index, object);
+    //     }
+    // }
+
+    private void setCircle(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertCircle(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setBox(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertBox(value);
             preparedStatement.setObject(index, object);
         }
     }
