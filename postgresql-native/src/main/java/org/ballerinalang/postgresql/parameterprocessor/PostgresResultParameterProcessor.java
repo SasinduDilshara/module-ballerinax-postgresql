@@ -594,6 +594,18 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
 
     public Object getCustomResult(ResultSet resultSet, int columnIndex, ColumnDefinition columnDefinition)
             throws ApplicationError {
+        int sqlType = columnDefinition.getSqlType();
+        Type ballerinaType = columnDefinition.getBallerinaType();
+        // switch (sqlType) {
+            System.out.println("sqlType: " + sqlType);
+            System.out.println("ballerinaType: " + ballerinaType);
+            try{
+                System.out.println("Get object" + resultSet.getObject(columnIndex));
+            }
+            catch(Exception ex){
+                
+            }
+        // }
         throw new ApplicationError("Unsupported SQL type " + columnDefinition.getSqlName());
     }
 

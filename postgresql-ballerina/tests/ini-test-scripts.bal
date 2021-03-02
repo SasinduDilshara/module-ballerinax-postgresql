@@ -3,40 +3,40 @@ import ballerina/sql;
 
 public function initTestScripts() {
     _ = createDatabases();
-    _ = connectionInitDb();
-    _ = initPool();
-    _ = localTransactionInitDb();
-    _ = basicExcuteInitDB();
-    _ = executeParamsInitDB();
-    _ = batchExcuteInitDB();
-    _ = simpleQueryInitDB();
-    _ = complexQueryInitDB();
-    _ = proceduresInitDB(); 
+    // _ = connectionInitDb();
+    // _ = initPool();
+    // _ = localTransactionInitDb();
+    // _ = basicExcuteInitDB();
+    // _ = executeParamsInitDB();
+    // _ = batchExcuteInitDB();
+    // _ = simpleQueryInitDB();
+    // _ = complexQueryInitDB();
+    // _ = proceduresInitDB(); 
     _ = networkInitDB(); 
 }
 
 public function createDatabases() {
     
-        _ = createQuery(`DROP DATABASE IF EXISTS CONNECT_DB`);
-        _ = createQuery(`CREATE DATABASE CONNECT_DB`);
-        _ = createQuery(`DROP DATABASE IF EXISTS EXECUTE_DB`);
-        _ = createQuery(`CREATE DATABASE EXECUTE_DB`);
-        _ = createQuery(`DROP DATABASE IF EXISTS LOCAL_TRANSACTION`);
-        _ = createQuery(`CREATE DATABASE LOCAL_TRANSACTION`);
-        _ = createQuery(`DROP DATABASE IF EXISTS POOL_DB_1`);
-        _ = createQuery(`CREATE DATABASE POOL_DB_1`);
-        _ = createQuery(`DROP DATABASE IF EXISTS POOL_DB_2`);
-        _ = createQuery(`CREATE DATABASE POOL_DB_2`);
-        _ = createQuery(`DROP DATABASE IF EXISTS EXECUTE_PARAMS_DB`);
-        _ = createQuery(`CREATE DATABASE EXECUTE_PARAMS_DB`);
-        _ = createQuery(`DROP DATABASE IF EXISTS BATCH_EXECUTE_DB`);
-        _ = createQuery(`CREATE DATABASE BATCH_EXECUTE_DB`);
-        _ = createQuery(`DROP DATABASE IF EXISTS QUERY_SIMPLE_PARAMS_DB`);
-        _ = createQuery(`CREATE DATABASE QUERY_SIMPLE_PARAMS_DB`);
-        _ = createQuery(`DROP DATABASE IF EXISTS QUERY_COMPLEX_PARAMS_DB`);
-        _ = createQuery(`CREATE DATABASE QUERY_COMPLEX_PARAMS_DB`);
-        _ = createQuery(`DROP DATABASE IF EXISTS PROCEDURES_DB`);
-        _ = createQuery(`CREATE DATABASE PROCEDURES_DB`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS CONNECT_DB`);
+        // _ = createQuery(`CREATE DATABASE CONNECT_DB`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS EXECUTE_DB`);
+        // _ = createQuery(`CREATE DATABASE EXECUTE_DB`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS LOCAL_TRANSACTION`);
+        // _ = createQuery(`CREATE DATABASE LOCAL_TRANSACTION`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS POOL_DB_1`);
+        // _ = createQuery(`CREATE DATABASE POOL_DB_1`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS POOL_DB_2`);
+        // _ = createQuery(`CREATE DATABASE POOL_DB_2`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS EXECUTE_PARAMS_DB`);
+        // _ = createQuery(`CREATE DATABASE EXECUTE_PARAMS_DB`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS BATCH_EXECUTE_DB`);
+        // _ = createQuery(`CREATE DATABASE BATCH_EXECUTE_DB`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS QUERY_SIMPLE_PARAMS_DB`);
+        // _ = createQuery(`CREATE DATABASE QUERY_SIMPLE_PARAMS_DB`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS QUERY_COMPLEX_PARAMS_DB`);
+        // _ = createQuery(`CREATE DATABASE QUERY_COMPLEX_PARAMS_DB`);
+        // _ = createQuery(`DROP DATABASE IF EXISTS PROCEDURES_DB`);
+        // _ = createQuery(`CREATE DATABASE PROCEDURES_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS NETWORK_DB`);
         _ = createQuery(`CREATE DATABASE NETWORK_DB`);
     }

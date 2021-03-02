@@ -219,7 +219,7 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             throws SQLException, ApplicationError, IOException {
         String sqlType = typedValue.getType().getName();
         Object value = typedValue.get(org.ballerinalang.sql.Constants.TypedValueFields.VALUE);
-        System.out.println("\n\n\n\n\n\n\n"+sqlType+" "+value+"\n\n\n\n\n\n\n");
+        // System.out.println("\n\n\n\n\n\n\n"+sqlType+" "+value+"\n\n\n\n\n\n\n");
         switch (sqlType) {
             case Constants.PGTypeNames.INET:
                 setInet(preparedStatement, index, value);
