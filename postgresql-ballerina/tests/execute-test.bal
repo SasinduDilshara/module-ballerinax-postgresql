@@ -592,6 +592,8 @@ function testInsertIntoRangeDataTable() {
         TsrangeValue tsrangeType = new({upper:endTime , lower:startTime});
         TstzrangeValue tstzrangeType= new({upper:endTime , lower:startTime});
         DaterangeValue daterangeType= new({upper:endTime , lower:startTime , isUpperboundInclusive: true , isLowerboundInclusive: true});
+        // TstzrangeValue tstzrangeType = new ();
+        // DaterangeValue daterangeType = new ();
 
         sql:ParameterizedQuery sqlQuery =
             `
@@ -653,7 +655,7 @@ function testInsertIntoRangeDataTable3() {
     dependsOn: [testInsertIntoUuidDataTable2]
 }
 function testSelectFromRangeDataTable() {
-    int rowId = 3;
+    int rowId = 5;
     
     sql:ParameterizedQuery sqlQuery = `select * from RangeTypes where row_id = ${rowId}`;
 
@@ -665,12 +667,12 @@ public function validateRangeTableResult(record{}? returnData) {
         test:assertFail("Empty row returned.");
     } else {
         io:println(returnData);
-        test:assertEquals(returnData["row_id"], 3);
-        // test:assertEquals(returnData["time_type"], "05:12:45.554+05:30");
-        // test:assertEquals(returnData["timetz_type"], "23:42:45.554+05:30");
-        // test:assertEquals(returnData["timestamp_type"], "2017-03-29T05:12:45.554+05:30");
-        // test:assertEquals(returnData["timestamptz_type"], "2017-03-28T23:42:45.554+05:30");
-        // test:assertEquals(returnData["date_type"], "2017-03-28+05:30");
-        // test:assertEquals(returnData["interval_type"], "1 year 2 mons 3 days 04:05:06");
+        test:assertEquals(returnData["row_id"], 5);
+        test:assertEquals(returnData["int4range_type"], "[3,50)");
+        test:assertEquals(returnData["int8range_type"], "[11,100)");
+        test:assertEquals(returnData["numrange_type"], "(0.1,2.4)");
+        test:assertEquals(returnData["tsrange_type"], "(\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")");
+        test:assertEquals(returnData["tstzrange_type"], "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")");
+        test:assertEquals(returnData["daterange_type"], "[2010-01-02,2010-01-03)");
     } 
 }

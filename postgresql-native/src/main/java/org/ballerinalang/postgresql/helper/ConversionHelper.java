@@ -60,8 +60,8 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import static io.ballerina.runtime.api.utils.StringUtils.fromString;
-
-
+import io.ballerina.runtime.api.values.BError;
+import org.ballerinalang.stdlib.time.util.TimeUtils;
 
 public class ConversionHelper {
 
@@ -135,6 +135,15 @@ public class ConversionHelper {
 
         return customValue;
 
+    }
+
+    public static Object toTimeString(Object timeObject) {
+        try {
+            BMap<BString,Object> timeRecord = (BMap<BString,Object>) timeObject;
+            return TimeUtils.getDefaultString(timeRecord);
+        } catch (BError e) {
+            return TimeUtils.getTimeError(e.getMessage());
+        }
     }
 
 }

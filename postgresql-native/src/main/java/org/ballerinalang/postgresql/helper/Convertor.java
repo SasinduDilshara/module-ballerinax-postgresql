@@ -607,8 +607,8 @@ public class Convertor {
                 if(rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
                     && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)){
 
-                    String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
-                    String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
+                    String upperValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.UPPER)).toString();
+                    String lowerValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.LOWER)).toString();
                     boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
                     boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
@@ -644,8 +644,8 @@ public class Convertor {
                 if(rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
                     && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)){
 
-                    String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
-                    String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
+                    String upperValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.UPPER)).toString();
+                    String lowerValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.LOWER)).toString();
                     boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
                     boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
@@ -681,8 +681,8 @@ public class Convertor {
                 if(rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
                     && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)){
 
-                    String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
-                    String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
+                    String upperValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.UPPER)).toString();
+                    String lowerValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.LOWER)).toString();
                     boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
                     boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
