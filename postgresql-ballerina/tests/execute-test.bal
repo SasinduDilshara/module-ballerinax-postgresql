@@ -1005,40 +1005,44 @@ function testInsertIntoXmlDataTable() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, "xml_db"), 1, rowId);
 }
 
-@test:Config {
-    groups: ["datatypes"],
-    dependsOn: [testInsertIntoXmlDataTable]
-}
-function testInsertIntoXmlDataTable2() {
-    int rowId = 4;
-    // XmlValue xmlType = new ();
-    xml? xmlType = ();
+// @test:Config {
+//     groups: ["datatypes"],
+//     dependsOn: [testInsertIntoXmlDataTable]
+// }
+// function testInsertIntoXmlDataTable2() {
+//     int rowId = 4;
+//     // XmlValue xmlType = new ();
+//     PGXmlValue xmlType = new();
 
-    sql:ParameterizedQuery sqlQuery =
-      `
-    INSERT INTO XmlTypes (row_id, xml_type)
-            VALUES(${rowId}, ${xmlType})
-    `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "xml_db"), 1, rowId);
-}
+//     sql:ParameterizedQuery sqlQuery =
+//       `
+//     INSERT INTO XmlTypes (row_id, xml_type)
+//             VALUES(${rowId}, ${xmlType})
+//     `;
+//     validateResult(executeQueryPostgresqlClient(sqlQuery, "xml_db"), 1, rowId);
+// }
 
-@test:Config {
-    groups: ["datatypes"],
-    dependsOn: [testInsertIntoXmlDataTable2]
-}
-function testSelectFromXmlDataTable() {
-    int rowId = 3;
+// @test:Config {
+//     groups: ["datatypes"],
+//     dependsOn: [testInsertIntoXmlDataTable]
+// }
+// function testSelectFromXmlDataTable() {
+//     int rowId = 3;
     
-    sql:ParameterizedQuery sqlQuery = `select * from Xmltypes where row_id = ${rowId}`;
+//     sql:ParameterizedQuery sqlQuery = `select * from Xmltypes where row_id = ${rowId}`;
 
-    _ = validateXmlTableResult(simpleQueryPostgresqlClient(sqlQuery, XmlRecord, database = "xml_db"));
-}
+//     _ = validateXmlTableResult(simpleQueryPostgresqlClient(sqlQuery, XmlRecord, database = "xml_db"));
+// }
 
 public function validateXmlTableResult(record{}? returnData) {
     if (returnData is ()) {
         test:assertFail("Empty row returned.");
     } else {
         test:assertEquals(returnData["row_id"], 3);
-        test:assertEquals(returnData["xml_type"], xml `<foo>Value</foo>`);
+        test:assertEquals(returnData["xml_type"], xml `<foo>Test</foo>`);
     } 
 }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+

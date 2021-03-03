@@ -358,7 +358,7 @@ public class RegtypeValue {
 }
 
 # Represents regtype PostgreSQL Field
-public class XmlValue {
+public class PGXmlValue {
     public string|xml? value;
     public function init(string|xml? value = ()) {
         self.value = value;

@@ -338,6 +338,9 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.REGTYPE:
                 setRegtype(preparedStatement, index, value);
                 break;
+            case Constants.PGTypeNames.XML:
+                setXml(connection, preparedStatement, index, value);
+                break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
         }
@@ -729,6 +732,16 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             preparedStatement.setObject(index, null);
         } else {
             Object object = Convertor.convertRegtype(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setXml(Connection connection, PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertXml(connection, value);
             preparedStatement.setObject(index, object);
         }
     }

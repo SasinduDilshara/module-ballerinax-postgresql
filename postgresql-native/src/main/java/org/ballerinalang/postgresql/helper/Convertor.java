@@ -18,11 +18,12 @@
 
 package org.ballerinalang.postgresql.helper;
 
-
+import org.postgresql.core.BaseConnection;
 import org.postgresql.util.PGobject;
 import org.postgresql.geometric.*;
 import org.postgresql.util.PGInterval;
 import org.postgresql.util.PGmoney;
+import org.postgresql.jdbc.PgSQLXML;
 
 import io.ballerina.runtime.api.Module;
 import io.ballerina.runtime.api.PredefinedTypes;
@@ -876,6 +877,12 @@ public class Convertor {
             System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
 
             return pgobject;
+        }
+
+        public static Object convertXml(Connection connection, Object value){
+            String xmlValue = value.toString();
+            SQLXML xml = new PgSQLXML((BaseConnection) connection,xmlValue);
+            return xml;
         }
 
 

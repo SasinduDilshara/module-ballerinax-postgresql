@@ -191,6 +191,8 @@ public final class Constants {
         public static final String REGPROCEDURE = "RegprocedureValue";
         public static final String REGROLE = "RegroleValue";
         public static final String REGTYPE= "RegtypeValue";
+
+        public static final String XML = "PGXmlValue";
     }
 
     public static final class PGtypes{
