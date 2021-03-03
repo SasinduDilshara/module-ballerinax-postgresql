@@ -17,6 +17,8 @@ public function initTestScripts() {
     _ = uuidInitDB(); 
     _ = tsInitDB();
     _ = jsonInitDB(); 
+    _ = dateTimeInitDB();
+    _ = rangeInitDB(); 
 }
 
 public function createDatabases() {
@@ -51,6 +53,10 @@ public function createDatabases() {
         _ = createQuery(`CREATE DATABASE TS_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS JSON_DB`);
         _ = createQuery(`CREATE DATABASE JSON_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS DATETIME_DB`);
+        _ = createQuery(`CREATE DATABASE DATETIME_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS RANGE_DB`);
+        _ = createQuery(`CREATE DATABASE RANGE_DB`);
     }
 
 public function connectionInitDb() {
@@ -730,8 +736,8 @@ public function jsonInitDB() {
             jsonpath_type
             ) 
         VALUES (
-            '{'key': 'value'}',
-            '{'key': 'value'}',
+            '{"key": "value"}',
+            '{"key": "value"}',
             '$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 1)'
             );
 
@@ -739,6 +745,87 @@ public function jsonInitDB() {
     _ = executeQuery("json_db", jsonTableCreateQuery);
     _ = executeQuery("json_db", jsonTableInsertQuery);
 
+}
+
+public function dateTimeInitDB() {
+    sql:ParameterizedQuery datetimeTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS DateTimeTypes;
+    CREATE TABLE IF NOT EXISTS DateTimeTypes(
+        row_id SERIAL,
+        time_type TIME,
+        timetz_type TIMETZ,
+        timestamp_type TIMESTAMP,
+        timestamptz_type TIMESTAMPTZ,
+        date_type DATE,
+        interval_type INTERVAL,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery datetimeTableInsertQuery = 
+    `
+        INSERT INTO DateTimeTypes(
+            time_type,
+            timetz_type,
+            timestamp_type,
+            timestamptz_type,
+            date_type,
+            interval_type
+            ) 
+        VALUES (
+            '04:05:06',
+            '2003-04-12 04:05:06 America/New_York',
+            '1999-01-08 04:05:06',
+            '2004-10-19 10:23:54+02',
+            '1999-01-08',
+            'P1Y2M3DT4H5M6S'
+            );
+
+    `;
+    _ = executeQuery("datetime_db", datetimeTableCreateQuery);
+    _ = executeQuery("datetime_db", datetimeTableInsertQuery);
+}
+
+public function rangeInitDB() {
+    sql:ParameterizedQuery rangeTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS RangeTypes;
+    CREATE TABLE IF NOT EXISTS RangeTypes(
+        row_id SERIAL,
+        int4range_type INT4RANGE,
+        int8range_type INT8RANGE,
+        numrange_type NUMRANGE,
+        tsrange_type TSRANGE,
+        tstzrange_type TSTZRANGE,
+        daterange_type DATERANGE,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery rangeTableInsertQuery = 
+    `
+        INSERT INTO RangeTypes(
+            int4range_type,
+            int8range_type,
+            numrange_type,
+            tsrange_type,
+            tstzrange_type,
+            daterange_type
+            ) 
+        VALUES (
+            '(2,50)', 
+            '(10,100)','(0,24)', 
+            '(2010-01-01 14:30, 2010-01-01 15:30)', 
+            '(2010-01-01 14:30, 2010-01-01 15:30)', 
+            '(2010-01-01 14:30, 2010-01-03 )'
+            );
+
+    `;
+    _ = executeQuery("range_db", rangeTableCreateQuery);
+    _ = executeQuery("range_db", rangeTableInsertQuery);
 }
 
 public function createQuery(sql:ParameterizedQuery query) {

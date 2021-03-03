@@ -165,6 +165,8 @@ public final class Constants {
         public static final String JSONB = "JsonbValue";
         public static final String JSONPATH = "JsonpathValue";
 
+        public static final String INTERVAL = "IntervalValue";
+
         public static final String INT4RANGE = "Int4rangeValue";
         public static final String INT8RANGE = "Int8rangeValue";
         public static final String NUMRANGE = "NumrangeValue";
@@ -172,8 +174,9 @@ public final class Constants {
         public static final String TSTZRANGE = "TstzrangeValue";
         public static final String DATERANGE= "DaterangeValue";
 
-        public static final String BIT = "bit";
-        public static final String VARBIT = "varbit";
+        public static final String PGBIT = "PGBitValue";
+        public static final String VARBITSTRING = "VarbitstringValue";
+        public static final String BITSTRING = "BitstringValue";
 
         public static final String PGLSN = "pg_lsn";
 
@@ -214,10 +217,11 @@ public final class Constants {
         public static final String TSTZRANGE = "tstzrange";
         public static final String DATERANGE= "daterange";
 
-        public static final String BIT = "bit";
-        public static final String VARBIT = "varbit";
+        public static final String BITSTRING = "BitstringValue";
+        public static final String VARBITSTRING = "VarbitstringValue";
+        public static final String PGBIT = "PGBitValue";
 
-        public static final String PGLSN = "pg_lsn";
+        public static final String PGLSN = "PglsnValue";
 
         public static final String REGCLASS = "regclass";
         public static final String REGCONFIG = "regconfig";

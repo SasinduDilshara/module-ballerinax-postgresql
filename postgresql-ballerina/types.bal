@@ -1,5 +1,6 @@
 import ballerina/jballerina.java;
 import ballerina/sql;
+import ballerina/time;
 # PostgreSQL Network Data types.
 
 # Represents Inet PostgreSQL Field
@@ -153,115 +154,115 @@ public class JsonpathValue {
     }  
 }
 
-// # Represents Time interval PostgreSQL Field
-// public class IntervalValue {
-//     any value;
+# Represents Time interval PostgreSQL Field
+public class IntervalValue {
+    public record{int years = 0; int months = 0;int days = 0; int hours = 0; int minutes = 0; decimal seconds = 0;}|string? value;
 
-//     public function init(record{int years = 0; int months = 0;int days = 0; int hours = 0; int minutes = 0; decimal seconds = 0;}|string? value = ()) {
-//         self.value = convertInterval(value);
-//     }
-// }
+    public function init(record{int years = 0; int months = 0;int days = 0; int hours = 0; int minutes = 0; decimal seconds = 0;}|string? value = ()) {
+        self.value = (value);
+    }
+}
 
-// # PostgreSQL Range Data types.
+# PostgreSQL Range Data types.
 
-// # Represents Int4 range PostgreSQL Field
-// public class Int4rangeValue {
-//     any value;
+# Represents Int4 range PostgreSQL Field
+public class Int4rangeValue {
+    public record{int upper; int lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value;
 
-//     public function init(record{int upper; int lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
-//         self.value = convertInt4Range(value);
-//     }
-// }
+    public function init(record{int upper; int lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
+        self.value = value;
+    }
+}
 
-// # Represents Int8 range PostgreSQL Field
-// public class Int8rangeValue {
-//     any value;
+# Represents Int8 range PostgreSQL Field
+public class Int8rangeValue {
+    public record{int upper; int lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value;
 
-//     public function init(record{int upper; int lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
-//         self.value = convertInt8Range(value);
-//     }
-// }
+    public function init(record{int upper; int lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
+        self.value = value;
+    }
+}
 
-// # Represents Numerical range PostgreSQL Field
-// public class NumrangeValue {
-//     any value;
+# Represents Numerical range PostgreSQL Field
+public class NumrangeValue {
+    public record{decimal upper; decimal lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value;
 
-//     public function init(record{decimal upper; decimal lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
-//         self.value = convertNumRange(value);
-//     }
-// }
+    public function init(record{decimal upper; decimal lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
+        self.value = value;
+    }
+}
 
-// # Represents Timestamp range PostgreSQL Field
-// public class TsrangeValue {
-//     any value;
+# Represents Timestamp range PostgreSQL Field
+public class TsrangeValue {
+    public record{time:Time|string upper; time:Time|string lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value;
 
-//     public function init(record{time:Time|string upper; time:Time|string lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
-//         self.value = convertTsRange(value);
-//     }
-// }
+    public function init(record{time:Time|string upper; time:Time|string lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
+        self.value = value;
+    }
+}
 
-// # Represents Timestamp with timezone range PostgreSQL Field
-// public class TstzrangeValue {
-//     any value;
+# Represents Timestamp with timezone range PostgreSQL Field
+public class TstzrangeValue {
+    public record{time:Time|string  upper; time:Time|string  lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value;
 
-//     public function init(record{time:Time|string  upper; time:Time|string  lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
-//         self.value = convertTstzRange(value);
-//     }
-// }
+    public function init(record{time:Time|string  upper; time:Time|string  lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
+        self.value = value;
+    }
+}
 
-// # Represents Date range PostgreSQL Field
-// public class DaterangeValue {
-//     any value;
+# Represents Date range PostgreSQL Field
+public class DaterangeValue {
+    public record{time:Time|string  upper; time:Time|string  lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value;
 
-//     public function init(record{time:Time|string  upper; time:Time|string  lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
-//         self.value = convertDateRange(value);
-//     }
-// }
-
-
-// # Represents Pg_lsn PostgreSQL Field
-// public class PglsnValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertPglsn(value);
-//     }  
-// }
+    public function init(record{time:Time|string  upper; time:Time|string  lower; boolean isUpperboundInclusive = false; boolean isLowerboundInclusive = false;}|string? value = ()) {
+        self.value = value;
+    }
+}
 
 
-// # PostgreSQL Bit String Data types.
+# Represents Pg_lsn PostgreSQL Field
+public class PglsnValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents Bit(n) PostgreSQL Field
-// public class BitstringValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertBitn(value);
-//     }  
-// }
 
-// # Represents Bit vary(n) PostgreSQL Field
-// public class VarbitstringValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertVarbit(value);
-//     }  
-// }
+# PostgreSQL Bit String Data types.
 
-// # Represents Bit PostgreSQL Field
-// public class PGBitValue {
-//     any value;
-//     public function init(boolean|string? value = ()) {
-//         self.value = convertBit(value);
-//     }  
-// }
+# Represents Bit(n) PostgreSQL Field
+public class BitstringValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
+
+# Represents Bit vary(n) PostgreSQL Field
+public class VarbitstringValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
+
+# Represents Bit PostgreSQL Field
+public class PGBitValue {
+    public boolean|string? value;
+    public function init(boolean|string? value = ()) {
+        self.value = value;
+    }  
+}
    
 
-// # Represents Money PostgreSQL Field
-// public class MoneyValue {
-//     any value;
-//     public function init(decimal|string? value = ()) {
-//         self.value = convertMoney(value);
-//     }  
-// }
+# Represents Money PostgreSQL Field
+public class MoneyValue {
+    decimal|string? value;
+    public function init(decimal|string? value = ()) {
+        self.value = value;
+    }  
+}
 
 // # Represents User Define PostgreSQL Fields
 // # Enums, Complex types, Domain

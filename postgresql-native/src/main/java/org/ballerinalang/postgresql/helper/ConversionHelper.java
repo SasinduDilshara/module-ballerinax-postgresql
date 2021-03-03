@@ -103,9 +103,9 @@ public class ConversionHelper {
             rangeValue += "(";
         }
 
-        rangeValue += upper;
-        rangeValue += ",";
         rangeValue += lower;
+        rangeValue += ",";
+        rangeValue += upper;
 
         if(lowerInclusive){
             rangeValue += "]";

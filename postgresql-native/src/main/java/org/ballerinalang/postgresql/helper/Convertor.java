@@ -719,7 +719,7 @@ public class Convertor {
 
         public static Object convertBitn(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.BIT,stringValue);
+            PGobject pgobject = setPGobject(Constants.PGtypes.BITSTRING,stringValue);
             System.out.println("\nPGBIT(N) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
 
             return pgobject;
@@ -727,7 +727,7 @@ public class Convertor {
 
         public static Object convertVarbit(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.BIT,stringValue);
+            PGobject pgobject = setPGobject(Constants.PGtypes.VARBITSTRING,stringValue);
             System.out.println("\nPGVARBIT(N) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
 
             return pgobject;
@@ -742,7 +742,7 @@ public class Convertor {
             else{
                 stringValue = value.toString();
             }
-            PGobject pgobject = setPGobject(Constants.PGtypes.VARBIT,stringValue);
+            PGobject pgobject = setPGobject(Constants.PGtypes.PGBIT,stringValue);
             System.out.println("\nPGBIT(1) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
 
             return pgobject;

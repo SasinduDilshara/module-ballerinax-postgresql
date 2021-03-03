@@ -1,7 +1,7 @@
 import ballerina/sql;
 import ballerina/test;
-// import ballerina/io;
-// import ballerina/time;
+import ballerina/io;
+import ballerina/time;
 
 string networkDB = "network_db";
 
@@ -438,5 +438,239 @@ public function validateJsonTableResult(record{}? returnData) {
         test:assertEquals(returnData["json_type"], {"a":11,"b":2});
         test:assertEquals(returnData["jsonb_type"], {"a":11,"b":2});
         test:assertEquals(returnData["jsonpath_type"], "$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 10)");
+    } 
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+// public type DateTimeRecord record {
+//   int row_id;
+//   time:Time date_type;
+//   time:Time time_type;
+//   time:Time timetz_type;
+//   time:Time timestamp_type;
+//   time:Time timestamptz_type;
+//   IntervalValue interval_type;
+// };
+
+public type DateTimeRecord record {
+  int row_id;
+  string date_type;
+  string time_type;
+  string timetz_type;
+  string timestamp_type;
+  string timestamptz_type;
+  string interval_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testInsertIntoDateDataTable() {
+    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
+    if(timeValue is time:Time){
+        int rowId = 3;
+        sql:TimestampValue timestampType = new(timeValue);
+        sql:TimestampValue timestamptzType = new(timeValue);
+        sql:DateValue dateType = new(timeValue);
+        sql:TimeValue timeType = new(timeValue);
+        sql:TimeValue timetzType= new(timeValue);
+        IntervalValue intervalType= new({years:1,months:2,days:3,hours:4,minutes:5,seconds:6});
+
+        sql:ParameterizedQuery sqlQuery =
+            `
+            INSERT INTO DateTimeTypes (row_id, timestamp_type, timestamptz_type, date_type, time_type, timetz_type, interval_type)
+                    VALUES(${rowId}, ${timestampType}, ${timestamptzType}, ${dateType}, ${timeType}, ${timetzType}, ${intervalType})
+            `;
+        validateResult(executeQueryPostgresqlClient(sqlQuery, "datetime_db"), 1, rowId);
+    }
+    else{
+        test:assertFail("Invalid Time value generated ");
+    }
+}
+
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoDateDataTable]
+}
+function testInsertIntoDateDataTable2() {
+    int rowId = 4;
+    sql:TimestampValue timestampType = new();
+    sql:TimestampValue timestamptzType = new();
+    sql:DateValue dateType = new();
+    sql:TimeValue timeType = new();
+    sql:TimeValue timetzType= new();
+    IntervalValue intervalType = new();
+
+    sql:ParameterizedQuery sqlQuery =
+         `
+            INSERT INTO DateTimeTypes (row_id, timestamp_type, timestamptz_type, date_type, time_type, timetz_type, interval_type)
+                    VALUES(${rowId}, ${timestampType}, ${timestamptzType}, ${dateType}, ${timeType}, ${timetzType}, ${intervalType})
+        `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "datetime_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoDateDataTable2]
+}
+function testInsertIntoDateDataTable3() {
+    int rowId = 5;
+    IntervalValue intervalType= new("1 years 2 mons");
+
+    sql:ParameterizedQuery sqlQuery =
+            `
+        INSERT INTO DateTimeTypes (row_id, interval_type)
+                VALUES(${rowId}, ${intervalType})
+        `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "datetime_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoUuidDataTable2]
+}
+function testSelectFromDateDataTable() {
+    int rowId = 3;
+    
+    sql:ParameterizedQuery sqlQuery = `select * from DateTimeTypes where row_id = ${rowId}`;
+
+    _ = validateDateTableResult(simpleQueryPostgresqlClient(sqlQuery, DateTimeRecord, database = "datetime_db"));
+}
+
+public function validateDateTableResult(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        io:println(returnData);
+        test:assertEquals(returnData["row_id"], 3);
+        test:assertEquals(returnData["time_type"], "05:12:45.554+05:30");
+        test:assertEquals(returnData["timetz_type"], "23:42:45.554+05:30");
+        test:assertEquals(returnData["timestamp_type"], "2017-03-29T05:12:45.554+05:30");
+        test:assertEquals(returnData["timestamptz_type"], "2017-03-28T23:42:45.554+05:30");
+        test:assertEquals(returnData["date_type"], "2017-03-28+05:30");
+        test:assertEquals(returnData["interval_type"], "1 year 2 mons 3 days 04:05:06");
+    } 
+}
+
+//----------------------------------------------------------------------------------------------------------------
+
+// public type RangeRecord record {
+//   int row_id;
+//   record{} int4range_type;
+//   record{} int8range_type;
+//   record{} numrange_type;
+//   record{} tsrange_type;
+//   record{} tstzrange_type;
+//   record{} daterange_type;
+// };
+
+public type RangeRecord record {
+  int row_id;
+  string int4range_type;
+  string int8range_type;
+  string numrange_type;
+  string tsrange_type;
+  string tstzrange_type;
+  string daterange_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testInsertIntoRangeDataTable() {
+
+    time:Time|error startTime = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
+    time:Time|error endTime = time:createTime(2021, 6, 12, 11, 43, 55,324, "Asia/Colombo");
+    if((startTime is time:Time) && (endTime is time:Time)){
+    
+        int rowId = 3;
+        Int4rangeValue int4rangeType = new({upper:100 , lower:10 , isUpperboundInclusive: true, isLowerboundInclusive: false});
+        Int8rangeValue int8rangeType = new({upper:123450 , lower:13245 , isUpperboundInclusive: false , isLowerboundInclusive: true});
+        NumrangeValue numrangeType = new({upper: 12330.121, lower: 1229.12, isUpperboundInclusive: true, isLowerboundInclusive: true});
+        TsrangeValue tsrangeType = new({upper:endTime , lower:startTime});
+        TstzrangeValue tstzrangeType= new({upper:endTime , lower:startTime});
+        DaterangeValue daterangeType= new({upper:endTime , lower:startTime , isUpperboundInclusive: true , isLowerboundInclusive: true});
+
+        sql:ParameterizedQuery sqlQuery =
+            `
+            INSERT INTO RangeTypes (row_id, int4range_type, int8range_type, numrange_type, tsrange_type, tstzrange_type, daterange_type)
+                    VALUES(${rowId}, ${int4rangeType}, ${int8rangeType}, ${numrangeType}, ${tsrangeType}, ${tstzrangeType}, ${daterangeType})
+            `;
+        validateResult(executeQueryPostgresqlClient(sqlQuery, "range_db"), 1, rowId);
+    }
+    else{
+        test:assertFail("Invalid Time value generated ");
+    }
+}
+
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoDateDataTable]
+}
+function testInsertIntoRangeDataTable2() {
+    int rowId = 4;
+    Int4rangeValue int4rangeType = new();
+    Int8rangeValue int8rangeType = new();
+    NumrangeValue numrangeType = new();
+    TsrangeValue tsrangeType = new();
+    TstzrangeValue tstzrangeType= new();
+    DaterangeValue daterangeType = new();
+
+         sql:ParameterizedQuery sqlQuery =
+            `
+            INSERT INTO RangeTypes (row_id, int4range_type, int8range_type, numrange_type, tsrange_type, tstzrange_type, daterange_type)
+                    VALUES(${rowId}, ${int4rangeType}, ${int8rangeType}, ${numrangeType}, ${tsrangeType}, ${tstzrangeType}, ${daterangeType})
+            `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "range_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoDateDataTable2]
+}
+function testInsertIntoRangeDataTable3() {
+    int rowId = 5;
+    Int4rangeValue int4rangeType = new("(2,50)");
+    Int8rangeValue int8rangeType = new("(10,100)");
+    NumrangeValue numrangeType = new("(0.1,2.4)");
+    TsrangeValue tsrangeType = new("(2010-01-01 14:30, 2010-01-01 15:30)");
+    TstzrangeValue tstzrangeType= new("(2010-01-01 14:30, 2010-01-01 15:30)");
+    DaterangeValue daterangeType= new("(2010-01-01 14:30, 2010-01-03 )");
+
+    sql:ParameterizedQuery sqlQuery =
+        `
+        INSERT INTO RangeTypes (row_id, int4range_type, int8range_type, numrange_type, tsrange_type, tstzrange_type, daterange_type)
+                VALUES(${rowId}, ${int4rangeType}, ${int8rangeType}, ${numrangeType}, ${tsrangeType}, ${tstzrangeType}, ${daterangeType})
+        `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "range_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoUuidDataTable2]
+}
+function testSelectFromRangeDataTable() {
+    int rowId = 3;
+    
+    sql:ParameterizedQuery sqlQuery = `select * from RangeTypes where row_id = ${rowId}`;
+
+    _ = validateRangeTableResult(simpleQueryPostgresqlClient(sqlQuery, RangeRecord, database = "range_db"));
+}
+
+public function validateRangeTableResult(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        io:println(returnData);
+        test:assertEquals(returnData["row_id"], 3);
+        // test:assertEquals(returnData["time_type"], "05:12:45.554+05:30");
+        // test:assertEquals(returnData["timetz_type"], "23:42:45.554+05:30");
+        // test:assertEquals(returnData["timestamp_type"], "2017-03-29T05:12:45.554+05:30");
+        // test:assertEquals(returnData["timestamptz_type"], "2017-03-28T23:42:45.554+05:30");
+        // test:assertEquals(returnData["date_type"], "2017-03-28+05:30");
+        // test:assertEquals(returnData["interval_type"], "1 year 2 mons 3 days 04:05:06");
     } 
 }

@@ -272,6 +272,27 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.JSONPATH:
                 setJsonpath(preparedStatement, index, value);
                 break;
+            case Constants.PGTypeNames.INTERVAL:
+                setInterval(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.INT4RANGE:
+                setInt4Range(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.INT8RANGE:
+                setInt8Range(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.NUMRANGE:
+                setNumRange(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.TSRANGE:
+                setTsRange(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.TSTZRANGE:
+                setTstzRange(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.DATERANGE:
+                setDateRange(preparedStatement, index, value);
+                break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
         }
@@ -443,6 +464,76 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             preparedStatement.setObject(index, null);
         } else {
             Object object = Convertor.convertJsonPath(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setInterval(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertInterval(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setInt4Range(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertInt4Range(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setInt8Range(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertInt8Range(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setNumRange(PreparedStatement preparedStatement, int index, Object value)
+    throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertNumRange(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setTsRange(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertTsRange(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setTstzRange(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertTstzRange(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setDateRange(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertDateRange(value);
             preparedStatement.setObject(index, object);
         }
     }
