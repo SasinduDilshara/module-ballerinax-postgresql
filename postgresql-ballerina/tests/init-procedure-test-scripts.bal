@@ -2,6 +2,7 @@ import ballerina/sql;
 
 public function initProcedureTestScripts() {
     _ =  createNetworkProcedure();
+    _ =  createGeometricProcedure();
 }
 
 public function createNetworkProcedure() {
@@ -21,4 +22,38 @@ public function createNetworkProcedure() {
         end;$$  
     `;
     _ = executeQuery("network_db", networkProcedureCreationQuery);
+}
+
+public function createGeometricProcedure() {
+    sql:ParameterizedQuery geometricProcedureCreationQuery = `
+        create or replace procedure GeometricProcedure(
+            row_id bigint,
+            point_type point,
+            line_type line,
+            lseg_type lseg,
+            box_type box,
+            circle_type circle
+            )
+            language plpgsql    
+            as $$
+            begin
+                INSERT INTO GeometricTypes(
+                    row_id,
+                    point_type,
+                    line_type,
+                    lseg_type,
+                    box_type,
+                    circle_type
+                    ) 
+                VALUES (
+                    row_id,
+                    point_type,
+                    line_type,
+                    lseg_type,
+                    box_type,
+                    circle_type
+                    );
+        end;$$  
+    `;
+    _ = executeQuery("geometric_db", geometricProcedureCreationQuery);
 }
