@@ -14,7 +14,7 @@
 // under the License.
 
 import ballerina/sql;
-import ballerina/test;
+// import ballerina/test;
 
 string proceduresDb = "procedures_db";
 
@@ -31,10 +31,10 @@ string proceduresDb = "procedures_db";
 //     string varchar_type;
 // };
 
-@test:Config {
-    groups: ["procedures"]
-}
-function testCallWithStringTypes() returns @tainted record {}|error? {
+// @test:Config {
+//     groups: ["procedures"]
+// }
+// function testCallWithStringTypes() returns @tainted record {}|error? {
 //     Client dbClient = checkpanic new (host, user, password, proceduresDb, port);
 //     sql:ProcedureCallResult ret = checkpanic dbClient->call("{call InsertStringData(2,'test1', 'test2', 'c', 'test3', 'd', 'test4')};");
 
@@ -50,7 +50,7 @@ function testCallWithStringTypes() returns @tainted record {}|error? {
 //         nvarcharmax_type: "test4"
 //     };
 //     test:assertEquals(queryMySQLClient(dbClient, sqlQuery), expectedDataRow, "Call procedure insert and query did not match.");
-}
+// }
 
 // @test:Config {
 //     groups: ["procedures"],
