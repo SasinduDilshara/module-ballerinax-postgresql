@@ -23,6 +23,7 @@ public function initTestScripts() {
     _ = pglsnInitDB(); 
     _ = moneyInitDB();
     _ = objectidentifierInitDB();
+    _ = xmlInitDB();
 }
 
 public function createDatabases() {
@@ -69,6 +70,8 @@ public function createDatabases() {
         _ = createQuery(`CREATE DATABASE MONEY_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS OBJECTIDENTIFIER_DB`);
         _ = createQuery(`CREATE DATABASE OBJECTIDENTIFIER_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS XML_DB`);
+        _ = createQuery(`CREATE DATABASE XML_DB`);
     }
 
 public function connectionInitDb() {
@@ -957,15 +960,61 @@ public function objectidentifierInitDB() {
     sql:ParameterizedQuery objectidentifierTableInsertQuery = 
     `
         INSERT INTO objectidentIfiertypes(
-            oid_type
+            oid_type,
+            regclass_type,
+            regconfig_type,
+            regdictionary_type,
+            regnamespace_type,
+            regoper_type,
+            regoperator_type,
+            regproc_type,
+            regprocedure_type,
+            regrole_type,
+            regtype_type
             ) 
         VALUES (
-            '12'
+            '12',
+            'pg_type',
+            'english',
+            'simple',
+            'pg_catalog',
+            '!',
+            '*(integer,integer)',
+            'now',
+            'sum(integer)',
+            'postgres',
+            'integer'
             );
 
     `;
     _ = executeQuery("objectidentifier_db", objectidentifierTableCreateQuery);
     _ = executeQuery("objectidentifier_db", objectidentifierTableInsertQuery);
+}
+
+public function xmlInitDB() {
+        sql:ParameterizedQuery xmlTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS XmlTypes;
+    CREATE TABLE IF NOT EXISTS XmlTypes(
+        row_id SERIAL,
+        xml_type XML,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery xmlTableInsertQuery = 
+    `
+        INSERT INTO XmlTypes(
+            xml_type
+            ) 
+        VALUES (
+            '<foo><tag>bar</tag><tag>tag</tag></foo>'
+            );
+
+    `;
+    _ = executeQuery("xml_db", xmlTableCreateQuery);
+    _ = executeQuery("xml_db", xmlTableInsertQuery);
 }
 
 public function createQuery(sql:ParameterizedQuery query) {
