@@ -293,6 +293,15 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.DATERANGE:
                 setDateRange(preparedStatement, index, value);
                 break;
+            case Constants.PGTypeNames.PGBIT:
+                setPGBit(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.VARBITSTRING:
+                setVarBitString(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.BITSTRING:
+                setBitString(preparedStatement, index, value);
+                break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
         }
@@ -534,6 +543,36 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             preparedStatement.setObject(index, null);
         } else {
             Object object = Convertor.convertDateRange(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setPGBit(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertBit(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setVarBitString(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertVarbit(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setBitString(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertBitn(value);
             preparedStatement.setObject(index, object);
         }
     }

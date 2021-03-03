@@ -153,7 +153,7 @@ function testInsertIntoGeometricDataTable2() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoGeometricDataTable]
+    dependsOn: [testInsertIntoGeometricDataTable2]
 }
 function testInsertIntoGeometricDataTable3() {
     int rowId = 6;
@@ -308,7 +308,7 @@ function testInsertIntoTextSearchDataTable() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoUuidDataTable]
+    dependsOn: [testInsertIntoTextSearchDataTable]
 }
 function testInsertIntoTextSearchDataTable2() {
     int rowId = 4;
@@ -325,7 +325,7 @@ function testInsertIntoTextSearchDataTable2() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoUuidDataTable2]
+    dependsOn: [testInsertIntoTextSearchDataTable2]
 }
 function testSelectFromTextSearchDataTable() {
     int rowId = 3;
@@ -383,7 +383,7 @@ function testInsertIntoJsonDataTable() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoUuidDataTable]
+    dependsOn: [testInsertIntoJsonDataTable]
 }
 function testInsertIntoJsonDataTable2() {
     int rowId = 4;
@@ -401,7 +401,7 @@ function testInsertIntoJsonDataTable2() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoUuidDataTable2]
+    dependsOn: [testInsertIntoJsonDataTable2]
 }
 function testInsertIntoJsonDataTable3() {
     int rowId = 5;
@@ -420,7 +420,7 @@ function testInsertIntoJsonDataTable3() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoUuidDataTable2]
+    dependsOn: [testInsertIntoJsonDataTable3]
 }
 function testSelectFromJsonDataTable() {
     int rowId = 5;
@@ -529,7 +529,7 @@ function testInsertIntoDateDataTable3() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoUuidDataTable2]
+    dependsOn: [testInsertIntoDateDataTable3]
 }
 function testSelectFromDateDataTable() {
     int rowId = 3;
@@ -610,7 +610,7 @@ function testInsertIntoRangeDataTable() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoDateDataTable]
+    dependsOn: [testInsertIntoRangeDataTable]
 }
 function testInsertIntoRangeDataTable2() {
     int rowId = 4;
@@ -631,7 +631,7 @@ function testInsertIntoRangeDataTable2() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoDateDataTable2]
+    dependsOn: [testInsertIntoRangeDataTable2]
 }
 function testInsertIntoRangeDataTable3() {
     int rowId = 5;
@@ -652,7 +652,7 @@ function testInsertIntoRangeDataTable3() {
 
 @test:Config {
     groups: ["datatypes"],
-    dependsOn: [testInsertIntoUuidDataTable2]
+    dependsOn: [testInsertIntoRangeDataTable3]
 }
 function testSelectFromRangeDataTable() {
     int rowId = 5;
@@ -676,3 +676,80 @@ public function validateRangeTableResult(record{}? returnData) {
         test:assertEquals(returnData["daterange_type"], "[2010-01-02,2010-01-03)");
     } 
 }
+
+//-----------------------------------------------------------------------------------------------------------------------
+
+public type BitRecord record {
+  int row_id;
+  string bitstring_type;
+  string varbitstring_type;
+  string bit_type;
+};
+//         json jj = {"a":11,"b":2};
+//         json jj2 = {"a":22,"b":2};
+//         json jj3 = {"a":33,"b":2};
+
+//         // postgresql:JsonValue j = new(jj);
+//         // postgresql:JsonValue j2 = new(jj2);
+//         // postgresql:JsonValue j3 = new(jj3);
+
+//         // postgresql:JsonValue j = new("{\"a\":1,\"b\":\"Hello\"}");
+//         // postgresql:JsonValue j2 = new("{\"a\":2,\"b\":\"Hello\"}");
+//         // postgresql:JsonValue j3 = new("{\"a\":3,\"b\":\"Hello\"}");
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testInsertIntoBitDataTable() {
+    int rowId = 3;
+    BitstringValue bitstringType = new("1110001100");
+    VarbitstringValue varbitstringType = new("11001");
+    PGBitValue bitType = new("0");
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO BitTypes (row_id, bitstring_type, varbitstring_type, bit_type)
+            VALUES(${rowId}, ${bitstringType}, ${varbitstringType}, ${bitType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "bitstring_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoBitDataTable]
+}
+function testInsertIntoBitDataTable2() {
+    int rowId = 4;
+    BitstringValue bitstringType = new();
+    VarbitstringValue varbitstringType = new();
+    PGBitValue bitType = new();
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO BitTypes (row_id, bitstring_type, varbitstring_type, bit_type)
+            VALUES(${rowId}, ${bitstringType}, ${varbitstringType}, ${bitType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "bitstring_db"), 1, rowId);
+}
+
+// @test:Config {
+//     groups: ["datatypes"],
+//     dependsOn: [testInsertIntoBitDataTable2]
+// }
+// function testSelectFromBitDataTable() {
+//     int rowId = 3;
+    
+//     sql:ParameterizedQuery sqlQuery = `select * from BitTypes where row_id = ${rowId}`;
+
+//     _ = validateBitTableResult(simpleQueryPostgresqlClient(sqlQuery, BitRecord, database = "bitstring_db"));
+// }
+
+// public function validateBitTableResult(record{}? returnData) {
+//     if (returnData is ()) {
+//         test:assertFail("Empty row returned.");
+//     } else {
+//         test:assertEquals(returnData["row_id"], 3);
+//         test:assertEquals(returnData["bitstring_type"], "1110001100");
+//         test:assertEquals(returnData["varbitstring_type"], "11001");
+//         test:assertEquals(returnData["bit_type"], "0");
+//     } 
+// }

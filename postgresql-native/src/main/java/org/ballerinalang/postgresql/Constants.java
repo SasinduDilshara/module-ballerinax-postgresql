@@ -178,7 +178,8 @@ public final class Constants {
         public static final String VARBITSTRING = "VarbitstringValue";
         public static final String BITSTRING = "BitstringValue";
 
-        public static final String PGLSN = "pg_lsn";
+        public static final String PGLSN = "PglsnValue";
+        public static final String MONEY = "MoneyValue";
 
         public static final String REGCLASS = "regclass";
         public static final String REGCONFIG = "regconfig";
@@ -217,11 +218,11 @@ public final class Constants {
         public static final String TSTZRANGE = "tstzrange";
         public static final String DATERANGE= "daterange";
 
-        public static final String BITSTRING = "BitstringValue";
-        public static final String VARBITSTRING = "VarbitstringValue";
-        public static final String PGBIT = "PGBitValue";
+        public static final String BITSTRING = "bit";
+        public static final String VARBITSTRING = "varbit";
+        public static final String PGBIT = "bit";
 
-        public static final String PGLSN = "PglsnValue";
+        public static final String PGLSN = "pg_lsn";
 
         public static final String REGCLASS = "regclass";
         public static final String REGCONFIG = "regconfig";

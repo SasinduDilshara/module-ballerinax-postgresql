@@ -19,6 +19,7 @@ public function initTestScripts() {
     _ = jsonInitDB(); 
     _ = dateTimeInitDB();
     _ = rangeInitDB(); 
+    _ = bitStringInitDB();
 }
 
 public function createDatabases() {
@@ -57,6 +58,8 @@ public function createDatabases() {
         _ = createQuery(`CREATE DATABASE DATETIME_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS RANGE_DB`);
         _ = createQuery(`CREATE DATABASE RANGE_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS BITSTRING_DB`);
+        _ = createQuery(`CREATE DATABASE BITSTRING_DB`);
     }
 
 public function connectionInitDb() {
@@ -826,6 +829,38 @@ public function rangeInitDB() {
     `;
     _ = executeQuery("range_db", rangeTableCreateQuery);
     _ = executeQuery("range_db", rangeTableInsertQuery);
+}
+
+public function bitStringInitDB() {
+    sql:ParameterizedQuery rangeTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS BitTypes;
+    CREATE TABLE IF NOT EXISTS BitTypes(
+        row_id SERIAL,
+        bitstring_type BIT(10),
+        varbitstring_type BIT VARYING(10),
+        bit_type BIT,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery rangeTableInsertQuery = 
+    `
+        INSERT INTO BitTypes(
+            bitstring_type,
+            varbitstring_type,
+            bit_type
+            ) 
+        VALUES (
+            '1110000111', 
+            '1101', 
+            '1'
+            );
+
+    `;
+    _ = executeQuery("bitstring_db", rangeTableCreateQuery);
+    _ = executeQuery("bitstring_db", rangeTableInsertQuery);
 }
 
 public function createQuery(sql:ParameterizedQuery query) {
