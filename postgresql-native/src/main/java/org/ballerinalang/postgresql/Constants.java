@@ -181,16 +181,16 @@ public final class Constants {
         public static final String PGLSN = "PglsnValue";
         public static final String MONEY = "MoneyValue";
 
-        public static final String REGCLASS = "regclass";
-        public static final String REGCONFIG = "regconfig";
-        public static final String REGDICTIONARY = "regdictionary";
-        public static final String REGNAMESPACE = "regnamespace";
-        public static final String REGOPER = "regoper";
-        public static final String REGOPERATOR = "regoperator";
-        public static final String REGPROC = "regproc";
-        public static final String REGPROCEDURE = "regprocedure";
-        public static final String REGROLE = "regrole";
-        public static final String REGTYPE= "regtype";
+        public static final String REGCLASS = "RegclassValue";
+        public static final String REGCONFIG = "RegconfigValue";
+        public static final String REGDICTIONARY = "RegdictionaryValue";
+        public static final String REGNAMESPACE = "RegnamespaceValue";
+        public static final String REGOPER = "RegoperValue";
+        public static final String REGOPERATOR = "RegoperatorValue";
+        public static final String REGPROC = "RegprocValue";
+        public static final String REGPROCEDURE = "RegprocedureValue";
+        public static final String REGROLE = "RegroleValue";
+        public static final String REGTYPE= "RegtypeValue";
     }
 
     public static final class PGtypes{

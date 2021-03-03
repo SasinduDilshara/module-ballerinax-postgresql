@@ -302,6 +302,42 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.BITSTRING:
                 setBitString(preparedStatement, index, value);
                 break;
+            case Constants.PGTypeNames.PGLSN:
+                setPglsn(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.MONEY:
+                setMoney(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGCLASS:
+                setRegclass(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGCONFIG:
+                setRegconfig(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGDICTIONARY:
+                setRegdictionary(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGNAMESPACE:
+                setRegnamespace(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGOPER:
+                setRegoper(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGOPERATOR:
+                setRegoperator(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGPROC:
+                setRegproc(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGPROCEDURE:
+                setRegprocedure(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGROLE:
+                setRegrole(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.REGTYPE:
+                setRegtype(preparedStatement, index, value);
+                break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
         }
@@ -573,6 +609,126 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             preparedStatement.setObject(index, null);
         } else {
             Object object = Convertor.convertBitn(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setPglsn(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertPglsn(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setMoney(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertMoney(value);
+            preparedStatement.setObject(index, object);
+        }
+    }  
+    
+    private void setRegclass(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegclass(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegconfig(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegconfig(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegdictionary(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegdictionary(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegnamespace(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegnamespace(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegoper(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegoper(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegoperator(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegoperator(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegproc(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegproc(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegprocedure(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegprocedure(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegrole(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegrole(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setRegtype(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = Convertor.convertRegtype(value);
             preparedStatement.setObject(index, object);
         }
     }

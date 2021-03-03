@@ -258,7 +258,7 @@ public class PGBitValue {
 
 # Represents Money PostgreSQL Field
 public class MoneyValue {
-    decimal|string? value;
+    public decimal|string? value;
     public function init(decimal|string? value = ()) {
         self.value = value;
     }  
@@ -276,88 +276,86 @@ public class MoneyValue {
 // }
 
 
-// # PostgreSQL Object identifier Data types.
-// # Represents regclass PostgreSQL Field
-// public class RegclassValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegclass(value);
-//     }  
-// }
+# PostgreSQL Object identifier Data types.
+# Represents regclass PostgreSQL Field
+public class RegclassValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regconfig PostgreSQL Field
-// public class RegconfigValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegconfig(value);
-//     }  
-// }
+# Represents regconfig PostgreSQL Field
+public class RegconfigValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regdictionary PostgreSQL Field
-// public class RegdictionaryValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegdictionary(value);
-//     }  
-// }
+# Represents regdictionary PostgreSQL Field
+public class RegdictionaryValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regnamespace PostgreSQL Field
-// public class RegnamespaceValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegnamespace(value);
-//     }  
-// }
+# Represents regnamespace PostgreSQL Field
+public class RegnamespaceValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regoper PostgreSQL Field
-// public class RegoperValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegoper(value);
-//     }  
-// }
+# Represents regoper PostgreSQL Field
+public class RegoperValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regoperator PostgreSQL Field
-// public class RegoperatorValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegoperator(value);
-//     }  
-// }
+# Represents regoperator PostgreSQL Field
+public class RegoperatorValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regproc PostgreSQL Field
-// public class RegprocValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegproc(value);
-//     }  
-// }
+# Represents regproc PostgreSQL Field
+public class RegprocValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regprocedure PostgreSQL Field
-// public class RegprocedureValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegprocedure(value);
-//     }  
-// }
+# Represents regprocedure PostgreSQL Field
+public class RegprocedureValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regrole PostgreSQL Field
-// public class RegroleValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegrole(value);
-//     }  
-// }
+# Represents regrole PostgreSQL Field
+public class RegroleValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
-// # Represents regtype PostgreSQL Field
-// public class RegtypeValue {
-//     any value;
-//     public function init(string? value = ()) {
-//         self.value = convertRegtype(value);
-//     }  
-// }
-
-
+# Represents regtype PostgreSQL Field
+public class RegtypeValue {
+    public string? value;
+    public function init(string? value = ()) {
+        self.value = value;
+    }  
+}
 
 
 

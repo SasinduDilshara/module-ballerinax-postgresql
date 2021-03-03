@@ -20,6 +20,9 @@ public function initTestScripts() {
     _ = dateTimeInitDB();
     _ = rangeInitDB(); 
     _ = bitStringInitDB();
+    _ = pglsnInitDB(); 
+    _ = moneyInitDB();
+    _ = objectidentifierInitDB();
 }
 
 public function createDatabases() {
@@ -60,6 +63,12 @@ public function createDatabases() {
         _ = createQuery(`CREATE DATABASE RANGE_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS BITSTRING_DB`);
         _ = createQuery(`CREATE DATABASE BITSTRING_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS PGLSN_DB`);
+        _ = createQuery(`CREATE DATABASE PGLSN_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS MONEY_DB`);
+        _ = createQuery(`CREATE DATABASE MONEY_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS OBJECTIDENTIFIER_DB`);
+        _ = createQuery(`CREATE DATABASE OBJECTIDENTIFIER_DB`);
     }
 
 public function connectionInitDb() {
@@ -861,6 +870,102 @@ public function bitStringInitDB() {
     `;
     _ = executeQuery("bitstring_db", rangeTableCreateQuery);
     _ = executeQuery("bitstring_db", rangeTableInsertQuery);
+}
+
+public function pglsnInitDB() {
+        sql:ParameterizedQuery pglsnTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS PGLSNTypes;
+    CREATE TABLE IF NOT EXISTS PGLSNTypes(
+        row_id SERIAL,
+        pglsn_type PG_LSN,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery pglsnTableInsertQuery = 
+    `
+        INSERT INTO PGLSNTypes(
+            pglsn_type
+            ) 
+        VALUES (
+            '16/B374D848'
+            );
+
+    `;
+    _ = executeQuery("pglsn_db", pglsnTableCreateQuery);
+    _ = executeQuery("pglsn_db", pglsnTableInsertQuery);
+}
+
+public function moneyInitDB() {
+
+    sql:ParameterizedQuery moneyTableInitQuery = 
+    `
+    set lc_monetary to "en_US.utf8"
+    `;
+
+    sql:ParameterizedQuery moneyTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS MoneyTypes;
+    CREATE TABLE IF NOT EXISTS MoneyTypes(
+        row_id SERIAL,
+        money_type MONEY,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery moneyTableInsertQuery = 
+    `
+        INSERT INTO MoneyTypes(
+            money_type
+            ) 
+        VALUES (
+            '124.56'::money
+            );
+
+    `;
+    _ = executeQuery("money_db", moneyTableInitQuery);
+    _ = executeQuery("money_db", moneyTableCreateQuery);
+    _ = executeQuery("money_db", moneyTableInsertQuery);
+}
+
+public function objectidentifierInitDB() {
+
+    sql:ParameterizedQuery objectidentifierTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS objectidentifiertypes;
+    CREATE TABLE IF NOT EXISTS objectIdentifiertypes(
+        row_id SERIAL,
+        oid_type OID,
+        regclass_type REGCLASS,
+        regconfig_type REGCONFIG,
+        regdictionary_type REGDICTIONARY,
+        regnamespace_type REGNAMESPACE,
+        regoper_type REGOPER,
+        regoperator_type REGOPERATOR,
+        regproc_type REGPROC,
+        regprocedure_type REGPROCEDURE,
+        regrole_type REGROLE,
+        regtype_type REGTYPE,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery objectidentifierTableInsertQuery = 
+    `
+        INSERT INTO objectidentIfiertypes(
+            oid_type
+            ) 
+        VALUES (
+            '12'
+            );
+
+    `;
+    _ = executeQuery("objectidentifier_db", objectidentifierTableCreateQuery);
+    _ = executeQuery("objectidentifier_db", objectidentifierTableInsertQuery);
 }
 
 public function createQuery(sql:ParameterizedQuery query) {

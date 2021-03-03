@@ -753,3 +753,231 @@ function testInsertIntoBitDataTable2() {
 //         test:assertEquals(returnData["bit_type"], "0");
 //     } 
 // }
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+public type PglsnRecord record {
+  int row_id;
+  string pglsn_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testInsertIntoPglsnDataTable() {
+    int rowId = 3;
+    PglsnValue pglsnType = new ("16/B374D848");
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO PglsnTypes (row_id, pglsn_type)
+            VALUES(${rowId}, ${pglsnType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "pglsn_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoPglsnDataTable]
+}
+function testInsertIntoPglsnDataTable2() {
+    int rowId = 4;
+    PglsnValue pglsnType = new ();
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO PglsnTypes (row_id, pglsn_type)
+            VALUES(${rowId}, ${pglsnType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "pglsn_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoPglsnDataTable2]
+}
+function testSelectFromPglsnDataTable() {
+    int rowId = 3;
+    
+    sql:ParameterizedQuery sqlQuery = `select * from Pglsntypes where row_id = ${rowId}`;
+
+    _ = validatePglsnTableResult(simpleQueryPostgresqlClient(sqlQuery, PglsnRecord, database = "pglsn_db"));
+}
+
+public function validatePglsnTableResult(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        test:assertEquals(returnData["row_id"], 3);
+        test:assertEquals(returnData["pglsn_type"], "16/B374D848");
+    } 
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+
+// public type MoneyRecord record {
+//   int row_id;
+//   string money_type;
+// };
+
+// @test:Config {
+//     groups: ["datatypes"]
+// }
+// function testInsertIntoMoneyDataTable() {
+//     int rowId = 3;
+//     MoneyValue moneyType = new ("12.23");
+
+//     sql:ParameterizedQuery initMoneyType = 
+//     `
+//         set lc_monetary to 'en_US.utf8';
+//     `;
+
+//     _ = executeQueryPostgresqlClient(initMoneyType, "money_db");
+
+//     sql:ParameterizedQuery sqlQuery =
+//       `
+//     INSERT INTO MoneyTypes (row_id, money_type)
+//             VALUES(${rowId}, ${moneyType})
+//     `;
+//     validateResult(executeQueryPostgresqlClient(sqlQuery, "money_db"), 1, rowId);
+// }
+
+// @test:Config {
+//     groups: ["datatypes"],
+//     dependsOn: [testInsertIntoMoneyDataTable]
+// }
+// function testInsertIntoMoneyDataTable2() {
+//     int rowId = 4;
+//     MoneyValue moneyType = new ();
+
+//     sql:ParameterizedQuery sqlQuery =
+//       `
+//     INSERT INTO MoneyTypes (row_id, money_type)
+//             VALUES(${rowId}, ${moneyType})
+//     `;
+//     validateResult(executeQueryPostgresqlClient(sqlQuery, "money_db"), 1, rowId);
+// }
+
+// @test:Config {
+//     groups: ["datatypes"],
+//     dependsOn: [testInsertIntoMoneyDataTable2]
+// }
+// function testSelectFromMoneyDataTable() {
+//     int rowId = 3;
+    
+//     sql:ParameterizedQuery sqlQuery = `select * from moneytypes where row_id = ${rowId}`;
+
+//     _ = validateMoneyTableResult(simpleQueryPostgresqlClient(sqlQuery, MoneyRecord, database = "money_db"));
+// }
+
+// public function validateMoneyTableResult(record{}? returnData) {
+//     if (returnData is ()) {
+//         test:assertFail("Empty row returned.");
+//     } else {
+//         test:assertEquals(returnData["row_id"], 3);
+//         test:assertEquals(returnData["money_type"], "12.23");
+//     } 
+// }
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+
+public type ObjectidentifierRecord record {
+  int row_id;
+  string oid_type;
+  string regclass_type;
+  string regconfig_type;
+  string regdictionary_type;
+  string regnamespace_type;
+  string regoper_type;
+  string regoperator_type;
+  string regproc_type;
+  string regprocedure_type;
+  string regrole_type;
+  string regtype_type;
+};
+//"pg_type","english","simple","pg_catalog","!","*(int,int)","NOW","sum(int4)","postgres","int"
+@test:Config {
+    groups: ["datatypes"]
+}
+function testInsertIntoObjectidentifierDataTable() {
+    int rowId = 3;
+    int oidType = 12;
+    RegclassValue regclassType = new("pg_type");
+    RegconfigValue regconfigType = new("english");
+    RegdictionaryValue regdictionaryType = new("simple");
+    RegnamespaceValue regnamespaceType = new("pg_catalog");
+    RegoperValue regoperType = new("!");
+    RegoperatorValue regoperatorType = new("*(int,int)");
+    RegprocValue regprocType = new("NOW");
+    RegprocedureValue regprocedureType = new("sum(int4)");
+    RegroleValue regroleType = new("postgres");
+    RegtypeValue regtypeType = new("int");
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO ObjectidentifierTypes (row_id, oid_type, regclass_type, regconfig_type, regdictionary_type, 
+    regnamespace_type, regoper_type, regoperator_type, regproc_type, regprocedure_type, regrole_type, regtype_type) 
+            VALUES(${rowId}, ${oidType}, ${regclassType}, ${regconfigType}, ${regdictionaryType}, ${regnamespaceType},
+            ${regoperType}, ${regoperatorType}, ${regprocType}, ${regprocedureType}, ${regroleType}, ${regtypeType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "objectidentifier_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoPglsnDataTable]
+}
+function testInsertIntoObjectidentifierDataTable2() {
+    int rowId = 4;
+    int? oidType = ();
+    RegclassValue regclassType = new();
+    RegconfigValue regconfigType = new();
+    RegdictionaryValue regdictionaryType = new();
+    RegnamespaceValue regnamespaceType = new();
+    RegoperValue regoperType = new();
+    RegoperatorValue regoperatorType = new();
+    RegprocValue regprocType = new();
+    RegprocedureValue regprocedureType = new();
+    RegroleValue regroleType = new();
+    RegtypeValue regtypeType = new();
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO ObjectidentifierTypes (row_id, oid_type, regclass_type, regconfig_type, regdictionary_type, 
+    regnamespace_type, regoper_type, regoperator_type, regproc_type, regprocedure_type, regrole_type, regtype_type) 
+            VALUES(${rowId}, ${oidType}, ${regclassType}, ${regconfigType}, ${regdictionaryType}, ${regnamespaceType},
+            ${regoperType}, ${regoperatorType}, ${regprocType}, ${regprocedureType}, ${regroleType}, ${regtypeType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "objectidentifier_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoPglsnDataTable2]
+}
+function testSelectFromObjectidentifierDataTable() {
+    int rowId = 3;
+    
+    sql:ParameterizedQuery sqlQuery = `select * from Objectidentifiertypes where row_id = ${rowId}`;
+
+    _ = validateObjectidentifierTableResult(simpleQueryPostgresqlClient(sqlQuery, ObjectidentifierRecord, database = "objectidentifier_db"));
+}
+
+public function validateObjectidentifierTableResult(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        test:assertEquals(returnData["row_id"], 3);
+        test:assertEquals(returnData["oid_type"], "12");
+        test:assertEquals(returnData["regclass_type"], "pg_type");
+        test:assertEquals(returnData["regconfig_type"], "english");
+        test:assertEquals(returnData["regdictionary_type"], "simple");
+        test:assertEquals(returnData["regnamespace_type"], "pg_catalog");
+        test:assertEquals(returnData["regoper_type"], "!");
+        test:assertEquals(returnData["regoperator_type"], "*(integer,integer)");
+        test:assertEquals(returnData["regproc_type"], "now");
+        test:assertEquals(returnData["regprocedure_type"], "sum(integer)");
+        test:assertEquals(returnData["regrole_type"], "postgres");
+        test:assertEquals(returnData["regtype_type"], "integer");
+    } 
+}
