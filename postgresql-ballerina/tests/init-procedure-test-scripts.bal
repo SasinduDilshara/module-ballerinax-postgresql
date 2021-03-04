@@ -10,6 +10,7 @@ public function initProcedureTestScripts() {
     _ = createDatetimeProcedure();
     _ = createRangeProcedure(); 
     _ = createTextsearchProcedure();   
+    _ = createObjectidentifierProcedure();
 }
 
 public function createNetworkProcedure() {
@@ -241,4 +242,56 @@ public function createTextsearchProcedure() {
         end;$$  
     `;
     _ = executeQuery("ts_db", textsearchProcedureCreationQuery);
+}
+
+public function createObjectidentifierProcedure() {
+    sql:ParameterizedQuery objectidentifierProcedureCreationQuery = `
+        create or replace procedure ObjectidentifierProcedure(
+            row_id bigint,
+            oid_in oid,
+            regclass_in regclass,
+            regconfig_in regconfig,
+            regdictionary_in regdictionary,
+            regnamespace_in regnamespace,
+            regoper_in regoper,
+            regoperator_in regoperator,
+            regproc_in regproc,
+            regprocedure_in regprocedure,
+            regrole_in regrole,
+            regtype_in regtype
+            )
+            language plpgsql    
+            as $$
+            begin
+                INSERT INTO ObjectidentifierTypes(
+                    row_id,
+                    oid_type,
+                    regclass_type,
+                    regconfig_type,
+                    regdictionary_type,
+                    regnamespace_type,
+                    regoper_type,
+                    regoperator_type,
+                    regproc_type,
+                    regprocedure_type,
+                    regrole_type,
+                    regtype_type
+                    ) 
+                VALUES (
+                    row_id,
+                    oid_in,
+                    regclass_in,
+                    regconfig_in,
+                    regdictionary_in,
+                    regnamespace_in,
+                    regoper_in,
+                    regoperator_in,
+                    regproc_in,
+                    regprocedure_in,
+                    regrole_in,
+                    regtype_in
+                    );
+        end;$$  
+    `;
+    _ = executeQuery("objectidentifier_db", objectidentifierProcedureCreationQuery);
 }

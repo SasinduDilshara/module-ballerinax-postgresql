@@ -300,7 +300,7 @@ public type RangeProcedureRecord record {
 }
 function testRangeProcedureCall() {
 
-        int rowId = 5;
+        int rowId = 2;
         Int4rangeValue int4rangeType = new("(2,50)");
         Int8rangeValue int8rangeType = new("(10,100)");
         NumrangeValue numrangeType = new("(0.1,2.4)");
@@ -330,8 +330,6 @@ function testRangeProcedureCall() {
         test:assertEquals(queryProcedureClient(query, "range_db", RangeProcedureRecord), expectedDataRow, "Range Call procedure insert and query did not match.");
 }
  
-
-
 
 //---------------------------------------------------------------------------------------------------------------------------
 
@@ -370,6 +368,72 @@ function testTextsearchProcedureCall() {
 
 //----------------------------------------------------------------------------------------------------------------------------
 
+
+public type ObjectidentifierProcedureRecord record {
+    int row_id;
+    string oid_type;
+    string regclass_type;
+    string regconfig_type;
+    string regdictionary_type;
+    string regnamespace_type;
+    string regoper_type;
+    string regoperator_type;
+    string regproc_type;
+    string regprocedure_type;
+    string regrole_type;
+    string regtype_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testObjectidentifierProcedureCall() {
+    int rowId = 2;
+    int oidType = 12;
+    RegclassValue regclassType = new("pg_type");
+    RegconfigValue regconfigType = new("english");
+    RegdictionaryValue regdictionaryType = new("simple");
+    RegnamespaceValue regnamespaceType = new("pg_catalog");
+    RegoperValue regoperType = new("!");
+    RegoperatorValue regoperatorType = new("*(int,int)");
+    RegprocValue regprocType = new("NOW");
+    RegprocedureValue regprocedureType = new("sum(int4)");
+    RegroleValue regroleType = new("postgres");
+    RegtypeValue regtypeType = new("int");
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call ObjectidentifierProcedure(${rowId}, ${oidType}, ${regclassType}, ${regconfigType}, ${regdictionaryType}, 
+                                ${regnamespaceType}, ${regoperType}, ${regoperatorType}, ${regprocType}, ${regprocedureType},
+                                 ${regroleType}, ${regtypeType});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "objectidentifier_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, oid_type, regclass_type, regconfig_type, regdictionary_type,
+        regnamespace_type, regoper_type, regoperator_type, regproc_type, regprocedure_type, regrole_type, regtype_type 
+        from ObjectidentifierTypes where row_id = ${rowId}`;
+
+    ObjectidentifierProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        oid_type: "12",
+        regclass_type: "pg_type",
+        regconfig_type: "english",
+        regdictionary_type: "simple",
+        regnamespace_type: "pg_catalog",
+        regoper_type: "!",
+        regoperator_type: "*(integer,integer)",
+        regproc_type: "now",
+        regprocedure_type: "sum(integer)",
+        regrole_type: "postgres",
+        regtype_type: "integer"
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "objectidentifier_db", ObjectidentifierProcedureRecord), expectedDataRow, "Objectidentifier Call procedure insert and query did not match.");
+
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------------
 function queryProcedureClient(@untainted string|sql:ParameterizedQuery sqlQuery, string database, typedesc<record {}>? resultType = ())
 returns @tainted record {} {
     Client dbClient = checkpanic new (host, user, password, database, port);
