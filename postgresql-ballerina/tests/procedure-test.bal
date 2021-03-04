@@ -1,7 +1,7 @@
 import ballerina/sql;
 import ballerina/test;
 // import ballerina/io;
-// import ballerina/time;
+import ballerina/time;
 
 public type NetworkProcedureRecord record {
     
@@ -91,6 +91,285 @@ function testGeometricProcedureCall() {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+public type UuidProcedureRecord record {
+    int row_id;
+    string uuid_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testUuidProcedureCall() {
+    int rowId = 2;
+    UuidValue uuidType = new ("a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12");
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call UuidProcedure(${rowId}, ${uuidType});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "uuid_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, uuid_type from UuidTypes where row_id = ${rowId}`;
+
+    UuidProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        uuid_type: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12"
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "uuid_db", UuidProcedureRecord), expectedDataRow, "Uuid Call procedure insert and query did not match.");
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+public type PglsnProcedureRecord record {
+    int row_id;
+    string pglsn_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testPglsnProcedureCall() {
+    int rowId = 2;
+    PglsnValue pglsnType = new ("16/B374D848");
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call PglsnProcedure(${rowId}, ${pglsnType});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "pglsn_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, pglsn_type from PglsnTypes where row_id = ${rowId}`;
+
+    PglsnProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        pglsn_type: "16/B374D848"
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "pglsn_db", PglsnProcedureRecord), expectedDataRow, "Pglsn Call procedure insert and query did not match.");
+
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+public type JsonProcedureRecord record {
+    int row_id;
+    json json_type;
+    json jsonb_type;
+    string jsonpath_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testJsonProcedureCall() {
+    int rowId = 2;
+    json jsonValue = {"a":11,"b":2};
+    JsonValue jsonType = new(jsonValue);
+    JsonbValue jsonbType = new(jsonValue);
+    JsonpathValue jsonpathType = new("$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 10)");
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call JsonProcedure(${rowId}, ${jsonType}, ${jsonbType}, ${jsonpathType});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "json_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, json_type, jsonb_type, jsonpath_type from JsonTypes where row_id = ${rowId}`;
+
+    JsonProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        json_type: jsonValue,
+        jsonb_type: jsonValue,
+        jsonpath_type: "$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 10)"
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "json_db", JsonProcedureRecord), expectedDataRow, "Json Call procedure insert and query did not match.");
+
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+public type BitProcedureRecord record {
+    int row_id;
+    // string bitstring_type;
+    string varbitstring_type;
+    boolean bit_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testBitProcedureCall() {
+    int rowId = 2;
+    VarbitstringValue bitstringType = new("1110001100");
+    VarbitstringValue varbitstringType = new("111110");
+    PGBitValue bitType = new("1");
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call BitProcedure(${rowId}, ${varbitstringType}, ${bitType});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "bitstring_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, varbitstring_type, bit_type from BitTypes where row_id = ${rowId}`;
+
+    BitProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        // bitstring_type: "1110001100",
+        varbitstring_type: "111110",
+        bit_type: true
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "bitstring_db", BitProcedureRecord), expectedDataRow, "Bit Call procedure insert and query did not match.");
+
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+
+public type DatetimeProcedureRecord record {
+  int row_id;
+  string date_type;
+  string time_type;
+  string timetz_type;
+  string timestamp_type;
+  string timestamptz_type;
+  string interval_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testDatetimeProcedureCall() {
+
+    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
+    if(timeValue is time:Time){
+        int rowId = 2;
+        sql:TimestampValue timestampType = new(timeValue);
+        sql:TimestampValue timestamptzType = new(timeValue);
+        sql:DateValue dateType = new(timeValue);
+        sql:TimeValue timeType = new(timeValue);
+        sql:TimeValue timetzType= new(timeValue);
+        IntervalValue intervalType= new({years:1,months:2,days:3,hours:4,minutes:5,seconds:6});
+
+        
+        sql:ParameterizedCallQuery sqlQuery =
+        `
+        call DatetimeProcedure(${rowId}, ${dateType}, ${timeType}, ${timetzType}, ${timestampType}, ${timestamptzType}, ${intervalType});
+        `;
+        sql:ProcedureCallResult result = callProcedure(sqlQuery, "datetime_db");
+
+        sql:ParameterizedQuery query = `SELECT row_id, date_type, time_type, timetz_type, timestamp_type, 
+                timestamptz_type, interval_type from DatetimeTypes where row_id = ${rowId}`;
+
+        DatetimeProcedureRecord expectedDataRow = {
+            row_id: rowId,
+            date_type: "2017-03-28+05:30",
+            time_type: "05:12:45.554+05:30",
+            timetz_type: "23:42:45.554+05:30",
+            timestamp_type: "2017-03-29T05:12:45.554+05:30",
+            timestamptz_type: "2017-03-28T23:42:45.554+05:30",
+            interval_type: "1 year 2 mons 3 days 04:05:06"
+        };
+    
+        test:assertEquals(queryProcedureClient(query, "datetime_db", DatetimeProcedureRecord), expectedDataRow, "Datetime Call procedure insert and query did not match.");
+
+    }
+    else{
+        test:assertFail("Invalid Time value generated ");
+    }
+}
+
+//--------------------------------------------------------------------------------------------------------------------------
+
+
+public type RangeProcedureRecord record {
+  int row_id;
+  string int4range_type;
+  string int8range_type;
+  string numrange_type;
+  string tsrange_type;
+  string tstzrange_type;
+  string daterange_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testRangeProcedureCall() {
+
+        int rowId = 5;
+        Int4rangeValue int4rangeType = new("(2,50)");
+        Int8rangeValue int8rangeType = new("(10,100)");
+        NumrangeValue numrangeType = new("(0.1,2.4)");
+        TsrangeValue tsrangeType = new("(2010-01-01 14:30, 2010-01-01 15:30)");
+        TstzrangeValue tstzrangeType= new("(2010-01-01 14:30, 2010-01-01 15:30)");
+        DaterangeValue daterangeType= new("(2010-01-01 14:30, 2010-01-03 )");
+        
+        sql:ParameterizedCallQuery sqlQuery =
+        `
+        call RangeProcedure(${rowId}, ${int4rangeType}, ${int8rangeType}, ${numrangeType}, ${tsrangeType}, ${tstzrangeType}, ${daterangeType});
+        `;
+        sql:ProcedureCallResult result = callProcedure(sqlQuery, "range_db");
+
+        sql:ParameterizedQuery query = `SELECT row_id, int4range_type, int8range_type, numrange_type, tsrange_type, 
+                tstzrange_type, daterange_type from RangeTypes where row_id = ${rowId}`;
+
+        RangeProcedureRecord expectedDataRow = {
+            row_id: rowId,
+            int4range_type: "[3,50)",
+            int8range_type: "[11,100)",
+            numrange_type: "(0.1,2.4)",
+            tsrange_type: "(\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")",
+            tstzrange_type: "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")",
+            daterange_type: "[2010-01-02,2010-01-03)"
+        };
+    
+        test:assertEquals(queryProcedureClient(query, "range_db", RangeProcedureRecord), expectedDataRow, "Range Call procedure insert and query did not match.");
+}
+ 
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------
+
+public type TextsearchProcedureRecord record {
+    
+    int row_id;
+    string tsvector_type;
+    string tsquery_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testTextsearchProcedureCall() {
+    int rowId = 2;
+    TsvectorValue tsvectorType = new ("a fat cat sat on a mat and ate a fat rat");
+    TsqueryValue tsqueryType = new ("fat & rat");
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call TextsearchProcedure(${rowId}, ${tsvectorType}, ${tsqueryType});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "ts_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, tsvector_type, tsquery_type from TextsearchTypes where row_id = ${rowId}`;
+
+    TextsearchProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        tsvector_type: "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'",
+        tsquery_type: "'fat' & 'rat'"
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "ts_db", TextsearchProcedureRecord), expectedDataRow, "Textsearch Call procedure insert and query did not match.");
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------------
+
 function queryProcedureClient(@untainted string|sql:ParameterizedQuery sqlQuery, string database, typedesc<record {}>? resultType = ())
 returns @tainted record {} {
     Client dbClient = checkpanic new (host, user, password, database, port);
@@ -109,6 +388,7 @@ returns @tainted record {} {
 function callProcedure(sql:ParameterizedCallQuery sqlQuery, string database) returns sql:ProcedureCallResult {
     Client dbClient = checkpanic new (host, user, password, database, port);
     sql:ProcedureCallResult result = checkpanic dbClient->call(sqlQuery);
+    checkpanic dbClient.close();
     return result;
 }
 
