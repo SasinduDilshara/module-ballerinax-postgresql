@@ -40,6 +40,7 @@ import org.ballerinalang.sql.utils.ColumnDefinition;
 import org.ballerinalang.sql.utils.ErrorGenerator;
 import org.ballerinalang.sql.utils.ModuleUtils;
 import org.ballerinalang.sql.utils.Utils;
+import org.ballerinalang.postgresql.helper.Convertor;
 
 import java.math.BigDecimal;
 import java.sql.Array;
@@ -584,15 +585,26 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     }
 
     @Override
-    public Object getCustomOutParameters(Object value, int sqlType, Type ballerinaType) {
-        System.out.println("Inside Statement"); 
-        if(value instanceof BObject){
-             System.out.println("Inside if Statement");            
+    public Object getCustomOutParameters(BObject result, int sqlType, Type ballerinaType) {
+        Object innerObject = result.get(org.ballerinalang.sql.Constants.ParameterObject.IN_VALUE_FIELD);
+        Object value = result.getNativeData(org.ballerinalang.sql.Constants.ParameterObject.VALUE_NATIVE_DATA);
+        BObject innerBobject;
+        if(innerObject instanceof BObject) {
+            innerBobject = (BObject)innerObject;
+            String sqlTypeName = innerBobject.getType().getName();
+            switch(sqlTypeName){
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.INET:
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.CIDR:
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.MACADDR:
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.MACADDR8:
+                    return Convertor.convertNetworkTypes(value, sqlType, ballerinaType);
+                default:
+                    return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+            }
         }
         else{
-             System.out.println("Inside else Statement");                
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
-        return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
     }
 
     public Object convertypes(String value, int sqlType, Type type, boolean isNull) throws ApplicationError {

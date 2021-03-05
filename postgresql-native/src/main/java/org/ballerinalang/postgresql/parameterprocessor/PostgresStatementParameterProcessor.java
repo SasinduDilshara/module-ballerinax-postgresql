@@ -317,7 +317,7 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.MACADDR8:
                 setMaacadr8(preparedStatement, index, value);
                 break;
-                case Constants.PGTypeNames.POINT:
+            case Constants.PGTypeNames.POINT:
                 setPoint(preparedStatement, index, value);
                 break;
             case Constants.PGTypeNames.LINE:

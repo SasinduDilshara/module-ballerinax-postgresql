@@ -49,8 +49,10 @@ import io.ballerina.runtime.api.values.BString;
 import io.ballerina.runtime.api.values.BValue;
 import io.ballerina.runtime.api.values.BXml;
 import org.ballerinalang.postgresql.Constants;
+import org.ballerinalang.sql.utils.ErrorGenerator;
 // import io.ballerina.runtime.internal.types.BJsonType;
 
+import static io.ballerina.runtime.api.utils.StringUtils.fromString;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -921,4 +923,15 @@ public class Convertor {
             }
             return money;
         }
-    } 
+
+// ------------------------------------------------------------------------------------------------------------------
+
+        public static Object convertNetworkTypes(Object value, int sqlType, Type ballerinaType) {
+            if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+                return fromString(String.valueOf(value.toString()));
+            }
+            else {
+                return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+            }
+        }
+} 
