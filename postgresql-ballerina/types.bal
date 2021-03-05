@@ -550,6 +550,31 @@ public class CustomResultIterator {
     } external;
 }
 // public type CustomResultIterator object {
-//     isolated function nextResult(ResultIterator iterator) returns record {}|Error?;
-//     isolated function getNextQueryResult(ProcedureCallResult callResult) returns boolean|Error;
+//     public isolated function nextResult(ResultIterator iterator) returns record {}|Error?;
+//     public isolated function getNextQueryResult(ProcedureCallResult callResult) returns boolean|Error;
 // };
+
+// public class ConnectorResultIterator {
+
+//     isolated function nextResult(ResultIterator iterator) returns record {}|Error? = @java:Method {
+//         'class: "org.ballerinalang.sql.utils.connector.CustomRecordIteratorUtils",
+//         paramTypes: ["io.ballerina.runtime.api.values.BObject", "io.ballerina.runtime.api.values.BObject"]
+//     } external; 
+    
+// }
+
+// public type CustomResultIterator object{
+//      isolated function nextResult(ResultIterator iterator) returns record {}|Error?;
+// };
+
+// public type CustomProcedureCallResult object{
+//     public isolated function getNextQueryResult(ProcedureCallResult callResult) returns boolean|Error;
+// };
+
+// public class ConnectorProcedureCallResult {
+//     public isolated function getNextQueryResult(ProcedureCallResult callResult) returns boolean|Error = @java:Method {
+//     'class: "org.ballerinalang.sql.utils.connector.CustomProcedureResultUtils",
+//     paramTypes: ["io.ballerina.runtime.api.values.BObject", "io.ballerina.runtime.api.values.BObject"]
+// } external;
+
+// }

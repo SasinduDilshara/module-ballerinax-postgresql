@@ -577,16 +577,16 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     }
 
     protected BObject getIteratorObject() {
-        // if (iteratorObject == null) {
-        //     synchronized (lock2) {
-        //         if (iteratorObject == null) {
-        //             iteratorObject = ValueCreator.createObjectValue(
-        //                     org.ballerinalang.postgresql.ModuleUtils.getModule(), "CustomResultIterator", new Object[0]);
-        //         }
-        //     }
-        // }
-        // return iteratorObject;
-        return null;
+        if (iteratorObject == null) {
+            synchronized (lock2) {
+                if (iteratorObject == null) {
+                    iteratorObject = ValueCreator.createObjectValue(
+                            org.ballerinalang.postgresql.ModuleUtils.getModule(), "CustomResultIterator", new Object[0]);
+                }
+            }
+        }
+        return iteratorObject;
+        // return null;
     }
 
     public BObject createRecordIterator(ResultSet resultSet,
@@ -610,19 +610,32 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
 
     public Object getCustomResult(ResultSet resultSet, int columnIndex, ColumnDefinition columnDefinition)
             throws ApplicationError {
-        System.out.println("Start");
         int sqlType = columnDefinition.getSqlType();
         Type ballerinaType = columnDefinition.getBallerinaType();
+        System.out.println("sqlType: " + sqlType);
+        System.out.println("ballerinaType: " + ballerinaType);
+        try{
+            Object object = resultSet.getObject(columnIndex);
+            System.out.println("object: " + object);
+            if(object instanceof BObject){
+                BObject objectValue = (BObject)object;
+                String sqlTypeName = objectValue.getType().getName();
+                Object value = objectValue.get(org.ballerinalang.sql.Constants.TypedValueFields.VALUE);
+                System.out.println("sqlTypeName: " + sqlTypeName);
+                System.out.println("value: " + value);
+            }else{
+                System.out.println("This is else");
+            }
+        }
+        catch(Exception ex){
+            System.out.println("ex:- "+ex);
+        }
+
+
         // switch (sqlType) {
-            System.out.println("sqlType: " + sqlType);
-            System.out.println("ballerinaType: " + ballerinaType);
-            try{
-                System.out.println("Get object" + resultSet.getObject(columnIndex));
-            }
-            catch(Exception ex){
-                
-            }
+            
         // }
+
         throw new ApplicationError("Unsupported SQL type " + columnDefinition.getSqlName());
     }
 
