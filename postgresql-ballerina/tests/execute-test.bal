@@ -3,7 +3,6 @@ import ballerina/test;
 import ballerina/io;
 import ballerina/time;
 
-string networkDB = "network_db";
 
 public type NetworkRecord record {
     
@@ -15,11 +14,13 @@ public type NetworkRecord record {
 };
 // public type GeometricRecord record {
 //     int row_id;
-//     record{} point_type;
-//     record{} line_type;
-//     record{} lseg_type;
-//     record{} box_type;
-//     record{} circle_type;
+//     PointValue point_type;
+//     LineValue line_type;
+//     LsegValue lseg_type;
+//     BoxValue box_type;
+//     CircleValue circle_type;
+//     string? path_type;
+//     string? polygon_type;
 // };
 
 public type GeometricRecord record {
@@ -106,7 +107,7 @@ public function validateNetworkTableResult(record{}? returnData) {
     } 
 }
 
-//------------------------------------------------------------------------------------------------------------------
+// //------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -173,56 +174,40 @@ function testInsertIntoGeometricDataTable3() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, "geometric_db"), 1, rowId);
 }
 
-// @test:Config {
-//     groups: ["datatypes"],
-//     dependsOn: [testInsertIntoGeometricDataTable2]
-// }
-// function testSelectFromGeometricDataTable() {
-//     int rowId = 5;
-//     // InetValue inetValue = new ("192.168.0.1/24");
-//     // CidrValue cidrValue = new ("::ffff:1.2.3.0/120");
-//     // MacaddrValue macaddrValue = new ("08:00:2b:01:02:03");
-//     // Macaddr8Value macaddr8Value = new ("08-00-2b-01-02-03-04-00");
-    
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoGeometricDataTable2]
+}
+function testSelectFromGeometricDataTable() {
+    int rowId = 5;
 
-//     sql:ParameterizedQuery sqlQuery = `select * from geometrictypes`;
+    sql:ParameterizedQuery sqlQuery = `select * from geometrictypes where row_id = ${rowId}`;
 
-//     Client dbClient = checkpanic new (host, user, password, "geometric_db", port);
-//     stream<record {}, error> streamData = dbClient->query(sqlQuery, GeometricRecord);
-//     record {|record {} value;|}? data = checkpanic streamData.next();
-//     checkpanic streamData.close();
-//     record {}? value = data?.value;
-//     checkpanic dbClient.close();
-//     io:println("value", data);
-//     validateGeometricTableResult(value);
+     _ = validateGeometricTableResult(simpleQueryPostgresqlClient(sqlQuery, GeometricRecord, database = "geometric_db"));
+}
 
-//     // _ = validateGeometricTableResult(simpleQueryPostgresqlClient(sqlQuery, GeometricRecord, database = "geometric_db"));
-// }
+public function validateGeometricTableResult(record{}? returnData) {
+    PointValue pointType = new ("(1,2)");
+    LineValue lineType = new ("{1,2,3}");
+    LsegValue lsegType = new ("(1,1),(2,2)");
+    BoxValue boxType = new ("(1,1),(2,2)");
+    // PathValue pathType = new ("[(1,1),(2,2)]");
+    // PolygonValue polygonType = new ("[(1,1),(2,2)]");
+    CircleValue circleType = new ("<1,1,1>");
+    // io:println("returnData", returnData);
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        test:assertEquals(returnData["row_id"], 5);
+        test:assertEquals(returnData["point_type"], "(2,2)");
+        test:assertEquals(returnData["line_type"], "{2,3,4}");
+        test:assertEquals(returnData["lseg_type"], "[(2,2),(3,3)]");   
+        test:assertEquals(returnData["box_type"], "(3,3),(2,2)"); 
+        test:assertEquals(returnData["circle_type"], "<(2,2),2>");
+    } 
+}
 
-// public function validateGeometricTableResult(record{}? returnData) {
-//     PointValue pointType = new ("(1,2)");
-//     LineValue lineType = new ("{1,2,3}");
-//     LsegValue lsegType = new ("(1,1),(2,2)");
-//     BoxValue boxType = new ("(1,1),(2,2)");
-//     // PathValue pathType = new ("[(1,1),(2,2)]");
-//     // PolygonValue polygonType = new ("[(1,1),(2,2)]");
-//     CircleValue circleType = new ("<1,1,1>");
-//     io:println("returnData", returnData);
-//     if (returnData is ()) {
-//         test:assertFail("Empty row returned.");
-//     } else {
-//         test:assertEquals(returnData["row_id"], 4);
-//         // test:assertEquals(returnData["point_type"], {x: 1, y:2});
-//         // test:assertEquals(returnData["line_type"], "::ffff:1.2.3.0/120");
-//         // test:assertEquals(returnData["lseg_type"], "08:00:2b:01:02:03");   
-//         // test:assertEquals(returnData["box_type"], "08:00:2b:01:02:03:04:00");
-//         // // test:assertEquals(returnData["path_type"], "::ffff:1.2.3.0/120");
-//         // // test:assertEquals(returnData["polygon_type"], "08:00:2b:01:02:03");   
-//         // test:assertEquals(returnData["circle_type"], "08:00:2b:01:02:03:04:00");
-//     } 
-// }
-
-//--------------------------------------------------------------------------------------------------------------
+// //--------------------------------------------------------------------------------------------------------------
 
 public type UuidRecord record {
   int row_id;
@@ -353,17 +338,6 @@ public type JsonRecord record {
   json jsonb_type;
   string jsonpath_type;
 };
-//         json jj = {"a":11,"b":2};
-//         json jj2 = {"a":22,"b":2};
-//         json jj3 = {"a":33,"b":2};
-
-//         // postgresql:JsonValue j = new(jj);
-//         // postgresql:JsonValue j2 = new(jj2);
-//         // postgresql:JsonValue j3 = new(jj3);
-
-//         // postgresql:JsonValue j = new("{\"a\":1,\"b\":\"Hello\"}");
-//         // postgresql:JsonValue j2 = new("{\"a\":2,\"b\":\"Hello\"}");
-//         // postgresql:JsonValue j3 = new("{\"a\":3,\"b\":\"Hello\"}");
 
 @test:Config {
     groups: ["datatypes"]
@@ -681,9 +655,9 @@ public function validateRangeTableResult(record{}? returnData) {
 
 public type BitRecord record {
   int row_id;
-  string bitstring_type;
+//   string bitstring_type;
   string varbitstring_type;
-  string bit_type;
+  boolean bit_type;
 };
 //         json jj = {"a":11,"b":2};
 //         json jj2 = {"a":22,"b":2};
@@ -731,28 +705,28 @@ function testInsertIntoBitDataTable2() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, "bitstring_db"), 1, rowId);
 }
 
-// @test:Config {
-//     groups: ["datatypes"],
-//     dependsOn: [testInsertIntoBitDataTable2]
-// }
-// function testSelectFromBitDataTable() {
-//     int rowId = 3;
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoBitDataTable2]
+}
+function testSelectFromBitDataTable() {
+    int rowId = 3;
     
-//     sql:ParameterizedQuery sqlQuery = `select * from BitTypes where row_id = ${rowId}`;
+    sql:ParameterizedQuery sqlQuery = `select row_id, varbitstring_type, bit_type from BitTypes where row_id = ${rowId}`;
 
-//     _ = validateBitTableResult(simpleQueryPostgresqlClient(sqlQuery, BitRecord, database = "bitstring_db"));
-// }
+    _ = validateBitTableResult(simpleQueryPostgresqlClient(sqlQuery, BitRecord, database = "bitstring_db"));
+}
 
-// public function validateBitTableResult(record{}? returnData) {
-//     if (returnData is ()) {
-//         test:assertFail("Empty row returned.");
-//     } else {
-//         test:assertEquals(returnData["row_id"], 3);
-//         test:assertEquals(returnData["bitstring_type"], "1110001100");
-//         test:assertEquals(returnData["varbitstring_type"], "11001");
-//         test:assertEquals(returnData["bit_type"], "0");
-//     } 
-// }
+public function validateBitTableResult(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        test:assertEquals(returnData["row_id"], 3);
+        // test:assertEquals(returnData["bitstring_type"], "1110001100");
+        test:assertEquals(returnData["varbitstring_type"], "11001");
+        test:assertEquals(returnData["bit_type"], false);
+    } 
+}
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
