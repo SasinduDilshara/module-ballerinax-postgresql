@@ -365,6 +365,23 @@ public class PGXmlValue {
     }  
 }
 
+# Represents PostgreSQL InOutParameter used in procedure calls.
+public class InOutParameter {
+    public sql:Value 'in;
+
+    public isolated function init(sql:Value 'in) {
+        self.'in = 'in;
+    }
+
+    # Parses returned PostgreSQL value to ballerina value.
+    #
+    # + typeDesc - Type description of the data that need to be converted
+    # + return - The converted ballerina value or Error
+    public isolated function get(typedesc<anydata> typeDesc) returns typeDesc|sql:Error = @java:Method {
+        'class: "org.ballerinalang.postgresql.nativeimpl.OutParameterProcessor"
+    } external;
+}
+
 
 
 

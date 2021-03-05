@@ -1,6 +1,6 @@
 // import ballerina/sql;
 
-// public function initProcedureTestScripts() {
+public function initProcedureTestScripts() {
 //     _ = createNetworkProcedure();
 //     _ = createGeometricProcedure();
 //     _ = createUuidProcedure();
@@ -11,7 +11,7 @@
 //     _ = createRangeProcedure(); 
 //     _ = createTextsearchProcedure();   
 //     _ = createObjectidentifierProcedure();
-// }
+}
 
 // public function createNetworkProcedure() {
 //     sql:ParameterizedQuery networkProcedureCreationQuery = `

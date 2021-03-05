@@ -204,13 +204,97 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
     @Override
     public int getCustomOutParameterType(BObject typedValue) throws ApplicationError {
         String sqlType = typedValue.getType().getName();
-        throw new ApplicationError("Unsupported OutParameter type: " + sqlType);
+        switch (sqlType) {
+            case Constants.PGTypeNames.INET:
+            case Constants.PGTypeNames.CIDR:
+            case Constants.PGTypeNames.MACADDR:
+            case Constants.PGTypeNames.MACADDR8:
+            case Constants.PGTypeNames.POINT:
+            case Constants.PGTypeNames.LINE:
+            case Constants.PGTypeNames.LSEG:
+            case Constants.PGTypeNames.CIRCLE:
+            case Constants.PGTypeNames.BOX:
+            case Constants.PGTypeNames.UUID:
+            case Constants.PGTypeNames.TSVECTOR:
+            case Constants.PGTypeNames.TSQUERY:
+            case Constants.PGTypeNames.JSON:
+            case Constants.PGTypeNames.JSONB:
+            case Constants.PGTypeNames.JSONPATH:
+            case Constants.PGTypeNames.INTERVAL:
+            case Constants.PGTypeNames.INT4RANGE:
+            case Constants.PGTypeNames.INT8RANGE:
+            case Constants.PGTypeNames.NUMRANGE:
+            case Constants.PGTypeNames.TSRANGE:
+            case Constants.PGTypeNames.TSTZRANGE:
+            case Constants.PGTypeNames.DATERANGE:
+            case Constants.PGTypeNames.PGBIT:
+            case Constants.PGTypeNames.VARBITSTRING:
+            case Constants.PGTypeNames.BITSTRING:
+            case Constants.PGTypeNames.PGLSN:
+            case Constants.PGTypeNames.MONEY:
+            case Constants.PGTypeNames.REGCLASS:
+            case Constants.PGTypeNames.REGCONFIG:
+            case Constants.PGTypeNames.REGDICTIONARY:
+            case Constants.PGTypeNames.REGNAMESPACE:
+            case Constants.PGTypeNames.REGOPER:
+            case Constants.PGTypeNames.REGOPERATOR:
+            case Constants.PGTypeNames.REGPROC:
+            case Constants.PGTypeNames.REGPROCEDURE:
+            case Constants.PGTypeNames.REGROLE:
+            case Constants.PGTypeNames.REGTYPE:
+            case Constants.PGTypeNames.XML:
+                return Types.OTHER;
+            default:
+                throw new ApplicationError("Unsupported OutParameter type: " + sqlType);
+        }
     }
 
     @Override
     protected int getCustomSQLType(BObject typedValue) throws ApplicationError {
         String sqlType = typedValue.getType().getName();
-        throw new ApplicationError("Unsupported SQL type: " + sqlType);
+        switch (sqlType) {
+            case Constants.PGTypeNames.INET:
+            case Constants.PGTypeNames.CIDR:
+            case Constants.PGTypeNames.MACADDR:
+            case Constants.PGTypeNames.MACADDR8:
+            case Constants.PGTypeNames.POINT:
+            case Constants.PGTypeNames.LINE:
+            case Constants.PGTypeNames.LSEG:
+            case Constants.PGTypeNames.CIRCLE:
+            case Constants.PGTypeNames.BOX:
+            case Constants.PGTypeNames.UUID:
+            case Constants.PGTypeNames.TSVECTOR:
+            case Constants.PGTypeNames.TSQUERY:
+            case Constants.PGTypeNames.JSON:
+            case Constants.PGTypeNames.JSONB:
+            case Constants.PGTypeNames.JSONPATH:
+            case Constants.PGTypeNames.INTERVAL:
+            case Constants.PGTypeNames.INT4RANGE:
+            case Constants.PGTypeNames.INT8RANGE:
+            case Constants.PGTypeNames.NUMRANGE:
+            case Constants.PGTypeNames.TSRANGE:
+            case Constants.PGTypeNames.TSTZRANGE:
+            case Constants.PGTypeNames.DATERANGE:
+            case Constants.PGTypeNames.PGBIT:
+            case Constants.PGTypeNames.VARBITSTRING:
+            case Constants.PGTypeNames.BITSTRING:
+            case Constants.PGTypeNames.PGLSN:
+            case Constants.PGTypeNames.MONEY:
+            case Constants.PGTypeNames.REGCLASS:
+            case Constants.PGTypeNames.REGCONFIG:
+            case Constants.PGTypeNames.REGDICTIONARY:
+            case Constants.PGTypeNames.REGNAMESPACE:
+            case Constants.PGTypeNames.REGOPER:
+            case Constants.PGTypeNames.REGOPERATOR:
+            case Constants.PGTypeNames.REGPROC:
+            case Constants.PGTypeNames.REGPROCEDURE:
+            case Constants.PGTypeNames.REGROLE:
+            case Constants.PGTypeNames.REGTYPE:
+            case Constants.PGTypeNames.XML:
+                return Types.OTHER;
+            default:
+                throw new ApplicationError("Unsupported OutParameter type: " + sqlType);
+        }
     }
 
     @Override

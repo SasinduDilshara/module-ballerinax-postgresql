@@ -1,32 +1,33 @@
 import ballerina/sql;
 
-public function initProcedureTestScripts() {
+public function initInoutProcedureTestScripts() {
     _ = createNetworkProcedure();
-    _ = createGeometricProcedure();
-    _ = createUuidProcedure();
-    _ = createPglsnProcedure();
-    _ = createJsonProcedure();
-    _ = createBitProcedure();
-    _ = createDatetimeProcedure();
-    _ = createRangeProcedure(); 
-    _ = createTextsearchProcedure();   
-    _ = createObjectidentifierProcedure();
+    // _ = createGeometricProcedure();
+    // _ = createUuidProcedure();
+    // _ = createPglsnProcedure();
+    // _ = createJsonProcedure();
+    // _ = createBitProcedure();
+    // _ = createDatetimeProcedure();
+    // _ = createRangeProcedure(); 
+    // _ = createTextsearchProcedure();   
+    // _ = createObjectidentifierProcedure();
 }
 
 public function createNetworkProcedure() {
     sql:ParameterizedQuery networkProcedureCreationQuery = `
-        create or replace procedure NetworkProcedure(
-            row_id bigint,
-            inet_in inet,
-            cidr_in cidr,
-            macaddr_in macaddr,
-            macaddr8_in macaddr8
+        create or replace procedure NetworkInoutProcedure(
+            inout row_id_inout bigint,
+            inout inet_inout inet,
+            inout cidr_inout cidr,
+            inout macaddr_inout macaddr,
+            inout macaddr8_inout macaddr8
             )
             language plpgsql    
             as $$
             begin
-                INSERT INTO NetworkTypes (row_id, inet_type, cidr_type, macaddr_type, macaddr8_type)
-                    VALUES(row_id, inet_in, cidr_in, macaddr_in, macaddr8_in);
+                Select row_id, inet_type, cidr_type, macaddr_type, macaddr8_type
+                into row_id_inout, inet_inout, cidr_inout, macaddr_inout, macaddr8_inout
+                     from NetworkTypes where NetworkTypes.row_id = 1;
         end;$$  
     `;
     _ = executeQuery("network_db", networkProcedureCreationQuery);

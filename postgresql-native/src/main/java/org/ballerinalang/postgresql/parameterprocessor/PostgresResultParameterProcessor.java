@@ -563,17 +563,48 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         parameter.addNativeData(Constants.ParameterObject.VALUE_NATIVE_DATA,
                 statement.getSQLXML(paramIndex));
     }
+    
+    public void populateObject(CallableStatement statement, BObject parameter, int paramIndex) throws SQLException {
+        parameter.addNativeData(Constants.ParameterObject.VALUE_NATIVE_DATA,
+                statement.getObject(paramIndex));
+    }
 
     @Override
     public void populateCustomOutParameters(CallableStatement statement, BObject parameter, int paramIndex, int sqlType)
             throws ApplicationError {
-        throw new ApplicationError("Unsupported SQL type '" + sqlType + "' when reading Procedure call " +
+        try {
+            System.out.println("Before populate");
+            populateObject(statement, parameter, paramIndex);
+            System.out.println("After populate");
+        }
+        catch (SQLException ex) {
+            throw new ApplicationError("Unsupported SQL type '" + sqlType + "' when reading Procedure call " +
                 "Out parameter of index '" + paramIndex + "'.");
+        }
     }
 
     @Override
     public Object getCustomOutParameters(Object value, int sqlType, Type ballerinaType) {
+        System.out.println("Inside Statement"); 
+        if(value instanceof BObject){
+             System.out.println("Inside if Statement");            
+        }
+        else{
+             System.out.println("Inside else Statement");                
+        }
         return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+    }
+
+    public Object convertypes(String value, int sqlType, Type type, boolean isNull) throws ApplicationError {
+        Utils.validatedInvalidFieldAssignment(sqlType, type, "SQL long or integer");
+        if (isNull) {
+            return null;
+        } else {
+            if (type.getTag() == TypeTags.STRING_TAG) {
+                return fromString(String.valueOf(value));
+            }
+            return value;
+        }
     }
 
     protected BObject getIteratorObject() {
@@ -635,7 +666,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         // switch (sqlType) {
             
         // }
-
+        System.out.println("Get custom result error");
         throw new ApplicationError("Unsupported SQL type " + columnDefinition.getSqlName());
     }
 
