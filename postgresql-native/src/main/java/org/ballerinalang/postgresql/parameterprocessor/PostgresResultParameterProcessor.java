@@ -613,6 +613,58 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
                     return convertCircleType(value, sqlType, ballerinaType);
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.UUID:
                     return convertUuidType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.TSVECTOR:
+                    return convertTsvectorType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.TSQUERY:
+                    return convertTsqueryType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.JSON:
+                    return convertJsonType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.JSONB:
+                    return convertJsonbType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.JSONPATH:
+                    return convertJsonpathType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.INTERVAL:
+                    return convertIntervalType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.INT4RANGE:
+                    return convertInt4rangeType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.INT8RANGE:
+                    return convertInt8rangeType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.NUMRANGE:
+                    return convertNumrangeType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.TSRANGE:
+                    return convertTsrangeType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.TSTZRANGE:
+                    return convertTstzrangeType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.DATERANGE:
+                    return convertDaterangeType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.PGBIT:
+                    return convertPGbitType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.BITSTRING:
+                    return convertBitstringType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.VARBITSTRING:
+                    return convertVarbitstringType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.PGLSN:
+                    return convertPglsnType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGCLASS:
+                    return convertRegclassType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGCONFIG:
+                    return convertRegconfigType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGDICTIONARY:
+                    return convertRegdictionaryType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGNAMESPACE:
+                    return convertRegnamespaceType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGOPER:
+                    return convertRegoperType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGOPERATOR:
+                    return convertRegoperatorType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGPROC:
+                    return convertRegprocType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGPROCEDURE:
+                    return convertRegprocedureType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGROLE:
+                    return convertRegroleType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.REGTYPE:
+                    return convertRegtypeType(value, sqlType, ballerinaType);
                 default:
                     return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
             }
@@ -692,8 +744,246 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         }
     }
 
+    public static Object convertTsvectorType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertTsqueryType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertJsonType(Object value, int sqlType, Type ballerinaType) {
+        return convertJsonTypes(value, sqlType, ballerinaType);
+    }
+
+    public static Object convertJsonbType(Object value, int sqlType, Type ballerinaType) {
+        return convertJsonTypes(value, sqlType, ballerinaType);
+    }
+
+    public static Object convertJsonpathType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertIntervalType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertInt4rangeType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertInt8rangeType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertNumrangeType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertTsrangeType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertTstzrangeType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertDaterangeType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertPGbitType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertBitstringType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertVarbitstringType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertPglsnType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+
+    public static Object convertRegclassType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegconfigType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegdictionaryType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegnamespaceType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegoperType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegoperatorType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegprocType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegprocedureType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegroleType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertRegtypeType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+
     public static Object convertNetworkTypes(Object value, int sqlType, Type ballerinaType) {
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertJsonTypes(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else if(ballerinaType.getTag() == TypeTags.JSON_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
         else {
