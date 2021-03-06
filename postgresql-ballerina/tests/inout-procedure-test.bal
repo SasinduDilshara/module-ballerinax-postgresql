@@ -262,19 +262,19 @@ function testRangeProcedureInoutCall() {
         `;
         sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "range_db");
 
-        test:assertEquals(int4rangeInoutValue.get(string), "[3,50)");
-        test:assertEquals(int8rangeInoutValue.get(string), "[11,100)");
-        test:assertEquals(numrangeInoutValue.get(string), "(0.1,2.4)");
-        test:assertEquals(tsrangeInoutValue.get(string), "\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")");
-        test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")");
-        test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)");
+        test:assertEquals(int4rangeInoutValue.get(string), "[3,50)", "Int4range Datatype Doesn't Match");
+        test:assertEquals(int8rangeInoutValue.get(string), "[11,100)", "Int8range Datatype Doesn't Match");
+        test:assertEquals(numrangeInoutValue.get(string), "(0.1,2.4)", "Numrnge Datatype Doesn't Match");
+        test:assertEquals(tsrangeInoutValue.get(string), "\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")", "Tsrange Datatype Doesn't Match");
+        test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")", "Tstzrange Datatype Doesn't Match");
+        test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)", "Daterange Datatype Doesn't Match");
 
-        // test:assertEquals(int4rangeInoutValue.get(string), "[3,50)");
-        // test:assertEquals(int8rangeInoutValue.get(string), "[11,100)");
-        // test:assertEquals(numrangeInoutValue.get(string), "(0.1,2.4)");
-        // test:assertEquals(tsrangeInoutValue.get(string), "\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")");
-        // test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")");
-        // test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)");
+        // test:assertEquals(int4rangeInoutValue.get(string), "[3,50)", "Int4range Datatype Doesn't Match");
+        // test:assertEquals(int8rangeInoutValue.get(string), "[11,100)", "Int8range Datatype Doesn't Match");
+        // test:assertEquals(numrangeInoutValue.get(string), "(0.1,2.4)", "Numrnge Datatype Doesn't Match");
+        // test:assertEquals(tsrangeInoutValue.get(string), "\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")", "Tsrange Datatype Doesn't Match");
+        // test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")", "Tstzrange Datatype Doesn't Match");
+        // test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)", "Daterange Datatype Doesn't Match");
 
 }
  
@@ -306,76 +306,64 @@ function testTextsearchProcedureInoutCall() {
     `;
     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "ts_db");
 
-    test:assertEquals(tsvectorInoutValue.get(string), "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'");
-    test:assertEquals(tsqueryInoutValue.get(string), "'fat' & 'rat'");
+    test:assertEquals(tsvectorInoutValue.get(string), "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'", "Tsvector Datatype Doesn't Match");
+    test:assertEquals(tsqueryInoutValue.get(string), "'fat' & 'rat'", "Tsquery Datatype Doesn't Match");
 
 }
 
 // //----------------------------------------------------------------------------------------------------------------------------
 
+@test:Config {
+    groups: ["datatypes"]
+}
+function testObjectidentifierProcedureInoutCall() {
+    int rowId = 2;
+    int oidType = 12;
+    RegclassValue regclassType = new("pg_type");
+    RegconfigValue regconfigType = new("english");
+    RegdictionaryValue regdictionaryType = new("simple");
+    RegnamespaceValue regnamespaceType = new("pg_catalog");
+    RegoperValue regoperType = new("!");
+    RegoperatorValue regoperatorType = new("*(int,int)");
+    RegprocValue regprocType = new("NOW");
+    RegprocedureValue regprocedureType = new("sum(int4)");
+    RegroleValue regroleType = new("postgres");
+    RegtypeValue regtypeType = new("int");
 
-// public type ObjectidentifierProcedureRecord record {
-//     int row_id;
-//     string oid_type;
-//     string regclass_type;
-//     string regconfig_type;
-//     string regdictionary_type;
-//     string regnamespace_type;
-//     string regoper_type;
-//     string regoperator_type;
-//     string regproc_type;
-//     string regprocedure_type;
-//     string regrole_type;
-//     string regtype_type;
-// };
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter oidInoutValue = new (oidType);
+    InOutParameter regclassInoutValue = new (regclassType);
+    InOutParameter regconfigInoutValue = new (regconfigType);
+    InOutParameter regdictionaryInoutValue = new (regdictionaryType);
+    InOutParameter regnamespaceInoutValue = new (regnamespaceType);
+    InOutParameter regoperInoutValue = new (regoperType);
+    InOutParameter regoperatorInoutValue = new (regoperatorType);
+    InOutParameter regprocInoutValue = new (regprocType);
+    InOutParameter regprocedureInoutValue = new (regprocedureType);
+    InOutParameter regroleInoutValue = new (regroleType);
+    InOutParameter regtypeInoutValue = new(regtypeType);
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testObjectidentifierProcedureInoutCall() {
-//     int rowId = 2;
-//     int oidType = 12;
-//     RegclassValue regclassType = new("pg_type");
-//     RegconfigValue regconfigType = new("english");
-//     RegdictionaryValue regdictionaryType = new("simple");
-//     RegnamespaceValue regnamespaceType = new("pg_catalog");
-//     RegoperValue regoperType = new("!");
-//     RegoperatorValue regoperatorType = new("*(int,int)");
-//     RegprocValue regprocType = new("NOW");
-//     RegprocedureValue regprocedureType = new("sum(int4)");
-//     RegroleValue regroleType = new("postgres");
-//     RegtypeValue regtypeType = new("int");
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call ObjectidentifierInoutProcedure(${rowIdInoutValue}, ${oidInoutValue}, ${regclassInoutValue}, ${regconfigInoutValue}, ${regdictionaryInoutValue}, 
+                                ${regnamespaceInoutValue}, ${regoperInoutValue}, ${regoperatorInoutValue}, ${regprocInoutValue}, ${regprocedureInoutValue},
+                                 ${regroleInoutValue}, ${regtypeInoutValue});
+    `;
+    sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "objectidentifier_db");
 
-//     sql:ParameterizedCallQuery sqlQuery =
-//       `
-//       call ObjectidentifierInoutProcedure(${rowId}, ${oidType}, ${regclassType}, ${regconfigType}, ${regdictionaryType}, 
-//                                 ${regnamespaceType}, ${regoperType}, ${regoperatorType}, ${regprocType}, ${regprocedureType},
-//                                  ${regroleType}, ${regtypeType});
-//     `;
-//     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "objectidentifier_db");
+    test:assertEquals(oidInoutValue.get(string), "12", "OID Datatype Doesn;t Match");
+    test:assertEquals(regclassInoutValue.get(string), "pg_type", "Reg class Datatype Doesn't Match");
+    test:assertEquals(regconfigInoutValue.get(string), "english", "Reg config Datatype Doesn;t Match");
+    test:assertEquals(regdictionaryInoutValue.get(string), "simple", "Reg Dictionary Datatype Doesn't Match");
+    test:assertEquals(regnamespaceInoutValue.get(string), "pg_catalog", "Reg namespace Datatype Doesn;t Match");
+    test:assertEquals(regoperInoutValue.get(string), "!", "Reg oper Datatype Doesn't Match");
+    test:assertEquals(regoperatorInoutValue.get(string), "*(integer,integer)", "Reg operator Datatype Doesn;t Match");
+    test:assertEquals(regprocInoutValue.get(string), "now", "Reg proc Datatype Doesn't Match");
+    test:assertEquals(regprocedureInoutValue.get(string), "sum(integer)", "Reg procedure Datatype Doesn;t Match");
+    test:assertEquals(regroleInoutValue.get(string), "postgres", "Reg role Datatype Doesn't Match");
+    test:assertEquals(regtypeInoutValue.get(string), "integer", "Reg type Datatype Doesn;t Match");
 
-//     sql:ParameterizedQuery query = `SELECT row_id, oid_type, regclass_type, regconfig_type, regdictionary_type,
-//         regnamespace_type, regoper_type, regoperator_type, regproc_type, regprocedure_type, regrole_type, regtype_type 
-//         from ObjectidentifierTypes where row_id = ${rowId}`;
-
-//     ObjectidentifierProcedureRecord expectedDataRow = {
-//         row_id: rowId,
-//         oid_type: "12",
-//         regclass_type: "pg_type",
-//         regconfig_type: "english",
-//         regdictionary_type: "simple",
-//         regnamespace_type: "pg_catalog",
-//         regoper_type: "!",
-//         regoperator_type: "*(integer,integer)",
-//         regproc_type: "now",
-//         regprocedure_type: "sum(integer)",
-//         regrole_type: "postgres",
-//         regtype_type: "integer"
-//     };
- 
-//     test:assertEquals(queryInoutProcedureClient(query, "objectidentifier_db", ObjectidentifierProcedureRecord), expectedDataRow, "Objectidentifier Call procedure insert and query did not match.");
-
-// }
+}
 
 
 //----------------------------------------------------------------------------------------------------------------------------

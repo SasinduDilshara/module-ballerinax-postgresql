@@ -193,50 +193,28 @@ public function createTextsearchInoutProcedure() {
 public function createObjectidentifierInoutProcedure() {
     sql:ParameterizedQuery objectidentifierInoutProcedureCreationQuery = `
         create or replace procedure ObjectidentifierProcedure(
-            row_id bigint,
-            oid_in oid,
-            regclass_in regclass,
-            regconfig_in regconfig,
-            regdictionary_in regdictionary,
-            regnamespace_in regnamespace,
-            regoper_in regoper,
-            regoperator_in regoperator,
-            regproc_in regproc,
-            regprocedure_in regprocedure,
-            regrole_in regrole,
-            regtype_in regtype
+            row_id_inout bigint,
+            oid_inout oid,
+            regclass_inout regclass,
+            regconfig_inout regconfig,
+            regdictionary_inout regdictionary,
+            regnamespace_inout regnamespace,
+            regoper_inout regoper,
+            regoperator_inout regoperator,
+            regproc_inout regproc,
+            regprocedure_inout regprocedure,
+            regrole_inout regrole,
+            regtype_inout regtype
             )
             language plpgsql    
             as $$
             begin
-                INSERT INTO ObjectidentifierTypes(
-                    row_id,
-                    oid_type,
-                    regclass_type,
-                    regconfig_type,
-                    regdictionary_type,
-                    regnamespace_type,
-                    regoper_type,
-                    regoperator_type,
-                    regproc_type,
-                    regprocedure_type,
-                    regrole_type,
-                    regtype_type
-                    ) 
-                VALUES (
-                    row_id,
-                    oid_in,
-                    regclass_in,
-                    regconfig_in,
-                    regdictionary_in,
-                    regnamespace_in,
-                    regoper_in,
-                    regoperator_in,
-                    regproc_in,
-                    regprocedure_in,
-                    regrole_in,
-                    regtype_in
-                    );
+                SELECT row_id, oid_type, regclass_type, regconfig_type, regdictionary_type,
+            regnamespace_type, regoper_type, regoperator_type, regproc_type, regprocedure_type, regrole_type, regtype_type 
+            from ObjectidentifierTypes
+            into oid_inout, regclass_inout, regconfig_inout, regdictionary_inout, regnamespace_inout,
+             regoper_inout, regoperator_inout, regproc_inout, regprocedure_inout, regrole_inout, regtype_inout
+             where ObjectidentifierTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("objectidentifier_db", objectidentifierInoutProcedureCreationQuery);
