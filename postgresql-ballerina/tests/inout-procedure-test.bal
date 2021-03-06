@@ -13,7 +13,7 @@ function testNetworkProcedureInoutCall() {
     MacaddrValue macaddrValue = new ();
     Macaddr8Value macaddr8Value = new ();
 
-    InOutParameter rowIdInutValue = new (rowId);
+    InOutParameter rowIdInoutValue = new (rowId);
     InOutParameter inetInoutValue = new (inetValue);
     InOutParameter cidrInoutValue = new (cidrValue);
     InOutParameter macaddrInoutValue = new (macaddrValue);
@@ -21,7 +21,7 @@ function testNetworkProcedureInoutCall() {
 
     sql:ParameterizedCallQuery sqlQuery =
       `
-      call NetworkInoutProcedure(${rowIdInutValue}, ${inetInoutValue}, ${cidrInoutValue}, ${macaddrInoutValue}, ${macaddr8InoutValue});
+      call NetworkInoutProcedure(${rowIdInoutValue}, ${inetInoutValue}, ${cidrInoutValue}, ${macaddrInoutValue}, ${macaddr8InoutValue});
     `;
     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "network_db");
 
@@ -35,291 +35,241 @@ function testNetworkProcedureInoutCall() {
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 
-// public type GeometricProcedureRecord record {
-//     int row_id;
-//     string point_type;
-//     string line_type;
-//     string lseg_type;
-//     string box_type;
-//     string circle_type;
-//     // string? path_type;
-//     // string? polygon_type;
-// };
+@test:Config {
+    groups: ["datatypes"]
+}
+function testGeometricProcedureInoutCall() {
+    int rowId = 2;
+    PointValue pointType = new ({x: 2, y:2});
+    LineValue lineType = new ({a:2, b:3, c:4});
+    LsegValue lsegType = new ({x1: 2, x2: 3, y1: 2, y2:3});
+    BoxValue boxType = new ({x1: 2, x2: 3, y1: 2, y2:3});
+    // PathValue pathType = new ("[(1,1),(2,2)]");
+    // PolygonValue polygonType = new ("[(1,1),(2,2)]");
+    CircleValue circleType = new ({x: 2, y:2, r:2});
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testGeometricProcedureInoutCall() {
-//     int rowId = 2;
-//     PointValue pointType = new ({x: 2, y:2});
-//     LineValue lineType = new ({a:2, b:3, c:4});
-//     LsegValue lsegType = new ({x1: 2, x2: 3, y1: 2, y2:3});
-//     BoxValue boxType = new ({x1: 2, x2: 3, y1: 2, y2:3});
-//     // PathValue pathType = new ("[(1,1),(2,2)]");
-//     // PolygonValue polygonType = new ("[(1,1),(2,2)]");
-//     CircleValue circleType = new ({x: 2, y:2, r:2});
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter pointInoutValue = new (pointType);
+    InOutParameter lineInoutValue = new (lineType);
+    InOutParameter lsegInoutValue = new (lsegType);
+    InOutParameter boxInoutValue = new (boxType);
+    InOutParameter circleInoutValue = new (circleType);
 
-//     sql:ParameterizedCallQuery sqlQuery =
-//       `
-//       call GeometricProcedure(${rowId}, ${pointType}, ${lineType}, ${lsegType}, ${boxType}, ${circleType});
-//     `;
-//     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "geometric_db");
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call GeometricInoutProcedure(${rowIdInoutValue}, ${pointInoutValue}, ${lineInoutValue}, ${lsegInoutValue}, ${boxInoutValue}, ${circleInoutValue});
+    `;
+    sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "geometric_db");
 
-//     sql:ParameterizedQuery query = `SELECT row_id, point_type, line_type, lseg_type, box_type, circle_type from GeometricTypes where row_id = ${rowId}`;
+    test:assertEquals(pointInoutValue.get(string), "(2,2)", "Point Data type doesnt match.");
+    test:assertEquals(lineInoutValue.get(string), "{2,3,4}", "Line Data type doesnt match.");
+    test:assertEquals(lsegInoutValue.get(string), "[(2,2),(3,3)]", "Line Segment Data type doesnt match.");
+    test:assertEquals(boxInoutValue.get(string), "(3,3),(2,2)", "Box Data type doesnt match.");
+    test:assertEquals(circleInoutValue.get(string), "<(2,2),2>", "Circle Data type doesnt match.");
 
-//     GeometricProcedureRecord expectedDataRow = {
-//         row_id: rowId,
-//         point_type: "(2,2)",
-//         line_type: "{2,3,4}",
-//         lseg_type: "[(2,2),(3,3)]",
-//         box_type: "(3,3),(2,2)",
-//         circle_type: "<(2,2),2>"
-//     };
- 
-//     test:assertEquals(queryInoutProcedureClient(query, "geometric_db", GeometricProcedureRecord), expectedDataRow, "Geometric Call procedure insert and query did not match.");
+    // test:assertEquals(pointInoutValue.get(string), "(2,2)", "Point Data type doesnt match.");
+    // test:assertEquals(lineInoutValue.get(string), "{2,3,4}", "Line Data type doesnt match.");
+    // test:assertEquals(lsegInoutValue.get(string), "[(2,2),(3,3)]", "Line Segment Data type doesnt match.");
+    // test:assertEquals(boxInoutValue.get(string), "(3,3),(2,2)", "Box Data type doesnt match.");
+    // test:assertEquals(circleInoutValue.get(string), "<(2,2),2>", "Circle Data type doesnt match.");
 
-// }
+}
 
 // //----------------------------------------------------------------------------------------------------------------------------------------------------
 
+@test:Config {
+    groups: ["datatypes"]
+}
+function testUuidProcedureInoutCall() {
+    int rowId = 2;
+    UuidValue uuidType = new ("a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12");
 
-// public type UuidProcedureRecord record {
-//     int row_id;
-//     string uuid_type;
-// };
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter uuidInoutValue = new (uuidType);
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testUuidProcedureInoutCall() {
-//     int rowId = 2;
-//     UuidValue uuidType = new ("a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12");
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call UuidInoutProcedure(${rowIdInoutValue}, ${uuidInoutValue});
+    `;
+    sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "uuid_db");
 
-//     sql:ParameterizedCallQuery sqlQuery =
-//       `
-//       call UuidProcedure(${rowId}, ${uuidType});
-//     `;
-//     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "uuid_db");
-
-//     sql:ParameterizedQuery query = `SELECT row_id, uuid_type from UuidTypes where row_id = ${rowId}`;
-
-//     UuidProcedureRecord expectedDataRow = {
-//         row_id: rowId,
-//         uuid_type: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12"
-//     };
- 
-//     test:assertEquals(queryInoutProcedureClient(query, "uuid_db", UuidProcedureRecord), expectedDataRow, "Uuid Call procedure insert and query did not match.");
-
-// }
+    test:assertEquals(uuidInoutValue.get(string), "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12", "UUID Datatype doesn't match");
+}
 
 // //----------------------------------------------------------------------------------------------------------------------------------------------------
 
-// public type PglsnProcedureRecord record {
-//     int row_id;
-//     string pglsn_type;
-// };
+@test:Config {
+    groups: ["datatypes"]
+}
+function testPglsnProcedureInoutCall() {
+    int rowId = 2;
+    PglsnValue pglsnType = new ("16/B374D848");
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testPglsnProcedureInoutCall() {
-//     int rowId = 2;
-//     PglsnValue pglsnType = new ("16/B374D848");
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter pglsnInoutValue = new (pglsnType);
 
-//     sql:ParameterizedCallQuery sqlQuery =
-//       `
-//       call PglsnProcedure(${rowId}, ${pglsnType});
-//     `;
-//     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "pglsn_db");
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call PglsnInoutProcedure(${rowIdInoutValue}, ${pglsnInoutValue});
+    `;
+    sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "pglsn_db");
 
-//     sql:ParameterizedQuery query = `SELECT row_id, pglsn_type from PglsnTypes where row_id = ${rowId}`;
+    test:assertEquals(uuidInoutValue.get(string), "16/B374D848", "Pg_lsn Data type Doesn't match");
 
-//     PglsnProcedureRecord expectedDataRow = {
-//         row_id: rowId,
-//         pglsn_type: "16/B374D848"
-//     };
- 
-//     test:assertEquals(queryInoutProcedureClient(query, "pglsn_db", PglsnProcedureRecord), expectedDataRow, "Pglsn Call procedure insert and query did not match.");
-
-// }
+}
 
 // //-------------------------------------------------------------------------------------------------------------------------
 
-// public type JsonProcedureRecord record {
-//     int row_id;
-//     json json_type;
-//     json jsonb_type;
-//     string jsonpath_type;
-// };
+public type JsonProcedureRecord record {
+    int row_id;
+    json json_type;
+    json jsonb_type;
+    string jsonpath_type;
+};
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testJsonProcedureInoutCall() {
-//     int rowId = 2;
-//     json jsonValue = {"a":11,"b":2};
-//     JsonValue jsonType = new(jsonValue);
-//     JsonbValue jsonbType = new(jsonValue);
-//     JsonpathValue jsonpathType = new("$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 10)");
+@test:Config {
+    groups: ["datatypes"]
+}
+function testJsonProcedureInoutCall() {
+    int rowId = 2;
+    json jsonValue = {"a":11,"b":2};
+    JsonValue jsonType = new(jsonValue);
+    JsonbValue jsonbType = new(jsonValue);
+    JsonpathValue jsonpathType = new("$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 10)");
 
-//     sql:ParameterizedCallQuery sqlQuery =
-//       `
-//       call JsonProcedure(${rowId}, ${jsonType}, ${jsonbType}, ${jsonpathType});
-//     `;
-//     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "json_db");
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter jsonInoutValue = new (jsonType);
+    InOutParameter jsonbInoutValue = new (jsonbType);
+    InOutParameter jsonPathInoutValue = new (jsonpathType);
 
-//     sql:ParameterizedQuery query = `SELECT row_id, json_type, jsonb_type, jsonpath_type from JsonTypes where row_id = ${rowId}`;
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call JsonInoutProcedure(${rowIdInoutValue}, ${jsonInoutValue}, ${jsonbInoutValue}, ${jsonPathInoutValue});
+    `;
+    sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "json_db");
 
-//     JsonProcedureRecord expectedDataRow = {
-//         row_id: rowId,
-//         json_type: jsonValue,
-//         jsonb_type: jsonValue,
-//         jsonpath_type: "$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 10)"
-//     };
- 
-//     test:assertEquals(queryInoutProcedureClient(query, "json_db", JsonProcedureRecord), expectedDataRow, "Json Call procedure insert and query did not match.");
+    test:assertEquals(jsonInoutValue.get(string), "{\"a\":11,\"b\":2}", "Json Datatype Doesn't Match");
+    test:assertEquals(jsonbInoutValue.get(string), "{\"a\":11,\"b\":2}", "Jsonb Datatype Doesn't Match");
+    test:assertEquals(jsonPathInoutValue.get(string), "$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 10)", "Json path Datatype Doesn't Match");
 
-// }
+    test:assertEquals(jsonInoutValue.get(json), {"a":11,"b":2}, "Json Datatype Doesn't Match");
+    test:assertEquals(jsonbInoutValue.get(json), {"a":11,"b":2}, "Jsonb Datatype Doesn't Match");
+}
 
 // //-------------------------------------------------------------------------------------------------------------------------
 
-// public type BitProcedureRecord record {
-//     int row_id;
-//     // string bitstring_type;
-//     string varbitstring_type;
-//     boolean bit_type;
-// };
+@test:Config {
+    groups: ["datatypes"]
+}
+function testBitProcedureInoutCall() {
+    int rowId = 2;
+    VarbitstringValue varbitstringType = new("111110");
+    PGBitValue bitType = new("1");
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testBitProcedureInoutCall() {
-//     int rowId = 2;
-//     VarbitstringValue bitstringType = new("1110001100");
-//     VarbitstringValue varbitstringType = new("111110");
-//     PGBitValue bitType = new("1");
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter varbitInoutValue = new (varbitstringType);
+    InOutParameter bitInoutValue = new (bitType);
 
-//     sql:ParameterizedCallQuery sqlQuery =
-//       `
-//       call BitProcedure(${rowId}, ${varbitstringType}, ${bitType});
-//     `;
-//     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "bitstring_db");
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call BitInoutProcedure(${rowIdInoutValue}, ${varbitInoutValue}, ${bitInoutValue});
+    `;
+    sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "bitstring_db");
 
-//     sql:ParameterizedQuery query = `SELECT row_id, varbitstring_type, bit_type from BitTypes where row_id = ${rowId}`;
+    test:assertEquals(varbitInoutValue.get(string), "111110", "Bit Vary Datatype Doesn;t Match");
+    test:assertEquals(bitInoutValue.get(boolean), true, "Bit Datatype Doesn't Match");
 
-//     BitProcedureRecord expectedDataRow = {
-//         row_id: rowId,
-//         // bitstring_type: "1110001100",
-//         varbitstring_type: "111110",
-//         bit_type: true
-//     };
- 
-//     test:assertEquals(queryInoutProcedureClient(query, "bitstring_db", BitProcedureRecord), expectedDataRow, "Bit Call procedure insert and query did not match.");
-
-// }
+}
 
 // //-----------------------------------------------------------------------------------------------------------------------
 
-// public type DatetimeProcedureRecord record {
-//   int row_id;
-//   string date_type;
-//   string time_type;
-//   string timetz_type;
-//   string timestamp_type;
-//   string timestamptz_type;
-//   string interval_type;
-// };
+@test:Config {
+    groups: ["datatypes"]
+}
+function testDatetimeProcedureInoutCall() {
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testDatetimeProcedureInoutCall() {
+    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
+    if(timeValue is time:Time){
+        int rowId = 2;
+        sql:TimestampValue timestampType = new(timeValue);
+        sql:TimestampValue timestamptzType = new(timeValue);
+        sql:DateValue dateType = new(timeValue);
+        sql:TimeValue timeType = new(timeValue);
+        sql:TimeValue timetzType= new(timeValue);
+        IntervalValue intervalType= new({years:1,months:2,days:3,hours:4,minutes:5,seconds:6});
 
-//     time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-//     if(timeValue is time:Time){
-//         int rowId = 2;
-//         sql:TimestampValue timestampType = new(timeValue);
-//         sql:TimestampValue timestamptzType = new(timeValue);
-//         sql:DateValue dateType = new(timeValue);
-//         sql:TimeValue timeType = new(timeValue);
-//         sql:TimeValue timetzType= new(timeValue);
-//         IntervalValue intervalType= new({years:1,months:2,days:3,hours:4,minutes:5,seconds:6});
-
+        InOutParameter rowIdInoutValue = new (rowId);
+        InOutParameter timestampInoutValue = new (timestampType);
+        InOutParameter timestamptzInoutValue = new (timestamptzType);
+        InOutParameter dateInoutValue = new (dateType);
+        InOutParameter timeInoutValue = new (timeType);
+        InOutParameter timetzInoutValue = new (timetzType);
+        InOutParameter intervalInoutValue = new (intervalType);
         
-//         sql:ParameterizedCallQuery sqlQuery =
-//         `
-//         call DatetimeProcedure(${rowId}, ${dateType}, ${timeType}, ${timetzType}, ${timestampType}, ${timestamptzType}, ${intervalType});
-//         `;
-//         sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "datetime_db");
+        sql:ParameterizedCallQuery sqlQuery =
+        `
+            call DatetimeInoutProcedure(${rowId}, ${dateInoutValue}, ${timeInoutValue}, ${timetzInoutValue},
+                ${timestampInoutValue}, ${timestamptzInoutValue}, ${intervalInoutValue});
+        `;
+        sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "datetime_db");
 
-//         sql:ParameterizedQuery query = `SELECT row_id, date_type, time_type, timetz_type, timestamp_type, 
-//                 timestamptz_type, interval_type from DatetimeTypes where row_id = ${rowId}`;
+        test:assertEquals(timestampInoutValue.get(string), "2017-03-28+05:30", " Timestamp Datatype Doesn't Match");
+        test:assertEquals(timestamptzInoutValue.get(string), "05:12:45.554+05:30", " Timestamptz Datatype Doesn't Match");
+        test:assertEquals(dateInoutValue.get(string), "23:42:45.554+05:30", " Date Datatype Doesn't Match");
+        test:assertEquals(timeInoutValue.get(string), "2017-03-29T05:12:45.554+05:30", " Time Datatype Doesn't Match");
+        test:assertEquals(timetzInoutValue.get(string), "2017-03-28T23:42:45.554+05:30", " Timetz Datatype Doesn't Match");
+        test:assertEquals(intervalInoutValue.get(string), "1 year 2 mons 3 days 04:05:06", " Interval Datatype Doesn't Match");
 
-//         DatetimeProcedureRecord expectedDataRow = {
-//             row_id: rowId,
-//             date_type: "2017-03-28+05:30",
-//             time_type: "05:12:45.554+05:30",
-//             timetz_type: "23:42:45.554+05:30",
-//             timestamp_type: "2017-03-29T05:12:45.554+05:30",
-//             timestamptz_type: "2017-03-28T23:42:45.554+05:30",
-//             interval_type: "1 year 2 mons 3 days 04:05:06"
-//         };
-    
-//         test:assertEquals(queryInoutProcedureClient(query, "datetime_db", DatetimeProcedureRecord), expectedDataRow, "Datetime Call procedure insert and query did not match.");
+        // test:assertEquals(timestampInoutValue.get(string), "2017-03-28+05:30", " Timestamp Datatype Doesn't Match");
+        // test:assertEquals(timestamptzInoutValue.get(string), "05:12:45.554+05:30", " Timestamptz Datatype Doesn't Match");
+        // test:assertEquals(dateInoutValue.get(string), "23:42:45.554+05:30", " Date Datatype Doesn't Match");
+        // test:assertEquals(timeInoutValue.get(string), "2017-03-29T05:12:45.554+05:30", " Time Datatype Doesn't Match");
+        // test:assertEquals(timetzInoutValue.get(string), "2017-03-28T23:42:45.554+05:30", " Timetz Datatype Doesn't Match");
+        // test:assertEquals(intervalInoutValue.get(string), "1 year 2 mons 3 days 04:05:06", " Interval Datatype Doesn't Match");
 
-//     }
-//     else{
-//         test:assertFail("Invalid Time value generated ");
-//     }
-// }
+    }
+    else{
+        test:assertFail("Invalid Time value generated ");
+    }
+}
 
 // //--------------------------------------------------------------------------------------------------------------------------
 
+@test:Config {
+    groups: ["datatypes"]
+}
+function testRangeProcedureInoutCall() {
 
-// public type RangeProcedureRecord record {
-//   int row_id;
-//   string int4range_type;
-//   string int8range_type;
-//   string numrange_type;
-//   string tsrange_type;
-//   string tstzrange_type;
-//   string daterange_type;
-// };
+        int rowId = 2;
+        Int4rangeValue int4rangeType = new("(2,50)");
+        Int8rangeValue int8rangeType = new("(10,100)");
+        NumrangeValue numrangeType = new("(0.1,2.4)");
+        TsrangeValue tsrangeType = new("(2010-01-01 14:30, 2010-01-01 15:30)");
+        TstzrangeValue tstzrangeType= new("(2010-01-01 14:30, 2010-01-01 15:30)");
+        DaterangeValue daterangeType= new("(2010-01-01 14:30, 2010-01-03 )");
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testRangeProcedureInoutCall() {
-
-//         int rowId = 2;
-//         Int4rangeValue int4rangeType = new("(2,50)");
-//         Int8rangeValue int8rangeType = new("(10,100)");
-//         NumrangeValue numrangeType = new("(0.1,2.4)");
-//         TsrangeValue tsrangeType = new("(2010-01-01 14:30, 2010-01-01 15:30)");
-//         TstzrangeValue tstzrangeType= new("(2010-01-01 14:30, 2010-01-01 15:30)");
-//         DaterangeValue daterangeType= new("(2010-01-01 14:30, 2010-01-03 )");
+        InOutParameter rowIdInoutValue = new (rowId);
+        InOutParameter int4rangeInoutValue = new (int4rangeType);
+        InOutParameter int8rangeInoutValue = new (int8rangeType);
+        InOutParameter numrangeInoutValue = new (numrangeType);
+        InOutParameter tsrangeInoutValue = new (tsrangeType);
+        InOutParameter tstzrangeInoutValue = new (tstzrangeType);
+        InOutParameter daterangeInoutValue = new (daterangeType);
         
-//         sql:ParameterizedCallQuery sqlQuery =
-//         `
-//         call RangeProcedure(${rowId}, ${int4rangeType}, ${int8rangeType}, ${numrangeType}, ${tsrangeType}, ${tstzrangeType}, ${daterangeType});
-//         `;
-//         sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "range_db");
+        sql:ParameterizedCallQuery sqlQuery =
+        `
+        call RangeInoutProcedure(${rowId}, ${int4rangeInoutValue}, ${int8rangeInoutValue}, ${numrangeInoutValue}, ${tsrangeInoutValue}, ${tstzrangeInoutValue}, ${daterangeInoutValue});
+        `;
+        sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "range_db");
 
-//         sql:ParameterizedQuery query = `SELECT row_id, int4range_type, int8range_type, numrange_type, tsrange_type, 
-//                 tstzrange_type, daterange_type from RangeTypes where row_id = ${rowId}`;
+        test:assertEquals(int4rangeInoutValue.get(string), "[3,50)");
+        test:assertEquals(int8rangeInoutValue.get(string), "[11,100)");
+        test:assertEquals(numrangeInoutValue.get(string), "(0.1,2.4)");
+        test:assertEquals(tsrangeInoutValue.get(string), "\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")");
+        test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")");
+        test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)");
 
-//         RangeProcedureRecord expectedDataRow = {
-//             row_id: rowId,
-//             int4range_type: "[3,50)",
-//             int8range_type: "[11,100)",
-//             numrange_type: "(0.1,2.4)",
-//             tsrange_type: "(\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")",
-//             tstzrange_type: "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")",
-//             daterange_type: "[2010-01-02,2010-01-03)"
-//         };
-    
-//         test:assertEquals(queryInoutProcedureClient(query, "range_db", RangeProcedureRecord), expectedDataRow, "Range Call procedure insert and query did not match.");
-// }
+}
  
 
 // //---------------------------------------------------------------------------------------------------------------------------
@@ -341,7 +291,7 @@ function testNetworkProcedureInoutCall() {
 
 //     sql:ParameterizedCallQuery sqlQuery =
 //       `
-//       call TextsearchProcedure(${rowId}, ${tsvectorType}, ${tsqueryType});
+//       call TextsearchInoutProcedure(${rowId}, ${tsvectorType}, ${tsqueryType});
 //     `;
 //     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "ts_db");
 
@@ -394,7 +344,7 @@ function testNetworkProcedureInoutCall() {
 
 //     sql:ParameterizedCallQuery sqlQuery =
 //       `
-//       call ObjectidentifierProcedure(${rowId}, ${oidType}, ${regclassType}, ${regconfigType}, ${regdictionaryType}, 
+//       call ObjectidentifierInoutProcedure(${rowId}, ${oidType}, ${regclassType}, ${regconfigType}, ${regdictionaryType}, 
 //                                 ${regnamespaceType}, ${regoperType}, ${regoperatorType}, ${regprocType}, ${regprocedureType},
 //                                  ${regroleType}, ${regtypeType});
 //     `;

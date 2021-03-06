@@ -594,15 +594,109 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
             String sqlTypeName = innerBobject.getType().getName();
             switch(sqlTypeName){
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.INET:
+                    return convertInetType(value, sqlType, ballerinaType);
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.CIDR:
+                    return convertCidrType(value, sqlType, ballerinaType);
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.MACADDR:
+                    return convertMacaddrType(value, sqlType, ballerinaType);
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.MACADDR8:
-                    return Convertor.convertNetworkTypes(value, sqlType, ballerinaType);
+                    return convertMacaddr8Type(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.POINT:
+                    return convertPointType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.LINE:
+                    return convertLineType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.LSEG:
+                    return convertLsegType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.BOX:
+                    return convertBoxType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.CIRCLE:
+                    return convertCircleType(value, sqlType, ballerinaType);
+                case org.ballerinalang.postgresql.Constants.PGTypeNames.UUID:
+                    return convertUuidType(value, sqlType, ballerinaType);
                 default:
                     return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
             }
         }
         else{
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertInetType(Object value, int sqlType, Type ballerinaType) {
+        return convertNetworkTypes(value, sqlType, ballerinaType);
+    }
+
+    public static Object convertCidrType(Object value, int sqlType, Type ballerinaType) {
+        return convertNetworkTypes(value, sqlType, ballerinaType);
+    }
+
+    public static Object convertMacaddrType(Object value, int sqlType, Type ballerinaType) {
+        return convertNetworkTypes(value, sqlType, ballerinaType);
+    }
+
+    public static Object convertMacaddr8Type(Object value, int sqlType, Type ballerinaType) {
+        return convertNetworkTypes(value, sqlType, ballerinaType);
+    }
+
+    public static Object convertPointType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertLineType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertLsegType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertBoxType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertCircleType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertUuidType(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
+            return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
+        }
+    }
+
+    public static Object convertNetworkTypes(Object value, int sqlType, Type ballerinaType) {
+        if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
+            return fromString(String.valueOf(value.toString()));
+        }
+        else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
     }

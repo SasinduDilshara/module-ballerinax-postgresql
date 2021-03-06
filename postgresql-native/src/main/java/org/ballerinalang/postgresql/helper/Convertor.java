@@ -924,14 +924,4 @@ public class Convertor {
             return money;
         }
 
-// ------------------------------------------------------------------------------------------------------------------
-
-        public static Object convertNetworkTypes(Object value, int sqlType, Type ballerinaType) {
-            if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
-                return fromString(String.valueOf(value.toString()));
-            }
-            else {
-                return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
-            }
-        }
 } 
