@@ -269,43 +269,47 @@ function testRangeProcedureInoutCall() {
         test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")");
         test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)");
 
+        // test:assertEquals(int4rangeInoutValue.get(string), "[3,50)");
+        // test:assertEquals(int8rangeInoutValue.get(string), "[11,100)");
+        // test:assertEquals(numrangeInoutValue.get(string), "(0.1,2.4)");
+        // test:assertEquals(tsrangeInoutValue.get(string), "\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")");
+        // test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")");
+        // test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)");
+
 }
  
 
 // //---------------------------------------------------------------------------------------------------------------------------
 
-// public type TextsearchProcedureRecord record {
+public type TextsearchProcedureRecord record {
     
-//     int row_id;
-//     string tsvector_type;
-//     string tsquery_type;
-// };
+    int row_id;
+    string tsvector_type;
+    string tsquery_type;
+};
 
-// @test:Config {
-//     groups: ["datatypes"]
-// }
-// function testTextsearchProcedureInoutCall() {
-//     int rowId = 2;
-//     TsvectorValue tsvectorType = new ("a fat cat sat on a mat and ate a fat rat");
-//     TsqueryValue tsqueryType = new ("fat & rat");
+@test:Config {
+    groups: ["datatypes"]
+}
+function testTextsearchProcedureInoutCall() {
+    int rowId = 2;
+    TsvectorValue tsvectorType = new ("a fat cat sat on a mat and ate a fat rat");
+    TsqueryValue tsqueryType = new ("fat & rat");
 
-//     sql:ParameterizedCallQuery sqlQuery =
-//       `
-//       call TextsearchInoutProcedure(${rowId}, ${tsvectorType}, ${tsqueryType});
-//     `;
-//     sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "ts_db");
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter tsvectorInoutValue = new (tsvectorType);
+    InOutParameter tsqueryInoutValue = new (tsqueryType);
 
-//     sql:ParameterizedQuery query = `SELECT row_id, tsvector_type, tsquery_type from TextsearchTypes where row_id = ${rowId}`;
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call TextsearchInoutProcedure(rowIdInoutValue, tsvectorInoutValue, tsqueryInoutValue);
+    `;
+    sql:ProcedureCallResult result = callInoutProcedure(sqlQuery, "ts_db");
 
-//     TextsearchProcedureRecord expectedDataRow = {
-//         row_id: rowId,
-//         tsvector_type: "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'",
-//         tsquery_type: "'fat' & 'rat'"
-//     };
- 
-//     test:assertEquals(queryInoutProcedureClient(query, "ts_db", TextsearchProcedureRecord), expectedDataRow, "Textsearch Call procedure insert and query did not match.");
+    test:assertEquals(tsvectorInoutValue.get(string), "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'");
+    test:assertEquals(tsqueryInoutValue.get(string), "'fat' & 'rat'");
 
-// }
+}
 
 // //----------------------------------------------------------------------------------------------------------------------------
 

@@ -65,7 +65,7 @@ public function createUuidInoutProcedure() {
             begin
                 SELECT row_id, uuid_type from UuidTypes
                  into row_id_inout, uuid_inout
-                 where UuidTypes.row_id = row_id_inout
+                 where UuidTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("uuid_db", uuidInoutProcedureCreationQuery);
@@ -82,7 +82,7 @@ public function createPglsnInoutProcedure() {
             begin
                 SELECT row_id, pglsn_type from PglsnTypes
                 into row_id_inout, pglsn_inout
-                 where PglsnTypes.row_id = row_id_inout
+                 where PglsnTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("pglsn_db", pglsnInoutProcedureCreationQuery);
@@ -101,7 +101,7 @@ public function createJsonInoutProcedure() {
             begin
                 SELECT row_id, json_type, jsonb_type, jsonpath_type 
                 into row_id_inout, json_inout, jsonb_inout, jsonpath_inout
-                from JsonTypes where JsonTypes.row_id = row_id_inout
+                from JsonTypes where JsonTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("json_db", jsonInoutProcedureCreationQuery);
@@ -166,7 +166,7 @@ public function createRangeInoutProcedure() {
                     tstzrange_type, daterange_type from RangeTypes 
                 into row_id_inout, int4range_inout, int8range_inout,
                     numrange_inout, tsrange_inout, tstzrange_inout, daterange_inout
-                where RangeTypes.row_id = row_id_inout
+                where RangeTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("range_db", rangeInoutProcedureCreationQuery);
@@ -175,23 +175,16 @@ public function createRangeInoutProcedure() {
 public function createTextsearchInoutProcedure() {
     sql:ParameterizedQuery textsearchInoutProcedureCreationQuery = `
         create or replace procedure TextsearchProcedure(
-            row_id bigint,
-            tsvector_in tsvector,
-            tsquery_in tsquery
+            row_id_inout bigint,
+            tsvector_inout tsvector,
+            tsquery_inout tsquery
             )
             language plpgsql    
             as $$
             begin
-                INSERT INTO TextsearchTypes(
-                    row_id,
-                    tsvector_type,
-                    tsquery_type
-                    ) 
-                VALUES (
-                    row_id,
-                    tsvector_in,
-                    tsquery_in
-                    );
+                SELECT row_id, tsvector_type, tsquery_type 
+                into row_id_inout, tsvector_inout, tsquery_inout
+                from TextsearchTypes where TextsearchTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("ts_db", textsearchInoutProcedureCreationQuery);
