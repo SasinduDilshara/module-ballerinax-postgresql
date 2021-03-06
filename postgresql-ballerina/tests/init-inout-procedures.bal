@@ -1,4 +1,5 @@
 import ballerina/sql;
+// import ballerina/time;
 
 public function initInoutProcedureTestScripts() {
     _ = createNetworkInoutProcedure();
@@ -36,19 +37,19 @@ public function createNetworkInoutProcedure() {
 public function createGeometricInoutProcedure() {
     sql:ParameterizedQuery geometricInoutProcedureCreationQuery = `
         create or replace procedure GeometricInoutProcedure(
-            row_id_inout bigint,
-            point_inout point,
-            line_inout line,
-            lseg_inout lseg,
-            box_inout box,
-            circle_inout circle
+            inout row_id_inout bigint,
+            inout point_inout point,
+            inout line_inout line,
+            inout lseg_inout lseg,
+            inout box_inout box,
+            inout circle_inout circle
             )
             language plpgsql    
             as $$
             begin
                 SELECT row_id, point_type, line_type, lseg_type, box_type,circle_type 
                 into row_id_inout, point_inout, line_inout, lseg_inout, box_inout, circle_inout
-                from GeometricTypes where GeometricTypes.row_id = row_id_inout
+                from GeometricTypes where GeometricTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("geometric_db", geometricInoutProcedureCreationQuery);
@@ -57,8 +58,8 @@ public function createGeometricInoutProcedure() {
 public function createUuidInoutProcedure() {
     sql:ParameterizedQuery uuidInoutProcedureCreationQuery = `
         create or replace procedure UuidInoutProcedure(
-            row_id_inout bigint,
-            uuid_inout uuid
+            inout row_id_inout bigint,
+            inout uuid_inout uuid
             )
             language plpgsql    
             as $$
@@ -74,8 +75,8 @@ public function createUuidInoutProcedure() {
 public function createPglsnInoutProcedure() {
     sql:ParameterizedQuery pglsnInoutProcedureCreationQuery = `
         create or replace procedure PglsnInoutProcedure(
-            row_id_inout bigint,
-            pglsn_inout pg_lsn
+            inout row_id_inout bigint,
+            inout pglsn_inout pg_lsn
             )
             language plpgsql    
             as $$
@@ -91,10 +92,10 @@ public function createPglsnInoutProcedure() {
 public function createJsonInoutProcedure() {
     sql:ParameterizedQuery jsonInoutProcedureCreationQuery = `
         create or replace procedure JsonInoutProcedure(
-            row_id_inout bigint,
-            json_inout json,
-            jsonb_inout jsonb,
-            jsonpath_inout jsonpath
+            inout row_id_inout bigint,
+            inout json_inout json,
+            inout jsonb_inout jsonb,
+            inout jsonpath_inout jsonpath
             )
             language plpgsql    
             as $$
@@ -110,9 +111,9 @@ public function createJsonInoutProcedure() {
 public function createBitInoutProcedure() {
     sql:ParameterizedQuery bitInoutProcedureCreationQuery = `
         create or replace procedure BitInoutProcedure(
-            row_id_inout bigint,
-            bitvarying_inout bit varying(10),
-            bit_inout bit
+            inout row_id_inout bigint,
+            inout bitvarying_inout bit varying(10),
+            inout bit_inout bit(1)
             )
             language plpgsql    
             as $$
@@ -128,20 +129,20 @@ public function createBitInoutProcedure() {
 public function createDatetimeInoutProcedure() {
     sql:ParameterizedQuery datetimeInoutProcedureCreationQuery = `
         create or replace procedure DatetimeInoutProcedure(
-            row_id_inout bigint,
-            date_inout date,
-            time_inout time,
-            timetz_inout timetz,
-            timestamp_inout timestamp,
-            timestamptz_inout timestamptz,
-			interval_inout interval
+            inout row_id_inout bigint,
+            inout date_inout date,
+            inout time_inout time,
+            inout timetz_inout timetz,
+            inout timestamp_inout timestamp,
+            inout timestamptz_inout timestamptz,
+			inout interval_inout interval
             )
             language plpgsql    
             as $$
             begin
                 SELECT row_id, date_type, time_type, timetz_type, timestamp_type, 
                 timestamptz_type, interval_type from DatetimeTypes 
-                into date_inout, time_inout, timetz_inout, timestamp_inout, timestamptz_inout, interval_inout
+                into row_id_inout, date_inout, time_inout, timetz_inout, timestamp_inout, timestamptz_inout, interval_inout
                 where DatetimeTypes.row_id = row_id_inout;
         end;$$  
     `;
@@ -150,14 +151,14 @@ public function createDatetimeInoutProcedure() {
 
 public function createRangeInoutProcedure() {
     sql:ParameterizedQuery rangeInoutProcedureCreationQuery = `
-        create or replace procedure RangeProcedure(
-            row_id_inout bigint,
-            int4range_inout int4range,
-            int8range_inout int8range,
-            numrange_inout numrange,
-            tsrange_inout tsrange,
-            tstzrange_inout tstzrange,
-			daterange_inout daterange
+        create or replace procedure RangeInoutProcedure(
+            inout row_id_inout bigint,
+            inout int4range_inout int4range,
+            inout int8range_inout int8range,
+            inout numrange_inout numrange,
+            inout tsrange_inout tsrange,
+            inout tstzrange_inout tstzrange,
+			inout daterange_inout daterange
             )
             language plpgsql    
             as $$
@@ -174,10 +175,10 @@ public function createRangeInoutProcedure() {
 
 public function createTextsearchInoutProcedure() {
     sql:ParameterizedQuery textsearchInoutProcedureCreationQuery = `
-        create or replace procedure TextsearchProcedure(
-            row_id_inout bigint,
-            tsvector_inout tsvector,
-            tsquery_inout tsquery
+        create or replace procedure TextsearchInoutProcedure(
+            inout row_id_inout bigint,
+            inout tsvector_inout tsvector,
+            inout tsquery_inout tsquery
             )
             language plpgsql    
             as $$
@@ -192,19 +193,19 @@ public function createTextsearchInoutProcedure() {
 
 public function createObjectidentifierInoutProcedure() {
     sql:ParameterizedQuery objectidentifierInoutProcedureCreationQuery = `
-        create or replace procedure ObjectidentifierProcedure(
-            row_id_inout bigint,
-            oid_inout oid,
-            regclass_inout regclass,
-            regconfig_inout regconfig,
-            regdictionary_inout regdictionary,
-            regnamespace_inout regnamespace,
-            regoper_inout regoper,
-            regoperator_inout regoperator,
-            regproc_inout regproc,
-            regprocedure_inout regprocedure,
-            regrole_inout regrole,
-            regtype_inout regtype
+        create or replace procedure ObjectidentifierInoutProcedure(
+            inout row_id_inout bigint,
+            inout oid_inout oid,
+            inout regclass_inout regclass,
+            inout regconfig_inout regconfig,
+            inout regdictionary_inout regdictionary,
+            inout regnamespace_inout regnamespace,
+            inout regoper_inout regoper,
+            inout regoperator_inout regoperator,
+            inout regproc_inout regproc,
+            inout regprocedure_inout regprocedure,
+            inout regrole_inout regrole,
+            inout regtype_inout regtype
             )
             language plpgsql    
             as $$
@@ -212,7 +213,7 @@ public function createObjectidentifierInoutProcedure() {
                 SELECT row_id, oid_type, regclass_type, regconfig_type, regdictionary_type,
             regnamespace_type, regoper_type, regoperator_type, regproc_type, regprocedure_type, regrole_type, regtype_type 
             from ObjectidentifierTypes
-            into oid_inout, regclass_inout, regconfig_inout, regdictionary_inout, regnamespace_inout,
+            into row_id_inout, oid_inout, regclass_inout, regconfig_inout, regdictionary_inout, regnamespace_inout,
              regoper_inout, regoperator_inout, regproc_inout, regprocedure_inout, regrole_inout, regtype_inout
              where ObjectidentifierTypes.row_id = row_id_inout;
         end;$$  

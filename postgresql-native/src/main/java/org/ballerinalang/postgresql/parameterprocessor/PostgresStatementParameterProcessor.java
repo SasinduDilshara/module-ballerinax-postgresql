@@ -253,6 +253,8 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
     protected int getCustomSQLType(BObject typedValue) throws ApplicationError {
         String sqlType = typedValue.getType().getName();
         switch (sqlType) {
+            case Constants.PGTypeNames.PGBIT:
+                return Types.BIT;
             case Constants.PGTypeNames.INET:
             case Constants.PGTypeNames.CIDR:
             case Constants.PGTypeNames.MACADDR:
@@ -275,7 +277,6 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.TSRANGE:
             case Constants.PGTypeNames.TSTZRANGE:
             case Constants.PGTypeNames.DATERANGE:
-            case Constants.PGTypeNames.PGBIT:
             case Constants.PGTypeNames.VARBITSTRING:
             case Constants.PGTypeNames.BITSTRING:
             case Constants.PGTypeNames.PGLSN:

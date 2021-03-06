@@ -72,6 +72,8 @@ public function createDatabases() {
         _ = createQuery(`CREATE DATABASE OBJECTIDENTIFIER_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS XML_DB`);
         _ = createQuery(`CREATE DATABASE XML_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS PROCEDURE_DB`);
+        _ = createQuery(`CREATE DATABASE PROCEDURE_DB`);
     }
 
 public function connectionInitDb() {
@@ -751,9 +753,9 @@ public function jsonInitDB() {
             jsonpath_type
             ) 
         VALUES (
-            '{"key": "value"}',
-            '{"key": "value"}',
-            '$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 1)'
+            '{"key1": "value", "key2": 2}',
+            '{"key1": "value", "key2": 2}',
+            '$."floor"[*]."apt"[*]?(@."area" > 40 && @."area" < 90)?(@."rooms" > 1)'
             );
 
     `;

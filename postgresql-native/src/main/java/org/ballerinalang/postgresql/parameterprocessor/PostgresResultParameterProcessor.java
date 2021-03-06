@@ -592,6 +592,9 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if(innerObject instanceof BObject) {
             innerBobject = (BObject)innerObject;
             String sqlTypeName = innerBobject.getType().getName();
+            System.out.println("value postgresql "+value);
+            System.out.println("innerBobject postgresql "+innerBobject);
+            System.out.println("sqlTypeName postgresql "+sqlTypeName);            
             switch(sqlTypeName){
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.INET:
                     return convertInetType(value, sqlType, ballerinaType);

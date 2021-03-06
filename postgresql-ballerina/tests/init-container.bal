@@ -65,6 +65,7 @@ function beforeSuite() {
     _ = initTestScripts();
     _ = initProcedureTestScripts();
     _ = initInoutProcedureTestScripts();
+    _ = initMultipleSelectProcedureTestScripts();
     io:println("End init test");
 }
 
