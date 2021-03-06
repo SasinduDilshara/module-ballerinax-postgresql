@@ -12,8 +12,10 @@ public function createMultipleSelectProcedure() {
             language plpgsql    
             as $$
             begin
-                SELECT row_id, point_type, line_type, lseg_type, box_type,circle_type from GeometricTypes 
-                    where GeometricTypes.row_id = row_id_inout;
+                SELECT row_id, smallint_type, int_type, bigint_type, decimal_type, numerical_type, 
+                    real_type, double_type, smallserial_type, serial_type, bigserial_type
+                    from NumericTypes
+                    where NumericTypes.row_id = row_id_inout;
                 SELECT row_id, uuid_type from UuidTypes
                     where UuidTypes.row_id = row_id_inout;
                 SELECT row_id, tsvector_type, tsquery_type from TextsearchTypes 
