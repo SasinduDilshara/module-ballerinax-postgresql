@@ -12,6 +12,7 @@ public function initTestScripts() {
     // _ = simpleQueryInitDB();
     // _ = complexQueryInitDB();
     // _ = proceduresInitDB(); 
+    _ = numericInitDB();
     _ = networkInitDB(); 
     _ = geometricInitDB(); 
     _ = uuidInitDB(); 
@@ -48,6 +49,8 @@ public function createDatabases() {
         // _ = createQuery(`CREATE DATABASE QUERY_COMPLEX_PARAMS_DB`);
         // _ = createQuery(`DROP DATABASE IF EXISTS PROCEDURES_DB`);
         // _ = createQuery(`CREATE DATABASE PROCEDURES_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS INTEGER_DB`);
+        _ = createQuery(`CREATE DATABASE INTEGER_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS NETWORK_DB`);
         _ = createQuery(`CREATE DATABASE NETWORK_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS GEOMETRIC_DB`);
@@ -593,6 +596,60 @@ public function proceduresInitDB() {
     `;
 
     _ = executeQuery("procedures_db", query);
+}
+
+public function numericInitDB() {
+
+    sql:ParameterizedQuery numericTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS NumericTypes;
+    CREATE TABLE IF NOT EXISTS NumericTypes(
+        row_id SERIAL,
+        smallint_type smallint,
+        int_type integer,
+        bigint_type bigint,
+        decimal_type decimal,
+        numerical_type numerical,
+        real_type real,
+        double_type double precision,
+        smallserial_type smallserial,
+        serial_type serial,
+        bigserial_type bigserial,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery numericTableInsertQuery = 
+    `
+        INSERT INTO NumericTypes(
+            smallint_type,
+            int_type,
+            bigint_type,
+            decimal_type,
+            numerical_type,
+            real_type,
+            double_type,
+            smallserial_type,
+            serial_type,
+            bigserial_type
+            ) 
+        VALUES (
+            1,
+            123,
+            123456,
+            123.456,
+            123.456,
+            234.567,
+            234.567,
+            1,
+            123,
+            123456,
+            );
+
+    `;
+    _ = execunumeric_db", numericTableCreateQuery);
+    _ = execunumeric_db", numericTableInsertQuery);
 }
 
 public function networkInitDB() {
