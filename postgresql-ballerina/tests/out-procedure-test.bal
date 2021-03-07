@@ -57,9 +57,9 @@ function testNumericProcedureOutCall() {
 }
 function testCharacterProcedureOutCall() {
     int rowId = 1;
-    sql:CharValue charValue = new ("");
-    sql:VarcharValue varcharValue = new ("");
-    sql:TextValue textValue = new ("");
+    sql:CharValue charValue = new ();
+    sql:VarcharValue varcharValue = new ();
+    sql:TextValue textValue = new ();
     string nameValue = "";
 
     InOutParameter rowIdInoutValue = new (rowId);
