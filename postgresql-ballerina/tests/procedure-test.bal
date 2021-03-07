@@ -1,7 +1,132 @@
 import ballerina/sql;
 import ballerina/test;
-// import ballerina/io;
+import ballerina/io;
 import ballerina/time;
+
+public function ccc(){
+    io:println(1);
+    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
+
+}
+
+public type NumericProcedureRecord record {
+    int row_id;
+    int smallint_type;
+    int int_type;
+    int bigint_type;
+    decimal decimal_type;
+    decimal numeric_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testNumericProcedureCall() {
+    int rowId = 2;
+    sql:SmallIntValue smallintType = new (1);
+    sql:IntegerValue intType = new (1);
+    int bigintType = 123456;
+    sql:DecimalValue decimalType = new (1234.567);
+    decimal numericType = 1234.567;
+    sql:RealValue realType = new (123.456);
+    sql:DoubleValue doubleType = new (123.456);
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call NumericProcedure(${rowId}, ${smallintType}, ${intType}, ${bigintType}, ${decimalType}, 
+                                ${numericType}, ${realType}, ${doubleType});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "numeric_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, smallint_type, int_type, bigint_type, decimal_type,
+        numeric_type
+        from NumericTypes2 where row_id = ${rowId}`;
+
+    NumericProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        smallint_type: 1,
+        int_type: 1,
+        bigint_type: 123456,
+        decimal_type: 1234.567,
+        numeric_type: 1234.567
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "numeric_db", NumericProcedureRecord), expectedDataRow, "Numeric Call procedure insert and query did not match.");
+
+}
+
+//=================================================================================================================================================================
+
+public type CharacterProcedureRecord record {
+    
+    int row_id;
+    string char_type;
+    string varchar_type;
+    string text_type;
+    string name_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testCharacterProcedureCall() {
+    int rowId = 22;
+    sql:CharValue charValue = new("This is a char3");
+    sql:VarcharValue varcharValue = new("This is a varchar3");
+    string textValue = "This is a text3";
+    string nameValue = "This is a name3";
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call CharacterProcedure(${rowId}, ${charValue}, ${varcharValue}, ${textValue}, ${nameValue});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "character_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, char_type, varchar_type, text_type, name_type from CharacterTypes where row_id = ${rowId}`;
+
+    CharacterProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        char_type: "This is a char3",
+        varchar_type: "This is a varchar3",
+        text_type: "This is a text3",
+        name_type: "This is a name3"
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "character_db", CharacterProcedureRecord), expectedDataRow, "Character Call procedure insert and query did not match.");
+
+}
+//==========================================================================================================================================================================
+
+public type BooleanProcedureRecord record {
+    int row_id;
+    boolean boolean_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testBooleanProcedureCall() {
+    int rowId = 2;
+    boolean booleanType = false;
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call BooleanProcedure(${rowId}, ${booleanType});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, "boolean_db");
+
+    sql:ParameterizedQuery query = `SELECT row_id, boolean_type from BooleanTypes where row_id = ${rowId}`;
+
+    BooleanProcedureRecord expectedDataRow = {
+        row_id: rowId,
+        boolean_type: false
+    };
+ 
+    test:assertEquals(queryProcedureClient(query, "boolean_db", BooleanProcedureRecord), expectedDataRow, "Boolean Call procedure insert and query did not match.");
+
+}
+
+//=================================================================================================================================================================
 
 public type NetworkProcedureRecord record {
     
@@ -433,7 +558,7 @@ function testObjectidentifierProcedureCall() {
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------------
+// //----------------------------------------------------------------------------------------------------------------------------
 function queryProcedureClient(@untainted string|sql:ParameterizedQuery sqlQuery, string database, typedesc<record {}>? resultType = ())
 returns @tainted record {} {
     Client dbClient = checkpanic new (host, user, password, database, port);

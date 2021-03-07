@@ -2,6 +2,9 @@ import ballerina/sql;
 // import ballerina/time;
 
 public function initOutProcedureTestScripts() {
+    _ = createNumericOutProcedure();
+    _ = createCharacterOutProcedure();
+    _ = createBooleanOutProcedure();
     _ = createNetworkOutProcedure();
     _ = createGeometricOutProcedure();
     _ = createUuidOutProcedure();
@@ -12,6 +15,75 @@ public function initOutProcedureTestScripts() {
     _ = createRangeOutProcedure(); 
     _ = createTextsearchOutProcedure();   
     _ = createObjectidentifierOutProcedure();
+}
+
+public function createNumericOutProcedure() {
+    sql:ParameterizedQuery numericOutProcedureCreationQuery = `
+        create or replace procedure NumericOutProcedure(
+            inout row_id_inout bigint,
+            inout smallint_inout smallint,
+            inout int_inout integer,
+            inout bigint_inout bigint,
+            --inout decimal_inout decimal,
+            inout numeric_inout numeric,
+            --inout real_inout real,
+            inout double_precision_inout double precision
+            )
+            language plpgsql    
+            as $$
+            begin
+                SELECT row_id, smallint_type, int_type, bigint_type,
+                -- decimal_type,
+            numeric_type,
+             --real_type,
+              double_type
+            from NumericTypes2
+                into row_id_inout, smallint_inout, int_inout, bigint_inout,
+                -- decimal_inout,
+                 numeric_inout,
+                    --real_inout,
+                     double_precision_inout
+            where NumericTypes2.row_id = row_id_inout;
+        end;$$  
+    `;
+    _ = executeQuery("numeric_db", numericOutProcedureCreationQuery);
+}
+
+public function createCharacterOutProcedure() {
+    sql:ParameterizedQuery characterOutProcedureCreationQuery = `
+        create or replace procedure CharacterOutProcedure(
+            inout row_id_inout bigint,
+            inout char_inout char(15),
+            inout varchar_inout varchar(15),
+            inout text_inout text,
+            inout name_inout name
+            )
+            language plpgsql    
+            as $$
+            begin
+                Select row_id, char_type, varchar_type, text_type, name_type
+                into row_id_inout, char_inout, varchar_inout, text_inout, name_inout
+                     from CharacterTypes where CharacterTypes.row_id = 1;
+        end;$$  
+    `;
+    _ = executeQuery("character_db", characterOutProcedureCreationQuery);
+}
+
+public function createBooleanOutProcedure() {
+    sql:ParameterizedQuery booleanOutProcedureCreationQuery = `
+        create or replace procedure BooleanOutProcedure(
+            inout row_id_inout bigint,
+            inout boolean_inout boolean
+            )
+            language plpgsql    
+            as $$
+            begin
+                SELECT row_id, boolean_type from BooleanTypes
+                 into row_id_inout, boolean_inout
+                 where BooleanTypes.row_id = row_id_inout;
+        end;$$  
+    `;
+    _ = executeQuery("boolean_db", booleanOutProcedureCreationQuery);
 }
 
 public function createNetworkOutProcedure() {

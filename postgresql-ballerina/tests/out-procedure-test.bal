@@ -1,6 +1,113 @@
 import ballerina/sql;
 import ballerina/test;
-// import ballerina/io;
+import ballerina/io;
+import ballerina/time;
+
+public function cccx(){
+    io:println(1);
+    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
+
+}
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testNumericProcedureOutCall() {
+    int rowId = 1;
+    sql:SmallIntValue smallintType = new ();
+    sql:IntegerValue intType = new();
+    sql:BigIntValue bigintType = new();
+    sql:DecimalValue decimalType = new();
+    sql:NumericValue numericType = new();
+    sql:RealValue realType = new();
+    sql:DoubleValue doubleType = new();
+
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter smallintInoutValue = new (smallintType);
+    InOutParameter intInoutValue = new (intType);
+    InOutParameter bigintInoutValue = new (bigintType);
+    InOutParameter decimalInoutValue = new (decimalType);
+    InOutParameter numericInoutValue = new (numericType);
+    InOutParameter realInoutValue = new (realType);
+    InOutParameter doubleInoutValue = new (doubleType);
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call NumericOutProcedure(${rowIdInoutValue}, ${smallintInoutValue}, ${intInoutValue}, ${bigintInoutValue}, 
+                                ${numericInoutValue}, ${doubleInoutValue});
+    `;
+    sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "numeric_db");
+
+    decimal decimalVal = 123.456;
+
+    test:assertEquals(smallintInoutValue.get(int), 1, "SmallInt Datatype Doesn;t Match");
+    test:assertEquals(intInoutValue.get(int), 123, "Int Datatype Doesn't Match");
+    test:assertEquals(bigintInoutValue.get(int), 123456, "Bigint Datatype Doesn;t Match");
+    // test:assertEquals(decimalInoutValue.get(decimal), decimalVal, "Decimal Datatype Doesn't Match");
+    test:assertEquals(numericInoutValue.get(decimal), decimalVal, "Numeric Datatype Doesn;t Match");
+    // test:assertTrue(realInoutValue.get(float) is float, "Real Datatype Doesn't Match");
+    test:assertTrue(doubleInoutValue.get(float) is float, "Double Datatype Doesn't Match");
+
+}
+
+//===============================================================================================================================
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testCharacterProcedureOutCall() {
+    int rowId = 1;
+    sql:CharValue charValue = new ("");
+    sql:VarcharValue varcharValue = new ("");
+    sql:TextValue textValue = new ("");
+    string nameValue = "";
+
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter charInoutValue = new (charValue);
+    InOutParameter varcharInoutValue = new (varcharValue);
+    InOutParameter textInoutValue = new (textValue);
+    InOutParameter nameInoutValue = new (nameValue);
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call CharacterOutProcedure(${rowIdInoutValue}, ${charInoutValue}, ${varcharInoutValue}, ${textInoutValue}, ${nameInoutValue});
+    `;
+    sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "character_db");
+
+ 
+    test:assertEquals(charInoutValue.get(string), "This is a char1", "Char Data type doesnt match.");
+    test:assertEquals(varcharInoutValue.get(string), "This is a varchar1", "Varchar Data type doesnt match.");
+    test:assertEquals(textInoutValue.get(string), "This is a text1", "Text Data type doesnt match.");
+    test:assertEquals(nameInoutValue.get(string), "This is a name1", "Name Data type doesnt match.");
+
+}
+
+//=================================================================================================================================
+
+
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testBooleanProcedureOutCall() {
+    int rowId = 1;
+    sql:BooleanValue booleanType = new();
+
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter booleanInoutValue = new (booleanType);
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call BooleanOutProcedure(${rowIdInoutValue}, ${booleanInoutValue});
+    `;
+    sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "boolean_db");
+
+    test:assertEquals(booleanInoutValue.get(boolean), true, "Boolean Datatype doesn't match");
+}
+
+
+
+//==============================================================================================================================
 
 @test:Config {
     groups: ["datatypes"]
@@ -345,7 +452,7 @@ function testObjectidentifierProcedureOutCall() {
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------------
+// //----------------------------------------------------------------------------------------------------------------------------
 function queryInoutProcedureClient(@untainted string|sql:ParameterizedQuery sqlQuery, string database, typedesc<record {}>? resultType = ())
 returns @tainted record {} {
     Client dbClient = checkpanic new (host, user, password, database, port);

@@ -13,7 +13,9 @@ public function initTestScripts() {
     // _ = complexQueryInitDB();
     // _ = proceduresInitDB(); 
     _ = numericInitDB();
+    _ = numericInitDB2();
     _ = CharacterInitDB();
+    _ = booleanInitDB();
     _ = networkInitDB(); 
     _ = geometricInitDB(); 
     _ = uuidInitDB(); 
@@ -50,10 +52,12 @@ public function createDatabases() {
         // _ = createQuery(`CREATE DATABASE QUERY_COMPLEX_PARAMS_DB`);
         // _ = createQuery(`DROP DATABASE IF EXISTS PROCEDURES_DB`);
         // _ = createQuery(`CREATE DATABASE PROCEDURES_DB`);
-        _ = createQuery(`DROP DATABASE IF EXISTS NUMERICDB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS NUMERIC_DB`);
         _ = createQuery(`CREATE DATABASE NUMERIC_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS CHARACTER_DB`);
         _ = createQuery(`CREATE DATABASE CHARACTER_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS BOOLEAN_DB`);
+        _ = createQuery(`CREATE DATABASE BOOLEAN_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS NETWORK_DB`);
         _ = createQuery(`CREATE DATABASE NETWORK_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS GEOMETRIC_DB`);
@@ -612,7 +616,7 @@ public function numericInitDB() {
         int_type integer,
         bigint_type bigint,
         decimal_type decimal,
-        numerical_type numeric,
+        numeric_type numeric,
         real_type real,
         double_type double precision,
         smallserial_type smallserial,
@@ -630,7 +634,7 @@ public function numericInitDB() {
             int_type,
             bigint_type,
             decimal_type,
-            numerical_type,
+            numeric_type,
             real_type,
             double_type,
             smallserial_type,
@@ -648,6 +652,53 @@ public function numericInitDB() {
             1,
             123,
             123456
+            );
+
+    `;
+    _ = executeQuery("numeric_db", numericTableCreateQuery);
+    _ = executeQuery("numeric_db", numericTableInsertQuery);
+    _ = executeQuery("procedure_db", numericTableCreateQuery);
+    _ = executeQuery("procedure_db", numericTableInsertQuery);
+}
+
+public function numericInitDB2() {
+
+    sql:ParameterizedQuery numericTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS NumericTypes2;
+    CREATE TABLE IF NOT EXISTS NumericTypes2(
+        row_id SERIAL,
+        smallint_type smallint,
+        int_type integer,
+        bigint_type bigint,
+        decimal_type decimal,
+        numeric_type numeric,
+        real_type real,
+        double_type double precision,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery numericTableInsertQuery = 
+    `
+        INSERT INTO NumericTypes2(
+            smallint_type,
+            int_type,
+            bigint_type,
+            decimal_type,
+            numeric_type,
+            real_type,
+            double_type
+            ) 
+        VALUES (
+            1,
+            123,
+            123456,
+            123.456,
+            123.456,
+            234.567,
+            234.567
             );
 
     `;
@@ -711,6 +762,32 @@ public function CharacterInitDB() {
     _ = executeQuery("procedure_db", characterTableCreateQuery);
     _ = executeQuery("procedure_db", characterTableInsertQuery);
     _ = executeQuery("procedure_db", characterTableInsertQuery2);
+}
+
+public function booleanInitDB() {
+        sql:ParameterizedQuery booleanTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS BooleanTypes;
+    CREATE TABLE IF NOT EXISTS BooleanTypes(
+        row_id SERIAL,
+        boolean_type boolean,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery booleanTableInsertQuery = 
+    `
+        INSERT INTO BooleanTypes(
+            boolean_type
+            ) 
+        VALUES (
+            true
+            );
+
+    `;
+    _ = executeQuery("boolean_db", booleanTableCreateQuery);
+    _ = executeQuery("boolean_db", booleanTableInsertQuery);
 }
 
 public function networkInitDB() {

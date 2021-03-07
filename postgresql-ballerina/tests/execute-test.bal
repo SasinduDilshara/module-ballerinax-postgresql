@@ -3,6 +3,286 @@ import ballerina/test;
 import ballerina/io;
 import ballerina/time;
 
+public function cc(){
+    io:println(1);
+    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
+
+}
+
+public type NumericRecord record {
+    int row_id;
+    int smallint_type;
+    int int_type;
+    int bigint_type;
+    decimal decimal_type;
+    decimal numeric_type;
+    float real_type;
+    float double_type;
+    int smallserial_type;
+    int serial_type;
+    int bigserial_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testInsertIntoNumericDataTable() {
+    int rowId = 3;
+    sql:SmallIntValue smallintType = new(1);
+    sql:IntegerValue intType = new(1);
+    sql:BigIntValue bigintType = new(123456);
+    sql:DecimalValue decimalType = new(1234.567);
+    sql:NumericValue numericType = new(1234.567);
+    sql:RealValue realType = new(123.456);
+    sql:DoubleValue doubleType = new(123.456);
+    int smallserialType = 1;
+    int serialType = 123;
+    int bigserialType = 12345;
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO NumericTypes (row_id, smallint_type, int_type, bigint_type, decimal_type, 
+    numeric_type, real_type, double_type, smallserial_type, serial_type, bigserial_type) 
+            VALUES(${rowId}, ${smallintType}, ${intType}, ${bigintType}, ${decimalType}, ${numericType},
+            ${realType}, ${doubleType}, ${smallserialType}, ${serialType}, ${bigserialType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "numeric_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoNumericDataTable]
+}
+function testInsertIntoNumericDataTable2() {
+    int rowId = 4;
+    sql:SmallIntValue smallintType = new ();
+    sql:IntegerValue intType = new();
+    sql:BigIntValue bigintType = new();
+    sql:DecimalValue decimalType = new();
+    sql:NumericValue numericType = new();
+    sql:RealValue realType = new();
+    sql:DoubleValue doubleType = new();
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO NumericTypes2 (row_id, smallint_type, int_type, bigint_type, decimal_type, 
+    numeric_type, real_type, double_type) 
+            VALUES(${rowId}, ${smallintType}, ${intType}, ${bigintType}, ${decimalType}, ${numericType},
+            ${realType}, ${doubleType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "numeric_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoNumericDataTable2]
+}
+function testInsertIntoNumericDataTable3() {
+    int rowId = 5;
+    int smallintType = 1;
+    int intType = 1;
+    int bigintType = 123456;
+    decimal decimalType = 1234.567;
+    decimal numericType = 1234.567;
+    float realType = 123.456;
+    float doubleType = 123.456;
+    int smallserialType = 1;
+    int serialType = 123;
+    int bigserialType = 12345;
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO NumericTypes (row_id, smallint_type, int_type, bigint_type, decimal_type, 
+    numeric_type, real_type, double_type, smallserial_type, serial_type, bigserial_type) 
+            VALUES(${rowId}, ${smallintType}, ${intType}, ${bigintType}, ${decimalType}, ${numericType},
+            ${realType}, ${doubleType}, ${smallserialType}, ${serialType}, ${bigserialType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "numeric_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoNumericDataTable2]
+}
+function testSelectFromNumericDataTable() {
+    int rowId = 3;
+    
+    sql:ParameterizedQuery sqlQuery = `select * from Numerictypes where row_id = ${rowId}`;
+
+    _ = validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery, NumericRecord, database = "numeric_db"));
+}
+
+public function validateNumericTableResult(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        decimal decimalVal = 1234.567;
+        test:assertEquals(returnData["row_id"], 3);
+        test:assertEquals(returnData["smallint_type"], 1);
+        test:assertEquals(returnData["int_type"], 1);
+        test:assertEquals(returnData["bigint_type"], 123456);
+        test:assertEquals(returnData["decimal_type"], decimalVal);
+        test:assertEquals(returnData["numeric_type"], decimalVal);
+        test:assertTrue(returnData["real_type"] is float);
+        test:assertTrue(returnData["double_type"] is float);
+        test:assertEquals(returnData["smallserial_type"], 1);
+        test:assertEquals(returnData["serial_type"], 123);
+        test:assertEquals(returnData["bigserial_type"], 12345);
+    } 
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+
+public type CharacterRecord record {
+    int row_id;
+    string char_type;
+    string varchar_type;
+    string text_type;
+    string name_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testInsertIntoCharacterDataTable() {
+    int rowId = 3;
+    string charValue = "This is a char3";
+    string varcharValue = "This is a varchar3";
+    string textValue = "This is a text3";
+    string nameValue = "This is a name3";
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO CharacterTypes (row_id, char_type, varchar_type, text_type, name_type)
+            VALUES(${rowId}, ${charValue}, ${varcharValue}, ${textValue}, ${nameValue})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "character_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoCharacterDataTable]
+}
+function testInsertIntoCharacterDataTable2() {
+    int rowId = 4;
+    sql:CharValue charValue = new ("This is a char3");
+    sql:VarcharValue varcharValue = new ("This is a varchar3");
+    sql:TextValue textValue = new ("This is a text3");
+    string nameValue = "This is a name3";
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO CharacterTypes (row_id, char_type, varchar_type, text_type, name_type)
+            VALUES(${rowId}, ${charValue}, ${varcharValue}, ${textValue}, ${nameValue})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "character_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoCharacterDataTable2]
+}
+function testInsertIntoCharacterDataTable3() {
+    int rowId = 5;
+    sql:CharValue charValue = new ("");
+    sql:VarcharValue varcharValue = new ("");
+    sql:TextValue textValue = new ("");
+    string? nameValue = ();
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO CharacterTypes (row_id, char_type, varchar_type, text_type, name_type)
+            VALUES(${rowId}, ${charValue}, ${varcharValue}, ${textValue}, ${nameValue})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "character_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoCharacterDataTable2]
+}
+function testSelectFromCharacterDataTable() {
+    int rowId = 4;
+    
+    sql:ParameterizedQuery sqlQuery = `select * from charactertypes where row_id = ${rowId}`;
+
+    _ = validateCharacterTableResult(simpleQueryPostgresqlClient(sqlQuery, CharacterRecord, database = "character_db"));
+}
+
+public function validateCharacterTableResult(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        test:assertEquals(returnData["row_id"], 4);
+        test:assertEquals(returnData["char_type"], "This is a char3");
+        test:assertEquals(returnData["varchar_type"], "This is a varchar3");
+        test:assertEquals(returnData["text_type"], "This is a text3");   
+        test:assertEquals(returnData["name_type"], "This is a name3");
+    } 
+}
+
+//======================================================================================================================
+
+public type BooleanRecord record {
+  int row_id;
+  boolean boolean_type;
+};
+
+@test:Config {
+    groups: ["datatypes"]
+}
+function testInsertIntoBooleanDataTable() {
+    int rowId = 3;
+    boolean booleanType = true;
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO BooleanTypes (row_id, boolean_type)
+            VALUES(${rowId}, ${booleanType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "boolean_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoBooleanDataTable]
+}
+function testInsertIntoBooleanDataTable2() {
+    int rowId = 4;
+    boolean? booleanType = ();
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO BooleanTypes (row_id, boolean_type)
+            VALUES(${rowId}, ${booleanType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "boolean_db"), 1, rowId);
+}
+
+@test:Config {
+    groups: ["datatypes"],
+    dependsOn: [testInsertIntoBooleanDataTable2]
+}
+function testSelectFromBooleanDataTable() {
+    int rowId = 3;
+    
+    sql:ParameterizedQuery sqlQuery = `select * from booleantypes where row_id = ${rowId}`;
+
+    _ = validateBooleanTableResult(simpleQueryPostgresqlClient(sqlQuery, BooleanRecord, database = "boolean_db"));
+}
+
+public function validateBooleanTableResult(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        test:assertEquals(returnData["row_id"], 3);
+        test:assertEquals(returnData["boolean_type"], true);
+    } 
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
 
 public type NetworkRecord record {
     

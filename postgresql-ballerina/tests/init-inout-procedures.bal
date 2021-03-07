@@ -2,6 +2,9 @@ import ballerina/sql;
 // import ballerina/time;
 
 public function initInoutProcedureTestScripts() {
+    _ = createNumericInoutProcedure();
+    _ = createCharacterInoutProcedure();
+    _ = createBooleanInoutProcedure();
     _ = createNetworkInoutProcedure();
     _ = createGeometricInoutProcedure();
     _ = createUuidInoutProcedure();
@@ -12,6 +15,83 @@ public function initInoutProcedureTestScripts() {
     _ = createRangeInoutProcedure(); 
     _ = createTextsearchInoutProcedure();   
     _ = createObjectidentifierInoutProcedure();
+}
+
+public function createNumericInoutProcedure() {
+    sql:ParameterizedQuery numericInoutProcedureCreationQuery = `
+        create or replace procedure NumericInoutProcedure(
+            inout row_id_inout bigint,
+            inout smallint_inout smallint,
+            inout int_inout int,
+            inout bigint_inout bigint,
+            inout decimal_inout decimal,
+            inout numeric_inout numeric,
+            inout real_inout real,
+            inout double_precision_inout double precision
+            )
+            language plpgsql    
+            as $$
+            begin
+            INSERT INTO NumericTypes2( row_id, smallint_type, int_type, bigint_type, decimal_type, numeric_type, 
+                                                double_type, real_type
+                    ) 
+                VALUES ( row_id_inout, smallint_inout, int_inout, bigint_inout, decimal_inout, numeric_inout, double_precision_inout, real_inout
+                    );
+                    
+                SELECT row_id, smallint_type, int_type, bigint_type, decimal_type,
+                    numeric_type, double_type, real_type 
+                from NumericTypes2
+                    into row_id_inout, smallint_inout, int_inout, bigint_inout, decimal_inout, numeric_inout,
+                        double_precision_inout, real_inout
+                where NumericTypes2.row_id = row_id_inout;
+        end;$$  
+    `;
+    _ = executeQuery("numeric_db", numericInoutProcedureCreationQuery);
+}
+
+public function createCharacterInoutProcedure() {
+    sql:ParameterizedQuery characterInoutProcedureCreationQuery = `
+        create or replace procedure CharacterInoutProcedure(
+            inout row_id_inout bigint,
+            inout char_inout char(15),
+            inout varchar_inout varchar(15),
+            inout text_inout text,
+            inout name_inout name
+            )
+            language plpgsql    
+            as $$
+            begin
+                INSERT INTO CharacterTypes (row_id, char_type, varchar_type, text_type, name_type)
+                    VALUES(row_id_inout, char_inout, varchar_inout, text_inout, name_inout);
+                Select row_id, char_type, varchar_type, text_type, name_type
+                into row_id_inout, char_inout, varchar_inout, text_inout, name_inout
+                     from CharacterTypes where CharacterTypes.row_id = row_id_inout;
+        end;$$  
+    `;
+    _ = executeQuery("character_db", characterInoutProcedureCreationQuery);
+}
+
+public function createBooleanInoutProcedure() {
+    sql:ParameterizedQuery booleanInoutProcedureCreationQuery = `
+        create or replace procedure BooleanInoutProcedure(
+            inout row_id_inout bigint,
+            inout boolean_inout boolean
+            )
+            language plpgsql    
+            as $$
+            begin
+            INSERT INTO BooleanTypes( 
+                row_id, boolean_type
+            ) 
+            VALUES ( 
+                row_id_inout, boolean_inout
+            );
+            SELECT row_id, boolean_type from BooleanTypes
+                into row_id_inout, boolean_inout
+                where BooleanTypes.row_id = row_id_inout;
+        end;$$  
+    `;
+    _ = executeQuery("boolean_db", booleanInoutProcedureCreationQuery);
 }
 
 public function createNetworkInoutProcedure() {

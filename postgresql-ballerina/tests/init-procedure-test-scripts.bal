@@ -1,6 +1,9 @@
 import ballerina/sql;
 
 public function initProcedureTestScripts() {
+    _ = createNumericProcedure();
+    _ = createCharacterProcedure();
+    _ = createBooleanProcedure();
     _ = createNetworkProcedure();
     _ = createGeometricProcedure();
     _ = createUuidProcedure();
@@ -11,6 +14,87 @@ public function initProcedureTestScripts() {
     _ = createRangeProcedure(); 
     _ = createTextsearchProcedure();   
     _ = createObjectidentifierProcedure();
+}
+
+public function createNumericProcedure() {
+    sql:ParameterizedQuery numericProcedureCreationQuery = `
+        create or replace procedure NumericProcedure(
+            row_id_in bigint,
+            smallint_in smallint,
+            int_in int,
+            bigint_in bigint,
+            decimal_in decimal,
+            numeric_in numeric,
+            real_in real,
+            double_in double precision
+            )
+            language plpgsql    
+            as $$
+            begin
+                INSERT INTO NumericTypes2(
+                    row_id,
+                    smallint_type,
+                    int_type,
+                    bigint_type,
+                    decimal_type,
+                    numeric_type,
+                    double_type,
+                    real_type
+                    ) 
+                VALUES (
+                    row_id_in,
+                    smallint_in,
+                    int_in,
+                    bigint_in,
+                    decimal_in,
+                    numeric_in,
+                    double_in,
+                    real_in
+                    );
+        end;$$  
+    `;
+    _ = executeQuery("numeric_db", numericProcedureCreationQuery);
+}
+
+public function createCharacterProcedure() {
+    sql:ParameterizedQuery characterProcedureCreationQuery = `
+        create or replace procedure CharacterProcedure(
+            row_id bigint,
+            char_in char(15),
+            varchar_in varchar(15),
+            text_in text,
+            name_in name
+            )
+            language plpgsql    
+            as $$
+            begin
+                INSERT INTO CharacterTypes (row_id, char_type, varchar_type, text_type, name_type)
+                    VALUES(row_id, char_in, varchar_in, text_in, name_in);
+        end;$$  
+    `;
+    _ = executeQuery("character_db", characterProcedureCreationQuery);
+}
+
+public function createBooleanProcedure() {
+    sql:ParameterizedQuery booleanProcedureCreationQuery = `
+        create or replace procedure BooleanProcedure(
+            row_id bigint,
+            boolean_in boolean
+            )
+            language plpgsql    
+            as $$
+            begin
+                INSERT INTO BooleanTypes(
+                    row_id,
+                    boolean_type
+                    ) 
+                VALUES (
+                    row_id,
+                    boolean_in
+                    );
+        end;$$  
+    `;
+    _ = executeQuery("boolean_db", booleanProcedureCreationQuery);
 }
 
 public function createNetworkProcedure() {
