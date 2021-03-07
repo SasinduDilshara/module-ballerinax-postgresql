@@ -24,24 +24,24 @@ public function createNumericOutProcedure() {
             inout smallint_inout smallint,
             inout int_inout integer,
             inout bigint_inout bigint,
-            --inout decimal_inout decimal,
+            inout decimal_inout decimal,
             inout numeric_inout numeric,
-            --inout real_inout real,
+            inout real_inout real,
             inout double_precision_inout double precision
             )
             language plpgsql    
             as $$
             begin
                 SELECT row_id, smallint_type, int_type, bigint_type,
-                -- decimal_type,
+                decimal_type,
             numeric_type,
-             --real_type,
+             real_type,
               double_type
             from NumericTypes2
                 into row_id_inout, smallint_inout, int_inout, bigint_inout,
-                -- decimal_inout,
+                decimal_inout,
                  numeric_inout,
-                    --real_inout,
+                    real_inout,
                      double_precision_inout
             where NumericTypes2.row_id = row_id_inout;
         end;$$  

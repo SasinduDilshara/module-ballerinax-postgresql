@@ -33,8 +33,8 @@ function testNumericProcedureOutCall() {
 
     sql:ParameterizedCallQuery sqlQuery =
       `
-      call NumericOutProcedure(${rowIdInoutValue}, ${smallintInoutValue}, ${intInoutValue}, ${bigintInoutValue}, 
-                                ${numericInoutValue}, ${doubleInoutValue});
+      call NumericOutProcedure(${rowIdInoutValue}, ${smallintInoutValue}, ${intInoutValue}, ${bigintInoutValue}, ${decimalInoutValue},
+                                ${numericInoutValue}, ${realInoutValue}, ${doubleInoutValue});
     `;
     sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "numeric_db");
 
@@ -43,9 +43,9 @@ function testNumericProcedureOutCall() {
     test:assertEquals(smallintInoutValue.get(int), 1, "SmallInt Datatype Doesn;t Match");
     test:assertEquals(intInoutValue.get(int), 123, "Int Datatype Doesn't Match");
     test:assertEquals(bigintInoutValue.get(int), 123456, "Bigint Datatype Doesn;t Match");
-    // test:assertEquals(decimalInoutValue.get(decimal), decimalVal, "Decimal Datatype Doesn't Match");
+    test:assertEquals(decimalInoutValue.get(decimal), decimalVal, "Decimal Datatype Doesn't Match");
     test:assertEquals(numericInoutValue.get(decimal), decimalVal, "Numeric Datatype Doesn;t Match");
-    // test:assertTrue(realInoutValue.get(float) is float, "Real Datatype Doesn't Match");
+    test:assertTrue(realInoutValue.get(float) is float, "Real Datatype Doesn't Match");
     test:assertTrue(doubleInoutValue.get(float) is float, "Double Datatype Doesn't Match");
 
 }
