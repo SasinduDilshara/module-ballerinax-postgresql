@@ -12,7 +12,7 @@ public function initTestScripts() {
     // _ = simpleQueryInitDB();
     // _ = complexQueryInitDB();
     // _ = proceduresInitDB(); 
-    // _ = numericInitDB();
+    _ = numericInitDB();
     _ = CharacterInitDB();
     _ = networkInitDB(); 
     _ = geometricInitDB(); 

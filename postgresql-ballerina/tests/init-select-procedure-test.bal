@@ -42,17 +42,19 @@ public function createMultipleSelectProcedure() {
 public function createMultipleSelectQueryProcedure() {
     sql:ParameterizedQuery multpleSelectProcedureCreationQuery = `
          create or replace function multipleQuerySelectProcedure()
-          returns SETOF CharacterTypes
+            Returns setof CharacterTypes
             as $$
             DECLARE
-                rec CharacterTypes;
+                rec1 CharacterTypes;
+                rec2 CharacterTypes;
            begin
-                SELECT CharacterTypes.row_id, CharacterTypes.char_type, CharacterTypes.varchar_type, CharacterTypes.text_type, CharacterTypes.name_type from CharacterTypes
-                where CharacterTypes.row_id = 1 into rec;
-                return next rec;
-                SELECT CharacterTypes.row_id, CharacterTypes.char_type, CharacterTypes.varchar_type, CharacterTypes.text_type, CharacterTypes.name_type from CharacterTypes
-                   where CharacterTypes.row_id = 1 into rec;     
-                return next rec;       
+                SELECT CharacterTypes.row_id, CharacterTypes.char_type, CharacterTypes.varchar_type,
+                CharacterTypes.text_type, CharacterTypes.name_type from CharacterTypes into rec1
+                where CharacterTypes.row_id = 1;
+                return next rec1;
+                SELECT * from CharacterTypes into rec2
+                   where CharacterTypes.row_id = 2;     
+                return next rec2;       
         end;
         $$  
             language plpgsql 
