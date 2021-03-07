@@ -63,8 +63,8 @@ int port = 5432;
 function beforeSuite() {
     io:println("Start test");
     _ = initTestScripts();
-    // _ = initProcedureTestScripts();
-    // _ = initInoutProcedureTestScripts();
+    _ = initProcedureTestScripts();
+    _ = initInoutProcedureTestScripts();
     _ = initMultipleSelectProcedureTestScripts();
     io:println("End init test");
 }

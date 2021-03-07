@@ -1,45 +1,30 @@
 import ballerina/sql;
 import ballerina/test;
-// // import ballerina/io;
+// import ballerina/io;
 // // import ballerina/time;
 
-@test:Config {
-    groups: ["procedures"],
-    dependsOn: [testCallWithStringTypes]
-}
-function testCallWithStringTypesInParams() {
-    Client dbClient = checkpanic new (host, user, password, proceduresDb, port);
-    string varcharType = "test1";
-    string charmaxType = "test2";
-    string charType = "c";
-    string charactermaxType = "test3";
-    string characterType = "d";
-    string nvarcharmaxType = "test4";
+string proceduresDatabase = "procedure_db";
 
-    var ret = checkpanic dbClient->call(`{call InsertStringData(3, ${varcharType}, ${charmaxType}, ${charType},
-                            ${charactermaxType}, ${characterType}, ${nvarcharmaxType})}`);
-
-    string sqlQuery = "SELECT varchar_type, charmax_type, char_type, charactermax_type, character_type," +
-                   "nvarcharmax_type from StringTypes where id = 2";
-
-    StringDataForCall expectedDataRow = {
-        varchar_type: "test1",
-        charmax_type: "test2",
-        char_type: "c",
-        charactermax_type: "test3",
-        character_type: "d",
-        nvarcharmax_type: "test4"
-    };
-    test:assertEquals(queryMySQLClient(dbClient, sqlQuery), expectedDataRow, "Call procedure insert and query did not match.");
-}
+public type StringDataForCall record {
+    string char_type;
+    string varchar_type;
+    string text_type;
+    string name_type;
+};
 
 @test:Config {
-    groups: ["procedures"],
-    dependsOn: [testCallWithStringTypesInParams]
+    groups: ["procedures"]
 }
-function testCallWithStringTypesReturnsData() {
-    Client dbClient = checkpanic new (host, user, password, proceduresDb, port);
-    sql:ProcedureCallResult ret = checkpanic dbClient->call("{call SelectStringData()}", [StringDataForCall]);
+function testProcedureQueryWithSingleData() {
+    int row_id = 1;
+    // sql:ParameterizedCallQuery callQuery = `
+    //     select singleSelectProcedure(${row_id});
+    // `;
+    sql:ParameterizedCallQuery callQuery = `
+        select * from singleSelectProcedure(${row_id});
+    `;
+
+    sql:ProcedureCallResult ret = callSelectProcedure(callQuery, proceduresDatabase, [StringDataForCall]);
     stream<record{}, sql:Error>? qResult = ret.queryResult;
     if (qResult is ()) {
         test:assertFail("Empty result set returned.");
@@ -47,50 +32,44 @@ function testCallWithStringTypesReturnsData() {
         record {|record {} value;|}? data = checkpanic qResult.next();
         record {}? value = data?.value;
         StringDataForCall expectedDataRow = {
-            varchar_type: "test0",
-            charmax_type: "test1",
-            char_type: "a",
-            charactermax_type: "test2",
-            character_type: "b",
-            nvarcharmax_type: "test3"
+            char_type: "This is a char1",
+            varchar_type: "This is a varchar1",
+            text_type: "This is a text1",
+            name_type: "This is a name1"
         };        
         test:assertEquals(value, expectedDataRow, "Call procedure insert and query did not match.");
         checkpanic qResult.close();
         checkpanic ret.close();
         
     }
-    checkpanic dbClient.close();
 }
 
 @test:Config {
-    groups: ["procedures"],
-    dependsOn: [testCallWithStringTypesReturnsData]
+    groups: ["procedures"]
 }
-function testCallWithStringTypesReturnsDataMultiple() {
-    Client dbClient = checkpanic new (host, user, password, proceduresDb, port);
-    sql:ProcedureCallResult ret = checkpanic dbClient->call("{call SelectStringDataMultiple()}", [StringDataForCall, StringDataSingle]);
+function testProcedureQueryWithMultipleData() {
+    int row_id = 1;
+    // sql:ParameterizedCallQuery callQuery = `
+    //     select singleSelectProcedure(${row_id});
+    // `;
+    sql:ParameterizedCallQuery callQuery = `
+        select * from multipleSelectProcedure();
+    `;
+    sql:ProcedureCallResult ret = callSelectProcedure(callQuery, proceduresDatabase, [StringDataForCall, StringDataForCall]);
 
     stream<record{}, sql:Error>? qResult = ret.queryResult;
     if (qResult is ()) {
         test:assertFail("First result set is empty.");
     } else {
         record {|record {} value;|}? data = checkpanic qResult.next();
-        checkpanic qResult.close();
         record {}? result1 = data?.value;
         StringDataForCall expectedDataRow = {
-            varchar_type: "test0",
-            charmax_type: "test1",
-            char_type: "a",
-            charactermax_type: "test2",
-            character_type: "b",
-            nvarcharmax_type: "test3"
+            char_type: "This is a char1",
+            varchar_type: "This is a varchar1",
+            text_type: "This is a text1",
+            name_type: "This is a name1"
         };        
         test:assertEquals(result1, expectedDataRow, "Call procedure first select did not match.");
-    }
-
-    var nextResult = checkpanic ret.getNextQueryResult();
-    if (!nextResult) {
-        test:assertFail("Only 1 result set returned!.");
     }
 
     qResult = ret.queryResult;
@@ -99,15 +78,85 @@ function testCallWithStringTypesReturnsDataMultiple() {
     } else {
         record {|record {} value;|}? data = checkpanic qResult.next();
         record {}? result2 = data?.value;
-        StringDataSingle resultSet2 = {
-            varchar_type: "test0"
+        StringDataForCall expectedDataRow2 = {
+            char_type: "This is a char2",
+            varchar_type: "This is a varchar2",
+            text_type: "This is a text2",
+            name_type: "This is a name2"
         };
-        test:assertEquals(result2, resultSet2, "Call procedure second select did not match.");
+        
+        test:assertEquals(result2, expectedDataRow2, "Call procedure second select did not match.");
         checkpanic qResult.close();
         checkpanic ret.close();
     }
-    checkpanic dbClient.close();
 }
 
+// public type StringData record {
+//     int row_id;
+//     string char_type;
+//     string varchar_type;
+//     string text_type;
+//     string name_type;
+// };
+
+// @test:Config {
+//     groups: ["procedures"]//,
+//     // dependsOn: [testProcedureQueryWithSingleData]
+// }
+// function testProcedureQueryWithMultipleSelectData() {
+//     int row_id = 1;
+//     // sql:ParameterizedCallQuery callQuery = `
+//     //     select singleSelectProcedure(${row_id});
+//     // `;
+//     sql:ParameterizedCallQuery callQuery = `
+//         select * from multipleQuerySelectProcedure();
+//     `;
+//     sql:ProcedureCallResult ret = callSelectProcedure(callQuery, proceduresDatabase, [StringData, StringData]);
+
+//     stream<record{}, sql:Error>? qResult = ret.queryResult;
+//     if (qResult is ()) {
+//         test:assertFail("First result set is empty.");
+//     } else {
+//         record {|record {} value;|}? data = checkpanic qResult.next();
+//         checkpanic qResult.close();
+//         record {}? result1 = data?.value;
+//         StringData expectedDataRow = {
+//             row_id: 1,
+//             char_type: "This is a char1",
+//             varchar_type: "This is a varchar1",
+//             text_type: "This is a text1",
+//             name_type: "This is a name1"
+//         };        
+//         test:assertEquals(result1, expectedDataRow, "Call procedure first select did not match.");
+//     }
+
+//     var nextResult = checkpanic ret.getNextQueryResult();
+//     if (!nextResult) {
+//         test:assertFail("Only 1 result set returned!.");
+//     }
+//     qResult = ret.queryResult;
+//     if (qResult is ()) {
+//         test:assertFail("Second result set is empty.");
+//     } else {
+//         record {|record {} value;|}? data = checkpanic qResult.next();
+//         record {}? result2 = data?.value;
+//         StringData expectedDataRow2 = {
+//             row_id: 2,
+//             char_type: "This is a char2",
+//             varchar_type: "This is a varchar2",
+//             text_type: "This is a text2",
+//             name_type: "This is a name2"
+//         };
+//         test:assertEquals(result2, expectedDataRow2, "Call procedure second select did not match.");
+//         checkpanic qResult.close();
+//         checkpanic ret.close();
+//     }
+// }
 
 
+function callSelectProcedure(sql:ParameterizedCallQuery sqlQuery, string database, typedesc<record {}>[] rowTypes = []) returns sql:ProcedureCallResult {
+    Client dbClient = checkpanic new (host, user, password, database, port);
+    sql:ProcedureCallResult result = checkpanic dbClient->call(sqlQuery, rowTypes);
+    checkpanic dbClient.close();
+    return result;
+}

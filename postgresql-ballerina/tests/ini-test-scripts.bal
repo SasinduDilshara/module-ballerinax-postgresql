@@ -12,7 +12,8 @@ public function initTestScripts() {
     // _ = simpleQueryInitDB();
     // _ = complexQueryInitDB();
     // _ = proceduresInitDB(); 
-    _ = numericInitDB();
+    // _ = numericInitDB();
+    _ = CharacterInitDB();
     _ = networkInitDB(); 
     _ = geometricInitDB(); 
     _ = uuidInitDB(); 
@@ -49,8 +50,10 @@ public function createDatabases() {
         // _ = createQuery(`CREATE DATABASE QUERY_COMPLEX_PARAMS_DB`);
         // _ = createQuery(`DROP DATABASE IF EXISTS PROCEDURES_DB`);
         // _ = createQuery(`CREATE DATABASE PROCEDURES_DB`);
-        _ = createQuery(`DROP DATABASE IF EXISTS INTEGER_DB`);
-        _ = createQuery(`CREATE DATABASE INTEGER_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS NUMERICDB`);
+        _ = createQuery(`CREATE DATABASE NUMERIC_DB`);
+        _ = createQuery(`DROP DATABASE IF EXISTS CHARACTER_DB`);
+        _ = createQuery(`CREATE DATABASE CHARACTER_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS NETWORK_DB`);
         _ = createQuery(`CREATE DATABASE NETWORK_DB`);
         _ = createQuery(`DROP DATABASE IF EXISTS GEOMETRIC_DB`);
@@ -609,7 +612,7 @@ public function numericInitDB() {
         int_type integer,
         bigint_type bigint,
         decimal_type decimal,
-        numerical_type numerical,
+        numerical_type numeric,
         real_type real,
         double_type double precision,
         smallserial_type smallserial,
@@ -644,12 +647,70 @@ public function numericInitDB() {
             234.567,
             1,
             123,
-            123456,
+            123456
             );
 
     `;
-    _ = execunumeric_db", numericTableCreateQuery);
-    _ = execunumeric_db", numericTableInsertQuery);
+    _ = executeQuery("numeric_db", numericTableCreateQuery);
+    _ = executeQuery("numeric_db", numericTableInsertQuery);
+    _ = executeQuery("procedure_db", numericTableCreateQuery);
+    _ = executeQuery("procedure_db", numericTableInsertQuery);
+}
+
+public function CharacterInitDB() {
+
+    sql:ParameterizedQuery characterTableCreateQuery = 
+`
+    DROP TABLE IF EXISTS CharacterTypes;
+    CREATE TABLE IF NOT EXISTS CharacterTypes(
+        row_id SERIAL,
+        char_type char(15),
+        varchar_type varchar(20),
+        text_type text,
+        name_type name,
+        PRIMARY KEY(row_id)
+    );
+
+    `;
+
+    sql:ParameterizedQuery characterTableInsertQuery = 
+    `
+        INSERT INTO CharacterTypes(
+            char_type,
+            varchar_type,
+            text_type,
+            name_type
+            ) 
+        VALUES (
+            'This is a char1',
+            'This is a varchar1',
+            'This is a text1',
+            'This is a name1'
+            );
+    `;
+
+    sql:ParameterizedQuery characterTableInsertQuery2 = 
+    `
+        INSERT INTO CharacterTypes(
+            char_type,
+            varchar_type,
+            text_type,
+            name_type
+            ) 
+        VALUES (
+            'This is a char2',
+            'This is a varchar2',
+            'This is a text2',
+            'This is a name2'
+            );
+    `;
+
+    _ = executeQuery("character_db", characterTableCreateQuery);
+    _ = executeQuery("character_db", characterTableInsertQuery);
+    _ = executeQuery("character_db", characterTableInsertQuery2);
+    _ = executeQuery("procedure_db", characterTableCreateQuery);
+    _ = executeQuery("procedure_db", characterTableInsertQuery);
+    _ = executeQuery("procedure_db", characterTableInsertQuery2);
 }
 
 public function networkInitDB() {

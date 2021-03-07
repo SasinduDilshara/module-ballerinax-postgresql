@@ -1070,6 +1070,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     }
 
     public BObject getCustomProcedureCallObject() {
-        return null;
+        System.out.println("getCustomProcedureCallObject Postgresql\n");
+        return this.getIteratorObject();
     }
 }

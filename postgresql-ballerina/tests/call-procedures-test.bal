@@ -13,7 +13,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/sql;
+// import ballerina/sql;
 // import ballerina/test;
 
 string proceduresDb = "procedures_db";
@@ -223,17 +223,17 @@ string proceduresDb = "procedures_db";
 //     test:assertEquals(paraDouble.get(float), 1234.56, "11th out parameter of procedure did not match.");
 // }
 
-function queryMySQLClient(Client dbClient, @untainted string|sql:ParameterizedQuery sqlQuery)
-returns @tainted record {} {
-    stream<record{}, error> streamData = dbClient->query(sqlQuery);
-    record {|record {} value;|}? data = checkpanic streamData.next();
-    checkpanic streamData.close();
-    record {}? value = data?.value;
-    checkpanic dbClient.close();
-    if (value is ()) {
-        return {};
-    } else {
-        return value;
-    }
-}
+// function queryMySQLClient(Client dbClient, @untainted string|sql:ParameterizedQuery sqlQuery)
+// returns @tainted record {} {
+//     stream<record{}, error> streamData = dbClient->query(sqlQuery);
+//     record {|record {} value;|}? data = checkpanic streamData.next();
+//     checkpanic streamData.close();
+//     record {}? value = data?.value;
+//     checkpanic dbClient.close();
+//     if (value is ()) {
+//         return {};
+//     } else {
+//         return value;
+//     }
+// }
 
