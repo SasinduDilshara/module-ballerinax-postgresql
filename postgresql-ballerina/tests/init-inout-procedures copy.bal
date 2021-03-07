@@ -26,9 +26,11 @@ public function createNetworkInoutProcedure() {
             language plpgsql    
             as $$
             begin
+                INSERT INTO NetworkTypes (row_id, inet_type, cidr_type, macaddr_type, macaddr8_type)
+                    VALUES(row_id_inout, inet_inout, cidr_inout, macaddr_inout, macaddr8_inout);
                 Select row_id, inet_type, cidr_type, macaddr_type, macaddr8_type
                 into row_id_inout, inet_inout, cidr_inout, macaddr_inout, macaddr8_inout
-                     from NetworkTypes where NetworkTypes.row_id = 1;
+                     from NetworkTypes where NetworkTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("network_db", networkInoutProcedureCreationQuery);
@@ -47,6 +49,12 @@ public function createGeometricInoutProcedure() {
             language plpgsql    
             as $$
             begin
+            INSERT INTO GeometricTypes(
+                row_id, point_type, line_type, lseg_type, box_type, circle_type
+            ) 
+            VALUES (
+                row_id_inout, point_inout, line_inout, lseg_inout, box_inout, circle_inout
+            );
                 SELECT row_id, point_type, line_type, lseg_type, box_type,circle_type 
                 into row_id_inout, point_inout, line_inout, lseg_inout, box_inout, circle_inout
                 from GeometricTypes where GeometricTypes.row_id = row_id_inout;
@@ -64,9 +72,15 @@ public function createUuidInoutProcedure() {
             language plpgsql    
             as $$
             begin
-                SELECT row_id, uuid_type from UuidTypes
-                 into row_id_inout, uuid_inout
-                 where UuidTypes.row_id = row_id_inout;
+            INSERT INTO UuidTypes( 
+                row_id, uuid_type
+            ) 
+            VALUES ( 
+                row_id_inout, uuid_inout
+            );
+            SELECT row_id, uuid_type from UuidTypes
+                into row_id_inout, uuid_inout
+                where UuidTypes.row_id = row_id_inout;
         end;$$  
     `;
     _ = executeQuery("uuid_db", uuidInoutProcedureCreationQuery);
@@ -81,6 +95,14 @@ public function createPglsnInoutProcedure() {
             language plpgsql    
             as $$
             begin
+            INSERT INTO PglsnTypes(
+                row_id,
+                pglsn_type
+            ) 
+            VALUES (
+                row_id_inout,
+                pglsn_inout
+            );
                 SELECT row_id, pglsn_type from PglsnTypes
                 into row_id_inout, pglsn_inout
                  where PglsnTypes.row_id = row_id_inout;
@@ -100,6 +122,8 @@ public function createJsonInoutProcedure() {
             language plpgsql    
             as $$
             begin
+                INSERT INTO JsonTypes (row_id, json_type, jsonb_type, jsonpath_type)
+                        VALUES(row_id_inout, json_inout, jsonb_inout, jsonpath_inout);
                 SELECT row_id, json_type, jsonb_type, jsonpath_type 
                 into row_id_inout, json_inout, jsonb_inout, jsonpath_inout
                 from JsonTypes where JsonTypes.row_id = row_id_inout;
@@ -118,6 +142,8 @@ public function createBitInoutProcedure() {
             language plpgsql    
             as $$
             begin
+                INSERT INTO BitTypes (row_id, varbitstring_type, bit_type)
+                        VALUES(row_id_inout, bitvarying_inout, bit_inout);
                 SELECT row_id, varbitstring_type, bit_type 
                 into row_id_inout, bitvarying_inout, bit_inout
                 from BitTypes where BitTypes.row_id = row_id_inout;
@@ -140,6 +166,10 @@ public function createDatetimeInoutProcedure() {
             language plpgsql    
             as $$
             begin
+            INSERT INTO DatetimeTypes( row_id, date_type, time_type, timetz_type, timestamp_type, timestamptz_type, interval_type
+                    ) 
+                VALUES ( row_id_inout, date_inout, time_inout, timetz_inout, timestamp_inout, timestamptz_inout, interval_inout
+                    );
                 SELECT row_id, date_type, time_type, timetz_type, timestamp_type, 
                 timestamptz_type, interval_type from DatetimeTypes 
                 into row_id_inout, date_inout, time_inout, timetz_inout, timestamp_inout, timestamptz_inout, interval_inout
@@ -163,6 +193,10 @@ public function createRangeInoutProcedure() {
             language plpgsql    
             as $$
             begin
+            INSERT INTO RangeTypes( row_id, int4range_type, int8range_type, numrange_type, tsrange_type, tstzrange_type, daterange_type
+                    ) 
+                VALUES ( row_id_inout, int4range_inout, int8range_inout, numrange_inout, tsrange_inout, tstzrange_inout, daterange_inout
+                    );
                 SELECT row_id, int4range_type, int8range_type, numrange_type, tsrange_type, 
                     tstzrange_type, daterange_type from RangeTypes 
                 into row_id_inout, int4range_inout, int8range_inout,
@@ -183,6 +217,10 @@ public function createTextsearchInoutProcedure() {
             language plpgsql    
             as $$
             begin
+             INSERT INTO TextsearchTypes( row_id, tsvector_type, tsquery_type
+                    ) 
+                VALUES ( row_id_inout, tsvector_inout, tsquery_inout
+                    );
                 SELECT row_id, tsvector_type, tsquery_type 
                 into row_id_inout, tsvector_inout, tsquery_inout
                 from TextsearchTypes where TextsearchTypes.row_id = row_id_inout;
@@ -210,6 +248,13 @@ public function createObjectidentifierInoutProcedure() {
             language plpgsql    
             as $$
             begin
+            INSERT INTO ObjectidentifierTypes( row_id, oid_type, regclass_type, regconfig_type, regdictionary_type, regnamespace_type, 
+                                                regoper_type, regoperator_type, regproc_type, regprocedure_type, regrole_type, regtype_type
+                    ) 
+                VALUES ( row_id_inout, oid_inout, regclass_inout, regconfig_inout, regdictionary_inout, regnamespace_inout, regoper_inout, regoperator_inout, 
+                                                regproc_inout, regprocedure_inout, regrole_inout, regtype_inout
+                    );
+                    
                 SELECT row_id, oid_type, regclass_type, regconfig_type, regdictionary_type,
             regnamespace_type, regoper_type, regoperator_type, regproc_type, regprocedure_type, regrole_type, regtype_type 
             from ObjectidentifierTypes
