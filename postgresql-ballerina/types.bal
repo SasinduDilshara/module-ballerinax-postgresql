@@ -562,7 +562,7 @@ public class CustomResultIterator {
     } external; 
 
     public isolated function getNextQueryResult(sql:ProcedureCallResult callResult) returns boolean|sql:Error = @java:Method {
-    'class: "org.ballerinalang.postgresql.RecordIteratorUtils",
+    'class: "org.ballerinalang.postgresql.ProcedureCallResultUtils",
     paramTypes: ["io.ballerina.runtime.api.values.BObject", "io.ballerina.runtime.api.values.BObject"]
     } external;
 }
