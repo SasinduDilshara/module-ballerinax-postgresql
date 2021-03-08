@@ -76,6 +76,8 @@ import java.sql.Struct;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1020,8 +1022,170 @@ public class Convertor {
             }
             catch(Exception ex) {
                 System.out.println("Error occured in convertIntervalToRecord");
+                return null;
             }
-            return 1;
+        }
+
+        public static Object convertInt4rangeToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                valueMap = ConversionHelper.convertRangeToMap(value);
+
+                int upperValue = Integer.parseInt(valueMap.get(Constants.Range.UPPER).toString());
+                valueMap.put(Constants.Range.UPPER, upperValue);
+
+                int lowerValue = Integer.parseInt(valueMap.get(Constants.Range.LOWER).toString());
+                valueMap.put(Constants.Range.LOWER, lowerValue);
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertInt8rangeToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                valueMap = ConversionHelper.convertRangeToMap(value);
+
+                long upperValue = Long.parseLong(valueMap.get(Constants.Range.UPPER).toString());
+                valueMap.put(Constants.Range.UPPER, upperValue);
+
+                long lowerValue = Long.parseLong(valueMap.get(Constants.Range.LOWER).toString());
+                valueMap.put(Constants.Range.LOWER, lowerValue);
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertNumrangeToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                valueMap = ConversionHelper.convertRangeToMap(value);
+
+                double upperValue = Double.parseDouble(valueMap.get(Constants.Range.UPPER).toString());
+                valueMap.put(Constants.Range.UPPER, upperValue);
+
+                double lowerValue = Double.parseDouble(valueMap.get(Constants.Range.LOWER).toString());
+                valueMap.put(Constants.Range.LOWER, lowerValue);
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertsrangeToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                valueMap = ConversionHelper.convertRangeToMap(value);
+                java.util.Date timestamp;
+
+                String upperValue = valueMap.get(Constants.Range.UPPER).toString();
+                timestamp=formatter.parse(upperValue);
+
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(timestamp.getTime()));
+
+                String lowerValue = valueMap.get(Constants.Range.UPPER).toString();
+                timestamp=formatter.parse(lowerValue);
+
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(timestamp.getTime()));
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertTstzrangeToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+                java.util.Date timestamptz;
+
+                String upperValue = valueMap.get(Constants.Range.UPPER).toString();
+                timestamptz=formatter.parse(upperValue);
+
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(timestamptz.getTime()));
+
+                String lowerValue = valueMap.get(Constants.Range.UPPER).toString();
+                timestamptz=formatter.parse(lowerValue);
+
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(timestamptz.getTime()));
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertDaterangeToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH");
+                valueMap = ConversionHelper.convertRangeToMap(value);
+                java.util.Date date;
+
+                String upperValue = valueMap.get(Constants.Range.UPPER).toString();
+                date = formatter.parse(upperValue);
+
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(date.getTime()));
+
+                String lowerValue = valueMap.get(Constants.Range.UPPER).toString();
+                date = formatter.parse(lowerValue);
+
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(date.getTime()));
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
         }
 
         public static PGobject setPGobject(String type, String value){

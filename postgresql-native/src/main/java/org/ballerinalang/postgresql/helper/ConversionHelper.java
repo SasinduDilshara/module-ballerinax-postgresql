@@ -61,6 +61,8 @@ import java.util.TimeZone;
 
 import static io.ballerina.runtime.api.utils.StringUtils.fromString;
 import io.ballerina.runtime.api.values.BError;
+
+import org.ballerinalang.postgresql.Constants;
 import org.ballerinalang.stdlib.time.util.TimeUtils;
 
 public class ConversionHelper {
@@ -116,6 +118,44 @@ public class ConversionHelper {
 
         return rangeValue;
 
+    }
+
+    public static HashMap<String, Object> convertRangeToMap(Object value){
+
+        HashMap<String, Object> rangeMap;
+        if(value == null) {
+            return null;
+        } 
+        else {
+            rangeMap = new HashMap<>(); 
+            String objectValue = value.toString();
+            if(objectValue.length() <1) {
+                return rangeMap;
+            }
+            if(objectValue.startsWith("[")) {
+                rangeMap.put(Constants.Range.LOWERINCLUSIVE, true);
+            }
+            else {
+                rangeMap.put(Constants.Range.LOWERINCLUSIVE, false);
+            }
+
+            objectValue = objectValue.substring(1);
+
+            if(objectValue.endsWith("]")) {
+                rangeMap.put(Constants.Range.UPPERINCLUSIVE, true);
+            }
+            else {
+                rangeMap.put(Constants.Range.UPPERINCLUSIVE, false);
+            }
+
+            objectValue = objectValue.substring(0, objectValue.length() - 1);
+
+            String[] rangeElements = objectValue.split(",");
+            
+            rangeMap.put(Constants.Range.UPPER, rangeElements[1]);
+            rangeMap.put(Constants.Range.LOWER, rangeElements[0]);
+        }
+        return rangeMap;
     }
 
     public static String setCustomType(Map<String,Object> record){
