@@ -405,16 +405,25 @@ sql:ParameterizedQuery procedureDBQuery =
         CREATE DATABASE PROCEDURE_DB;
     `
 ;
+
 sql:ParameterizedQuery createExecuteDBQuery = 
     `
         DROP DATABASE IF EXISTS EXECUTE_DB;
         CREATE DATABASE EXECUTE_DB;
     `
 ;
+
 sql:ParameterizedQuery createQueryDBQuery = 
     `
         DROP DATABASE IF EXISTS QUERY_DB;
         CREATE DATABASE QUERY_DB;
+    `
+;
+
+sql:ParameterizedQuery createConnectDBQuery = 
+    `
+        DROP DATABASE IF EXISTS CONNECT_DB;
+        CREATE DATABASE CONNECT_DB;
     `
 ;
 
