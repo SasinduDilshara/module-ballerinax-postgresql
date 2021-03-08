@@ -141,82 +141,82 @@ public function cccx(){
 
 // //---------------------------------------------------------------------------------------------------------------------------------------------------
 
-public type PointOutRecord record {
-    float x;
-    float y;
-};
+// public type PointOutRecord record {
+//     float x;
+//     float y;
+// };
 
-public type LineOutRecord record {
-    float a;
-    float b;
-    float c;
-};
+// public type LineOutRecord record {
+//     float a;
+//     float b;
+//     float c;
+// };
 
-public type LsegOutRecord record {
-    float x1;
-    float x2;
-    float y1;
-    float y2;
-};
+// public type LsegOutRecord record {
+//     float x1;
+//     float x2;
+//     float y1;
+//     float y2;
+// };
 
-public type BoxOutRecord record {
-    float x1;
-    float x2;
-    float y1;
-    float y2;
-};
+// public type BoxOutRecord record {
+//     float x1;
+//     float x2;
+//     float y1;
+//     float y2;
+// };
 
-public type CircleOutRecord record {
-    float x;
-    float y;
-    float r;
-};
+// public type CircleOutRecord record {
+//     float x;
+//     float y;
+//     float r;
+// };
 
-@test:Config {
-    groups: ["datatypes"]
-}
-function testGeometricProcedureOutCall() {
-    int rowId = 1;
-    PointValue pointType = new ();
-    LineValue lineType = new ();
-    LsegValue lsegType = new ();
-    BoxValue boxType = new ();
-    // PathValue pathType = new ();
-    // PolygonValue polygonType = new ();
-    CircleValue circleType = new ();
+// @test:Config {
+//     groups: ["datatypes"]
+// }
+// function testGeometricProcedureOutCall() {
+//     int rowId = 1;
+//     PointValue pointType = new ();
+//     LineValue lineType = new ();
+//     LsegValue lsegType = new ();
+//     BoxValue boxType = new ();
+//     // PathValue pathType = new ();
+//     // PolygonValue polygonType = new ();
+//     CircleValue circleType = new ();
 
-    InOutParameter rowIdInoutValue = new (rowId);
-    InOutParameter pointInoutValue = new (pointType);
-    InOutParameter lineInoutValue = new (lineType);
-    InOutParameter lsegInoutValue = new (lsegType);
-    InOutParameter boxInoutValue = new (boxType);
-    InOutParameter circleInoutValue = new (circleType);
+//     InOutParameter rowIdInoutValue = new (rowId);
+//     InOutParameter pointInoutValue = new (pointType);
+//     InOutParameter lineInoutValue = new (lineType);
+//     InOutParameter lsegInoutValue = new (lsegType);
+//     InOutParameter boxInoutValue = new (boxType);
+//     InOutParameter circleInoutValue = new (circleType);
 
-    sql:ParameterizedCallQuery sqlQuery =
-      `
-      call GeometricOutProcedure(${rowIdInoutValue}, ${pointInoutValue}, ${lineInoutValue}, ${lsegInoutValue}, ${boxInoutValue}, ${circleInoutValue});
-    `;
-    sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "geometric_db");
+//     sql:ParameterizedCallQuery sqlQuery =
+//       `
+//       call GeometricOutProcedure(${rowIdInoutValue}, ${pointInoutValue}, ${lineInoutValue}, ${lsegInoutValue}, ${boxInoutValue}, ${circleInoutValue});
+//     `;
+//     sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "geometric_db");
 
-    PointOutRecord pointOutRecord = {x: 1.0, y: 2.0};
-    LineOutRecord lineOutRecord = {a: 1.0, b: 2.0, c: 3.0};
-    LsegOutRecord lsegOutRecord = {x1: 1.0, y1: 1.0, x2: 2.0, y2: 2.0};
-    BoxOutRecord boxOutRecord = {x1: 2.0, y1: 2.0, x2: 1.0, y2: 1.0};
-    CircleOutRecord circleOutRecord = {x: 1.0, y: 1.0, r:1.0};
+//     PointOutRecord pointOutRecord = {x: 1.0, y: 2.0};
+//     LineOutRecord lineOutRecord = {a: 1.0, b: 2.0, c: 3.0};
+//     LsegOutRecord lsegOutRecord = {x1: 1.0, y1: 1.0, x2: 2.0, y2: 2.0};
+//     BoxOutRecord boxOutRecord = {x1: 2.0, y1: 2.0, x2: 1.0, y2: 1.0};
+//     CircleOutRecord circleOutRecord = {x: 1.0, y: 1.0, r:1.0};
 
-    test:assertEquals(pointInoutValue.get(string), "(1.0,2.0)", "Point Data type doesnt match.");
-    test:assertEquals(lineInoutValue.get(string), "{1.0,2.0,3.0}", "Line Data type doesnt match.");
-    test:assertEquals(lsegInoutValue.get(string), "[(1.0,1.0),(2.0,2.0)]", "Line Segment Data type doesnt match.");
-    test:assertEquals(boxInoutValue.get(string), "(2.0,2.0),(1.0,1.0)", "Box Data type doesnt match.");
-    test:assertEquals(circleInoutValue.get(string), "<(1.0,1.0),1.0>", "Circle Data type doesnt match.");
+//     test:assertEquals(pointInoutValue.get(string), "(1.0,2.0)", "Point Data type doesnt match.");
+//     test:assertEquals(lineInoutValue.get(string), "{1.0,2.0,3.0}", "Line Data type doesnt match.");
+//     test:assertEquals(lsegInoutValue.get(string), "[(1.0,1.0),(2.0,2.0)]", "Line Segment Data type doesnt match.");
+//     test:assertEquals(boxInoutValue.get(string), "(2.0,2.0),(1.0,1.0)", "Box Data type doesnt match.");
+//     test:assertEquals(circleInoutValue.get(string), "<(1.0,1.0),1.0>", "Circle Data type doesnt match.");
 
-    test:assertEquals(pointInoutValue.get(PointOutRecord), pointOutRecord, "Point Data type doesnt match.");
-    test:assertEquals(lineInoutValue.get(LineOutRecord), lineOutRecord, "Line Data type doesnt match.");
-    test:assertEquals(lsegInoutValue.get(LsegOutRecord), lsegOutRecord, "Line Segment Data type doesnt match.");
-    test:assertEquals(boxInoutValue.get(BoxOutRecord), boxOutRecord, "Box Data type doesnt match.");
-    test:assertEquals(circleInoutValue.get(CircleOutRecord), circleOutRecord, "Circle Data type doesnt match.");
+//     test:assertEquals(pointInoutValue.get(PointOutRecord), pointOutRecord, "Point Data type doesnt match.");
+//     test:assertEquals(lineInoutValue.get(LineOutRecord), lineOutRecord, "Line Data type doesnt match.");
+//     test:assertEquals(lsegInoutValue.get(LsegOutRecord), lsegOutRecord, "Line Segment Data type doesnt match.");
+//     test:assertEquals(boxInoutValue.get(BoxOutRecord), boxOutRecord, "Box Data type doesnt match.");
+//     test:assertEquals(circleInoutValue.get(CircleOutRecord), circleOutRecord, "Circle Data type doesnt match.");
 
-}
+// }
 
 // // //----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -320,158 +320,158 @@ function testGeometricProcedureOutCall() {
 // // //-----------------------------------------------------------------------------------------------------------------------
 
 
-public type TimeRecord record{
-    int time;
-    record{
-        string id;
-        int offset;
-    } zone;
-};
+// public type TimeRecord record{
+//     int time;
+//     record{
+//         string id;
+//         int offset;
+//     } zone;
+// };
 
 
-public type IntervalRecord record{
-    int years;
-    int months;
-    int days;
-    int hours;
-    int minutes;
-    decimal seconds;
-};
+// public type IntervalRecord record{
+//     int years;
+//     int months;
+//     int days;
+//     int hours;
+//     int minutes;
+//     decimal seconds;
+// };
 
-public class IntervalRecordClass {
-    public int years;
-    public int months;
-    public int days;
-    public int hours;
-    public int minutes;
-    public decimal seconds;
+// public class IntervalRecordClass {
+//     public int years;
+//     public int months;
+//     public int days;
+//     public int hours;
+//     public int minutes;
+//     public decimal seconds;
 
-    public function init(int years, int months, int days, int hours, int minutes, decimal seconds) {
-        self.years = years;
-        self.months = months;
-        self.days = days;
-        self.hours = hours;
-        self.minutes = minutes;
-        self.seconds = seconds;
-    }
-}
+//     public function init(int years, int months, int days, int hours, int minutes, decimal seconds) {
+//         self.years = years;
+//         self.months = months;
+//         self.days = days;
+//         self.hours = hours;
+//         self.minutes = minutes;
+//         self.seconds = seconds;
+//     }
+// }
 
-@test:Config {
-    groups: ["datatypes"]
-}
-function testDatetimeProcedureOutCall() {
+// @test:Config {
+//     groups: ["datatypes"]
+// }
+// function testDatetimeProcedureOutCall() {
 
-        int rowId = 1;
-        sql:TimestampValue timestampType = new();
-        sql:TimestampValue timestamptzType = new();
-        sql:DateValue dateType = new();
-        sql:TimeValue timeType = new();
-        sql:TimeValue timetzType= new();
-        IntervalValue intervalType= new();
+//         int rowId = 1;
+//         sql:TimestampValue timestampType = new();
+//         sql:TimestampValue timestamptzType = new();
+//         sql:DateValue dateType = new();
+//         sql:TimeValue timeType = new();
+//         sql:TimeValue timetzType= new();
+//         IntervalValue intervalType= new();
 
-        InOutParameter rowIdInoutValue = new (rowId);
-        InOutParameter timestampInoutValue = new (timestampType);
-        InOutParameter timestamptzInoutValue = new (timestamptzType);
-        InOutParameter dateInoutValue = new (dateType);
-        InOutParameter timeInoutValue = new (timeType);
-        InOutParameter timetzInoutValue = new (timetzType);
-        InOutParameter intervalInoutValue = new (intervalType);
+//         InOutParameter rowIdInoutValue = new (rowId);
+//         InOutParameter timestampInoutValue = new (timestampType);
+//         InOutParameter timestamptzInoutValue = new (timestamptzType);
+//         InOutParameter dateInoutValue = new (dateType);
+//         InOutParameter timeInoutValue = new (timeType);
+//         InOutParameter timetzInoutValue = new (timetzType);
+//         InOutParameter intervalInoutValue = new (intervalType);
     
-        sql:ParameterizedCallQuery sqlQuery =
-        `
-            call DatetimeOutProcedure(${rowIdInoutValue}, ${dateInoutValue}, ${timeInoutValue}, ${timetzInoutValue},
-                ${timestampInoutValue}, ${timestamptzInoutValue}, ${intervalInoutValue});
-        `;
-        sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "datetime_db");
+//         sql:ParameterizedCallQuery sqlQuery =
+//         `
+//             call DatetimeOutProcedure(${rowIdInoutValue}, ${dateInoutValue}, ${timeInoutValue}, ${timetzInoutValue},
+//                 ${timestampInoutValue}, ${timestamptzInoutValue}, ${intervalInoutValue});
+//         `;
+//         sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "datetime_db");
 
-        IntervalRecord intervalRecord = {years: 1, months: 2, days: 3, hours: 4, minutes: 5, seconds: 6};
-        IntervalRecordClass intervalRecordClass = new (1,2,3,4,5,6);
+//         IntervalRecord intervalRecord = {years: 1, months: 2, days: 3, hours: 4, minutes: 5, seconds: 6};
+//         IntervalRecordClass intervalRecordClass = new (1,2,3,4,5,6);
 
-        test:assertEquals(timestampInoutValue.get(string), "1999-01-08T10:05:06.000+06:00", " Timestamp Datatype Doesn't Match");
-        test:assertEquals(timestamptzInoutValue.get(string), "2004-10-19T20:23:54.000+06:00", " Timestamptz Datatype Doesn't Match");
-        test:assertEquals(dateInoutValue.get(string), "1999-01-08+06:00", " Date Datatype Doesn't Match");
-        test:assertEquals(timeInoutValue.get(string), "09:35:06.000+05:30", " Time Datatype Doesn't Match");
-        test:assertEquals(timetzInoutValue.get(string), "19:05:06.000+05:30", " Timetz Datatype Doesn't Match");
-        test:assertEquals(intervalInoutValue.get(string), "1 years 2 mons 3 days 4 hours 5 mins 6.0 secs", " Interval Datatype Doesn't Match");
+//         test:assertEquals(timestampInoutValue.get(string), "1999-01-08T10:05:06.000+06:00", " Timestamp Datatype Doesn't Match");
+//         test:assertEquals(timestamptzInoutValue.get(string), "2004-10-19T20:23:54.000+06:00", " Timestamptz Datatype Doesn't Match");
+//         test:assertEquals(dateInoutValue.get(string), "1999-01-08+06:00", " Date Datatype Doesn't Match");
+//         test:assertEquals(timeInoutValue.get(string), "09:35:06.000+05:30", " Time Datatype Doesn't Match");
+//         test:assertEquals(timetzInoutValue.get(string), "19:05:06.000+05:30", " Timetz Datatype Doesn't Match");
+//         test:assertEquals(intervalInoutValue.get(string), "1 years 2 mons 3 days 4 hours 5 mins 6.0 secs", " Interval Datatype Doesn't Match");
 
-        test:assertTrue(timestampInoutValue.get(TimeRecord) is TimeRecord, " Timestamp Datatype Doesn't Match");
-        test:assertTrue(timestamptzInoutValue.get(TimeRecord) is TimeRecord, " Timestamptz Datatype Doesn't Match");
-        test:assertTrue(dateInoutValue.get(TimeRecord) is TimeRecord, " Date Datatype Doesn't Match");
-        test:assertTrue(timeInoutValue.get(TimeRecord) is TimeRecord, " Time Datatype Doesn't Match");
-        test:assertTrue(timetzInoutValue.get(TimeRecord) is TimeRecord, " Timetz Datatype Doesn't Match");
-        test:assertEquals(intervalInoutValue.get(IntervalRecord), intervalRecord, " Interval Datatype Doesn't Match");
+//         test:assertTrue(timestampInoutValue.get(TimeRecord) is TimeRecord, " Timestamp Datatype Doesn't Match");
+//         test:assertTrue(timestamptzInoutValue.get(TimeRecord) is TimeRecord, " Timestamptz Datatype Doesn't Match");
+//         test:assertTrue(dateInoutValue.get(TimeRecord) is TimeRecord, " Date Datatype Doesn't Match");
+//         test:assertTrue(timeInoutValue.get(TimeRecord) is TimeRecord, " Time Datatype Doesn't Match");
+//         test:assertTrue(timetzInoutValue.get(TimeRecord) is TimeRecord, " Timetz Datatype Doesn't Match");
+//         test:assertEquals(intervalInoutValue.get(IntervalRecord), intervalRecord, " Interval Datatype Doesn't Match");
 
-}
+// }
 
-// // //--------------------------------------------------------------------------------------------------------------------------
+// // // //--------------------------------------------------------------------------------------------------------------------------
 
-public type IntRangeRecord record{
-    int upper;
-    int lower;
-    boolean isUpperboundInclusive = false;
-    boolean isLowerboundInclusive = false;
-};
+// public type IntRangeRecord record{
+//     int upper;
+//     int lower;
+//     boolean isUpperboundInclusive = false;
+//     boolean isLowerboundInclusive = false;
+// };
 
-public type NumericRangeRecord record{
-    decimal upper;
-    decimal lower;
-    boolean isUpperboundInclusive = false;
-    boolean isLowerboundInclusive = false;
-};
+// public type NumericRangeRecord record{
+//     decimal upper;
+//     decimal lower;
+//     boolean isUpperboundInclusive = false;
+//     boolean isLowerboundInclusive = false;
+// };
 
-public type TimestampRangeRecord record{
-    time:Time upper;
-    time:Time lower;
-    boolean isUpperboundInclusive = false;
-    boolean isLowerboundInclusive = false;
-};
+// public type TimestampRangeRecord record{
+//     time:Time upper;
+//     time:Time lower;
+//     boolean isUpperboundInclusive = false;
+//     boolean isLowerboundInclusive = false;
+// };
 
-@test:Config {
-    groups: ["datatypes"]
-}
-function testRangeProcedureOutCall() {
+// @test:Config {
+//     groups: ["datatypes"]
+// }
+// function testRangeProcedureOutCall() {
 
-        int rowId = 1;
-        Int4rangeValue int4rangeType = new();
-        Int8rangeValue int8rangeType = new();
-        NumrangeValue numrangeType = new();
-        TsrangeValue tsrangeType = new();
-        TstzrangeValue tstzrangeType= new();
-        DaterangeValue daterangeType= new();
+//         int rowId = 1;
+//         Int4rangeValue int4rangeType = new();
+//         Int8rangeValue int8rangeType = new();
+//         NumrangeValue numrangeType = new();
+//         TsrangeValue tsrangeType = new();
+//         TstzrangeValue tstzrangeType= new();
+//         DaterangeValue daterangeType= new();
 
-        InOutParameter rowIdInoutValue = new (rowId);
-        InOutParameter int4rangeInoutValue = new (int4rangeType);
-        InOutParameter int8rangeInoutValue = new (int8rangeType);
-        InOutParameter numrangeInoutValue = new (numrangeType);
-        InOutParameter tsrangeInoutValue = new (tsrangeType);
-        InOutParameter tstzrangeInoutValue = new (tstzrangeType);
-        InOutParameter daterangeInoutValue = new (daterangeType);
+//         InOutParameter rowIdInoutValue = new (rowId);
+//         InOutParameter int4rangeInoutValue = new (int4rangeType);
+//         InOutParameter int8rangeInoutValue = new (int8rangeType);
+//         InOutParameter numrangeInoutValue = new (numrangeType);
+//         InOutParameter tsrangeInoutValue = new (tsrangeType);
+//         InOutParameter tstzrangeInoutValue = new (tstzrangeType);
+//         InOutParameter daterangeInoutValue = new (daterangeType);
 
-        IntRangeRecord int4RangeRecord = {upper: 50 , lower: 3 , isUpperBoundInclusive: false, isLowerBoundInclusive: true};        
-        IntRangeRecord int8RangeRecord = {upper: 100, lower: 11, isUpperBoundInclusive: false, isLowerBoundInclusive: true};
-        NumericRangeRecord numRangeRecord = {upper: 24, lower: 0, isUpperBoundInclusive: false, isLowerBoundInclusive: false}; 
+//         IntRangeRecord int4RangeRecord = {upper: 50 , lower: 3 , isUpperBoundInclusive: false, isLowerBoundInclusive: true};        
+//         IntRangeRecord int8RangeRecord = {upper: 100, lower: 11, isUpperBoundInclusive: false, isLowerBoundInclusive: true};
+//         NumericRangeRecord numRangeRecord = {upper: 24, lower: 0, isUpperBoundInclusive: false, isLowerBoundInclusive: false}; 
                
-        sql:ParameterizedCallQuery sqlQuery =
-        `
-        call RangeOutProcedure(${rowIdInoutValue}, ${int4rangeInoutValue}, ${int8rangeInoutValue}, ${numrangeInoutValue}, ${tsrangeInoutValue}, ${tstzrangeInoutValue}, ${daterangeInoutValue});
-        `;
-        sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "range_db");
+//         sql:ParameterizedCallQuery sqlQuery =
+//         `
+//         call RangeOutProcedure(${rowIdInoutValue}, ${int4rangeInoutValue}, ${int8rangeInoutValue}, ${numrangeInoutValue}, ${tsrangeInoutValue}, ${tstzrangeInoutValue}, ${daterangeInoutValue});
+//         `;
+//         sql:ProcedureCallResult result = callOutProcedure(sqlQuery, "range_db");
 
-        test:assertEquals(int4rangeInoutValue.get(string), "[3,50)", "Int4range Datatype Doesn't Match");
-        test:assertEquals(int8rangeInoutValue.get(string), "[11,100)", "Int8range Datatype Doesn't Match");
-        test:assertEquals(numrangeInoutValue.get(string), "(0,24)", "Numrnge Datatype Doesn't Match");
-        test:assertEquals(tsrangeInoutValue.get(string), "(\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")", "Tsrange Datatype Doesn't Match");
-        test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")", "Tstzrange Datatype Doesn't Match");
-        test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)", "Daterange Datatype Doesn't Match");
+//         test:assertEquals(int4rangeInoutValue.get(string), "[3,50)", "Int4range Datatype Doesn't Match");
+//         test:assertEquals(int8rangeInoutValue.get(string), "[11,100)", "Int8range Datatype Doesn't Match");
+//         test:assertEquals(numrangeInoutValue.get(string), "(0,24)", "Numrnge Datatype Doesn't Match");
+//         test:assertEquals(tsrangeInoutValue.get(string), "(\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")", "Tsrange Datatype Doesn't Match");
+//         test:assertEquals(tstzrangeInoutValue.get(string), "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")", "Tstzrange Datatype Doesn't Match");
+//         test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)", "Daterange Datatype Doesn't Match");
 
-        test:assertEquals(int4rangeInoutValue.get(IntRangeRecord), int4RangeRecord, "Int4range Datatype Doesn't Match");
-        test:assertEquals(int8rangeInoutValue.get(IntRangeRecord), int8RangeRecord, "Int8range Datatype Doesn't Match");
-        test:assertEquals(numrangeInoutValue.get(NumericRangeRecord), numRangeRecord, "Numrnge Datatype Doesn't Match");
-        test:assertTrue(tsrangeInoutValue.get(TimestampRangeRecord) is TimestampRangeRecord, "Tsrange Datatype Doesn't Match");
-        test:assertTrue(tstzrangeInoutValue.get(TimestampRangeRecord) is TimestampRangeRecord, "Tstzrange Datatype Doesn't Match");
-        test:assertTrue(daterangeInoutValue.get(TimestampRangeRecord) is TimestampRangeRecord, "Daterange Datatype Doesn't Match");
+//         test:assertEquals(int4rangeInoutValue.get(IntRangeRecord), int4RangeRecord, "Int4range Datatype Doesn't Match");
+//         test:assertEquals(int8rangeInoutValue.get(IntRangeRecord), int8RangeRecord, "Int8range Datatype Doesn't Match");
+//         test:assertEquals(numrangeInoutValue.get(NumericRangeRecord), numRangeRecord, "Numrnge Datatype Doesn't Match");
+//         test:assertTrue(tsrangeInoutValue.get(TimestampRangeRecord) is TimestampRangeRecord, "Tsrange Datatype Doesn't Match");
+//         test:assertTrue(tstzrangeInoutValue.get(TimestampRangeRecord) is TimestampRangeRecord, "Tstzrange Datatype Doesn't Match");
+//         test:assertTrue(daterangeInoutValue.get(TimestampRangeRecord) is TimestampRangeRecord, "Daterange Datatype Doesn't Match");
 
-}
+// }
  
 
 // // // //---------------------------------------------------------------------------------------------------------------------------
@@ -570,11 +570,11 @@ function testRangeProcedureOutCall() {
 //     }
 // }
 
-function callOutProcedure(sql:ParameterizedCallQuery sqlQuery, string database) returns sql:ProcedureCallResult {
-    Client dbClient = checkpanic new (host, user, password, database, port);
-    sql:ProcedureCallResult result = checkpanic dbClient->call(sqlQuery);
-    checkpanic dbClient.close();
-    return result;
-}
+// function callOutProcedure(sql:ParameterizedCallQuery sqlQuery, string database) returns sql:ProcedureCallResult {
+//     Client dbClient = checkpanic new (host, user, password, database, port);
+//     sql:ProcedureCallResult result = checkpanic dbClient->call(sqlQuery);
+//     checkpanic dbClient.close();
+//     return result;
+// }
 
 
