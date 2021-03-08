@@ -46,7 +46,7 @@ function testInsertIntoNumericDataTable() {
             VALUES(${rowId}, ${smallintType}, ${intType}, ${bigintType}, ${decimalType}, ${numericType},
             ${realType}, ${doubleType}, ${smallserialType}, ${serialType}, ${bigserialType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "numeric_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -70,7 +70,7 @@ function testInsertIntoNumericDataTable2() {
             VALUES(${rowId}, ${smallintType}, ${intType}, ${bigintType}, ${decimalType}, ${numericType},
             ${realType}, ${doubleType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "numeric_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -97,7 +97,7 @@ function testInsertIntoNumericDataTable3() {
             VALUES(${rowId}, ${smallintType}, ${intType}, ${bigintType}, ${decimalType}, ${numericType},
             ${realType}, ${doubleType}, ${smallserialType}, ${serialType}, ${bigserialType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "numeric_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ function testInsertIntoCharacterDataTable() {
     INSERT INTO CharacterTypes (row_id, char_type, varchar_type, text_type, name_type)
             VALUES(${rowId}, ${charValue}, ${varcharValue}, ${textValue}, ${nameValue})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "character_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -145,7 +145,7 @@ function testInsertIntoCharacterDataTable2() {
     INSERT INTO CharacterTypes (row_id, char_type, varchar_type, text_type, name_type)
             VALUES(${rowId}, ${charValue}, ${varcharValue}, ${textValue}, ${nameValue})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "character_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -164,7 +164,7 @@ function testInsertIntoCharacterDataTable3() {
     INSERT INTO CharacterTypes (row_id, char_type, varchar_type, text_type, name_type)
             VALUES(${rowId}, ${charValue}, ${varcharValue}, ${textValue}, ${nameValue})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "character_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //======================================================================================================================
@@ -186,7 +186,7 @@ function testInsertIntoBooleanDataTable() {
     INSERT INTO BooleanTypes (row_id, boolean_type)
             VALUES(${rowId}, ${booleanType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "boolean_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -202,7 +202,7 @@ function testInsertIntoBooleanDataTable2() {
     INSERT INTO BooleanTypes (row_id, boolean_type)
             VALUES(${rowId}, ${booleanType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "boolean_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 
@@ -242,7 +242,7 @@ function testInsertIntoNetworkDataTable() {
     INSERT INTO NetworkTypes (row_id, inet_type, cidr_type, macaddr_type, macaddr8_type)
             VALUES(${rowId}, ${inetValue}, ${cidrValue}, ${macaddrValue}, ${macaddr8Value})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "network_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -261,7 +261,7 @@ function testInsertIntoNetworkDataTable2() {
     INSERT INTO NetworkTypes (row_id, inet_type, cidr_type, macaddr_type, macaddr8_type)
             VALUES(${rowId}, ${inetValue}, ${cidrValue}, ${macaddrValue}, ${macaddr8Value})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "network_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -306,7 +306,7 @@ function testInsertIntoGeometricDataTable() {
     INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type,circle_type)
             VALUES(${rowId}, ${pointType}, ${lineType}, ${lsegType}, ${boxType},${circleType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "geometric_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -328,7 +328,7 @@ function testInsertIntoGeometricDataTable2() {
     INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type,circle_type)
             VALUES(${rowId}, ${pointType}, ${lineType}, ${lsegType}, ${boxType},${circleType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "geometric_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -350,7 +350,7 @@ function testInsertIntoGeometricDataTable3() {
     INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type,circle_type)
             VALUES(${rowId}, ${pointType}, ${lineType}, ${lsegType}, ${boxType},${circleType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "geometric_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -372,7 +372,7 @@ function testInsertIntoUuidDataTable() {
     INSERT INTO UuidTypes (row_id, uuid_type)
             VALUES(${rowId}, ${uuidType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "uuid_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -388,7 +388,7 @@ function testInsertIntoUuidDataTable2() {
     INSERT INTO UuidTypes (row_id, uuid_type)
             VALUES(${rowId}, ${uuidType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "uuid_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -412,7 +412,7 @@ function testInsertIntoTextSearchDataTable() {
     INSERT INTO TextSearchTypes (row_id, tsvector_type, tsquery_type)
             VALUES(${rowId}, ${tsvectorType}, ${tsqueryType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "ts_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -429,7 +429,7 @@ function testInsertIntoTextSearchDataTable2() {
     INSERT INTO TextSearchTypes (row_id, tsvector_type, tsquery_type)
             VALUES(${rowId}, ${tsvectorType}, ${tsqueryType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "ts_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -454,7 +454,7 @@ function testInsertIntoJsonDataTable() {
     INSERT INTO JsonTypes (row_id, json_type, jsonb_type, jsonpath_type)
             VALUES(${rowId}, ${jsonType}, ${jsonbType}, ${jsonpathType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "json_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -472,7 +472,7 @@ function testInsertIntoJsonDataTable2() {
     INSERT INTO JsonTypes (row_id, json_type, jsonb_type, jsonpath_type)
             VALUES(${rowId}, ${jsonType}, ${jsonbType}, ${jsonpathType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "json_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -491,7 +491,7 @@ function testInsertIntoJsonDataTable3() {
     INSERT INTO JsonTypes (row_id, json_type, jsonb_type, jsonpath_type)
             VALUES(${rowId}, ${jsonType}, ${jsonbType}, ${jsonpathType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "json_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
@@ -535,7 +535,7 @@ function testInsertIntoDateDataTable() {
             INSERT INTO DateTimeTypes (row_id, timestamp_type, timestamptz_type, date_type, time_type, timetz_type, interval_type)
                     VALUES(${rowId}, ${timestampType}, ${timestamptzType}, ${dateType}, ${timeType}, ${timetzType}, ${intervalType})
             `;
-        validateResult(executeQueryPostgresqlClient(sqlQuery, "datetime_db"), 1, rowId);
+        validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
     }
     else{
         test:assertFail("Invalid Time value generated ");
@@ -561,7 +561,7 @@ function testInsertIntoDateDataTable2() {
             INSERT INTO DateTimeTypes (row_id, timestamp_type, timestamptz_type, date_type, time_type, timetz_type, interval_type)
                     VALUES(${rowId}, ${timestampType}, ${timestamptzType}, ${dateType}, ${timeType}, ${timetzType}, ${intervalType})
         `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "datetime_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -577,7 +577,7 @@ function testInsertIntoDateDataTable3() {
         INSERT INTO DateTimeTypes (row_id, interval_type)
                 VALUES(${rowId}, ${intervalType})
         `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "datetime_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -626,7 +626,7 @@ function testInsertIntoRangeDataTable() {
             INSERT INTO RangeTypes (row_id, int4range_type, int8range_type, numrange_type, tsrange_type, tstzrange_type, daterange_type)
                     VALUES(${rowId}, ${int4rangeType}, ${int8rangeType}, ${numrangeType}, ${tsrangeType}, ${tstzrangeType}, ${daterangeType})
             `;
-        validateResult(executeQueryPostgresqlClient(sqlQuery, "range_db"), 1, rowId);
+        validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
     }
     else{
         test:assertFail("Invalid Time value generated ");
@@ -652,7 +652,7 @@ function testInsertIntoRangeDataTable2() {
             INSERT INTO RangeTypes (row_id, int4range_type, int8range_type, numrange_type, tsrange_type, tstzrange_type, daterange_type)
                     VALUES(${rowId}, ${int4rangeType}, ${int8rangeType}, ${numrangeType}, ${tsrangeType}, ${tstzrangeType}, ${daterangeType})
             `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "range_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -673,7 +673,7 @@ function testInsertIntoRangeDataTable3() {
         INSERT INTO RangeTypes (row_id, int4range_type, int8range_type, numrange_type, tsrange_type, tstzrange_type, daterange_type)
                 VALUES(${rowId}, ${int4rangeType}, ${int8rangeType}, ${numrangeType}, ${tsrangeType}, ${tstzrangeType}, ${daterangeType})
         `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "range_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -709,7 +709,7 @@ function testInsertIntoBitDataTable() {
     INSERT INTO BitTypes (row_id, bitstring_type, varbitstring_type, bit_type)
             VALUES(${rowId}, ${bitstringType}, ${varbitstringType}, ${bitType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "bitstring_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -727,7 +727,7 @@ function testInsertIntoBitDataTable2() {
     INSERT INTO BitTypes (row_id, bitstring_type, varbitstring_type, bit_type)
             VALUES(${rowId}, ${bitstringType}, ${varbitstringType}, ${bitType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "bitstring_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -749,7 +749,7 @@ function testInsertIntoPglsnDataTable() {
     INSERT INTO PglsnTypes (row_id, pglsn_type)
             VALUES(${rowId}, ${pglsnType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "pglsn_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -765,7 +765,7 @@ function testInsertIntoPglsnDataTable2() {
     INSERT INTO PglsnTypes (row_id, pglsn_type)
             VALUES(${rowId}, ${pglsnType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "pglsn_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -787,14 +787,14 @@ function testInsertIntoPglsnDataTable2() {
 //         set lc_monetary to 'en_US.utf8';
 //     `;
 
-//     _ = executeQueryPostgresqlClient(initMoneyType, "money_db");
+//     _ = executeQueryPostgresqlClient(initMoneyType, "execute_db");
 
 //     sql:ParameterizedQuery sqlQuery =
 //       `
 //     INSERT INTO MoneyTypes (row_id, money_type)
 //             VALUES(${rowId}, ${moneyType})
 //     `;
-//     validateResult(executeQueryPostgresqlClient(sqlQuery, "money_db"), 1, rowId);
+//     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 // }
 
 // @test:Config {
@@ -810,7 +810,7 @@ function testInsertIntoPglsnDataTable2() {
 //     INSERT INTO MoneyTypes (row_id, money_type)
 //             VALUES(${rowId}, ${moneyType})
 //     `;
-//     validateResult(executeQueryPostgresqlClient(sqlQuery, "money_db"), 1, rowId);
+//     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 // }
 
 // @test:Config {
@@ -822,7 +822,7 @@ function testInsertIntoPglsnDataTable2() {
     
 //     sql:ParameterizedQuery sqlQuery = `select * from moneytypes where row_id = ${rowId}`;
 
-//     _ = validateMoneyTableResult(simpleQueryPostgresqlClient(sqlQuery, MoneyRecord, database = "money_db"));
+//     _ = validateMoneyTableResult(simpleQueryPostgresqlClient(sqlQuery, MoneyRecord, database = "execute_db"));
 // }
 
 // public function validateMoneyTableResult(record{}? returnData) {
@@ -875,7 +875,7 @@ function testInsertIntoObjectidentifierDataTable() {
             VALUES(${rowId}, ${oidType}, ${regclassType}, ${regconfigType}, ${regdictionaryType}, ${regnamespaceType},
             ${regoperType}, ${regoperatorType}, ${regprocType}, ${regprocedureType}, ${regroleType}, ${regtypeType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "objectidentifier_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -903,7 +903,7 @@ function testInsertIntoObjectidentifierDataTable2() {
             VALUES(${rowId}, ${oidType}, ${regclassType}, ${regconfigType}, ${regdictionaryType}, ${regnamespaceType},
             ${regoperType}, ${regoperatorType}, ${regprocType}, ${regprocedureType}, ${regroleType}, ${regtypeType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "objectidentifier_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -926,7 +926,7 @@ function testInsertIntoXmlDataTable() {
     INSERT INTO XmlTypes (row_id, xml_type)
             VALUES(${rowId}, ${xmlType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "xml_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 @test:Config {
@@ -943,7 +943,7 @@ function testInsertIntoXmlDataTable2() {
     INSERT INTO XmlTypes (row_id, xml_type)
             VALUES(${rowId}, ${xmlType})
     `;
-    validateResult(executeQueryPostgresqlClient(sqlQuery, "xml_db"), 1, rowId);
+    validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
 // @test:Config {
@@ -955,7 +955,7 @@ function testInsertIntoXmlDataTable2() {
     
 //     sql:ParameterizedQuery sqlQuery = `select * from Xmltypes where row_id = ${rowId}`;
 
-//     _ = validateXmlTableResult(simpleQueryPostgresqlClient(sqlQuery, XmlRecord, database = "xml_db"));
+//     _ = validateXmlTableResult(simpleQueryPostgresqlClient(sqlQuery, XmlRecord, database = "execute_db"));
 // }
 
 public function validateXmlTableResult(record{}? returnData) {
