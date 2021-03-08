@@ -887,6 +887,142 @@ public class Convertor {
             return xml;
         }
 
+        public static Object convertIntervalToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                PGInterval interval = new PGInterval(value.toString());
+                valueMap.put(Constants.Interval.YEARS, interval.getYears());
+                valueMap.put(Constants.Interval.MONTHS, interval.getMonths());
+                valueMap.put(Constants.Interval.DAYS, interval.getDays());
+                valueMap.put(Constants.Interval.HOURS, interval.getHours());
+                valueMap.put(Constants.Interval.MINUTES, interval.getMinutes());
+                valueMap.put(Constants.Interval.SECONDS, interval.getSeconds());
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertPointToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                PGpoint point = new PGpoint(value.toString());
+                valueMap.put(Constants.Geometric.X, point.x);
+                valueMap.put(Constants.Geometric.Y, point.y);
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertLineToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                PGline line = new PGline(value.toString());
+                valueMap.put(Constants.Geometric.A, line.a);
+                valueMap.put(Constants.Geometric.B, line.b);
+                valueMap.put(Constants.Geometric.C, line.c);
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertLsegToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                PGlseg lseg = new PGlseg(value.toString());
+                PGpoint[] points = lseg.point;
+                PGpoint point1 = points[0];
+                PGpoint point2 = points[1];
+                valueMap.put(Constants.Geometric.X1, point1.x);
+                valueMap.put(Constants.Geometric.Y1, point1.y);
+                valueMap.put(Constants.Geometric.X2, point2.x);
+                valueMap.put(Constants.Geometric.Y2, point2.y);
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertBoxToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                PGbox box = new PGbox(value.toString());
+                PGpoint[] points = box.point;
+                PGpoint point1 = points[0];
+                PGpoint point2 = points[1];
+                valueMap.put(Constants.Geometric.X1, point1.x);
+                valueMap.put(Constants.Geometric.Y1, point1.y);
+                valueMap.put(Constants.Geometric.X2, point2.x);
+                valueMap.put(Constants.Geometric.Y2, point2.y);
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+                return null;
+            }
+        }
+
+        public static Object convertCircleToRecord(Object value, String typeName) {
+            Map<String, Object> valueMap = new HashMap<>();
+            System.out.println("TypedName:  :"+typeName);
+            try{
+                if(value == null){
+                    return null;
+                }
+                PGcircle circle = new PGcircle(value.toString());
+                PGpoint center = circle.center;
+                valueMap.put(Constants.Geometric.X, center.x);
+                valueMap.put(Constants.Geometric.Y, center.y);
+                valueMap.put(Constants.Geometric.R, circle.radius);
+
+                return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                    typeName, valueMap);
+            }
+            catch(Exception ex) {
+                System.out.println("Error occured in convertIntervalToRecord");
+            }
+            return 1;
+        }
 
         public static PGobject setPGobject(String type, String value){
             PGobject pgobject =  new PGobject();

@@ -566,6 +566,8 @@ public class CustomResultIterator {
     paramTypes: ["io.ballerina.runtime.api.values.BObject", "io.ballerina.runtime.api.values.BObject"]
     } external;
 }
+
+
 // public type CustomResultIterator object {
 //     public isolated function nextResult(ResultIterator iterator) returns record {}|Error?;
 //     public isolated function getNextQueryResult(ProcedureCallResult callResult) returns boolean|Error;

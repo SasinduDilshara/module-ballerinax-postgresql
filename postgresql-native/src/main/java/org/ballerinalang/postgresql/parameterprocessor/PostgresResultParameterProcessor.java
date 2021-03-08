@@ -697,6 +697,9 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
+        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            return Convertor.convertPointToRecord(value, ballerinaType.getName());
+        }
         else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -705,6 +708,9 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     public static Object convertLineType(Object value, int sqlType, Type ballerinaType) {
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
+        }
+        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            return Convertor.convertLineToRecord(value, ballerinaType.getName());
         }
         else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
@@ -715,6 +721,9 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
+        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            return Convertor.convertLsegToRecord(value, ballerinaType.getName());
+        }
         else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -724,6 +733,9 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
+        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            return Convertor.convertBoxToRecord(value, ballerinaType.getName());
+        }
         else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -732,6 +744,9 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     public static Object convertCircleType(Object value, int sqlType, Type ballerinaType) {
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
+        }
+        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            return Convertor.convertCircleToRecord(value, ballerinaType.getName());
         }
         else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
@@ -785,6 +800,9 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     public static Object convertIntervalType(Object value, int sqlType, Type ballerinaType) {
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
+        }
+        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            return Convertor.convertIntervalToRecord(value, ballerinaType.getName());
         }
         else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
