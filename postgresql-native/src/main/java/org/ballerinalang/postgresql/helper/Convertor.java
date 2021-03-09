@@ -509,6 +509,7 @@ public class Convertor {
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
                     int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE,range);
+                    System.out.println( "upperValue " + upperValue + "lowerValue " + lowerValue + "upperInclusive " + upperInclusive + "lowerInclusive " + lowerInclusive );
                 }
                 else{
                     System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");

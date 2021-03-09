@@ -98,7 +98,7 @@ public class ConversionHelper {
     public static String setRange(String upper, String lower, boolean upperInclusive, boolean lowerInclusive){
 
         String rangeValue = "";
-        if(upperInclusive){
+        if(lowerInclusive) {
             rangeValue += "[";
         }
         else{
@@ -109,7 +109,7 @@ public class ConversionHelper {
         rangeValue += ",";
         rangeValue += upper;
 
-        if(lowerInclusive){
+        if(upperInclusive) {
             rangeValue += "]";
         }
         else{

@@ -6,7 +6,6 @@ import ballerina/time;
 public function cc(){
     io:println(1);
     time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-
 }
 
 @test:Config {
