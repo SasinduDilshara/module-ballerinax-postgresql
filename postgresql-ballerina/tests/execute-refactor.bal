@@ -9,20 +9,6 @@ public function cc(){
 
 }
 
-public type NumericRecord record {
-    int row_id;
-    int smallint_type;
-    int int_type;
-    int bigint_type;
-    decimal decimal_type;
-    decimal numeric_type;
-    float real_type;
-    float double_type;
-    int smallserial_type;
-    int serial_type;
-    int bigserial_type;
-};
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -102,15 +88,6 @@ function testInsertIntoNumericDataTable3() {
 
 //-------------------------------------------------------------------------------------------------------------------------------
 
-
-public type CharacterRecord record {
-    int row_id;
-    string char_type;
-    string varchar_type;
-    string text_type;
-    string name_type;
-};
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -169,11 +146,6 @@ function testInsertIntoCharacterDataTable3() {
 
 //======================================================================================================================
 
-public type BooleanRecord record {
-  int row_id;
-  boolean boolean_type;
-};
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -208,24 +180,6 @@ function testInsertIntoBooleanDataTable2() {
 
 
 //-------------------------------------------------------------------------------------------------------------------------------
-
-
-public type NetworkRecord record {
-    
-    int row_id;
-    string inet_type;
-    string cidr_type;
-    string macaddr_type;
-    string macaddr8_type;
-};
-
-// public type NetworkRecord record{
-//     int row_id;
-//     InetValue inet_type;
-//     CidrValue cidr_type;
-//     MacaddrValue macaddr_type;
-//     Macaddr8Value macaddr8_type;
-// };
 
 @test:Config {
     groups: ["datatypes"]
@@ -334,11 +288,6 @@ function testInsertIntoGeometricDataTable3() {
 
 //--------------------------------------------------------------------------------------------------------------
 
-public type UuidRecord record {
-  int row_id;
-  string uuid_type;
-};
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -371,12 +320,6 @@ function testInsertIntoUuidDataTable2() {
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-
-public type TextSearchRecord record {
-  int row_id;
-  string tsvector_type;
-  string tsquery_type;
-};
 
 @test:Config {
     groups: ["datatypes"]
@@ -412,13 +355,6 @@ function testInsertIntoTextSearchDataTable2() {
 }
 
 //--------------------------------------------------------------------------------------------------------------------
-
-public type JsonRecord record {
-  int row_id;
-  json json_type;
-  json jsonb_type;
-  string jsonpath_type;
-};
 
 @test:Config {
     groups: ["datatypes"]
@@ -474,26 +410,6 @@ function testInsertIntoJsonDataTable3() {
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
-
-// public type DateTimeRecord record {
-//   int row_id;
-//   time:Time date_type;
-//   time:Time time_type;
-//   time:Time timetz_type;
-//   time:Time timestamp_type;
-//   time:Time timestamptz_type;
-//   IntervalValue interval_type;
-// };
-
-public type DateTimeRecord record {
-  int row_id;
-  string date_type;
-  string time_type;
-  string timetz_type;
-  string timestamp_type;
-  string timestamptz_type;
-  string interval_type;
-};
 
 @test:Config {
     groups: ["datatypes"]
@@ -560,26 +476,6 @@ function testInsertIntoDateDataTable3() {
 }
 
 //----------------------------------------------------------------------------------------------------------------
-
-// public type RangeRecord record {
-//   int row_id;
-//   record{} int4range_type;
-//   record{} int8range_type;
-//   record{} numrange_type;
-//   record{} tsrange_type;
-//   record{} tstzrange_type;
-//   record{} daterange_type;
-// };
-
-public type RangeRecord record {
-  int row_id;
-  string int4range_type;
-  string int8range_type;
-  string numrange_type;
-  string tsrange_type;
-  string tstzrange_type;
-  string daterange_type;
-};
 
 @test:Config {
     groups: ["datatypes"]
@@ -657,24 +553,6 @@ function testInsertIntoRangeDataTable3() {
 
 //-----------------------------------------------------------------------------------------------------------------------
 
-public type BitRecord record {
-  int row_id;
-//   string bitstring_type;
-  string varbitstring_type;
-  boolean bit_type;
-};
-//         json jj = {"a":11,"b":2};
-//         json jj2 = {"a":22,"b":2};
-//         json jj3 = {"a":33,"b":2};
-
-//         // postgresql:JsonValue j = new(jj);
-//         // postgresql:JsonValue j2 = new(jj2);
-//         // postgresql:JsonValue j3 = new(jj3);
-
-//         // postgresql:JsonValue j = new("{\"a\":1,\"b\":\"Hello\"}");
-//         // postgresql:JsonValue j2 = new("{\"a\":2,\"b\":\"Hello\"}");
-//         // postgresql:JsonValue j3 = new("{\"a\":3,\"b\":\"Hello\"}");
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -710,11 +588,6 @@ function testInsertIntoBitDataTable2() {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
-
-public type PglsnRecord record {
-  int row_id;
-  string pglsn_type;
-};
 
 @test:Config {
     groups: ["datatypes"]
@@ -815,21 +688,6 @@ function testInsertIntoPglsnDataTable2() {
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
-public type ObjectidentifierRecord record {
-  int row_id;
-  string oid_type;
-  string regclass_type;
-  string regconfig_type;
-  string regdictionary_type;
-  string regnamespace_type;
-  string regoper_type;
-  string regoperator_type;
-  string regproc_type;
-  string regprocedure_type;
-  string regrole_type;
-  string regtype_type;
-};
-//"pg_type","english","simple","pg_catalog","!","*(int,int)","NOW","sum(int4)","postgres","int"
 @test:Config {
     groups: ["datatypes"]
 }

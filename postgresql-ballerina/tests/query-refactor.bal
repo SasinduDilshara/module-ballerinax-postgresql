@@ -10,6 +10,21 @@ public function cccc(){
 }
 //========================================================================================================================
 
+
+public type NumericRecord record {
+    int row_id;
+    int smallint_type;
+    int int_type;
+    int bigint_type;
+    decimal decimal_type;
+    decimal numeric_type;
+    float real_type;
+    float double_type;
+    int smallserial_type;
+    int serial_type;
+    int bigserial_type;
+};
+
 @test:Config {
     groups: ["datatypes"]
 }
@@ -42,6 +57,14 @@ public function validateNumericTableResult(record{}? returnData) {
 
 //========================================================================================================================
 
+public type CharacterRecord record {
+    int row_id;
+    string char_type;
+    string varchar_type;
+    string text_type;
+    string name_type;
+};
+
 @test:Config {
     groups: ["datatypes"]
 }
@@ -66,6 +89,12 @@ public function validateCharacterTableResult(record{}? returnData) {
 }
 
 //========================================================================================================================
+
+public type BooleanRecord record {
+  int row_id;
+  boolean boolean_type;
+};
+
 @test:Config {
     groups: ["datatypes"]
 }
@@ -86,6 +115,15 @@ public function validateBooleanTableResult(record{}? returnData) {
     } 
 }
 //========================================================================================================================
+
+public type NetworkRecord record {
+    
+    int row_id;
+    string inet_type;
+    string cidr_type;
+    string macaddr_type;
+    string macaddr8_type;
+};
 
 @test:Config {
     groups: ["datatypes"]
@@ -160,6 +198,11 @@ public function validateGeometricTableResult(record{}? returnData) {
 
 //========================================================================================================================
 
+public type UuidRecord record {
+  int row_id;
+  string uuid_type;
+};
+
 @test:Config {
     groups: ["datatypes"]
 }
@@ -182,6 +225,12 @@ public function validateUuidTableResult(record{}? returnData) {
 }
 
 //========================================================================================================================
+
+public type TextSearchRecord record {
+  int row_id;
+  string tsvector_type;
+  string tsquery_type;
+};
 
 @test:Config {
     groups: ["datatypes"]
@@ -206,6 +255,12 @@ public function validateTextSearchTableResult(record{}? returnData) {
 
 //========================================================================================================================
 
+public type JsonRecord record {
+  int row_id;
+  json json_type;
+  json jsonb_type;
+  string jsonpath_type;
+};
 
 @test:Config {
     groups: ["datatypes"]
@@ -230,6 +285,26 @@ public function validateJsonTableResult(record{}? returnData) {
 }
 
 //========================================================================================================================
+
+// public type DateTimeRecord record {
+//   int row_id;
+//   time:Time date_type;
+//   time:Time time_type;
+//   time:Time timetz_type;
+//   time:Time timestamp_type;
+//   time:Time timestamptz_type;
+//   IntervalValue interval_type;
+// };
+
+public type DateTimeRecord record {
+  int row_id;
+  string date_type;
+  string time_type;
+  string timetz_type;
+  string timestamp_type;
+  string timestamptz_type;
+  string interval_type;
+};
 
 @test:Config {
     groups: ["datatypes"]
@@ -259,6 +334,26 @@ public function validateDateTableResult(record{}? returnData) {
 
 //========================================================================================================================
 
+// public type RangeRecord record {
+//   int row_id;
+//   record{} int4range_type;
+//   record{} int8range_type;
+//   record{} numrange_type;
+//   record{} tsrange_type;
+//   record{} tstzrange_type;
+//   record{} daterange_type;
+// };
+
+public type RangeRecord record {
+  int row_id;
+  string int4range_type;
+  string int8range_type;
+  string numrange_type;
+  string tsrange_type;
+  string tstzrange_type;
+  string daterange_type;
+};
+
 @test:Config {
     groups: ["datatypes"]
 }
@@ -287,6 +382,13 @@ public function validateRangeTableResult(record{}? returnData) {
 
 //========================================================================================================================
 
+public type BitRecord record {
+  int row_id;
+//   string bitstring_type;
+  string varbitstring_type;
+  boolean bit_type;
+};
+
 @test:Config {
     groups: ["datatypes"]
 }
@@ -311,6 +413,11 @@ public function validateBitTableResult(record{}? returnData) {
 
 //========================================================================================================================
 
+public type PglsnRecord record {
+  int row_id;
+  string pglsn_type;
+};
+
 @test:Config {
     groups: ["datatypes"]
 }
@@ -332,6 +439,21 @@ public function validatePglsnTableResult(record{}? returnData) {
 }
 
 //========================================================================================================================
+
+public type ObjectidentifierRecord record {
+  int row_id;
+  string oid_type;
+  string regclass_type;
+  string regconfig_type;
+  string regdictionary_type;
+  string regnamespace_type;
+  string regoper_type;
+  string regoperator_type;
+  string regproc_type;
+  string regprocedure_type;
+  string regrole_type;
+  string regtype_type;
+};
 
 @test:Config {
     groups: ["datatypes"]
