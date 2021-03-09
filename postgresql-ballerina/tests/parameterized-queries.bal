@@ -413,6 +413,13 @@ sql:ParameterizedQuery createExecuteDBQuery =
     `
 ;
 
+sql:ParameterizedQuery createBatchExecuteDBQuery = 
+    `
+        DROP DATABASE IF EXISTS BATCH_EXECUTE_DB;
+        CREATE DATABASE BATCH_EXECUTE_DB;
+    `
+;
+
 sql:ParameterizedQuery createQueryDBQuery = 
     `
         DROP DATABASE IF EXISTS QUERY_DB;

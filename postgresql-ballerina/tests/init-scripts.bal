@@ -3,6 +3,7 @@ import ballerina/sql;
 
 public function initTestScripts() {
     _ = createExecuteDB();
+     _ = createBatchExecuteDB();
     _ = createQueryDB();
     _ = createProcedureDB();
 }
@@ -11,6 +12,11 @@ public function initTestScripts() {
 public function createExecuteDB() {
     _ = createDatabaseQuery(createExecuteDBQuery);
     _ = executeQuery("execute_db", tableInitDBQuery);
+}
+
+public function createBatchExecuteDB() {
+    _ = createDatabaseQuery(createBatchExecuteDBQuery);
+    _ = executeQuery("batch_execute_db", tableInitDBQuery);
 }
 
 public function createQueryDB() {
