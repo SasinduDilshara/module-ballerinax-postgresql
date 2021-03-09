@@ -266,27 +266,6 @@ function testInsertIntoNetworkDataTable2() {
 
 //------------------------------------------------------------------------------------------------------------------
 
-// public type GeometricRecord record {
-//     int row_id;
-//     PointValue point_type;
-//     LineValue line_type;
-//     LsegValue lseg_type;
-//     BoxValue box_type;
-//     CircleValue circle_type;
-//     string? path_type;
-//     string? polygon_type;
-// };
-
-public type GeometricRecord record {
-    int row_id;
-    string point_type;
-    string line_type;
-    string lseg_type;
-    string box_type;
-    string circle_type;
-    string? path_type;
-    string? polygon_type;
-};
 
 @test:Config {
     groups: ["datatypes"]

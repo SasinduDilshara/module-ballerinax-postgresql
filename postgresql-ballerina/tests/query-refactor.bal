@@ -112,6 +112,27 @@ public function validateNetworkTableResult(record{}? returnData) {
 
 //========================================================================================================================
 
+public type GeometricRecord record {
+    int row_id;
+    string point_type;
+    string line_type;
+    string lseg_type;
+    string box_type;
+    string circle_type;
+    string? path_type;
+    string? polygon_type;
+};
+
+// public type GeometricRecord record {
+//     int row_id;
+//     string point_type;
+//     string line_type;
+//     string lseg_type;
+//     string box_type;
+//     string circle_type;
+//     string? path_type;
+//     string? polygon_type;
+// };
 
 @test:Config {
     groups: ["datatypes"]
@@ -344,7 +365,7 @@ public function validateObjectidentifierTableResult(record{}? returnData) {
 
 //========================================================================================================================
 
-function simpleQueryPostgresqlClient(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = (), string database = "query_db")
+function simpleQueryPostgresqlClient(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = (), string database = simpleParamsDb)
 returns @tainted record {}? {
     Client dbClient = checkpanic new (host, user, password, database, port);
     stream<record {}, error> streamData = dbClient->query(sqlQuery, resultType);

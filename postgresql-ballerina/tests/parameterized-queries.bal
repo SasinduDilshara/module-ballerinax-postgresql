@@ -462,6 +462,13 @@ sql:ParameterizedQuery createBasicExecuteDBQuery =
     `
 ;
 
+sql:ParameterizedQuery simpleQueryDBQuery = 
+    `
+        DROP DATABASE IF EXISTS SIMPLE_QUERY_PARAMS_DB;
+        CREATE DATABASE SIMPLE_QUERY_PARAMS_DB;
+    `
+;
+
 sql:ParameterizedQuery connectonPool1InitQuery = 
     `
         DROP TABLE IF EXISTS Customers;

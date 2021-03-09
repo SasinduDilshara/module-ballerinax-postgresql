@@ -18,15 +18,15 @@
 // import ballerina/sql;
 // import ballerina/test;
 
-// string simpleParamsDb = "query_simple_params_db";
+string simpleParamsDb = "simple_query_params_db";
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
 // function querySingleIntParam() {
 //     int rowId = 1;
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE row_id = ${rowId}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE row_id = ${rowId}`;
+//     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
@@ -34,9 +34,9 @@
 // }
 // function queryDoubleIntParam() {
 //     int rowId = 1;
-//     int intType = 1;
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE row_id = ${rowId} AND int_type =  ${intType}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     int intType = 123;
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE row_id = ${rowId} AND int_type =  ${intType}`;
+//     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
@@ -44,164 +44,121 @@
 // }
 // function queryIntAndLongParam() {
 //     int rowId = 1;
-//     int longType = 9223372036854774807;
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE row_id = ${rowId} AND long_type = ${longType}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     int longType = 123456;
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE row_id = ${rowId} AND bigint_type = ${longType}`;
+//     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
 // function queryStringParam() {
-//     string stringType = "Hello";
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${stringType}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     string stringType = "This is a varchar1";
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from CharacterTypes WHERE varchar_type = ${stringType}`;
+//     validateCharacterTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
 // function queryIntAndStringParam() {
-//     string stringType = "Hello";
+//     string stringType = "This is a varchar1";
 //     int rowId =1;
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${stringType} AND row_id = ${rowId}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE varchar_type = ${stringType} AND row_id = ${rowId}`;
+//     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
 // function queryDoubleParam() {
-//     float doubleType = 2139095039.0;
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE double_type = ${doubleType}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     float doubleType = 234.567;
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE double_type = ${doubleType}`;
+//     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
-
-// // @test:Config {
-// //     groups: ["query","query-simple-params"]
-// // }
-// // function queryFloatParam() {
-// //     float doubleType = 123.45;
-// //     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE double_type = ${doubleType}`;
-// //     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
-// // }
-
-// // @test:Config {
-// //     groups: ["query","query-simple-params"]
-// // }
-// // function queryDoubleAndFloatParam() {
-// //     float floatType = 123.45;
-// //     float doubleType = 2139095039.0;
-// //     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE double_type,2 = ROUND(${floatType},2)
-// //                                                                     and double_type = ${doubleType}`;
-// //     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
-// // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
 // function queryDecimalParam() {
-//     decimal decimalValue = 23.45;
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE decimal_type = ${decimalValue}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     decimal decimalValue = 123.456;
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE decimal_type = ${decimalValue}`;
+//     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
 // function queryDecimalAnFloatParam() {
-//     decimal decimalValue = 23.45;
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE decimal_type = ${decimalValue}
-//                                                                     and double_type = 2139095039.0`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     decimal decimalValue = 123.456;
+//     float doubleType = 234.567;
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE decimal_type = ${decimalValue}
+//                                                                     and double_type = ${doubleType}`;
+//     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
 // function queryTypeVarcharStringParam() {
-//     sql:VarcharValue typeVal = new ("Hello");
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${typeVal}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     sql:VarcharValue typeVal = new ("This is a varchar1");
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from CharacterTypes WHERE string_type = ${typeVal}`;
+//     validateCharacterTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
 // function queryTypeCharStringParam() {
-//     sql:CharValue typeVal = new ("Hello");
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${typeVal}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     sql:CharValue typeVal = new ("This is a char1");
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from CharacterTypes WHERE string_type = ${typeVal}`;
+//     validateCharacterTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
-// function queryTypeVarCharIntegerParam() {
-//     sql:VarcharValue typeVal = new ("1");
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${typeVal}`;
-
-//     decimal decimalVal = 25.45;
-//     record {}? returnData = simpleQueryPostgresqlClient(sqlQuery);
-//     test:assertNotEquals(returnData, ());
-//     if (returnData is ()) {
-//         test:assertFail("Query returns ()");
-//     } else {
-//         test:assertEquals(returnData["int_type"], 1);
-//         test:assertEquals(returnData["long_type"], 9372036854774807);
-//         test:assertEquals(returnData["double_type"], <float> 29095039);
-//         test:assertEquals(returnData["boolean_type"], false);
-//         test:assertEquals(returnData["decimal_type"], decimalVal);
-//         test:assertEquals(returnData["string_type"], "1");
-//         test:assertTrue(returnData["double_type"] is float); 
-//         test:assertEquals(returnData["row_id"], 3);  
-//     }
-// }
-
-// @test:Config {
-//     groups: ["query","query-simple-params"]
-// }
-// function queryTypBooleanBooleanParam() {
+// function queryTypeBooleanParam() {
 //     sql:BooleanValue typeVal = new (true);
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE boolean_type = ${typeVal}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
+//     sql:ParameterizedQuery sqlQuery = `SELECT * from BooleanTypes WHERE boolean_type = ${typeVal}`;
+//     validateBooleanTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
+
+// // @test:Config {
+// //     groups: ["query","query-simple-params"]
+// // }
+// // function queryTypBitIntParam() {
+// //     sql:BitValue typeVal = new (1);
+// //     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE boolean_type = ${typeVal}`;
+// //     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
+// // }
+
+// // @test:Config {
+// //     groups: ["query","query-simple-params"]
+// // }
+// // function queryTypBitStringParam() {
+// //     sql:BitValue typeVal = new (true);
+// //     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE boolean_type = ${typeVal}`;
+// //     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
+// // }
+
+// // @test:Config {
+// //     groups: ["query","query-simple-params"]
+// // }
+// // function queryTypBitInvalidIntParam() {
+// //     sql:BitValue typeVal = new (12);
+// //     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE boolean_type = ${typeVal}`;
+// //     record{}|error? returnVal = trap simpleQueryPostgresqlClient(sqlQuery);
+// //     test:assertTrue(returnVal is error);
+// //     error dbError = <error> returnVal;
+// //     test:assertEquals(dbError.message(), "Only 1 or 0 can be passed for BitValue SQL Type, but found :12");
+// // }
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
 // }
-// function queryTypBitIntParam() {
-//     sql:BitValue typeVal = new (1);
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE boolean_type = ${typeVal}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
-// }
-
-// @test:Config {
-//     groups: ["query","query-simple-params"]
-// }
-// function queryTypBitStringParam() {
-//     sql:BitValue typeVal = new (true);
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE boolean_type = ${typeVal}`;
-//     validateDataTableResult(simpleQueryPostgresqlClient(sqlQuery));
-// }
-
-// @test:Config {
-//     groups: ["query","query-simple-params"]
-// }
-// function queryTypBitInvalidIntParam() {
-//     sql:BitValue typeVal = new (12);
-//     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE boolean_type = ${typeVal}`;
-//     record{}|error? returnVal = trap simpleQueryPostgresqlClient(sqlQuery);
-//     test:assertTrue(returnVal is error);
-//     error dbError = <error> returnVal;
-//     test:assertEquals(dbError.message(), "Only 1 or 0 can be passed for BitValue SQL Type, but found :12");
-// }
-
-// @test:Config {
-//     groups: ["query","query-simple-params"]
-// }
-// function queryTypeIntIntParam() {
-//     sql:IntegerValue typeVal = new (2147483647);
+// function queryTypeIntParam() {
+//     sql:IntegerValue typeVal = new (123);
 //     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE int_type = ${typeVal}`;
 //     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
@@ -210,7 +167,7 @@
 //     groups: ["query","query-simple-params"]
 // }
 // function queryTypeSmallIntIntParam() {
-//     sql:SmallIntValue typeVal = new (32767);
+//     sql:SmallIntValue typeVal = new (1);
 //     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE smallint_type = ${typeVal}`;
 //     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
@@ -219,7 +176,7 @@
 //     groups: ["query","query-simple-params"]
 // }
 // function queryTypeBigIntIntParam() {
-//     sql:BigIntValue typeVal = new (9223372036854774807);
+//     sql:BigIntValue typeVal = new (123456);
 //     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE bigint_type = ${typeVal}`;
 //     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
@@ -228,8 +185,8 @@
 //     groups: ["query","query-simple-params"]
 // }
 // function queryTypeDoubleDoubleParam() {
-//     sql:DoubleValue typeVal = new (1234.567);
-//     sql:DoubleValue typeVal2 = new (1234.57);
+//     sql:DoubleValue typeVal = new (234.56);
+//     sql:DoubleValue typeVal2 = new (234.57);
 //     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE double_type between ${typeVal} AND ${typeVal2}`;
 //     validateNumericTableResult(simpleQueryPostgresqlClient(sqlQuery));
 // }
@@ -238,7 +195,7 @@
 //     groups: ["query","query-simple-params"]
 // }
 // function queryTypeDoubleIntParam() {
-//     sql:DoubleValue typeVal = new (1234);
+//     sql:DoubleValue typeVal = new (234.567);
 //     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE double_type = ${typeVal}`;
 //     record{}? returnData = simpleQueryPostgresqlClient(sqlQuery);
 
@@ -247,7 +204,7 @@
 //     } else {
 //         test:assertEquals(returnData.length(), 8);
 //         test:assertEquals(returnData["id"], 2);
-//         test:assertEquals(returnData["real_type"], 1234.0);
+//         test:assertEquals(returnData["real_type"], 234.567);
 //     }
 
 // }
@@ -433,46 +390,71 @@
 
 
 
-// isolated function validateDataTableResult(record{}? returnData) {
-//     decimal decimalVal = 23.45;
-//     if (returnData is ()) {
-//         test:assertFail("Empty row returned.");
-//     } else {
-//         test:assertEquals(returnData["row_id"], 1);
-//         test:assertEquals(returnData["int_type"], 1);
-//         test:assertEquals(returnData["long_type"], 9223372036854774807);
-//         test:assertEquals(returnData["double_type"], <float> 2139095039);
-//         test:assertEquals(returnData["boolean_type"], true);
-//         test:assertEquals(returnData["decimal_type"], decimalVal);
-//         test:assertEquals(returnData["string_type"], "Hello");
-//         test:assertTrue(returnData["numeric_type"] is decimal);   
-//     } 
-// }
+// // isolated function validateNumericTableResult(record{}? returnData) {
+// //     decimal decimalVal = 23.45;
+// //     if (returnData is ()) {
+// //         test:assertFail("Empty row returned.");
+// //     } else {
+// //         test:assertEquals(returnData["row_id"], 1);
+// //         test:assertEquals(returnData["int_type"], 1);
+// //         test:assertEquals(returnData["long_type"], 9223372036854774807);
+// //         test:assertEquals(returnData["double_type"], <float> 2139095039);
+// //         test:assertEquals(returnData["boolean_type"], true);
+// //         test:assertEquals(returnData["decimal_type"], decimalVal);
+// //         test:assertEquals(returnData["string_type"], "Hello");
+// //         test:assertTrue(returnData["numeric_type"] is decimal);   
+// //     } 
+// // }
 
 // isolated function validateNumericTableResult(record{}? returnData) {
 //     if (returnData is ()) {
 //         test:assertFail("Empty row returned.");
 //     } else {
-//         test:assertEquals(returnData["id"], 1);
-//         test:assertEquals(returnData["int_type"], 2147483647);
-//         test:assertEquals(returnData["bigint_type"], 9223372036854774807);
-//         test:assertEquals(returnData["smallint_type"], 32767);
+//         decimal decimalVal = 123.456;
+//         test:assertEquals(returnData["row_id"], 1);
+//         test:assertEquals(returnData["smallint_type"], 1);
+//         test:assertEquals(returnData["int_type"], 123);
+//         test:assertEquals(returnData["bigint_type"], 123456);
+//         test:assertEquals(returnData["decimal_type"], decimalVal);
+//         test:assertEquals(returnData["numeric_type"], decimalVal);
 //         test:assertTrue(returnData["real_type"] is float);
-//         test:assertTrue(returnData["decimal_type"] is decimal);
-//         test:assertTrue(returnData["numeric_type"] is decimal);
-//         test:assertTrue(returnData["double_type"] is float);   
+//         test:assertTrue(returnData["double_type"] is float);
+//         test:assertEquals(returnData["smallserial_type"], 1);
+//         test:assertEquals(returnData["serial_type"], 123);
+//         test:assertEquals(returnData["bigserial_type"], 123456);  
 //     }
 // }
 
-// isolated function validateComplexTableResult(record{}? returnData) {
+// isolated function validateCharacterTableResult(record{}? returnData) {
 //     if (returnData is ()) {
-//         test:assertFail("Returned data is nil");
+//         test:assertFail("Empty row returned.");
 //     } else {
-//         test:assertEquals(returnData.length(), 3);
 //         test:assertEquals(returnData["row_id"], 1);
-//         test:assertEquals(returnData["text_type"], "very long text");
+//         test:assertEquals(returnData["char_type"], "This is a char1");
+//         test:assertEquals(returnData["varchar_type"], "This is a varchar1");
+//         test:assertEquals(returnData["text_type"], "This is a text1");   
+//         test:assertEquals(returnData["name_type"], "This is a name1");  
 //     }
 // }
+
+// isolated function validateBooleanTableResult(record{}? returnData) {
+//     if (returnData is ()) {
+//         test:assertFail("Empty row returned.");
+//     } else {
+//         test:assertEquals(returnData["row_id"], 1);
+//         test:assertEquals(returnData["boolean_type"], true);  
+//     }
+// }
+
+// // isolated function validateComplexTableResult(record{}? returnData) {
+// //     if (returnData is ()) {
+// //         test:assertFail("Returned data is nil");
+// //     } else {
+// //         test:assertEquals(returnData.length(), 3);
+// //         test:assertEquals(returnData["row_id"], 1);
+// //         test:assertEquals(returnData["text_type"], "very long text");
+// //     }
+// // }
 
 // isolated function validateDateTimeTypesTableResult(record{}? returnData) {
 //     if (returnData is ()) {
@@ -486,37 +468,45 @@
 //         // test:assertTrue(returnData["timetz_type"].toString().startsWith("11:35:45+3"));
 //         // test:assertTrue(returnData["timestamp_type"].toString().startsWith("2017-02-03 11:53:00"));
 //         // test:assertTrue(returnData["timestamptz_type"].toString().startsWith("2017-02-03 11:53:00+2"));
+//         io:println(returnData);
+//         test:assertEquals(returnData["row_id"], 1);
+//         test:assertEquals(returnData["time_type"], "09:35:06.000+05:30");
+//         test:assertEquals(returnData["timetz_type"], "13:35:06.000+05:30");
+//         test:assertEquals(returnData["timestamp_type"], "1999-01-08T10:05:06.000+06:00");
+//         test:assertEquals(returnData["timestamptz_type"], "2004-10-19T14:23:54.000+06:00");
+//         test:assertEquals(returnData["date_type"], "1999-01-08+06:00");
+//         test:assertEquals(returnData["interval_type"], "1 year 2 mons 3 days 04:05:06");
 //     }
 // }
 
-// isolated function validateEnumTable(record{}? returnData) {
-//     if (returnData is ()) {
-//         test:assertFail("Returned data is nil");
-//     } else {
-//         test:assertEquals(returnData.length(), 2);
-//         test:assertEquals(returnData["id"], 1);
-//         test:assertEquals(returnData["enum_type"].toString(), "doctor");
-//     }
-// }
+// // isolated function validateEnumTable(record{}? returnData) {
+// //     if (returnData is ()) {
+// //         test:assertFail("Returned data is nil");
+// //     } else {
+// //         test:assertEquals(returnData.length(), 2);
+// //         test:assertEquals(returnData["id"], 1);
+// //         test:assertEquals(returnData["enum_type"].toString(), "doctor");
+// //     }
+// // }
 
-// isolated function validateGeoTable(record{}? returnData) {
-//     if (returnData is ()) {
-//         test:assertFail("Returned data is nil");
-//     } else {
-//         test:assertEquals(returnData.length(), 2);
-//         test:assertEquals(returnData["id"], 1);
-//         test:assertEquals(returnData["geomText"].toString(), "POINT(7 52)");
-//     }
-// }
+// // isolated function validateGeoTable(record{}? returnData) {
+// //     if (returnData is ()) {
+// //         test:assertFail("Returned data is nil");
+// //     } else {
+// //         test:assertEquals(returnData.length(), 2);
+// //         test:assertEquals(returnData["id"], 1);
+// //         test:assertEquals(returnData["geomText"].toString(), "POINT(7 52)");
+// //     }
+// // }
 
-// isolated function validateJsonTable(record{}? returnData) {
-//     if (returnData is ()) {
-//         test:assertFail("Returned data is nil");
-//     } else {
-//         test:assertEquals(returnData.length(), 2);
-//         test:assertEquals(returnData["id"], 1);
-//         test:assertEquals(returnData["json_type"], "{\"id\": 100, \"name\": \"Joe\", \"groups\": \"[2,5]\"}");
-//     }
-// }
+// // isolated function validateJsonTable(record{}? returnData) {
+// //     if (returnData is ()) {
+// //         test:assertFail("Returned data is nil");
+// //     } else {
+// //         test:assertEquals(returnData.length(), 2);
+// //         test:assertEquals(returnData["id"], 1);
+// //         test:assertEquals(returnData["json_type"], "{\"id\": 100, \"name\": \"Joe\", \"groups\": \"[2,5]\"}");
+// //     }
+// // }
 
 

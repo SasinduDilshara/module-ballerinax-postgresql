@@ -5,6 +5,7 @@ public function initTestScripts() {
     _ = createExecuteDB();
     _ = createBatchExecuteDB();
     _ = createBasicExecuteDB();
+    _ = createSimpleQueryDB();
     _ = createQueryDB();
     _ = createProcedureDB();
     _ = createLocalTransactionDB();
@@ -26,6 +27,11 @@ public function createBatchExecuteDB() {
 public function createBasicExecuteDB() {
     _ = createDatabaseQuery(createBasicExecuteDBQuery);
     _ = executeQuery("basic_execute_db", tableInitDBQuery);
+}
+
+public function createSimpleQueryDB() {
+    _ = createDatabaseQuery(simpleQueryDBQuery);
+    _ = executeQuery("simple_query_params_db", tableInitDBQuery);
 }
 
 public function createQueryDB() {
