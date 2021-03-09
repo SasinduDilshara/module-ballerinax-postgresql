@@ -434,6 +434,92 @@ sql:ParameterizedQuery createConnectDBQuery =
     `
 ;
 
+sql:ParameterizedQuery createLocalTransactionDBQuery = 
+    `
+        DROP DATABASE IF EXISTS LOCAL_TRANSACTION;
+        CREATE DATABASE LOCAL_TRANSACTION;
+    `
+;
+
+sql:ParameterizedQuery createConnectionPool1DBQuery = 
+    `
+        DROP DATABASE IF EXISTS POOL_DB_1;
+        CREATE DATABASE POOL_DB_1;
+    `
+;
+
+sql:ParameterizedQuery createConnectionPool2DBQuery = 
+    `
+        DROP DATABASE IF EXISTS POOL_DB_2;
+        CREATE DATABASE POOL_DB_2;
+    `
+;
+
+sql:ParameterizedQuery createBasicExecuteDBQuery = 
+    `
+        DROP DATABASE IF EXISTS BASIC_EXECUTE_DB;
+        CREATE DATABASE BASIC_EXECUTE_DB;
+    `
+;
+
+sql:ParameterizedQuery connectonPool1InitQuery = 
+    `
+        DROP TABLE IF EXISTS Customers;
+        CREATE TABLE IF NOT EXISTS Customers(
+        customerId SERIAL,
+        firstName  VARCHAR(300),
+        lastName  VARCHAR(300),
+        registrationID INTEGER,
+        creditLimit DOUBLE PRECISION,
+        country  VARCHAR(300),
+        PRIMARY KEY (customerId)
+        );
+
+        INSERT INTO Customers (firstName,lastName,registrationID,creditLimit,country)
+        VALUES ('Peter', 'Stuart', 1, 5000.75, 'USA');
+
+        INSERT INTO Customers (firstName,lastName,registrationID,creditLimit,country)
+        VALUES ('Dan', 'Brown', 2, 10000, 'UK');
+    `
+;
+
+sql:ParameterizedQuery connectonPool2InitQuery = 
+    `
+        DROP TABLE IF EXISTS Customers;
+        CREATE TABLE IF NOT EXISTS Customers(
+        customerId SERIAL,
+        firstName  VARCHAR(300),
+        lastName  VARCHAR(300),
+        registrationID INTEGER,
+        creditLimit DOUBLE PRECISION,
+        country  VARCHAR(300),
+        PRIMARY KEY (customerId)
+        );
+
+        INSERT INTO Customers (firstName,lastName,registrationID,creditLimit,country)
+        VALUES ('Peter', 'Stuart', 1, 5000.75, 'USA');
+
+        INSERT INTO Customers (firstName,lastName,registrationID,creditLimit,country)
+        VALUES ('Dan', 'Brown', 2, 10000, 'UK');
+    `
+;
+
+
+sql:ParameterizedQuery localTransactionInitQuery = 
+    `
+        CREATE TABLE IF NOT EXISTS Customers(
+            customerId SERIAL,
+            firstName  VARCHAR(300),
+            lastName  VARCHAR(300),
+            registrationID INTEGER,
+            creditLimit DOUBLE PRECISION,
+            country  VARCHAR(300),
+            PRIMARY KEY (customerId)
+        );
+    `
+;
+
+
 sql:ParameterizedQuery procedureInQuery = 
     `
         create or replace procedure NumericProcedure(

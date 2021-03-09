@@ -3,9 +3,13 @@ import ballerina/sql;
 
 public function initTestScripts() {
     _ = createExecuteDB();
-     _ = createBatchExecuteDB();
+    _ = createBatchExecuteDB();
+    _ = createBasicExecuteDB();
     _ = createQueryDB();
     _ = createProcedureDB();
+    _ = createLocalTransactionDB();
+    _ = createConnectionPool1DB();
+    _ = createConnectionPool2DB();
 }
 
 
@@ -19,9 +23,29 @@ public function createBatchExecuteDB() {
     _ = executeQuery("batch_execute_db", tableInitDBQuery);
 }
 
+public function createBasicExecuteDB() {
+    _ = createDatabaseQuery(createBasicExecuteDBQuery);
+    _ = executeQuery("basic_execute_db", tableInitDBQuery);
+}
+
 public function createQueryDB() {
     _ = createDatabaseQuery(createQueryDBQuery);
     _ = executeQuery("query_db", tableInitDBQuery);
+}
+
+public function createLocalTransactionDB() {
+    _ = createDatabaseQuery(createLocalTransactionDBQuery);
+    _ = executeQuery("local_transaction", localTransactionInitQuery);
+}
+
+public function createConnectionPool1DB() {
+    _ = createDatabaseQuery(createConnectionPool1DBQuery);
+    _ = executeQuery("pool_db_1", connectonPool1InitQuery);
+}
+
+public function createConnectionPool2DB() {
+    _ = createDatabaseQuery(createConnectionPool2DBQuery);
+    _ = executeQuery("pool_db_2", connectonPool2InitQuery);
 }
 
 public function createProcedureDB() {

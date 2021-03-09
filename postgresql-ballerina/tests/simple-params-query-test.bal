@@ -15,10 +15,10 @@
 // // under the License.
 
 // import ballerina/io;
-import ballerina/sql;
+// import ballerina/sql;
 // import ballerina/test;
 
-string simpleParamsDb = "query_simple_params_db";
+// string simpleParamsDb = "query_simple_params_db";
 
 // @test:Config {
 //     groups: ["query","query-simple-params"]
@@ -431,16 +431,7 @@ string simpleParamsDb = "query_simple_params_db";
 //         "Error while executing SQL query: SELECT * from DateTimeTypes WHERE timestamp_type =  ? . Timestamp format must be yyyy-mm-dd hh:mm:ss[.fffffffff]");
 // }
 
-function simpleQueryPostgresqlClient(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = (), string database = simpleParamsDb)
-returns @tainted record {}? {
-    Client dbClient = checkpanic new (host, user, password, database, port);
-    stream<record {}, error> streamData = dbClient->query(sqlQuery, resultType);
-    record {|record {} value;|}? data = checkpanic streamData.next();
-    checkpanic streamData.close();
-    record {}? value = data?.value;
-    checkpanic dbClient.close();
-    return value;
-}
+
 
 // isolated function validateDataTableResult(record{}? returnData) {
 //     decimal decimalVal = 23.45;

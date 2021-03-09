@@ -343,3 +343,14 @@ public function validateObjectidentifierTableResult(record{}? returnData) {
 }
 
 //========================================================================================================================
+
+function simpleQueryPostgresqlClient(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = (), string database = "query_db")
+returns @tainted record {}? {
+    Client dbClient = checkpanic new (host, user, password, database, port);
+    stream<record {}, error> streamData = dbClient->query(sqlQuery, resultType);
+    record {|record {} value;|}? data = checkpanic streamData.next();
+    checkpanic streamData.close();
+    record {}? value = data?.value;
+    checkpanic dbClient.close();
+    return value;
+}

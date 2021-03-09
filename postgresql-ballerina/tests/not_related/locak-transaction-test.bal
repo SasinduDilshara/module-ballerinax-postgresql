@@ -1,4 +1,4 @@
-// // Copyright (c) 2021 WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+// // Copyright (c) 2020 WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 // //
 // // WSO2 Inc. licenses this file to you under the Apache License,
 // // Version 2.0 (the "License"); you may not use this file except
@@ -19,7 +19,7 @@
 // import ballerina/sql;
 // import ballerina/test;
 
-// string localTransactionDB = "LOCAL_TRANSACTION";
+// string localTransactionDB = "local_transaction";
 
 // type TransactionResultCount record {
 //     int COUNTVAL;
@@ -366,7 +366,6 @@
 // isolated string rollbackOut = "";
 
 // @test:Config {
-//     enable: false,
 //     groups: ["transaction", "local-transaction"],
 //     dependsOn: [testTransactionWithoutHandlers]
 // }
@@ -426,7 +425,7 @@
 
 // @test:Config {
 //     groups: ["transaction", "local-transaction"],
-//     dependsOn: [testTransactionWithoutHandlers]
+//     dependsOn: [testLocalTransactionFailed]
 // }
 // function testLocalTransactionSuccessWithFailed() {
 //     Client dbClient = checkpanic new (host, user, password, localTransactionDB, port);

@@ -29,77 +29,68 @@ Options options = {
     connectTimeoutInSeconds: 1
 };
 
-@test:Config {
-    groups: ["pool"]
- }
-function testGlobalConnectionPoolSingleDestination() {
-    // drainGlobalPool(poolDB_1);
-}
+// @test:Config {
+//     groups: ["pool"]
+//  }
+// function testGlobalConnectionPoolSingleDestination() {
+//     drainGlobalPool(poolDB_1);
+// }
 
-@test:Config {
-    groups: ["pool"]
-}
-function testGlobalConnectionPoolsMultipleDestinations() {
-    // drainGlobalPool(poolDB_1);
-    // drainGlobalPool(poolDB_2);
-}
+// @test:Config {
+//     groups: ["pool"]
+// }
+// function testGlobalConnectionPoolsMultipleDestinations() {
+//     drainGlobalPool(poolDB_1);
+//     drainGlobalPool(poolDB_2);
+// }
 
-@test:Config {
-    groups: ["pool"]
-}
-function testGlobalConnectionPoolSingleDestinationConcurrent() {
-    // worker w1 returns [stream<record{}, error>, stream<record{}, error>]|error {
-    //     return testGlobalConnectionPoolConcurrentHelper1(poolDB_1);
-    // }
+// @test:Config {
+//     groups: ["pool"]
+// }
+// function testGlobalConnectionPoolSingleDestinationConcurrent() {
+//     worker w1 returns [stream<record{}, error>, stream<record{}, error>]|error {
+//         return testGlobalConnectionPoolConcurrentHelper1(poolDB_1);
+//     }
 
-    // worker w2 returns [stream<record{}, error>, stream<record{}, error>]|error {
-    //     return testGlobalConnectionPoolConcurrentHelper1(poolDB_1);
-    // }
+//     worker w2 returns [stream<record{}, error>, stream<record{}, error>]|error {
+//         return testGlobalConnectionPoolConcurrentHelper1(poolDB_1);
+//     }
 
-    // worker w3 returns [stream<record{}, error>, stream<record{}, error>]|error {
-    //     return testGlobalConnectionPoolConcurrentHelper1(poolDB_1);
-    // }
+//     worker w3 returns [stream<record{}, error>, stream<record{}, error>]|error {
+//         return testGlobalConnectionPoolConcurrentHelper1(poolDB_1);
+//     }
 
-    // worker w4 returns [stream<record{}, error>, stream<record{}, error>]|error {
-    //     return testGlobalConnectionPoolConcurrentHelper1(poolDB_1);
-    // }
+//     worker w4 returns [stream<record{}, error>, stream<record{}, error>]|error {
+//         return testGlobalConnectionPoolConcurrentHelper1(poolDB_1);
+//     }
 
-    // record {
-    //     [stream<record{}, error>, stream<record{}, error>]|error w1;
-    //     [stream<record{}, error>, stream<record{}, error>]|error w2;
-    //     [stream<record{}, error>, stream<record{}, error>]|error w3;
-    //     [stream<record{}, error>, stream<record{}, error>]|error w4;
-    // } results = wait {w1, w2, w3, w4};
+//     record {
+//         [stream<record{}, error>, stream<record{}, error>]|error w1;
+//         [stream<record{}, error>, stream<record{}, error>]|error w2;
+//         [stream<record{}, error>, stream<record{}, error>]|error w3;
+//         [stream<record{}, error>, stream<record{}, error>]|error w4;
+//     } results = wait {w1, w2, w3, w4};
 
-    // var result2 = testGlobalConnectionPoolConcurrentHelper2(poolDB_1);
+//     var result2 = testGlobalConnectionPoolConcurrentHelper2(poolDB_1);
 
-    // (int|error)[][] returnArray = [];
-    // // Connections will be released here as we fully consume the data in the following conversion function calls
-    // returnArray[0] = checkpanic getCombinedReturnValue(results.w1);
-    // returnArray[1] = checkpanic getCombinedReturnValue(results.w2);
-    // returnArray[2] = checkpanic getCombinedReturnValue(results.w3);
-    // returnArray[3] = checkpanic getCombinedReturnValue(results.w4);
-    // returnArray[4] = result2;
+//     (int|error)[][] returnArray = [];
+//     // Connections will be released here as we fully consume the data in the following conversion function calls
+//     returnArray[0] = checkpanic getCombinedReturnValue(results.w1);
+//     returnArray[1] = checkpanic getCombinedReturnValue(results.w2);
+//     returnArray[2] = checkpanic getCombinedReturnValue(results.w3);
+//     returnArray[3] = checkpanic getCombinedReturnValue(results.w4);
+//     returnArray[4] = result2;
 
-    // // All 5 clients are supposed to use the same pool. Default maximum no of connections is 10.
-    // // Since each select operation hold up one connection each, the last select operation should
-    // // return an error
-    // int i = 0;
-    // while(i < 4) {
-    //     if (returnArray[i][0] is anydata) {
-    //         test:assertEquals(returnArray[i][0], 1);
-    //         if (returnArray[i][1] is anydata) {
-    //            test:assertEquals(returnArray[i][1], 1);
-    //         } else {
-    //            test:assertFail("Expected second element of array an integer" + (<error> returnArray[i][1]).message());
-    //         }
-    //     } else {
-    //         test:assertFail("Expected first element of array an integer" + (<error> returnArray[i][0]).message());
-    //     }
-    //     i = i + 1;
-    // }
-    // validateConnectionTimeoutError(result2[2]);
-}
+//     // All 5 clients are supposed to use the same pool. Default maximum no of connections is 10.
+//     // Since each select operation hold up one connection each, the last select operation should
+//     // return an error
+//     int i = 0;
+//     while(i < 4) {
+//         test:assertEquals(returnArray[i], [1, 1]);
+//         i = i + 1;
+//     }
+//     validateConnectionTimeoutError(returnArray[4][2]);
+// }
 
 @test:Config {
     groups: ["pool"]
@@ -438,17 +429,9 @@ function testStopClientUsingGlobalPool() {
     groups: ["pool"]
 }
 function testLocalConnectionPoolShutDown() {
-    // int|error count1 = getOpenConnectionCount(poolDB_1);
-    // int|error count2 = getOpenConnectionCount(poolDB_2);
-    // if (count1 is int) {
-    //      if (count2 is int) {
-    //          test:assertEquals(count1, count2);
-    //      } else {
-    //          test:assertFail("Expected valid count of connection pool" + count2.message());
-    //      }
-    //  } else {
-    //      test:assertFail("Expected valid count of connection pool" + count1.message());
-    //  }
+    int|error count1 = getOpenConnectionCount(poolDB_1);
+    int|error count2 = getOpenConnectionCount(poolDB_2);
+    test:assertEquals(count1, count2);
 }
 
 public type Variable record {

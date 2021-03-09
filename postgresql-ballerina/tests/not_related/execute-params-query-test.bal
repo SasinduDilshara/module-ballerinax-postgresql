@@ -15,8 +15,8 @@
 // // under the License.
 
 // // import ballerina/io;
-import ballerina/sql;
-import ballerina/test;
+// import ballerina/sql;
+// import ballerina/test;
 // import ballerina/io;
 // import ballerina/time;
 
@@ -488,28 +488,28 @@ string executeParamsDb = "execute_params_db";
 
 // }
 
-function executeQueryPostgresqlClient(sql:ParameterizedQuery sqlQuery, string database = executeParamsDb) returns sql:ExecutionResult {
-    Client dbClient = checkpanic new (host, user, password, database, port);
-    sql:ExecutionResult result = checkpanic dbClient->execute(sqlQuery);
-    checkpanic dbClient.close();
-    return result;
-}
+// function executeQueryPostgresqlClient(sql:ParameterizedQuery sqlQuery, string database = executeParamsDb) returns sql:ExecutionResult {
+//     Client dbClient = checkpanic new (host, user, password, database, port);
+//     sql:ExecutionResult result = checkpanic dbClient->execute(sqlQuery);
+//     checkpanic dbClient.close();
+//     return result;
+// }
 
-isolated function validateResult(sql:ExecutionResult result, int rowCount, int? lastId = ()) {
-    test:assertExactEquals(result.affectedRowCount, rowCount, "Affected row count is different.");
+// isolated function validateResult(sql:ExecutionResult result, int rowCount, int? lastId = ()) {
+//     test:assertExactEquals(result.affectedRowCount, rowCount, "Affected row count is different.");
 
-    if (lastId is ()) {
-        test:assertEquals(result.lastInsertId, (), "Last Insert Id is not nil.");
-    } else {
-        int|string? lastInsertIdVal = result.lastInsertId;
-        if (lastInsertIdVal is int) {
-            test:assertTrue(lastInsertIdVal >= 1, "Last Insert Id is nil.");
-        } else {
-            test:assertFail("The last insert id should be an integer.");
-        }
-    }
+//     if (lastId is ()) {
+//         test:assertEquals(result.lastInsertId, (), "Last Insert Id is not nil.");
+//     } else {
+//         int|string? lastInsertIdVal = result.lastInsertId;
+//         if (lastInsertIdVal is int) {
+//             test:assertTrue(lastInsertIdVal >= 1, "Last Insert Id is nil.");
+//         } else {
+//             test:assertFail("The last insert id should be an integer.");
+//         }
+//     }
 
-}
+// }
 
 // function queryPostgresqlClient(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = ())
 // returns @tainted record {}? {
