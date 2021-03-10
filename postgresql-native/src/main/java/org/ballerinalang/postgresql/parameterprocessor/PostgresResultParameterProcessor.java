@@ -26,7 +26,6 @@ import io.ballerina.runtime.api.types.Field;
 import io.ballerina.runtime.api.types.RecordType;
 import io.ballerina.runtime.api.types.StructureType;
 import io.ballerina.runtime.api.types.Type;
-import io.ballerina.runtime.api.types.UnionType;
 import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.utils.XmlUtils;
 import io.ballerina.runtime.api.values.BArray;
@@ -57,7 +56,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -98,70 +96,70 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         return instance;
     }
 
-    protected BArray createAndPopulateBBRefValueArray(Object firstNonNullElement, Object[] dataArray,
-                                                      Type type) throws ApplicationError {
-        BArray refValueArray = null;
-        int length = dataArray.length;
-        if (firstNonNullElement instanceof String) {
-            refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_STRING);
-            for (int i = 0; i < length; i++) {
-                refValueArray.add(i, dataArray[i]);
-            }
-        } else if (firstNonNullElement instanceof Boolean) {
-            refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_BOOLEAN);
-            for (int i = 0; i < length; i++) {
-                refValueArray.add(i, dataArray[i]);
-            }
-        } else if (firstNonNullElement instanceof Integer) {
-            refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_INT);
-            for (int i = 0; i < length; i++) {
-                refValueArray.add(i, dataArray[i]);
-            }
-        } else if (firstNonNullElement instanceof Long) {
-            refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_INT);
-            for (int i = 0; i < length; i++) {
-                refValueArray.add(i, dataArray[i]);
-            }
-        } else if (firstNonNullElement instanceof Float) {
-            refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_FLOAT);
-            for (int i = 0; i < length; i++) {
-                refValueArray.add(i, dataArray[i]);
-            }
-        } else if (firstNonNullElement instanceof Double) {
-            refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_FLOAT);
-            for (int i = 0; i < length; i++) {
-                refValueArray.add(i, dataArray[i]);
-            }
-        } else if (firstNonNullElement instanceof BigDecimal) {
-            refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_DECIMAL);
-            for (int i = 0; i < length; i++) {
-                refValueArray.add(i,
-                        dataArray[i] != null ? ValueCreator.createDecimalValue((BigDecimal) dataArray[i]) : null);
-            }
-        } else if (firstNonNullElement == null) {
-            refValueArray = createEmptyBBRefValueArray(type);
-            for (int i = 0; i < length; i++) {
-                refValueArray.add(i, firstNonNullElement);
-            }
-        } else {
-            createAndPopulateCustomBBRefValueArray(firstNonNullElement, dataArray, type);
-        }
-        return refValueArray;
-    }
+    // protected BArray createAndPopulateBBRefValueArray(Object firstNonNullElement, Object[] dataArray,
+    //                                                   Type type) throws ApplicationError {
+    //     BArray refValueArray = null;
+    //     int length = dataArray.length;
+    //     if (firstNonNullElement instanceof String) {
+    //         refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_STRING);
+    //         for (int i = 0; i < length; i++) {
+    //             refValueArray.add(i, dataArray[i]);
+    //         }
+    //     } else if (firstNonNullElement instanceof Boolean) {
+    //         refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_BOOLEAN);
+    //         for (int i = 0; i < length; i++) {
+    //             refValueArray.add(i, dataArray[i]);
+    //         }
+    //     } else if (firstNonNullElement instanceof Integer) {
+    //         refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_INT);
+    //         for (int i = 0; i < length; i++) {
+    //             refValueArray.add(i, dataArray[i]);
+    //         }
+    //     } else if (firstNonNullElement instanceof Long) {
+    //         refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_INT);
+    //         for (int i = 0; i < length; i++) {
+    //             refValueArray.add(i, dataArray[i]);
+    //         }
+    //     } else if (firstNonNullElement instanceof Float) {
+    //         refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_FLOAT);
+    //         for (int i = 0; i < length; i++) {
+    //             refValueArray.add(i, dataArray[i]);
+    //         }
+    //     } else if (firstNonNullElement instanceof Double) {
+    //         refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_FLOAT);
+    //         for (int i = 0; i < length; i++) {
+    //             refValueArray.add(i, dataArray[i]);
+    //         }
+    //     } else if (firstNonNullElement instanceof BigDecimal) {
+    //         refValueArray = createEmptyBBRefValueArray(PredefinedTypes.TYPE_DECIMAL);
+    //         for (int i = 0; i < length; i++) {
+    //             refValueArray.add(i,
+    //                     dataArray[i] != null ? ValueCreator.createDecimalValue((BigDecimal) dataArray[i]) : null);
+    //         }
+    //     } else if (firstNonNullElement == null) {
+    //         refValueArray = createEmptyBBRefValueArray(type);
+    //         for (int i = 0; i < length; i++) {
+    //             refValueArray.add(i, firstNonNullElement);
+    //         }
+    //     } else {
+    //         createAndPopulateCustomBBRefValueArray(firstNonNullElement, dataArray, type);
+    //     }
+    //     return refValueArray;
+    // }
 
-    protected BArray createEmptyBBRefValueArray(Type type) {
-        List<Type> memberTypes = new ArrayList<>(2);
-        memberTypes.add(type);
-        memberTypes.add(PredefinedTypes.TYPE_NULL);
-        UnionType unionType = TypeCreator.createUnionType(memberTypes);
-        return ValueCreator.createArrayValue(TypeCreator.createArrayType(unionType));
-    }
+    // protected BArray createEmptyBBRefValueArray(Type type) {
+    //     List<Type> memberTypes = new ArrayList<>(2);
+    //     memberTypes.add(type);
+    //     memberTypes.add(PredefinedTypes.TYPE_NULL);
+    //     UnionType unionType = TypeCreator.createUnionType(memberTypes);
+    //     return ValueCreator.createArrayValue(TypeCreator.createArrayType(unionType));
+    // }
 
-    @Override
-    protected BArray createAndPopulateCustomBBRefValueArray(Object firstNonNullElement, Object[] dataArray,
-                                                            Type type) {
-        return null;
-    }
+    // @Override
+    // protected BArray createAndPopulateCustomBBRefValueArray(Object firstNonNullElement, Object[] dataArray,
+    //                                                         Type type) {
+    //     return null;
+    // }
 
     protected BArray createAndPopulatePrimitiveValueArray(Object firstNonNullElement, Object[] dataArray)
             throws ApplicationError {
@@ -486,12 +484,6 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
                 statement.getBoolean(paramIndex));
     }
 
-    private void populateRefAndStruct(CallableStatement statement, BObject parameter, int paramIndex)
-            throws SQLException {
-        parameter.addNativeData(Constants.ParameterObject.VALUE_NATIVE_DATA,
-                statement.getObject(paramIndex));
-    }
-
     @Override
     public void populateBinary(CallableStatement statement, BObject parameter, int paramIndex)
             throws SQLException {
@@ -690,7 +682,11 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         } else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
-            return Convertor.convertPointToRecord(value, ballerinaType.getName());
+            try {
+                return Convertor.convertPointToRecord(value, ballerinaType.getName());
+            } catch (SQLException ex) {
+                return ErrorGenerator.getSQLApplicationError(ex.getMessage());
+            }
         } else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -700,7 +696,11 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         } else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
-            return Convertor.convertLineToRecord(value, ballerinaType.getName());
+            try {
+                return Convertor.convertLineToRecord(value, ballerinaType.getName());
+            } catch (SQLException ex) {
+                return ErrorGenerator.getSQLApplicationError(ex.getMessage());
+            }
         } else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -710,7 +710,11 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         } else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
-            return Convertor.convertLsegToRecord(value, ballerinaType.getName());
+            try {
+                return Convertor.convertLsegToRecord(value, ballerinaType.getName());
+            } catch (SQLException ex) {
+                return ErrorGenerator.getSQLApplicationError(ex.getMessage());
+            }
         } else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -720,7 +724,11 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         } else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
-            return Convertor.convertBoxToRecord(value, ballerinaType.getName());
+            try {
+                return Convertor.convertBoxToRecord(value, ballerinaType.getName());
+            } catch (SQLException ex) {
+                return ErrorGenerator.getSQLApplicationError(ex.getMessage());
+            }
         } else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -730,7 +738,11 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         } else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
-            return Convertor.convertCircleToRecord(value, ballerinaType.getName());
+            try {
+                return Convertor.convertCircleToRecord(value, ballerinaType.getName());
+            } catch (SQLException ex) {
+                return ErrorGenerator.getSQLApplicationError(ex.getMessage());
+            }
         } else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -780,7 +792,11 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         } else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
-            return Convertor.convertIntervalToRecord(value, ballerinaType.getName());
+            try {
+                return Convertor.convertIntervalToRecord(value, ballerinaType.getName());
+            } catch (SQLException ex) {
+                return ErrorGenerator.getSQLApplicationError(ex.getMessage());
+            }
         } else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
@@ -1015,22 +1031,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
 
     public Object getCustomResult(ResultSet resultSet, int columnIndex, ColumnDefinition columnDefinition)
             throws ApplicationError {
-        int sqlType = columnDefinition.getSqlType();
-        Type ballerinaType = columnDefinition.getBallerinaType();
-        try {
-            Object object = resultSet.getObject(columnIndex);
-            if (object instanceof BObject) {
-                BObject objectValue = (BObject) object;
-                String sqlTypeName = objectValue.getType().getName();
-                Object value = objectValue.get(org.ballerinalang.sql.Constants.TypedValueFields.VALUE);
-            } else {
-                throw new Error("Error");
-            }
-        } catch (Exception ex) {
-            throw new Error("Error");
-        }
-
-        throw new ApplicationError("Unsupported SQL type " + columnDefinition.getSqlName());
+        return true;
     }
 
     public BObject getCustomProcedureCallObject() {
