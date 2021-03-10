@@ -126,14 +126,14 @@ public class Convertor {
             return macaddr8;
         }
 
-        public static Object PGpoint(Object value){
+        public static PGpoint convertPoint(Object value){
             PGpoint point; 
             if(value instanceof BString){
                 try{
                     point = new PGpoint(value.toString());
                 }
                 catch(Exception ex){
-                    // throw an error;
+                    throw new Error("Error");
                 }
             }
             else{
@@ -155,7 +155,7 @@ public class Convertor {
                     line = new PGline(value.toString());
                 }
                 catch(Exception ex){
-                    // throw an error;
+                    throw new Error("Error");
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -180,11 +180,11 @@ public class Convertor {
                     );  
                 }
                 else{
-                        // throw an error;
+                        throw new Error("Error");
                 }
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return line;
         }
@@ -197,7 +197,7 @@ public class Convertor {
                     lseg = new PGlseg(value.toString());
                 }
                 catch(Exception ex){
-                    //throw an error
+                    throw new Error("Error");
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -212,13 +212,12 @@ public class Convertor {
                         ((BDecimal)(lsegValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
                 }
-
                 else{
-                    // throw an error;
+                    throw new Error("Error");
                 }
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return lseg;
         }
@@ -231,7 +230,7 @@ public class Convertor {
                     box = new PGbox(value.toString());
                 }
                 catch(Exception ex){
-                    // throw an error;
+                    throw new Error("Error");
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -248,11 +247,11 @@ public class Convertor {
                 }
 
                 else{
-                        // throw an error;
+                    throw new Error("Error");
                 }
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return box;
         }
@@ -265,7 +264,7 @@ public class Convertor {
                     circle = new PGcircle(value.toString());
                 }
                 catch(Exception ex){
-                    // throw an error;
+                    throw new Error("Error");
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -281,11 +280,11 @@ public class Convertor {
                 }
 
                 else{
-                        // throw an error;
+                        throw new Error("Error");
                 }
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return circle;
         }
@@ -338,7 +337,7 @@ public class Convertor {
                     interval = new PGInterval(value.toString());
                 }
                 catch(Exception ex){
-                    // throw an error;
+                    throw new Error("Error");
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -358,12 +357,12 @@ public class Convertor {
                     );
                 }
                 else{
-                    // throw an error;
+                    throw new Error("Error");
                 }
 
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return interval;
         }
@@ -391,12 +390,12 @@ public class Convertor {
                     int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE,range);
                 }
                 else{
-                    // throw an error;
+                    throw new Error("Error");
                 }
 
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return int4rangeObject;
         }
@@ -424,12 +423,12 @@ public class Convertor {
                     int8rangeObject = setPGobject(Constants.PGtypes.INT8RANGE,range);
                 }
                 else{
-                    // throw an error;
+                    throw new Error("Error");
                 }
 
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return int8rangeObject;
         }
@@ -457,12 +456,12 @@ public class Convertor {
                     numrangeObject = setPGobject(Constants.PGtypes.NUMRANGE,range);
                 }
                 else{
-                    // throw an error;
+                    throw new Error("Error");
                 }
 
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return numrangeObject;
 
@@ -491,12 +490,12 @@ public class Convertor {
                     tsrangeObject = setPGobject(Constants.PGtypes.TSRANGE,range);
                 }
                 else{
-                    // throw an error;
+                    throw new Error("Error");
                 }
 
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return tsrangeObject;
         }
@@ -524,12 +523,12 @@ public class Convertor {
                     tstzrangeObject = setPGobject(Constants.PGtypes.TSTZRANGE,range);
                 }
                 else{
-                    // throw an error;
+                    throw new Error("Error");
                 }
 
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return tstzrangeObject;
 
@@ -558,12 +557,12 @@ public class Convertor {
                     daterangeObject = setPGobject(Constants.PGtypes.DATERANGE,range);
                 }
                 else{
-                    // throw an error;
+                    throw new Error("Error");
                 }
 
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return daterangeObject;
         }
@@ -614,7 +613,7 @@ public class Convertor {
                 money = setPGmoney(decimalValue);
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             return money;
         }
@@ -631,7 +630,7 @@ public class Convertor {
                 stringValue = ConversionHelper.setCustomType(customValue);
             }
             else{
-                // throw an error;
+                throw new Error("Error");
             }
             PGobject customObject = setPGobject(typeName,stringValue);
             return customObject;
@@ -730,7 +729,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -748,7 +747,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -767,7 +766,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -790,7 +789,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -813,7 +812,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -833,7 +832,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -855,7 +854,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -877,7 +876,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -899,7 +898,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -927,7 +926,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -955,7 +954,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -983,7 +982,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                // throw an error;
+                throw new Error("Error");
             }
         }
 
@@ -994,7 +993,7 @@ public class Convertor {
                 pgobject.setValue(value);
 
             }catch(Exception ex){
-                //throw an error
+                throw new Error("Error");
             }
             return pgobject;
         }
@@ -1005,7 +1004,7 @@ public class Convertor {
                 money = new PGmoney(value);
 
             }catch(Exception ex){
-                // throw an error;
+                throw new Error("Error");
             }
             return money;
         }
@@ -1016,7 +1015,7 @@ public class Convertor {
                 money = new PGmoney(value);
 
             }catch(Exception ex){
-                // throw an error;
+                throw new Error("Error");
             }
             return money;
         }
