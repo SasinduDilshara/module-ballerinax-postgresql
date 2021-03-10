@@ -495,7 +495,7 @@ public type DatetimeProcedureRecord record {
 function testDatetimeProcedureCall() {
 
     time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-    if(timeValue is time:Time){
+    if (timeValue is time:Time) {
         int rowId = 2;
         sql:TimestampValue timestampType = new(timeValue);
         sql:TimestampValue timestamptzType = new(timeValue);
@@ -527,7 +527,7 @@ function testDatetimeProcedureCall() {
         test:assertEquals(queryProcedureClient(query, "procedure_db", DatetimeProcedureRecord), expectedDataRow, "Datetime Call procedure insert and query did not match.");
 
     }
-    else{
+    else {
         test:assertFail("Invalid Time value generated ");
     }
 }
@@ -1444,7 +1444,7 @@ function testBitProcedureInoutCall() {
 function testDatetimeProcedureInoutCall() {
 
     time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-    if(timeValue is time:Time){
+    if (timeValue is time:Time) {
         int rowId = 10;
         sql:TimestampValue timestampType = new(timeValue);
         sql:TimestampValue timestamptzType = new(timeValue);
@@ -1482,7 +1482,7 @@ function testDatetimeProcedureInoutCall() {
         // test:assertEquals(timetzInoutValue.get(string), "2017-03-28T23:42:45.554+05:30", " Timetz Datatype Doesn't Match");
         // test:assertEquals(intervalInoutValue.get(string), "1 year 2 mons 3 days 04:05:06", " Interval Datatype Doesn't Match");
     }
-    else{
+    else {
         test:assertFail("Invalid Time value generated ");
     }
 }

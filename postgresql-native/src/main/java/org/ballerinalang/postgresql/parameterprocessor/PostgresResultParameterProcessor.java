@@ -587,10 +587,10 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         Object innerObject = result.get(org.ballerinalang.sql.Constants.ParameterObject.IN_VALUE_FIELD);
         Object value = result.getNativeData(org.ballerinalang.sql.Constants.ParameterObject.VALUE_NATIVE_DATA);
         BObject innerBobject;
-        if(innerObject instanceof BObject) {
+        if (innerObject instanceof BObject) {
             innerBobject = (BObject)innerObject;
             String sqlTypeName = innerBobject.getType().getName();
-            switch(sqlTypeName){
+            switch(sqlTypeName) {
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.INET:
                     return convertInetType(value, sqlType, ballerinaType);
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.CIDR:
@@ -667,7 +667,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
                     return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
             }
         }
-        else{
+        else {
             return ErrorGenerator.getSQLApplicationError("Unsupported SQL type " + sqlType);
         }
     }
@@ -692,7 +692,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertPointToRecord(value, ballerinaType.getName());
         }
         else {
@@ -704,7 +704,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertLineToRecord(value, ballerinaType.getName());
         }
         else {
@@ -716,7 +716,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertLsegToRecord(value, ballerinaType.getName());
         }
         else {
@@ -728,7 +728,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertBoxToRecord(value, ballerinaType.getName());
         }
         else {
@@ -740,7 +740,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertCircleToRecord(value, ballerinaType.getName());
         }
         else {
@@ -796,7 +796,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertIntervalToRecord(value, ballerinaType.getName());
         }
         else {
@@ -808,7 +808,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertInt4rangeToRecord(value, ballerinaType.getName());
         }
         else {
@@ -820,7 +820,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertInt8rangeToRecord(value, ballerinaType.getName());
         }
         else {
@@ -832,7 +832,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.RECORD_TYPE_TAG) {
             return Convertor.convertNumrangeToRecord(value, ballerinaType.getName());
         }
         else {
@@ -1008,7 +1008,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if (ballerinaType.getTag() == TypeTags.STRING_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
-        else if(ballerinaType.getTag() == TypeTags.JSON_TAG) {
+        else if (ballerinaType.getTag() == TypeTags.JSON_TAG) {
             return fromString(String.valueOf(value.toString()));
         }
         else {
@@ -1062,15 +1062,15 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         Type ballerinaType = columnDefinition.getBallerinaType();
         try{
             Object object = resultSet.getObject(columnIndex);
-            if(object instanceof BObject){
+            if (object instanceof BObject) {
                 BObject objectValue = (BObject)object;
                 String sqlTypeName = objectValue.getType().getName();
                 Object value = objectValue.get(org.ballerinalang.sql.Constants.TypedValueFields.VALUE);
-            }else{
+            } else {
                 throw new Error("Error");
             }
         }
-        catch(Exception ex){
+        catch(Exception ex) {
             throw new Error("Error");
         }
 

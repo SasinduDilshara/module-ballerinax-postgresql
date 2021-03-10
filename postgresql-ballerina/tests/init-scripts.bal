@@ -67,15 +67,15 @@ public function createDatabaseQuery(sql:ParameterizedQuery query) {
 
     Client|sql:Error postgresClient = new(username="postgres",password="postgres");
 
-    if(postgresClient is sql:Error) {
+    if (postgresClient is sql:Error) {
         io:println("Client init failed\n",postgresClient);
     }
-    else{
+    else {
         sql:ExecutionResult|sql:Error result__;
         sql:Error? e__;
 
         result__ = postgresClient->execute(query);
-        if(result__ is sql:Error) {
+        if (result__ is sql:Error) {
             io:println("Database drop failed\n",result__);
         }
         checkpanic postgresClient.close();
@@ -88,15 +88,15 @@ public function executeQuery(string database, sql:ParameterizedQuery query) {
 
     Client|sql:Error postgresClient = new(username="postgres",password="postgres", database = database);
 
-    if(postgresClient is sql:Error) {
+    if (postgresClient is sql:Error) {
         io:println("Client init failed\n",postgresClient);
     }
-    else{
+    else {
         sql:ExecutionResult|sql:Error result__;
         sql:Error? e__;
 
         result__ = postgresClient->execute(query);
-        if(result__ is sql:Error) {
+        if (result__ is sql:Error) {
             io:println("Init Execute drop failed\n",result__);
         }
         checkpanic postgresClient.close();

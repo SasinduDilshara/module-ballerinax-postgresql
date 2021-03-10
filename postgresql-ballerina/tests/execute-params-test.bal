@@ -391,7 +391,7 @@ function testInsertIntoJsonDataTable3() {
 }
 function testInsertIntoDateDataTable() {
     time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-    if(timeValue is time:Time){
+    if (timeValue is time:Time) {
         int rowId = 3;
         sql:TimestampValue timestampType = new(timeValue);
         sql:TimestampValue timestamptzType = new(timeValue);
@@ -407,7 +407,7 @@ function testInsertIntoDateDataTable() {
             `;
         validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
     }
-    else{
+    else {
         test:assertFail("Invalid Time value generated ");
     }
 }
@@ -457,7 +457,7 @@ function testInsertIntoRangeDataTable() {
 
     time:Time|error startTime = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
     time:Time|error endTime = time:createTime(2021, 6, 12, 11, 43, 55,324, "Asia/Colombo");
-    if((startTime is time:Time) && (endTime is time:Time)){
+    if ((startTime is time:Time) && (endTime is time:Time)) {
     
         int rowId = 3;
         Int4rangeValue int4rangeType = new({upper:100 , lower:10 , isUpperboundInclusive: true, isLowerboundInclusive: false});
@@ -476,7 +476,7 @@ function testInsertIntoRangeDataTable() {
             `;
         validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
     }
-    else{
+    else {
         test:assertFail("Invalid Time value generated ");
     }
 }

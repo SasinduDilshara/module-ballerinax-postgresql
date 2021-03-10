@@ -71,7 +71,7 @@ public class ConversionHelper {
 
     }
 
-    public static Map<String,Object> getRecordType(Object value){
+    public static Map<String,Object> getRecordType(Object value) {
 
         Map<String,Object> result = new HashMap<>();
         String key;
@@ -90,13 +90,13 @@ public class ConversionHelper {
         return result;
     }
 
-    public static String setRange(String upper, String lower, boolean upperInclusive, boolean lowerInclusive){
+    public static String setRange(String upper, String lower, boolean upperInclusive, boolean lowerInclusive) {
 
         String rangeValue = "";
-        if(lowerInclusive) {
+        if (lowerInclusive) {
             rangeValue += "[";
         }
-        else{
+        else {
             rangeValue += "(";
         }
 
@@ -104,10 +104,10 @@ public class ConversionHelper {
         rangeValue += ",";
         rangeValue += upper;
 
-        if(upperInclusive) {
+        if (upperInclusive) {
             rangeValue += "]";
         }
-        else{
+        else {
             rangeValue += ")";
         }
 
@@ -115,19 +115,19 @@ public class ConversionHelper {
 
     }
 
-    public static HashMap<String, Object> convertRangeToMap(Object value){
+    public static HashMap<String, Object> convertRangeToMap(Object value) {
 
         HashMap<String, Object> rangeMap;
-        if(value == null) {
+        if (value == null) {
             return null;
         } 
         else {
             rangeMap = new HashMap<>(); 
             String objectValue = value.toString();
-            if(objectValue.length() <1) {
+            if (objectValue.length() <1) {
                 return rangeMap;
             }
-            if(objectValue.startsWith("[")) {
+            if (objectValue.startsWith("[")) {
                 rangeMap.put(Constants.Range.LOWERINCLUSIVE, true);
             }
             else {
@@ -136,7 +136,7 @@ public class ConversionHelper {
 
             objectValue = objectValue.substring(1);
 
-            if(objectValue.endsWith("]")) {
+            if (objectValue.endsWith("]")) {
                 rangeMap.put(Constants.Range.UPPERINCLUSIVE, true);
             }
             else {
@@ -153,12 +153,12 @@ public class ConversionHelper {
         return rangeMap;
     }
 
-    public static String setCustomType(Map<String,Object> record){
+    public static String setCustomType(Map<String,Object> record) {
 
         String customValue = "";
         customValue+= "(";
 
-        for (Map.Entry<String,Object> entry : record.entrySet()){  
+        for (Map.Entry<String,Object> entry : record.entrySet()) {  
 
             customValue += entry.getValue().toString();
             customValue += ", ";

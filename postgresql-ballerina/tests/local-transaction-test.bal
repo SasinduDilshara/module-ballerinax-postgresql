@@ -55,7 +55,7 @@
 //                                 "values ('James', 'Clerk', 200, 5000.75, 'USA')");
 //         transInfo = transactions:info();
 //         var commitResult = commit;
-//         if(commitResult is ()){
+//         if (commitResult is ()) {
 //             committedBlockExecuted = true;
 //         }
 //     }
@@ -113,12 +113,12 @@
 //         transInfo = transactions:info();
 //         var e1 = dbClient->execute("Insert into Customers (firstName,lastName,registrationID," +
 //                 "creditLimit,country) values ('James', 'Clerk', 211, 5000.75, 'USA')");
-//         if (e1 is error){
+//         if (e1 is error) {
 //             rollback;
 //         } else {
 //             var e2 = dbClient->execute("Insert into Customers2 (firstName,lastName,registrationID," +
 //                         "creditLimit,country) values ('James', 'Clerk', 211, 5000.75, 'USA')");
-//             if (e2 is error){
+//             if (e2 is error) {
 //                 rollback;
 //                 stmtAfterFailureExecuted  = true;
 //             } else {
@@ -408,7 +408,7 @@
 //                         "values ('James', 'Clerk', 111, 5000.75, 'USA')");
 //         var e2 = dbClient->execute("Insert into Customers2 (firstName,lastName,registrationID,creditLimit,country) " +
 //                         "values ('Anne', 'Clerk', 111, 5000.75, 'USA')");
-//         if(e2 is error){
+//         if (e2 is error) {
 //            check getError();
 //         }
 //         check commit;
@@ -472,7 +472,7 @@
 //         record {|TransactionResultCount value;|}? data = checkpanic streamData.next();
 //         checkpanic streamData.close();
 //         TransactionResultCount? value = data?.value;
-//         if(value is TransactionResultCount){
+//         if (value is TransactionResultCount) {
 //            return value["COUNTVAL"];
 //         }
 //         return 0;
