@@ -180,7 +180,7 @@ public class Convertor {
                     );  
                 }
                 else{
-                        throw new Error("Error");
+                   throw new Error("Error");
                 }
             }
             else{
@@ -269,7 +269,6 @@ public class Convertor {
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
                 Map<String,Object> circleValue = ConversionHelper.getRecordType(value);
-
                 if(circleValue.containsKey(Constants.Geometric.X) && circleValue.containsKey(Constants.Geometric.Y)
                 && circleValue.containsKey(Constants.Geometric.R)){
                     circle = new PGcircle(
@@ -278,7 +277,6 @@ public class Convertor {
                         ((BDecimal)(circleValue.get(Constants.Geometric.R))).decimalValue().doubleValue()
                     );  
                 }
-
                 else{
                         throw new Error("Error");
                 }
