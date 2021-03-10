@@ -111,7 +111,7 @@ public final class Constants {
 
     }
 
-    public static final class Geometric{
+    public static final class Geometric {
         public static final String X = "x";
         public static final String Y = "y";
         public static final String R = "r";
@@ -126,7 +126,7 @@ public final class Constants {
         public static final String P2 = "p2";
     }
 
-    public static final class Interval{
+    public static final class Interval {
         public static final String YEARS = "years";
         public static final String MONTHS = "months";
         public static final String DAYS = "days";
@@ -135,7 +135,7 @@ public final class Constants {
         public static final String SECONDS = "seconds";
     }
 
-    public static final class Range{
+    public static final class Range {
         public static final String UPPER = "upper";
         public static final String LOWER = "lower";
         public static final String UPPERINCLUSIVE = "isUpperboundInclusive";
@@ -195,7 +195,7 @@ public final class Constants {
         public static final String XML = "PGXmlValue";
     }
 
-    public static final class PGtypes{
+    public static final class PGtypes {
         public static final String INET = "inet";
         public static final String CIDR = "cidr";
         public static final String MACADDR = "macaddr";
@@ -218,7 +218,7 @@ public final class Constants {
         public static final String NUMRANGE = "numrange";
         public static final String TSRANGE = "tsrange";
         public static final String TSTZRANGE = "tstzrange";
-        public static final String DATERANGE= "daterange";
+        public static final String DATERANGE = "daterange";
 
         public static final String BITSTRING = "bit";
         public static final String VARBITSTRING = "varbit";
@@ -235,7 +235,7 @@ public final class Constants {
         public static final String REGPROC = "regproc";
         public static final String REGPROCEDURE = "regprocedure";
         public static final String REGROLE = "regrole";
-        public static final String REGTYPE= "regtype";
+        public static final String REGTYPE = "regtype";
     }
     public static final class TypedValueFields {
         public static final BString VALUE = fromString("value");

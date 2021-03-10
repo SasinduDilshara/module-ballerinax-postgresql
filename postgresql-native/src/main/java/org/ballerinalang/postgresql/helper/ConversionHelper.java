@@ -51,8 +51,7 @@ public class ConversionHelper {
         String rangeValue = "";
         if (lowerInclusive) {
             rangeValue += "[";
-        }
-        else {
+        } else {
             rangeValue += "(";
         }
 
@@ -62,8 +61,7 @@ public class ConversionHelper {
 
         if (upperInclusive) {
             rangeValue += "]";
-        }
-        else {
+        } else {
             rangeValue += ")";
         }
 
@@ -76,17 +74,15 @@ public class ConversionHelper {
         HashMap<String, Object> rangeMap;
         if (value == null) {
             return null;
-        } 
-        else {
+        } else {
             rangeMap = new HashMap<>(); 
             String objectValue = value.toString();
-            if (objectValue.length() <1) {
+            if (objectValue.length() < 1) {
                 return rangeMap;
             }
             if (objectValue.startsWith("[")) {
                 rangeMap.put(Constants.Range.LOWERINCLUSIVE, true);
-            }
-            else {
+            } else {
                 rangeMap.put(Constants.Range.LOWERINCLUSIVE, false);
             }
 
@@ -94,8 +90,7 @@ public class ConversionHelper {
 
             if (objectValue.endsWith("]")) {
                 rangeMap.put(Constants.Range.UPPERINCLUSIVE, true);
-            }
-            else {
+            } else {
                 rangeMap.put(Constants.Range.UPPERINCLUSIVE, false);
             }
 
@@ -112,7 +107,7 @@ public class ConversionHelper {
     public static String setCustomType(Map<String, Object> record) {
 
         String customValue = "";
-        customValue+= "(";
+        customValue += "(";
 
         for (Map.Entry<String, Object> entry : record.entrySet()) {  
 
@@ -122,7 +117,7 @@ public class ConversionHelper {
         } 
         int length = customValue.length();
         customValue = customValue.substring(0, length);
-        customValue+= ")";
+        customValue += ")";
 
         return customValue;
 

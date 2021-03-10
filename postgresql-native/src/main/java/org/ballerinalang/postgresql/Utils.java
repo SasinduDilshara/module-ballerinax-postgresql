@@ -126,7 +126,7 @@ public class Utils {
         if (secondsInt instanceof Long) {
             Long timeoutSec = (Long) secondsInt;
             if (timeoutSec.longValue() > 0) {
-                return Long.valueOf(timeoutSec.longValue()*1000).longValue();
+                return Long.valueOf(timeoutSec.longValue() * 1000).longValue();
             }
         }
         return -1;

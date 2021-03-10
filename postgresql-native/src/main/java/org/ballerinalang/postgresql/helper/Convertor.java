@@ -88,8 +88,7 @@ public class Convertor {
                 catch (Exception ex) {
                     throw new Error("Error");
                 }
-            }
-            else {
+            } else {
                 Map<String, Object> pointValue = ConversionHelper.getRecordType(value);
 
                 point = new PGpoint(
@@ -110,8 +109,7 @@ public class Convertor {
                 catch (Exception ex) {
                     throw new Error("Error");
                 }
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> lineValue = ConversionHelper.getRecordType(value);
 
                 if (lineValue.containsKey(Constants.Geometric.A) && lineValue
@@ -122,9 +120,7 @@ public class Convertor {
                             ((BDecimal) (lineValue.get(Constants.Geometric.B))).decimalValue().doubleValue(),
                             ((BDecimal) (lineValue.get(Constants.Geometric.C))).decimalValue().doubleValue()
                         );    
-                }
-
-                else if (lineValue.containsKey(Constants.Geometric.X1) && lineValue
+                } else if (lineValue.containsKey(Constants.Geometric.X1) && lineValue
                             .containsKey(Constants.Geometric.Y1)
                 && lineValue.containsKey(Constants.Geometric.X2) && lineValue
                             .containsKey(Constants.Geometric.Y2)) {
@@ -134,12 +130,10 @@ public class Convertor {
                         ((BDecimal) (lineValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
                         ((BDecimal) (lineValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
-                }
-                else {
+                } else {
                    throw new Error("Error");
                 }
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return line;
@@ -155,8 +149,7 @@ public class Convertor {
                 catch (Exception ex) {
                     throw new Error("Error");
                 }
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> lsegValue = ConversionHelper.getRecordType(value);
 
                 if (lsegValue.containsKey(Constants.Geometric.X1) && lsegValue
@@ -169,12 +162,10 @@ public class Convertor {
                         ((BDecimal) (lsegValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
                         ((BDecimal) (lsegValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
-                }
-                else {
+                } else {
                     throw new Error("Error");
                 }
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return lseg;
@@ -190,8 +181,7 @@ public class Convertor {
                 catch (Exception ex) {
                     throw new Error("Error");
                 }
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> boxValue = ConversionHelper.getRecordType(value);
 
                 if (boxValue.containsKey(Constants.Geometric.X1) && boxValue
@@ -204,13 +194,10 @@ public class Convertor {
                         ((BDecimal) (boxValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
                         ((BDecimal) (boxValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
-                }
-
-                else {
+                } else {
                     throw new Error("Error");
                 }
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return box;
@@ -226,8 +213,7 @@ public class Convertor {
                 catch (Exception ex) {
                     throw new Error("Error");
                 }
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> circleValue = ConversionHelper.getRecordType(value);
                 if (circleValue.containsKey(Constants.Geometric.X) && circleValue
                         .containsKey(Constants.Geometric.Y)
@@ -237,12 +223,10 @@ public class Convertor {
                         ((BDecimal)  (circleValue.get(Constants.Geometric.Y))).decimalValue().doubleValue(),
                         ((BDecimal)  (circleValue.get(Constants.Geometric.R))).decimalValue().doubleValue()
                     );  
-                }
-                else {
+                } else {
                         throw new Error("Error");
                 }
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return circle;
@@ -298,8 +282,7 @@ public class Convertor {
                 catch (Exception ex) {
                     throw new Error("Error");
                 }
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> intervalValue = ConversionHelper.getRecordType(value);
 
                 if (intervalValue.containsKey(Constants.Interval.YEARS) && intervalValue
@@ -317,13 +300,11 @@ public class Convertor {
                         ((Number) (intervalValue.get(Constants.Interval.MINUTES))).intValue(),
                         ((BDecimal) (intervalValue.get(Constants.Interval.SECONDS))).decimalValue().doubleValue()
                     );
-                }
-                else {
+                } else {
                     throw new Error("Error");
                 }
 
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return interval;
@@ -335,8 +316,7 @@ public class Convertor {
             if (value instanceof BString) {
                 String stringValue = value.toString();
                 int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE, stringValue);
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
@@ -354,13 +334,11 @@ public class Convertor {
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
                     int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE, range);
-                }
-                else {
+                } else {
                     throw new Error("Error");
                 }
 
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return int4rangeObject;
@@ -372,8 +350,7 @@ public class Convertor {
             if (value instanceof BString) {
                 String stringValue = value.toString();
                 int8rangeObject = setPGobject(Constants.PGtypes.INT8RANGE, stringValue);
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
                         .containsKey(Constants.Range.LOWER)
@@ -389,13 +366,11 @@ public class Convertor {
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
                     int8rangeObject = setPGobject(Constants.PGtypes.INT8RANGE, range);
-                }
-                else {
+                } else {
                     throw new Error("Error");
                 }
 
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return int8rangeObject;
@@ -407,8 +382,7 @@ public class Convertor {
             if (value instanceof BString) {
                 String stringValue = value.toString();
                 numrangeObject = setPGobject(Constants.PGtypes.NUMRANGE, stringValue);
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
@@ -426,13 +400,11 @@ public class Convertor {
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
                     numrangeObject = setPGobject(Constants.PGtypes.NUMRANGE, range);
-                }
-                else {
+                } else {
                     throw new Error("Error");
                 }
 
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return numrangeObject;
@@ -445,8 +417,7 @@ public class Convertor {
             if (value instanceof BString) {
                 String stringValue = value.toString();
                 tsrangeObject = setPGobject(Constants.PGtypes.TSRANGE, stringValue);
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
@@ -465,13 +436,11 @@ public class Convertor {
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
                     tsrangeObject = setPGobject(Constants.PGtypes.TSRANGE, range);
-                }
-                else {
+                } else {
                     throw new Error("Error");
                 }
 
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return tsrangeObject;
@@ -483,8 +452,7 @@ public class Convertor {
             if (value instanceof BString) {
                 String stringValue = value.toString();
                 tstzrangeObject = setPGobject(Constants.PGtypes.TSTZRANGE, stringValue);
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
@@ -503,13 +471,11 @@ public class Convertor {
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
                     tstzrangeObject = setPGobject(Constants.PGtypes.TSTZRANGE, range);
-                }
-                else {
+                } else {
                     throw new Error("Error");
                 }
 
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return tstzrangeObject;
@@ -522,8 +488,7 @@ public class Convertor {
             if (value instanceof BString) {
                 String stringValue = value.toString();
                 daterangeObject = setPGobject(Constants.PGtypes.DATERANGE, stringValue);
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
@@ -542,13 +507,11 @@ public class Convertor {
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
                     daterangeObject = setPGobject(Constants.PGtypes.DATERANGE, range);
-                }
-                else {
+                } else {
                     throw new Error("Error");
                 }
 
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return daterangeObject;
@@ -578,9 +541,8 @@ public class Convertor {
             String stringValue;
             if (value instanceof Boolean) {
                 Boolean booleanValue = (Boolean)value;
-                stringValue = booleanValue?"1":"0";
-            }
-            else {
+                stringValue = booleanValue ? "1" : "0";
+            } else {
                 stringValue = value.toString();
             }
             PGobject bit = setPGobject(Constants.PGtypes.PGBIT, stringValue);
@@ -594,12 +556,10 @@ public class Convertor {
             if (value instanceof BString) {
                 String stringValue = value.toString();
                 money = setPGmoney(stringValue);
-            }
-            else if (value instanceof BDecimal) {
+            } else if (value instanceof BDecimal) {
                 double decimalValue = ((BDecimal) value).decimalValue().doubleValue();
                 money = setPGmoney(decimalValue);
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             return money;
@@ -611,12 +571,10 @@ public class Convertor {
             String typeName = datatype.toString();
             if (value instanceof BString) {
                 stringValue = value.toString();
-            }
-            else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+            } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String, Object> customValue = ConversionHelper.getRecordType(value);
                 stringValue = ConversionHelper.setCustomType(customValue);
-            }
-            else {
+            } else {
                 throw new Error("Error");
             }
             PGobject customObject = setPGobject(typeName, stringValue);
@@ -900,13 +858,13 @@ public class Convertor {
                 java.util.Date timestamp;
 
                 String upperValue = valueMap.get(Constants.Range.UPPER).toString();
-                timestamp=formatter.parse(upperValue);
+                timestamp = formatter.parse(upperValue);
 
                 valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils
                         .createTimeStruct(timestamp.getTime()));
 
                 String lowerValue = valueMap.get(Constants.Range.UPPER).toString();
-                timestamp=formatter.parse(lowerValue);
+                timestamp = formatter.parse(lowerValue);
 
                 valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils
                         .createTimeStruct(timestamp.getTime()));
@@ -930,13 +888,13 @@ public class Convertor {
                 java.util.Date timestamptz;
 
                 String upperValue = valueMap.get(Constants.Range.UPPER).toString();
-                timestamptz=formatter.parse(upperValue);
+                timestamptz = formatter.parse(upperValue);
 
                 valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils
                          .createTimeStruct(timestamptz.getTime()));
 
                 String lowerValue = valueMap.get(Constants.Range.UPPER).toString();
-                timestamptz=formatter.parse(lowerValue);
+                timestamptz = formatter.parse(lowerValue);
 
                 valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils
                          .createTimeStruct(timestamptz.getTime()));
@@ -983,7 +941,7 @@ public class Convertor {
             try {
                 pgobject.setValue(value);
 
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
             return pgobject;
@@ -994,7 +952,7 @@ public class Convertor {
             try {
                 money = new PGmoney(value);
 
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
             return money;
@@ -1005,7 +963,7 @@ public class Convertor {
             try {
                 money = new PGmoney(value);
 
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
             return money;
