@@ -215,7 +215,7 @@ function testInsertIntoGeometricDataTable() {
     BoxValue boxType = new ("(1,1),(2,2)");
     // PathValue pathType = new ("[(1,1),(2,2)]");
     // PolygonValue polygonType = new ("[(1,1),(2,2)]");
-    CircleValue circleType = new ("<1,1,1>");
+    CircleValue circleType = new ("<(1,1),1>");
 
     sql:ParameterizedQuery sqlQuery =
       `
