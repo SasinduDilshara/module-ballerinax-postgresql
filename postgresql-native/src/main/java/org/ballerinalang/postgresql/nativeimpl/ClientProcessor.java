@@ -21,12 +21,15 @@ package org.ballerinalang.postgresql.nativeimpl;
 import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
-import org.ballerinalang.sql.datasource.SQLDatasource;
 import org.ballerinalang.postgresql.Constants;
 import org.ballerinalang.postgresql.Utils;
+import org.ballerinalang.sql.datasource.SQLDatasource;
 
 import java.util.Properties;
 
+/**
+ * This class implements the utility methods for the clients to be used.
+ */
 public class ClientProcessor {
     private ClientProcessor() {
     

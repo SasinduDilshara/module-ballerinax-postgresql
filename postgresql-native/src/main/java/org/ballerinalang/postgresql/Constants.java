@@ -81,7 +81,9 @@ public final class Constants {
 
         }
     
-
+    /**
+     * Constants for Hikari database Properties names.
+     */
     public static final class DatabaseProps {
         public static final BString SSL_MODE = StringUtils.fromString("sslMode");
         public static final BString SSL_MODE_DISABLED = StringUtils.fromString("DISABLE");
@@ -89,14 +91,17 @@ public final class Constants {
 
         public static final BString KEYSTORE_TYPE_PKCS12 = StringUtils.fromString("PKCS12");
         public static final BString CLIENT_KEYSTORE_URL = StringUtils.fromString("clientCertificateKeyStoreUrl");
-        public static final BString CLIENT_KEYSTORE_PASSWORD = StringUtils.fromString("clientCertificateKeyStorePassword");
+        public static final BString CLIENT_KEYSTORE_PASSWORD = StringUtils
+                        .fromString("clientCertificateKeyStorePassword");
         public static final BString CLIENT_KEYSTORE_TYPE = StringUtils.fromString("clientCertificateKeyStoreType");
         public static final BString TRUST_KEYSTORE_URL = StringUtils.fromString("trustCertificateKeyStoreUrl");
-        public static final BString TRUST_KEYSTORE_PASSWORD = StringUtils.fromString("trustCertificateKeyStorePassword");
+        public static final BString TRUST_KEYSTORE_PASSWORD = StringUtils
+                        .fromString("trustCertificateKeyStorePassword");
         public static final BString TRUST_KEYSTORE_TYPE = StringUtils.fromString("trustCertificateKeyStoreType");
 
         public static final BString DB_METADATA_CACHE_FIELDS = StringUtils.fromString("databaseMetadataCacheFields");
-        public static final BString DB_METADATA_CACHE_FIELDS_MIB = StringUtils.fromString("databaseMetadataCacheFieldsMiB");
+        public static final BString DB_METADATA_CACHE_FIELDS_MIB = StringUtils
+                        .fromString("databaseMetadataCacheFieldsMiB");
         public static final BString PREPARE_THRESHOLD = StringUtils.fromString("prepareThreshold");
         public static final BString PREPARED_STATEMENT_CACHE_QUERIES = StringUtils.
                             fromString("preparedStatementCacheQueries");
@@ -111,6 +116,9 @@ public final class Constants {
 
     }
 
+    /**
+     * Constants for PostgreSQL Geometric datatypes related Constants.
+     */
     public static final class Geometric {
         public static final String X = "x";
         public static final String Y = "y";
@@ -125,7 +133,9 @@ public final class Constants {
         public static final String P1 = "p1";
         public static final String P2 = "p2";
     }
-
+    /**
+     * Constants for PostgreSQL Interval datatype related Constants.
+     */
     public static final class Interval {
         public static final String YEARS = "years";
         public static final String MONTHS = "months";
@@ -134,14 +144,18 @@ public final class Constants {
         public static final String MINUTES = "minutes";
         public static final String SECONDS = "seconds";
     }
-
+    /**
+     * Constants for PostgreSQL Range datatypes related Constants.
+     */
     public static final class Range {
         public static final String UPPER = "upper";
         public static final String LOWER = "lower";
         public static final String UPPERINCLUSIVE = "isUpperboundInclusive";
         public static final String LOWERINCLUSIVE = "isLowerboundInclusive";
     }
-
+    /**
+     * Custom PostgreSQL Ballerina Datatypes names.
+     */
     public static final class PGTypeNames {
         public static final String INET = "InetValue";
         public static final String CIDR = "CidrValue";
@@ -172,7 +186,7 @@ public final class Constants {
         public static final String NUMRANGE = "NumrangeValue";
         public static final String TSRANGE = "TsrangeValue";
         public static final String TSTZRANGE = "TstzrangeValue";
-        public static final String DATERANGE= "DaterangeValue";
+        public static final String DATERANGE = "DaterangeValue";
 
         public static final String PGBIT = "PGBitValue";
         public static final String VARBITSTRING = "VarbitstringValue";
@@ -190,11 +204,13 @@ public final class Constants {
         public static final String REGPROC = "RegprocValue";
         public static final String REGPROCEDURE = "RegprocedureValue";
         public static final String REGROLE = "RegroleValue";
-        public static final String REGTYPE= "RegtypeValue";
+        public static final String REGTYPE = "RegtypeValue";
 
         public static final String XML = "PGXmlValue";
     }
-
+    /**
+     * Constants for Datatypes names in PostgreSQL.
+     */
     public static final class PGtypes {
         public static final String INET = "inet";
         public static final String CIDR = "cidr";
@@ -237,17 +253,18 @@ public final class Constants {
         public static final String REGROLE = "regrole";
         public static final String REGTYPE = "regtype";
     }
+    /**
+     * Constants for the Value field in Custom datatypes.
+     */
     public static final class TypedValueFields {
         public static final BString VALUE = fromString("value");
     }
-
+    /**
+     * Other Constants.
+     */
     public static final String POSTGRESQL_DATASOURCE_NAME = "org.postgresql.ds.PGSimpleDataSource";
     static final String FILE = "file:";
     public static final String POOL_CONNECT_TIMEOUT = "ConnectionTimeout";
     public static final String CUSTOM_RESULT_ITERATOR_OBJECT = "CustomResultIterator";
-
-    /**
-     * Constants for ssl configuration.
-     */
     public static final String POSTGRESQL_XA_DATASOURCE_NAME = "org.postgresql.xa.PGXADataSource";
 }

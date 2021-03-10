@@ -20,9 +20,11 @@ package org.ballerinalang.postgresql.nativeimpl;
 
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BTypedesc;
-
 import org.ballerinalang.postgresql.parameterprocessor.PostgresResultParameterProcessor;
 
+/**
+ * This class provides the implementation of processing InOut/Out parameters of procedure calls.
+ */
 public class OutParameterProcessor {
     public static Object get(BObject result, BTypedesc typeDesc) {
         return org.ballerinalang.sql.nativeimpl.OutParameterProcessor

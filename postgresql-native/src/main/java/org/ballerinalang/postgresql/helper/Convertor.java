@@ -18,12 +18,6 @@
 
 package org.ballerinalang.postgresql.helper;
 
-import org.postgresql.core.BaseConnection;
-import org.postgresql.util.PGobject;
-import org.postgresql.geometric.*;
-import org.postgresql.util.PGInterval;
-import org.postgresql.util.PGmoney;
-import org.postgresql.jdbc.PgSQLXML;
 
 import io.ballerina.runtime.api.TypeTags;
 import io.ballerina.runtime.api.creators.ValueCreator;
@@ -33,7 +27,16 @@ import io.ballerina.runtime.api.values.BDecimal;
 import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BString;
 import org.ballerinalang.postgresql.Constants;
-
+import org.postgresql.core.BaseConnection;
+import org.postgresql.geometric.PGbox;
+import org.postgresql.geometric.PGcircle;
+import org.postgresql.geometric.PGline;
+import org.postgresql.geometric.PGlseg;
+import org.postgresql.geometric.PGpoint;
+import org.postgresql.jdbc.PgSQLXML;
+import org.postgresql.util.PGInterval;
+import org.postgresql.util.PGmoney;
+import org.postgresql.util.PGobject;
 
 import java.sql.Connection;
 import java.sql.SQLXML;
@@ -84,8 +87,7 @@ public class Convertor {
             if (value instanceof BString) {
                 try {
                     point = new PGpoint(value.toString());
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new Error("Error");
                 }
             } else {
@@ -105,8 +107,7 @@ public class Convertor {
             if (value instanceof BString) {
                 try {
                     line = new PGline(value.toString());
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new Error("Error");
                 }
             } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
@@ -145,8 +146,7 @@ public class Convertor {
             if (value instanceof BString) {
                 try {
                     lseg = new PGlseg(value.toString());
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new Error("Error");
                 }
             } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
@@ -177,8 +177,7 @@ public class Convertor {
             if (value instanceof BString) {
                 try {
                     box = new PGbox(value.toString());
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new Error("Error");
                 }
             } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
@@ -209,8 +208,7 @@ public class Convertor {
             if (value instanceof BString) {
                 try {
                     circle = new PGcircle(value.toString());
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new Error("Error");
                 }
             } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
@@ -278,8 +276,7 @@ public class Convertor {
             if (value instanceof BString) {
                 try {
                     interval = new PGInterval(value.toString());
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new Error("Error");
                 }
             } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
@@ -326,9 +323,9 @@ public class Convertor {
 
                     String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
                     String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue
+                    boolean upperInclusive = ((Boolean) (rangeValue
                         .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue
+                    boolean lowerInclusive = ((Boolean) (rangeValue
                         .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
@@ -358,9 +355,9 @@ public class Convertor {
                             .containsKey(Constants.Range.LOWERINCLUSIVE)) {
                     String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
                     String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue
+                    boolean upperInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue
+                    boolean lowerInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
@@ -392,9 +389,9 @@ public class Convertor {
 
                     String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
                     String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue
+                    boolean upperInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue
+                    boolean lowerInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
@@ -428,9 +425,9 @@ public class Convertor {
                             .get(Constants.Range.UPPER)).toString();
                     String lowerValue = ConversionHelper.toTimeString(rangeValue
                             .get(Constants.Range.LOWER)).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue
+                    boolean upperInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue
+                    boolean lowerInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
@@ -463,9 +460,9 @@ public class Convertor {
                             .get(Constants.Range.UPPER)).toString();
                     String lowerValue = ConversionHelper.toTimeString(rangeValue
                             .get(Constants.Range.LOWER)).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue
+                    boolean upperInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue
+                    boolean lowerInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
@@ -499,9 +496,9 @@ public class Convertor {
                             .get(Constants.Range.UPPER)).toString();
                     String lowerValue = ConversionHelper.toTimeString(rangeValue
                             .get(Constants.Range.LOWER)).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue
+                    boolean upperInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue
+                    boolean lowerInclusive = ((Boolean) (rangeValue
                             .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
@@ -540,7 +537,7 @@ public class Convertor {
         public static PGobject convertBit(Object value) {
             String stringValue;
             if (value instanceof Boolean) {
-                Boolean booleanValue = (Boolean)value;
+                Boolean booleanValue = (Boolean) value;
                 stringValue = booleanValue ? "1" : "0";
             } else {
                 stringValue = value.toString();
@@ -672,8 +669,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -690,8 +686,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -709,8 +704,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -732,8 +726,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -755,8 +748,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -775,8 +767,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -797,8 +788,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -819,8 +809,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -841,8 +830,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -871,8 +859,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -901,8 +888,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -929,8 +915,7 @@ public class Convertor {
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Error("Error");
             }
         }

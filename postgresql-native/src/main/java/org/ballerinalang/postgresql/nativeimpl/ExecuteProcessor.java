@@ -22,6 +22,9 @@ import io.ballerina.runtime.api.values.BArray;
 import io.ballerina.runtime.api.values.BObject;
 import org.ballerinalang.postgresql.parameterprocessor.PostgresStatementParameterProcessor;
 
+/**
+ * This class contains methods for executing SQL queries.
+ */
 public class ExecuteProcessor {
     private ExecuteProcessor() {
     

@@ -20,10 +20,12 @@ package org.ballerinalang.postgresql.nativeimpl;
 
 import io.ballerina.runtime.api.values.BArray;
 import io.ballerina.runtime.api.values.BObject;
-
 import org.ballerinalang.postgresql.parameterprocessor.PostgresResultParameterProcessor;
 import org.ballerinalang.postgresql.parameterprocessor.PostgresStatementParameterProcessor;
 
+/**
+ * This class holds the utility methods involved with executing the call statements.
+ */
 public class CallProcessor {
     private CallProcessor() {
     

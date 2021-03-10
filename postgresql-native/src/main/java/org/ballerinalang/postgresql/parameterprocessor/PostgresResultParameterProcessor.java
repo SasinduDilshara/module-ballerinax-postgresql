@@ -34,13 +34,14 @@ import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
 import io.ballerina.runtime.api.values.BXml;
+import org.ballerinalang.postgresql.helper.Convertor;
 import org.ballerinalang.sql.Constants;
 import org.ballerinalang.sql.exception.ApplicationError;
+import org.ballerinalang.sql.parameterprocessor.DefaultResultParameterProcessor;
 import org.ballerinalang.sql.utils.ColumnDefinition;
 import org.ballerinalang.sql.utils.ErrorGenerator;
 import org.ballerinalang.sql.utils.ModuleUtils;
 import org.ballerinalang.sql.utils.Utils;
-import org.ballerinalang.postgresql.helper.Convertor;
 
 import java.math.BigDecimal;
 import java.sql.Array;
@@ -62,7 +63,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import static io.ballerina.runtime.api.utils.StringUtils.fromString;
-import org.ballerinalang.sql.parameterprocessor.DefaultResultParameterProcessor;
 
 /**
  * This class implements methods required convert SQL types into ballerina types and

@@ -29,7 +29,10 @@ import io.ballerina.runtime.api.values.BDecimal;
 import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
+import org.ballerinalang.postgresql.Constants;
+import org.ballerinalang.postgresql.helper.Convertor;
 import org.ballerinalang.sql.exception.ApplicationError;
+import org.ballerinalang.sql.parameterprocessor.DefaultStatementParameterProcessor;
 import org.ballerinalang.stdlib.io.channels.base.Channel;
 import org.ballerinalang.stdlib.io.utils.IOConstants;
 import org.ballerinalang.stdlib.io.utils.IOUtils;
@@ -52,9 +55,6 @@ import java.util.Map;
 
 import static io.ballerina.runtime.api.utils.StringUtils.fromString;
 import static org.ballerinalang.sql.utils.Utils.throwInvalidParameterError;
-import org.ballerinalang.sql.parameterprocessor.DefaultStatementParameterProcessor;
-import org.ballerinalang.postgresql.Constants;
-import org.ballerinalang.postgresql.helper.Convertor;
 
 /**
  * Represent the Process methods for statements.

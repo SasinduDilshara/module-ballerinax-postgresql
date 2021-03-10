@@ -1,25 +1,27 @@
 
 package org.ballerinalang.postgresql.helper;
 
-import io.ballerina.runtime.api.TypeTags;
 import io.ballerina.runtime.api.types.Field;
 import io.ballerina.runtime.api.types.StructureType;
 import io.ballerina.runtime.api.types.Type;
 import io.ballerina.runtime.api.utils.TypeUtils;
-import io.ballerina.runtime.api.values.BArray;
+import io.ballerina.runtime.api.values.BError;
 import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BString;
+import org.ballerinalang.postgresql.Constants;
+import org.ballerinalang.stdlib.time.util.TimeUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import static io.ballerina.runtime.api.utils.StringUtils.fromString;
-import io.ballerina.runtime.api.values.BError;
 
-import org.ballerinalang.postgresql.Constants;
-import org.ballerinalang.stdlib.time.util.TimeUtils;
+import static io.ballerina.runtime.api.utils.StringUtils.fromString;
+
+/**
+ * This class includes helper functions for custom PostgreSQL-Ballerina datatypes.
+ *
+ */
 
 public class ConversionHelper {
 

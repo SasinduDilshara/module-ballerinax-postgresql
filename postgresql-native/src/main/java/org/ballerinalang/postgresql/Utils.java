@@ -89,11 +89,10 @@ public class Utils {
             }
 
             int tcpKeepAlive = getBooleanValue(postgresqlOptions.get(Constants.Options.TCP_KEEP_ALIVE));
-            if (tcpKeepAlive >= 0 ) {
+            if (tcpKeepAlive >= 0) {
                 if (tcpKeepAlive == 1) {
                     options.put(Constants.DatabaseProps.TCP_KEEP_ALIVE, true);
-                }
-                else {
+                } else {
                     options.put(Constants.DatabaseProps.TCP_KEEP_ALIVE, false);
                 }
             }
@@ -104,7 +103,7 @@ public class Utils {
 
     private static int getBooleanValue(Object value) {
         if (value instanceof Boolean) {
-            if (((Boolean)value) == true) {
+            if (((Boolean) value) == true) {
                 return 1;
             }
             return 0;
@@ -114,9 +113,9 @@ public class Utils {
 
     private static long getIntegerValue(Object value) {
         if (value instanceof Long) {
-            Long output_value = (Long) value;
-            if (output_value.longValue() > 0) {
-                return output_value;
+            Long outputValue = (Long) value;
+            if (outputValue.longValue() > 0) {
+                return outputValue;
             }
         }
         return -1;

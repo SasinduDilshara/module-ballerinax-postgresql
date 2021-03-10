@@ -23,6 +23,9 @@ import io.ballerina.runtime.api.values.BStream;
 import org.ballerinalang.postgresql.parameterprocessor.PostgresResultParameterProcessor;
 import org.ballerinalang.postgresql.parameterprocessor.PostgresStatementParameterProcessor;
 
+/**
+ * This class provides the query processing implementation which executes sql queries.
+ */
 public class QueryProcessor {
     private QueryProcessor() {
     
