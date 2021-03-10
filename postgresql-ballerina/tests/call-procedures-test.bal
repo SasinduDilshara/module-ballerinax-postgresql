@@ -1,13 +1,6 @@
 import ballerina/sql;
 import ballerina/test;
-import ballerina/io;
 import ballerina/time;
-
-public function ccc(){
-    io:println(1);
-    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-
-}
 
 string proceduresDatabase = "procedure_db";
 
@@ -199,7 +192,6 @@ function testNumericProcedureCall() {
 
 }
 
-//=================================================================================================================================================================
 
 public type CharacterProcedureRecord record {
     
@@ -239,7 +231,6 @@ function testCharacterProcedureCall() {
     test:assertEquals(queryProcedureClient(query, "procedure_db", CharacterProcedureRecord), expectedDataRow, "Character Call procedure insert and query did not match.");
 
 }
-//==========================================================================================================================================================================
 
 public type BooleanProcedureRecord record {
     int row_id;
@@ -270,7 +261,6 @@ function testBooleanProcedureCall() {
 
 }
 
-//=================================================================================================================================================================
 
 public type NetworkProcedureRecord record {
     
@@ -311,7 +301,6 @@ function testNetworkProcedureCall() {
 
 }
 
-//---------------------------------------------------------------------------------------------------------------------------------------------------
 
 public type GeometricProcedureRecord record {
     int row_id;
@@ -358,7 +347,6 @@ function testGeometricProcedureCall() {
 
 }
 
-//----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 public type UuidProcedureRecord record {
@@ -390,7 +378,6 @@ function testUuidProcedureCall() {
 
 }
 
-//----------------------------------------------------------------------------------------------------------------------------------------------------
 
 public type PglsnProcedureRecord record {
     int row_id;
@@ -420,8 +407,6 @@ function testPglsnProcedureCall() {
     test:assertEquals(queryProcedureClient(query, "procedure_db", PglsnProcedureRecord), expectedDataRow, "Pglsn Call procedure insert and query did not match.");
 
 }
-
-//-------------------------------------------------------------------------------------------------------------------------
 
 public type JsonProcedureRecord record {
     int row_id;
@@ -459,8 +444,6 @@ function testJsonProcedureCall() {
 
 }
 
-//-------------------------------------------------------------------------------------------------------------------------
-
 public type BitProcedureRecord record {
     int row_id;
     // string bitstring_type;
@@ -495,8 +478,6 @@ function testBitProcedureCall() {
     test:assertEquals(queryProcedureClient(query, "procedure_db", BitProcedureRecord), expectedDataRow, "Bit Call procedure insert and query did not match.");
 
 }
-
-//-----------------------------------------------------------------------------------------------------------------------
 
 public type DatetimeProcedureRecord record {
   int row_id;
@@ -551,9 +532,6 @@ function testDatetimeProcedureCall() {
     }
 }
 
-//--------------------------------------------------------------------------------------------------------------------------
-
-
 public type RangeProcedureRecord record {
   int row_id;
   string int4range_type;
@@ -599,9 +577,6 @@ function testRangeProcedureCall() {
         test:assertEquals(queryProcedureClient(query, "procedure_db", RangeProcedureRecord), expectedDataRow, "Range Call procedure insert and query did not match.");
 }
  
-
-//---------------------------------------------------------------------------------------------------------------------------
-
 public type TextsearchProcedureRecord record {
     
     int row_id;
@@ -634,8 +609,6 @@ function testTextsearchProcedureCall() {
     test:assertEquals(queryProcedureClient(query, "procedure_db", TextsearchProcedureRecord), expectedDataRow, "Textsearch Call procedure insert and query did not match.");
 
 }
-
-//----------------------------------------------------------------------------------------------------------------------------
 
 
 public type ObjectidentifierProcedureRecord record {
@@ -702,8 +675,6 @@ function testObjectidentifierProcedureCall() {
 }
 
 
-// //----------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -745,8 +716,6 @@ function testNumericProcedureOutCall() {
 
 }
 
-//===============================================================================================================================
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -777,10 +746,6 @@ function testCharacterProcedureOutCall() {
 
 }
 
-//=================================================================================================================================
-
-
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -799,10 +764,6 @@ function testBooleanProcedureOutCall() {
 
     test:assertEquals(booleanInoutValue.get(boolean), true, "Boolean Datatype doesn't match");
 }
-
-
-
-//==============================================================================================================================
 
 @test:Config {
     groups: ["datatypes"]
@@ -833,8 +794,6 @@ function testNetworkProcedureOutCall() {
     test:assertEquals(macaddr8InoutValue.get(string), "08:00:2b:01:02:03:04:05", "Macadress8 Data type doesnt match.");
 
 }
-
-//---------------------------------------------------------------------------------------------------------------------------------------------------
 
 public type PointOutRecord record {
     float x;
@@ -913,8 +872,6 @@ function testGeometricProcedureOutCall() {
 
 }
 
-// //----------------------------------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -933,8 +890,6 @@ function testUuidProcedureOutCall() {
 
     test:assertEquals(uuidInoutValue.get(string), "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11", "UUID Datatype doesn't match");
 }
-
-// //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -955,8 +910,6 @@ function testPglsnProcedureOutCall() {
     test:assertEquals(pglsnInoutValue.get(string), "16/B374D848", "Pg_lsn Data type Doesn't match");
 
 }
-
-// //-------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -986,8 +939,6 @@ function testJsonProcedureOutCall() {
     // test:assertEquals(jsonbInoutValue.get(json), {"key1": "value", "key2": 2}, "Jsonb Datatype Doesn't Match");
 }
 
-// //-------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -1011,9 +962,6 @@ function testBitProcedureOutCall() {
     test:assertEquals(bitInoutValue.get(boolean), true, "Bit Datatype Doesn't Match");
 
 }
-
-// //-----------------------------------------------------------------------------------------------------------------------
-
 
 public type TimeRecord record{
     int time;
@@ -1098,8 +1046,6 @@ function testDatetimeProcedureOutCall() {
 
 }
 
-// // //--------------------------------------------------------------------------------------------------------------------------
-
 public type IntRangeRecord record{
     int upper;
     int lower;
@@ -1168,9 +1114,6 @@ function testRangeProcedureOutCall() {
 
 }
  
-
-// // //---------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -1193,8 +1136,6 @@ function testTextsearchProcedureOutCall() {
     test:assertEquals(tsqueryInoutValue.get(string), "'fat' & 'rat'", "Tsquery Datatype Doesn't Match");
 
 }
-
-// // //----------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -1288,8 +1229,6 @@ function testNumericProcedureInoutCall() {
 
 }
 
-//=================================================================================================================================================================
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -1320,9 +1259,6 @@ function testCharacterProcedureInoutCall() {
 
 }
 
-//=============================================================================================================================================================
-
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -1341,8 +1277,6 @@ function testBooleanProcedureInoutCall() {
 
     test:assertEquals(booleanInoutValue.get(boolean), false, "Boolean Datatype doesn't match");
 }
-
-//=================================================================================================================================================================
 
 @test:Config {
     groups: ["datatypes"]
@@ -1373,8 +1307,6 @@ function testNetworkProcedureInoutCall() {
     test:assertEquals(macaddr8InoutValue.get(string), "08:00:2b:01:02:03:04:00", "Macadress8 Data type doesnt match.");
 
 }
-
-// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -1415,8 +1347,6 @@ function testGeometricProcedureInoutCall() {
 
 }
 
-// //----------------------------------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -1435,8 +1365,6 @@ function testUuidProcedureInoutCall() {
 
     test:assertEquals(uuidInoutValue.get(string), "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12", "UUID Datatype doesn't match");
 }
-
-// // //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -1457,8 +1385,6 @@ function testPglsnProcedureInoutCall() {
     test:assertEquals(pglsnInoutValue.get(string), "16/B374D848", "Pg_lsn Data type Doesn't match");
 
 }
-
-// // //-------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -1489,8 +1415,6 @@ function testJsonProcedureInoutCall() {
     // test:assertEquals(jsonbInoutValue.get(json), {"key1": "value", "key2": 2}, "Jsonb Datatype Doesn't Match");
 }
 
-// // //-------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -1513,8 +1437,6 @@ function testBitProcedureInoutCall() {
     test:assertEquals(bitInoutValue.get(boolean), false, "Bit Datatype Doesn't Match");
 
 }
-
-// // //-----------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -1565,8 +1487,6 @@ function testDatetimeProcedureInoutCall() {
     }
 }
 
-// //--------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -1609,9 +1529,6 @@ function testRangeProcedureInoutCall() {
         // test:assertEquals(daterangeInoutValue.get(string), "[2010-01-02,2010-01-03)", "Daterange Datatype Doesn't Match");
 
 }
- 
-
-// // //---------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -1635,8 +1552,6 @@ function testTextsearchProcedureInoutCall() {
     test:assertEquals(tsqueryInoutValue.get(string), "'fat' & 'rat'", "Tsquery Datatype Doesn't Match");
 
 }
-
-// // //----------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -1740,5 +1655,3 @@ function callProcedure(sql:ParameterizedCallQuery sqlQuery, string database) ret
     checkpanic dbClient.close();
     return result;
 }
-
-

@@ -18,15 +18,8 @@
 import ballerina/sql;
 import ballerina/test;
 import ballerina/time;
-import ballerina/io;
 
 string simpleParamsDb = "simple_query_params_db";
-
-public function cccc12(){
-    io:println(1);
-    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-
-}
 
 @test:Config {
     groups: ["query","query-simple-params"]

@@ -457,5 +457,3 @@ function testDeleteBooleanData() {
 
     checkpanic dbClient.close();
 }
-
-

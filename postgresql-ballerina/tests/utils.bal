@@ -27,4 +27,3 @@ function getByteaColumnChannel() returns @untainted io:ReadableByteChannel {
     io:ReadableByteChannel byteChannel = checkpanic io:openReadableFile("./tests/resources/files/byteValue.txt");
     return byteChannel;
 }
-

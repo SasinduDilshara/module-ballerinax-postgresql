@@ -1,15 +1,5 @@
 import ballerina/sql;
 import ballerina/test;
-import ballerina/io;
-import ballerina/time;
-
-public function cccc(){
-    io:println(1);
-    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-
-}
-//========================================================================================================================
-
 
 public type NumericRecord record {
     int row_id;
@@ -55,8 +45,6 @@ public function validateNumericTableResult(record{}? returnData) {
     } 
 }
 
-//========================================================================================================================
-
 public type CharacterRecord record {
     int row_id;
     string char_type;
@@ -88,8 +76,6 @@ public function validateCharacterTableResult(record{}? returnData) {
     } 
 }
 
-//========================================================================================================================
-
 public type BooleanRecord record {
   int row_id;
   boolean boolean_type;
@@ -114,7 +100,6 @@ public function validateBooleanTableResult(record{}? returnData) {
         test:assertEquals(returnData["boolean_type"], true);
     } 
 }
-//========================================================================================================================
 
 public type NetworkRecord record {
     
@@ -147,8 +132,6 @@ public function validateNetworkTableResult(record{}? returnData) {
         test:assertEquals(returnData["macaddr8_type"], "08:00:2b:01:02:03:04:05");
     } 
 }
-
-//========================================================================================================================
 
 public type GeometricRecord record {
     int row_id;
@@ -196,8 +179,6 @@ public function validateGeometricTableResult(record{}? returnData) {
     } 
 }
 
-//========================================================================================================================
-
 public type UuidRecord record {
   int row_id;
   string uuid_type;
@@ -223,8 +204,6 @@ public function validateUuidTableResult(record{}? returnData) {
         test:assertEquals(returnData["uuid_type"], "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11");
     } 
 }
-
-//========================================================================================================================
 
 public type TextSearchRecord record {
   int row_id;
@@ -252,8 +231,6 @@ public function validateTextSearchTableResult(record{}? returnData) {
         test:assertEquals(returnData["tsquery_type"], "'fat' & 'rat'");
     } 
 }
-
-//========================================================================================================================
 
 public type JsonRecord record {
   int row_id;
@@ -283,8 +260,6 @@ public function validateJsonTableResult(record{}? returnData) {
         test:assertEquals(returnData["jsonpath_type"], "$.\"floor\"[*].\"apt\"[*]?(@.\"area\" > 40 && @.\"area\" < 90)?(@.\"rooms\" > 1)");
     } 
 }
-
-//========================================================================================================================
 
 // public type DateTimeRecord record {
 //   int row_id;
@@ -321,7 +296,6 @@ public function validateDateTableResult(record{}? returnData) {
     if (returnData is ()) {
         test:assertFail("Empty row returned.");
     } else {
-        io:println(returnData);
         test:assertEquals(returnData["row_id"], 1);
         test:assertEquals(returnData["time_type"], "09:35:06.000+05:30");
         test:assertEquals(returnData["timetz_type"], "13:35:06.000+05:30");
@@ -331,8 +305,6 @@ public function validateDateTableResult(record{}? returnData) {
         test:assertEquals(returnData["interval_type"], "1 year 2 mons 3 days 04:05:06");
     } 
 }
-
-//========================================================================================================================
 
 // public type RangeRecord record {
 //   int row_id;
@@ -369,7 +341,6 @@ public function validateRangeTableResult(record{}? returnData) {
     if (returnData is ()) {
         test:assertFail("Empty row returned.");
     } else {
-        io:println(returnData);
         test:assertEquals(returnData["row_id"], 1);
         test:assertEquals(returnData["int4range_type"], "[3,50)");
         test:assertEquals(returnData["int8range_type"], "[11,100)");
@@ -379,8 +350,6 @@ public function validateRangeTableResult(record{}? returnData) {
         test:assertEquals(returnData["daterange_type"], "[2010-01-02,2010-01-03)");
     } 
 }
-
-//========================================================================================================================
 
 public type BitRecord record {
   int row_id;
@@ -411,8 +380,6 @@ public function validateBitTableResult(record{}? returnData) {
     } 
 }
 
-//========================================================================================================================
-
 public type PglsnRecord record {
   int row_id;
   string pglsn_type;
@@ -437,8 +404,6 @@ public function validatePglsnTableResult(record{}? returnData) {
         test:assertEquals(returnData["pglsn_type"], "16/B374D848");
     } 
 }
-
-//========================================================================================================================
 
 public type ObjectidentifierRecord record {
   int row_id;
@@ -484,8 +449,6 @@ public function validateObjectidentifierTableResult(record{}? returnData) {
         test:assertEquals(returnData["regtype_type"], "integer");
     } 
 }
-
-//========================================================================================================================
 
 function simpleQueryPostgresqlClient(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = (), string database = simpleParamsDb)
 returns @tainted record {}? {

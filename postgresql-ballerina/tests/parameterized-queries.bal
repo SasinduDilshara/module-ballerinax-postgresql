@@ -1361,9 +1361,6 @@ sql:ParameterizedQuery procedureSelectQuery =
                 return next rec2;       
         end;
         $$  
-            language plpgsql 
- ;
-
-
+            language plpgsql;
 `
 ;

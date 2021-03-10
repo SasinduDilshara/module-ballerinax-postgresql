@@ -1,12 +1,6 @@
 import ballerina/sql;
 import ballerina/test;
-import ballerina/io;
 import ballerina/time;
-
-public function cc(){
-    io:println(1);
-    time:Time|error timeValue = time:createTime(2017, 3, 28, 23, 42, 45,554, "Asia/Colombo");
-}
 
 @test:Config {
     groups: ["datatypes"]
@@ -85,8 +79,6 @@ function testInsertIntoNumericDataTable3() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
-//-------------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -143,8 +135,6 @@ function testInsertIntoCharacterDataTable3() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
-//======================================================================================================================
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -175,10 +165,6 @@ function testInsertIntoBooleanDataTable2() {
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
-
-
-
-//-------------------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -216,8 +202,6 @@ function testInsertIntoNetworkDataTable2() {
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
-
-//------------------------------------------------------------------------------------------------------------------
 
 
 @test:Config {
@@ -285,8 +269,6 @@ function testInsertIntoGeometricDataTable3() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
-//--------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -317,8 +299,6 @@ function testInsertIntoUuidDataTable2() {
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
-
-//---------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -352,8 +332,6 @@ function testInsertIntoTextSearchDataTable2() {
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
-
-//--------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -407,8 +385,6 @@ function testInsertIntoJsonDataTable3() {
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
-
-// -----------------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -473,8 +449,6 @@ function testInsertIntoDateDataTable3() {
         `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
-
-//----------------------------------------------------------------------------------------------------------------
 
 @test:Config {
     groups: ["datatypes"]
@@ -550,8 +524,6 @@ function testInsertIntoRangeDataTable3() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
-//-----------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -586,8 +558,6 @@ function testInsertIntoBitDataTable2() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
 
-//------------------------------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -618,8 +588,6 @@ function testInsertIntoPglsnDataTable2() {
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------
 
 // public type MoneyRecord record {
 //   int row_id;
@@ -685,8 +653,6 @@ function testInsertIntoPglsnDataTable2() {
 //     } 
 // }
 
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-
 @test:Config {
     groups: ["datatypes"]
 }
@@ -741,8 +707,6 @@ function testInsertIntoObjectidentifierDataTable2() {
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
 }
-
-//--------------------------------------------------------------------------------------------------------------------
 
 public type XmlRecord record {
   int row_id;
@@ -802,9 +766,6 @@ public function validateXmlTableResult(record{}? returnData) {
         test:assertEquals(returnData["xml_type"], xml `<foo>Test</foo>`);
     } 
 }
-
-//// -----------------------------------------------------------------------------------------------------------------------------------------------
-
 
 function executeQueryPostgresqlClient(sql:ParameterizedQuery sqlQuery, string database) returns sql:ExecutionResult {
     Client dbClient = checkpanic new (host, user, password, database, port);

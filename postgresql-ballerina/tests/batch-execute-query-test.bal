@@ -16,7 +16,6 @@
 
 import ballerina/sql;
 import ballerina/test;
-import ballerina/io;
 
 string batchExecuteDB = "batch_execute_db";
 
@@ -62,10 +61,8 @@ function batchInsertIntoDataTableFailure() {
         select `INSERT INTO NumericTypes (row_id, bigint_type, double_type) VALUES (${row.row_id}, ${row.longValue}, ${row.doubleValue})`;
     sql:ExecutionResult[]|error result = trap batchExecuteQueryPostgreSQLClient(sqlQueries);
     test:assertTrue(result is error);
-    io:println("Batch execute error\n", result);
     if (result is sql:BatchExecuteError) {
         sql:BatchExecuteErrorDetail errorDetails = result.detail();
-        io:println("Batch execute errorDetails.executionResults\n", errorDetails.executionResults);
         test:assertEquals(errorDetails.executionResults.length(), 4);
         test:assertEquals(errorDetails.executionResults[0].affectedRowCount, 1);
         test:assertEquals(errorDetails.executionResults[1].affectedRowCount, 1);

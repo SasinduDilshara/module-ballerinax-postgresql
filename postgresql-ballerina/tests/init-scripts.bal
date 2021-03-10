@@ -76,19 +76,10 @@ public function createDatabaseQuery(sql:ParameterizedQuery query) {
 
         result__ = postgresClient->execute(query);
         if(result__ is sql:Error) {
-            io:println("Init Database drop failed\n",result__);
+            io:println("Database drop failed\n",result__);
         }
-        else{
-            io:println("Init Database drop passed\n",result__);
-        }
-        e__ = postgresClient.close();
+        checkpanic postgresClient.close();
 
-        if(e__ is sql:Error) {
-            io:println("Client close1 fail\n",e__);
-        }
-        else{
-            io:println("Client close 1 pass");
-        }
     }
 
 }
@@ -108,17 +99,6 @@ public function executeQuery(string database, sql:ParameterizedQuery query) {
         if(result__ is sql:Error) {
             io:println("Init Execute drop failed\n",result__);
         }
-        else{
-            io:println("Init Execute drop passed\n",result__);
-        }
-        e__ = postgresClient.close();
-
-        if(e__ is sql:Error) {
-            io:println("Client close1 fail\n",e__);
-        }
-        else{
-            io:println("Client close 1 pass");
-        }
+        checkpanic postgresClient.close();
     }
-
 }
