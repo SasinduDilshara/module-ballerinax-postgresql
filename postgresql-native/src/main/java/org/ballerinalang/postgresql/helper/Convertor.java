@@ -25,69 +25,22 @@ import org.postgresql.util.PGInterval;
 import org.postgresql.util.PGmoney;
 import org.postgresql.jdbc.PgSQLXML;
 
-import io.ballerina.runtime.api.Module;
-import io.ballerina.runtime.api.PredefinedTypes;
 import io.ballerina.runtime.api.TypeTags;
-import io.ballerina.runtime.api.creators.TypeCreator;
 import io.ballerina.runtime.api.creators.ValueCreator;
-import io.ballerina.runtime.api.flags.SymbolFlags;
-import io.ballerina.runtime.api.flags.TypeFlags;
-import io.ballerina.runtime.api.types.ArrayType;
-import io.ballerina.runtime.api.types.Field;
-import io.ballerina.runtime.api.types.RecordType;
-import io.ballerina.runtime.api.types.StructureType;
 import io.ballerina.runtime.api.types.Type;
-import io.ballerina.runtime.api.types.UnionType;
-import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.utils.TypeUtils;
-import io.ballerina.runtime.api.utils.XmlUtils;
-import io.ballerina.runtime.api.values.BArray;
 import io.ballerina.runtime.api.values.BDecimal;
 import io.ballerina.runtime.api.values.BMap;
-import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
-import io.ballerina.runtime.api.values.BValue;
-import io.ballerina.runtime.api.values.BXml;
 import org.ballerinalang.postgresql.Constants;
-import org.ballerinalang.sql.utils.ErrorGenerator;
-// import io.ballerina.runtime.internal.types.BJsonType;
 
-import static io.ballerina.runtime.api.utils.StringUtils.fromString;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.CallableStatement;
-import java.sql.Clob;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
-import java.sql.SQLException;
 import java.sql.SQLXML;
-import java.sql.Statement;
-import java.sql.Struct;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TimeZone;
 
 
@@ -129,10 +82,10 @@ public class Convertor {
         public static PGpoint convertPoint(Object value) {
             PGpoint point; 
             if (value instanceof BString) {
-                try{
+                try {
                     point = new PGpoint(value.toString());
                 }
-                catch(Exception ex) {
+                catch (Exception ex) {
                     throw new Error("Error");
                 }
             }
@@ -151,10 +104,10 @@ public class Convertor {
             PGline line;
             Type type = TypeUtils.getType(value);
             if (value instanceof BString) {
-                try{
+                try {
                     line = new PGline(value.toString());
                 }
-                catch(Exception ex) {
+                catch (Exception ex) {
                     throw new Error("Error");
                 }
             }
@@ -193,10 +146,10 @@ public class Convertor {
             PGlseg lseg;
             Type type = TypeUtils.getType(value);
             if (value instanceof BString) {
-                try{
+                try {
                     lseg = new PGlseg(value.toString());
                 }
-                catch(Exception ex) {
+                catch (Exception ex) {
                     throw new Error("Error");
                 }
             }
@@ -226,10 +179,10 @@ public class Convertor {
             PGbox box;
             Type type = TypeUtils.getType(value);
             if (value instanceof BString) {
-                try{
+                try {
                     box = new PGbox(value.toString());
                 }
-                catch(Exception ex) {
+                catch (Exception ex) {
                     throw new Error("Error");
                 }
             }
@@ -260,10 +213,10 @@ public class Convertor {
             PGcircle circle;
             Type type = TypeUtils.getType(value);
             if (value instanceof BString) {
-                try{
+                try {
                     circle = new PGcircle(value.toString());
                 }
-                catch(Exception ex) {
+                catch (Exception ex) {
                     throw new Error("Error");
                 }
             }
@@ -331,10 +284,10 @@ public class Convertor {
             Type type = TypeUtils.getType(value);
             PGInterval interval; 
             if (value instanceof BString) {
-                try{
+                try {
                     interval = new PGInterval(value.toString());
                 }
-                catch(Exception ex) {
+                catch (Exception ex) {
                     throw new Error("Error");
                 }
             }
@@ -711,7 +664,7 @@ public class Convertor {
 
         public static BMap convertIntervalToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -726,14 +679,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertPointToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -744,14 +697,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertLineToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -763,14 +716,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertLsegToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -786,14 +739,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertBoxToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -809,14 +762,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertCircleToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -829,14 +782,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertInt4rangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -851,14 +804,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertInt8rangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -873,14 +826,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertNumrangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -895,14 +848,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertsrangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -923,14 +876,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertTstzrangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -951,14 +904,14 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
 
         public static BMap convertDaterangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            try{
+            try {
                 if (value == null) {
                     return null;
                 }
@@ -979,7 +932,7 @@ public class Convertor {
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 throw new Error("Error");
             }
         }
@@ -987,10 +940,10 @@ public class Convertor {
         public static PGobject setPGobject(String type, String value) {
             PGobject pgobject =  new PGobject();
             pgobject.setType(type);
-            try{
+            try {
                 pgobject.setValue(value);
 
-            }catch(Exception ex) {
+            }catch (Exception ex) {
                 throw new Error("Error");
             }
             return pgobject;
@@ -998,10 +951,10 @@ public class Convertor {
 
         public static PGmoney setPGmoney(double value) {
             PGmoney money;
-            try{
+            try {
                 money = new PGmoney(value);
 
-            }catch(Exception ex) {
+            }catch (Exception ex) {
                 throw new Error("Error");
             }
             return money;
@@ -1009,10 +962,10 @@ public class Convertor {
 
         public static PGmoney setPGmoney(String value) {
             PGmoney money;
-            try{
+            try {
                 money = new PGmoney(value);
 
-            }catch(Exception ex) {
+            }catch (Exception ex) {
                 throw new Error("Error");
             }
             return money;
