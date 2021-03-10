@@ -93,8 +93,8 @@ public class Convertor {
                 Map<String,Object> pointValue = ConversionHelper.getRecordType(value);
 
                 point = new PGpoint(
-                    ((BDecimal)(pointValue.get(Constants.Geometric.X))).decimalValue().doubleValue(),
-                    ((BDecimal)(pointValue.get(Constants.Geometric.Y))).decimalValue().doubleValue()
+                    ((BDecimal) (pointValue.get(Constants.Geometric.X))).decimalValue().doubleValue(),
+                    ((BDecimal) (pointValue.get(Constants.Geometric.Y))).decimalValue().doubleValue()
                 );                
             }
             return point;
@@ -114,22 +114,25 @@ public class Convertor {
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String,Object> lineValue = ConversionHelper.getRecordType(value);
 
-                if (lineValue.containsKey(Constants.Geometric.A) && lineValue.containsKey(Constants.Geometric.B)
+                if (lineValue.containsKey(Constants.Geometric.A) && lineValue
+                            .containsKey(Constants.Geometric.B)
                             && lineValue.containsKey(Constants.Geometric.C)) {
                         line = new PGline(
-                            ((BDecimal)(lineValue.get(Constants.Geometric.A))).decimalValue().doubleValue(),
-                            ((BDecimal)(lineValue.get(Constants.Geometric.B))).decimalValue().doubleValue(),
-                            ((BDecimal)(lineValue.get(Constants.Geometric.C))).decimalValue().doubleValue()
+                            ((BDecimal) (lineValue.get(Constants.Geometric.A))).decimalValue().doubleValue(),
+                            ((BDecimal) (lineValue.get(Constants.Geometric.B))).decimalValue().doubleValue(),
+                            ((BDecimal) (lineValue.get(Constants.Geometric.C))).decimalValue().doubleValue()
                         );    
                 }
 
-                else if (lineValue.containsKey(Constants.Geometric.X1) && lineValue.containsKey(Constants.Geometric.Y1)
-                && lineValue.containsKey(Constants.Geometric.X2) && lineValue.containsKey(Constants.Geometric.Y2)) {
+                else if (lineValue.containsKey(Constants.Geometric.X1) && lineValue
+                            .containsKey(Constants.Geometric.Y1)
+                && lineValue.containsKey(Constants.Geometric.X2) && lineValue
+                            .containsKey(Constants.Geometric.Y2)) {
                     line = new PGline(
-                        ((BDecimal)(lineValue.get(Constants.Geometric.X1))).decimalValue().doubleValue(),
-                        ((BDecimal)(lineValue.get(Constants.Geometric.Y1))).decimalValue().doubleValue(),
-                        ((BDecimal)(lineValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
-                        ((BDecimal)(lineValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
+                        ((BDecimal) (lineValue.get(Constants.Geometric.X1))).decimalValue().doubleValue(),
+                        ((BDecimal) (lineValue.get(Constants.Geometric.Y1))).decimalValue().doubleValue(),
+                        ((BDecimal) (lineValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
+                        ((BDecimal) (lineValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
                 }
                 else {
@@ -156,13 +159,15 @@ public class Convertor {
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String,Object> lsegValue = ConversionHelper.getRecordType(value);
 
-                if (lsegValue.containsKey(Constants.Geometric.X1) && lsegValue.containsKey(Constants.Geometric.Y1)
-                && lsegValue.containsKey(Constants.Geometric.X2) && lsegValue.containsKey(Constants.Geometric.Y2)) {
+                if (lsegValue.containsKey(Constants.Geometric.X1) && lsegValue
+                        .containsKey(Constants.Geometric.Y1)
+                && lsegValue.containsKey(Constants.Geometric.X2) && lsegValue
+                        .containsKey(Constants.Geometric.Y2)) {
                     lseg = new PGlseg(
-                        ((BDecimal)(lsegValue.get(Constants.Geometric.X1))).decimalValue().doubleValue(),
-                        ((BDecimal)(lsegValue.get(Constants.Geometric.Y1))).decimalValue().doubleValue(),
-                        ((BDecimal)(lsegValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
-                        ((BDecimal)(lsegValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
+                        ((BDecimal) (lsegValue.get(Constants.Geometric.X1))).decimalValue().doubleValue(),
+                        ((BDecimal) (lsegValue.get(Constants.Geometric.Y1))).decimalValue().doubleValue(),
+                        ((BDecimal) (lsegValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
+                        ((BDecimal) (lsegValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
                 }
                 else {
@@ -189,13 +194,15 @@ public class Convertor {
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String,Object> boxValue = ConversionHelper.getRecordType(value);
 
-                if (boxValue.containsKey(Constants.Geometric.X1) && boxValue.containsKey(Constants.Geometric.Y1)
-                && boxValue.containsKey(Constants.Geometric.X2) && boxValue.containsKey(Constants.Geometric.Y2)) {
+                if (boxValue.containsKey(Constants.Geometric.X1) && boxValue
+                        .containsKey(Constants.Geometric.Y1)
+                && boxValue.containsKey(Constants.Geometric.X2) && boxValue
+                        .containsKey(Constants.Geometric.Y2)) {
                     box = new PGbox(
-                        ((BDecimal)(boxValue.get(Constants.Geometric.X1))).decimalValue().doubleValue(),
-                        ((BDecimal)(boxValue.get(Constants.Geometric.Y1))).decimalValue().doubleValue(),
-                        ((BDecimal)(boxValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
-                        ((BDecimal)(boxValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
+                        ((BDecimal) (boxValue.get(Constants.Geometric.X1))).decimalValue().doubleValue(),
+                        ((BDecimal) (boxValue.get(Constants.Geometric.Y1))).decimalValue().doubleValue(),
+                        ((BDecimal) (boxValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
+                        ((BDecimal) (boxValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
                 }
 
@@ -222,12 +229,13 @@ public class Convertor {
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String,Object> circleValue = ConversionHelper.getRecordType(value);
-                if (circleValue.containsKey(Constants.Geometric.X) && circleValue.containsKey(Constants.Geometric.Y)
-                && circleValue.containsKey(Constants.Geometric.R)) {
+                if (circleValue.containsKey(Constants.Geometric.X) && circleValue
+                        .containsKey(Constants.Geometric.Y)
+                    && circleValue.containsKey(Constants.Geometric.R)) {
                     circle = new PGcircle(
-                        ((BDecimal)(circleValue.get(Constants.Geometric.X))).decimalValue().doubleValue(),
-                        ((BDecimal)(circleValue.get(Constants.Geometric.Y))).decimalValue().doubleValue(),
-                        ((BDecimal)(circleValue.get(Constants.Geometric.R))).decimalValue().doubleValue()
+                        ((BDecimal)  (circleValue.get(Constants.Geometric.X))).decimalValue().doubleValue(),
+                        ((BDecimal)  (circleValue.get(Constants.Geometric.Y))).decimalValue().doubleValue(),
+                        ((BDecimal)  (circleValue.get(Constants.Geometric.R))).decimalValue().doubleValue()
                     );  
                 }
                 else {
@@ -294,17 +302,20 @@ public class Convertor {
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String,Object> intervalValue = ConversionHelper.getRecordType(value);
 
-                if (intervalValue.containsKey(Constants.Interval.YEARS) && intervalValue.containsKey(Constants.Interval.MONTHS)
-                    && intervalValue.containsKey(Constants.Interval.DAYS) && intervalValue.containsKey(Constants.Interval.HOURS)
-                    && intervalValue.containsKey(Constants.Interval.MINUTES) && intervalValue.containsKey(Constants.Interval.SECONDS)) {
+                if (intervalValue.containsKey(Constants.Interval.YEARS) && intervalValue
+                        .containsKey(Constants.Interval.MONTHS)
+                    && intervalValue.containsKey(Constants.Interval.DAYS) && intervalValue
+                            .containsKey(Constants.Interval.HOURS)
+                    && intervalValue.containsKey(Constants.Interval.MINUTES) && intervalValue
+                            .containsKey(Constants.Interval.SECONDS)) {
 
                     interval = new PGInterval(
-                        ((Number)(intervalValue.get(Constants.Interval.YEARS))).intValue(),
-                        ((Number)(intervalValue.get(Constants.Interval.MONTHS))).intValue(),
-                        ((Number)(intervalValue.get(Constants.Interval.DAYS))).intValue(),
-                        ((Number)(intervalValue.get(Constants.Interval.HOURS))).intValue(),
-                        ((Number)(intervalValue.get(Constants.Interval.MINUTES))).intValue(),
-                        ((BDecimal)(intervalValue.get(Constants.Interval.SECONDS))).decimalValue().doubleValue()
+                        ((Number) (intervalValue.get(Constants.Interval.YEARS))).intValue(),
+                        ((Number) (intervalValue.get(Constants.Interval.MONTHS))).intValue(),
+                        ((Number) (intervalValue.get(Constants.Interval.DAYS))).intValue(),
+                        ((Number) (intervalValue.get(Constants.Interval.HOURS))).intValue(),
+                        ((Number) (intervalValue.get(Constants.Interval.MINUTES))).intValue(),
+                        ((BDecimal) (intervalValue.get(Constants.Interval.SECONDS))).decimalValue().doubleValue()
                     );
                 }
                 else {
@@ -328,13 +339,17 @@ public class Convertor {
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
 
-                if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
-                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)) {
+                if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
+                        .containsKey(Constants.Range.LOWER)
+                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue
+                        .containsKey(Constants.Range.LOWERINCLUSIVE)) {
 
                     String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
                     String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
+                    boolean upperInclusive = ((Boolean)(rangeValue
+                        .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue
+                        .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
@@ -360,14 +375,16 @@ public class Convertor {
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
-
-                if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
-                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)) {
-
+                if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
+                        .containsKey(Constants.Range.LOWER)
+                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue
+                            .containsKey(Constants.Range.LOWERINCLUSIVE)) {
                     String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
                     String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
+                    boolean upperInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
@@ -394,13 +411,17 @@ public class Convertor {
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
                 Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
 
-                if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
-                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)) {
+                if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
+                            .containsKey(Constants.Range.LOWER)
+                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue
+                            .containsKey(Constants.Range.LOWERINCLUSIVE)) {
 
                     String upperValue = rangeValue.get(Constants.Range.UPPER).toString();
                     String lowerValue = rangeValue.get(Constants.Range.LOWER).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
+                    boolean upperInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
@@ -429,12 +450,17 @@ public class Convertor {
                 Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
-                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)) {
+                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue
+                            .containsKey(Constants.Range.LOWERINCLUSIVE)) {
 
-                    String upperValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.UPPER)).toString();
-                    String lowerValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.LOWER)).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
+                    String upperValue = ConversionHelper.toTimeString(rangeValue
+                            .get(Constants.Range.UPPER)).toString();
+                    String lowerValue = ConversionHelper.toTimeString(rangeValue
+                            .get(Constants.Range.LOWER)).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
@@ -462,12 +488,17 @@ public class Convertor {
                 Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
-                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)) {
+                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue
+                            .containsKey(Constants.Range.LOWERINCLUSIVE)) {
 
-                    String upperValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.UPPER)).toString();
-                    String lowerValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.LOWER)).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
+                    String upperValue = ConversionHelper.toTimeString(rangeValue
+                            .get(Constants.Range.UPPER)).toString();
+                    String lowerValue = ConversionHelper.toTimeString(rangeValue
+                            .get(Constants.Range.LOWER)).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
@@ -496,12 +527,17 @@ public class Convertor {
                 Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
-                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)) {
+                    && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && 
+                            rangeValue.containsKey(Constants.Range.LOWERINCLUSIVE)) {
 
-                    String upperValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.UPPER)).toString();
-                    String lowerValue = ConversionHelper.toTimeString(rangeValue.get(Constants.Range.LOWER)).toString();
-                    boolean upperInclusive = ((Boolean)(rangeValue.get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
-                    boolean lowerInclusive = ((Boolean)(rangeValue.get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
+                    String upperValue = ConversionHelper.toTimeString(rangeValue
+                            .get(Constants.Range.UPPER)).toString();
+                    String lowerValue = ConversionHelper.toTimeString(rangeValue
+                            .get(Constants.Range.LOWER)).toString();
+                    boolean upperInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.UPPERINCLUSIVE))).booleanValue();
+                    boolean lowerInclusive = ((Boolean)(rangeValue
+                            .get(Constants.Range.LOWERINCLUSIVE))).booleanValue();
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
@@ -560,7 +596,7 @@ public class Convertor {
                 money = setPGmoney(stringValue);
             }
             else if (value instanceof BDecimal) {
-                double decimalValue = ((BDecimal)value).decimalValue().doubleValue();
+                double decimalValue = ((BDecimal) value).decimalValue().doubleValue();
                 money = setPGmoney(decimalValue);
             }
             else {
@@ -866,12 +902,14 @@ public class Convertor {
                 String upperValue = valueMap.get(Constants.Range.UPPER).toString();
                 timestamp=formatter.parse(upperValue);
 
-                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(timestamp.getTime()));
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils
+                        .createTimeStruct(timestamp.getTime()));
 
                 String lowerValue = valueMap.get(Constants.Range.UPPER).toString();
                 timestamp=formatter.parse(lowerValue);
 
-                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(timestamp.getTime()));
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils
+                        .createTimeStruct(timestamp.getTime()));
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);
@@ -894,12 +932,14 @@ public class Convertor {
                 String upperValue = valueMap.get(Constants.Range.UPPER).toString();
                 timestamptz=formatter.parse(upperValue);
 
-                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(timestamptz.getTime()));
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils
+                         .createTimeStruct(timestamptz.getTime()));
 
                 String lowerValue = valueMap.get(Constants.Range.UPPER).toString();
                 timestamptz=formatter.parse(lowerValue);
 
-                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils.createTimeStruct(timestamptz.getTime()));
+                valueMap.put(Constants.Range.UPPER, org.ballerinalang.sql.utils.Utils
+                         .createTimeStruct(timestamptz.getTime()));
 
                 return ValueCreator.createRecordValue(org.ballerinalang.postgresql.ModuleUtils.getModule(),
                     typeName, valueMap);

@@ -154,7 +154,8 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             }
         } else if (value instanceof BObject) {
             BObject objectValue = (BObject) value;
-            if (objectValue.getType().getName().equalsIgnoreCase(org.ballerinalang.sql.Constants.READ_BYTE_CHANNEL_STRUCT) &&
+            if (objectValue.getType().getName()
+                   .equalsIgnoreCase(org.ballerinalang.sql.Constants.READ_BYTE_CHANNEL_STRUCT) &&
                     objectValue.getType().getPackage().toString()
                         .equalsIgnoreCase(IOUtils.getIOPackage().toString())) {
                 Channel byteChannel = (Channel) objectValue.getNativeData(IOConstants.BYTE_CHANNEL_NAME);

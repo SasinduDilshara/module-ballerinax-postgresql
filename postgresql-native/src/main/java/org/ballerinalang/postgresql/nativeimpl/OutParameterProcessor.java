@@ -25,6 +25,7 @@ import org.ballerinalang.postgresql.parameterprocessor.PostgresResultParameterPr
 
 public class OutParameterProcessor {
     public static Object get(BObject result, BTypedesc typeDesc) {
-        return org.ballerinalang.sql.nativeimpl.OutParameterProcessor.get(result, typeDesc, PostgresResultParameterProcessor.getInstance());
+        return org.ballerinalang.sql.nativeimpl.OutParameterProcessor
+            .get(result, typeDesc, PostgresResultParameterProcessor.getInstance());
     }
 }

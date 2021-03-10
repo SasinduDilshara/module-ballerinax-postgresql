@@ -6,6 +6,7 @@ import org.ballerinalang.postgresql.parameterprocessor.PostgresResultParameterPr
 
 public class RecordIteratorUtils {
     public static Object nextResult(BObject postgresRecordIterator, BObject recordIterator) {
-        return org.ballerinalang.sql.utils.RecordIteratorUtils.nextResult(recordIterator, PostgresResultParameterProcessor.getInstance());
+        return org.ballerinalang.sql.utils.RecordIteratorUtils
+            .nextResult(recordIterator, PostgresResultParameterProcessor.getInstance());
     }
 }

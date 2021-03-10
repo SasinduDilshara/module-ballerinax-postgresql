@@ -575,8 +575,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
             throws ApplicationError {
         try {
             populateObject(statement, parameter, paramIndex);
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new ApplicationError("Unsupported SQL type '" + sqlType + "' when reading Procedure call " +
                 "Out parameter of index '" + paramIndex + "'.");
         }
@@ -588,7 +587,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         Object value = result.getNativeData(org.ballerinalang.sql.Constants.ParameterObject.VALUE_NATIVE_DATA);
         BObject innerBobject;
         if (innerObject instanceof BObject) {
-            innerBobject = (BObject)innerObject;
+            innerBobject = (BObject) innerObject;
             String sqlTypeName = innerBobject.getType().getName();
             switch(sqlTypeName) {
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.INET:
@@ -990,7 +989,8 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
             synchronized (lock2) {
                 if (iteratorObject == null) {
                     iteratorObject = ValueCreator.createObjectValue(
-                            org.ballerinalang.postgresql.ModuleUtils.getModule(), "CustomResultIterator", new Object[0]);
+                            org.ballerinalang.postgresql.ModuleUtils.getModule(),
+                                  "CustomResultIterator", new Object[0]);
                 }
             }
         }
@@ -1020,7 +1020,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         try {
             Object object = resultSet.getObject(columnIndex);
             if (object instanceof BObject) {
-                BObject objectValue = (BObject)object;
+                BObject objectValue = (BObject) object;
                 String sqlTypeName = objectValue.getType().getName();
                 Object value = objectValue.get(org.ballerinalang.sql.Constants.TypedValueFields.VALUE);
             } else {
