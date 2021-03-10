@@ -49,8 +49,6 @@ public class ClientProcessor {
         if (database != null && !database.isEmpty()) {
             url += database;
         }
-
-        // System.out.println("Initialization Url :- "+url);
         
         BMap options = clientConfig.getMapValue(Constants.ClientConfiguration.OPTIONS);
         BMap properties = null;

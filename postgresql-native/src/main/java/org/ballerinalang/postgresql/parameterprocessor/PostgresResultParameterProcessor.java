@@ -574,9 +574,7 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     public void populateCustomOutParameters(CallableStatement statement, BObject parameter, int paramIndex, int sqlType)
             throws ApplicationError {
         try {
-            System.out.println("Before populate");
             populateObject(statement, parameter, paramIndex);
-            System.out.println("After populate");
         }
         catch (SQLException ex) {
             throw new ApplicationError("Unsupported SQL type '" + sqlType + "' when reading Procedure call " +
@@ -592,9 +590,6 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
         if(innerObject instanceof BObject) {
             innerBobject = (BObject)innerObject;
             String sqlTypeName = innerBobject.getType().getName();
-            System.out.println("value postgresql "+value);
-            System.out.println("innerBobject postgresql "+innerBobject);
-            System.out.println("sqlTypeName postgresql "+sqlTypeName);            
             switch(sqlTypeName){
                 case org.ballerinalang.postgresql.Constants.PGTypeNames.INET:
                     return convertInetType(value, sqlType, ballerinaType);
@@ -1050,18 +1045,14 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
                                         Statement statement,
                                         Connection connection, List<ColumnDefinition> columnDefinitions,
                                         StructureType streamConstraint) {
-        System.out.println("before iter obj");
         BObject iteratorObject = this.getIteratorObject();
-        System.out.println("after iter obj");
         BObject resultIterator = ValueCreator.createObjectValue(ModuleUtils.getModule(),
                 Constants.RESULT_ITERATOR_OBJECT, new Object[]{null, iteratorObject});
-        System.out.println("resultIterator 1");
         resultIterator.addNativeData(Constants.RESULT_SET_NATIVE_DATA_FIELD, resultSet);
         resultIterator.addNativeData(Constants.STATEMENT_NATIVE_DATA_FIELD, statement);
         resultIterator.addNativeData(Constants.CONNECTION_NATIVE_DATA_FIELD, connection);
         resultIterator.addNativeData(Constants.COLUMN_DEFINITIONS_DATA_FIELD, columnDefinitions);
         resultIterator.addNativeData(Constants.RECORD_TYPE_DATA_FIELD, streamConstraint);
-        System.out.println("resultIterator ");
         return resultIterator;
     }
 
@@ -1069,35 +1060,24 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
             throws ApplicationError {
         int sqlType = columnDefinition.getSqlType();
         Type ballerinaType = columnDefinition.getBallerinaType();
-        System.out.println("sqlType: " + sqlType);
-        System.out.println("ballerinaType: " + ballerinaType);
         try{
             Object object = resultSet.getObject(columnIndex);
-            System.out.println("object: " + object);
             if(object instanceof BObject){
                 BObject objectValue = (BObject)object;
                 String sqlTypeName = objectValue.getType().getName();
                 Object value = objectValue.get(org.ballerinalang.sql.Constants.TypedValueFields.VALUE);
-                System.out.println("sqlTypeName: " + sqlTypeName);
-                System.out.println("value: " + value);
             }else{
-                System.out.println("This is else");
+                throw new Error("Error");
             }
         }
         catch(Exception ex){
-            System.out.println("ex:- "+ex);
+            throw new Error("Error");
         }
 
-
-        // switch (sqlType) {
-            
-        // }
-        System.out.println("Get custom result error");
         throw new ApplicationError("Unsupported SQL type " + columnDefinition.getSqlName());
     }
 
     public BObject getCustomProcedureCallObject() {
-        System.out.println("getCustomProcedureCallObject Postgresql\n");
         return this.getIteratorObject();
     }
 }
