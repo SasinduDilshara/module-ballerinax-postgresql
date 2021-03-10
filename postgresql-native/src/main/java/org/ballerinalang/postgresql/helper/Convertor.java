@@ -96,63 +96,44 @@ import java.util.TimeZone;
  *
  * @since 5.6.0
  */
-// class Inet {
-//     public String typeName;
-//     public String value;
-
-
-// }
 
 public class Convertor {
 
         private Convertor() {
 
         }
-
-        public static Object convertInet(Object value){
-                String stringValue = value.toString();
-
-                PGobject pgobject = setPGobject(Constants.PGtypes.INET,stringValue);
-                System.out.println("\nPGINET:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-                return pgobject;
-        }
-
-        public static Object convertCidr(Object value){
+        public static PGobject convertInet(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.CIDR, stringValue);
-            System.out.println("\nPGCIDR:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject inet = setPGobject(Constants.PGtypes.INET,stringValue);
+            return inet;
         }
 
-        public static Object convertMac(Object value){
+        public static PGobject convertCidr(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.MACADDR, stringValue);
-            System.out.println("\nPGMAC:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject cidr = setPGobject(Constants.PGtypes.CIDR, stringValue);
+            return cidr;
         }
 
-        public static Object convertMac8(Object value){
+        public static PGobject convertMac(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.MACADDR8, stringValue);
-            System.out.println("\nPGMAC8:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject macaddr = setPGobject(Constants.PGtypes.MACADDR, stringValue);
+            return macaddr;
         }
 
-// Geometric Data types
+        public static PGobject convertMac8(Object value){
+            String stringValue = value.toString();
+            PGobject macaddr8 = setPGobject(Constants.PGtypes.MACADDR8, stringValue);
+            return macaddr8;
+        }
 
-        public static Object convertPoint(Object value){
+        public static Object PGpoint(Object value){
             PGpoint point; 
             if(value instanceof BString){
                 try{
                     point = new PGpoint(value.toString());
                 }
                 catch(Exception ex){
-                    System.out.println("PGPOINT CATCH ERROR\n"+ex);
-                    return null;
+                    // throw an error;
                 }
             }
             else{
@@ -163,25 +144,19 @@ public class Convertor {
                     ((BDecimal)(pointValue.get(Constants.Geometric.Y))).decimalValue().doubleValue()
                 );                
             }
-            System.out.println("\nPGPOINT:- "+point.getValue()+"\n");
             return point;
-
         }
 
-        public static Object convertLine(Object value){
+        public static PGline convertLine(Object value){
             PGline line;
             Type type = TypeUtils.getType(value);
-            // type.getTag() != TypeTags.RECORD_TYPE_TAG
-
             if(value instanceof BString){
                 try{
                     line = new PGline(value.toString());
                 }
                 catch(Exception ex){
-                    System.out.println("PGLINE CATCH ERROR\n"+ex);
-                    return null;
+                    // throw an error;
                 }
-                System.out.println("\nPGLINE:- "+line.getValue()+"\n");
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
                 Map<String,Object> lineValue = ConversionHelper.getRecordType(value);
@@ -193,8 +168,6 @@ public class Convertor {
                             ((BDecimal)(lineValue.get(Constants.Geometric.B))).decimalValue().doubleValue(),
                             ((BDecimal)(lineValue.get(Constants.Geometric.C))).decimalValue().doubleValue()
                         );    
-
-                    System.out.println("\nPGLINE:- "+line.getValue()+"\n");
                 }
 
                 else if(lineValue.containsKey(Constants.Geometric.X1) && lineValue.containsKey(Constants.Geometric.Y1)
@@ -205,65 +178,26 @@ public class Convertor {
                         ((BDecimal)(lineValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
                         ((BDecimal)(lineValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
-
-                    System.out.println("\nPGLINE:- "+line.getValue()+"\n");
-
                 }
-
-
-            //     else if(lineValue.containsKey(Constants.Geometric.P1) && lineValue.containsKey(Constants.Geometric.P2)){
-
-            //         Object cordinate1 = lineValue.get(Constants.Geometric.P1);
-            //         Object cordinate2 = lineValue.get(Constants.Geometric.P2);
-
-            //         if(cordinate1 instanceof BObject && cordinate2 instanceof BObject){
-
-            //             Object point1 = ((BObject)cordinate1).get(Constants.TypedValueFields.VALUE);
-            //             Object point2 = ((BObject)cordinate2).get(Constants.TypedValueFields.VALUE);
-
-            //                 line = new PGline(
-
-            //                     (PGpoint)point1,
-            //                     (PGpoint)point2
-            //                 );  
-
-            //                 System.out.println("\nPGLINE with 2 points:- "+line.getValue()+"\n");
-
-            //             }
-            //             else{
-            //                 System.out.println("Didnt found BObject for two points\n");
-            //                 return null;
-            //             }
-            // }
-
                 else{
-                        System.out.println("PGLINE CATCH ERROR WRONG SYNTAX RECORD\n");
-                        return null;
+                        // throw an error;
                 }
-                // String sqlType = typedValue.getType().getName();
-                // Object value = typedValue.get(Constants.TypedValueFields.VALUE);
-
             }
             else{
-                System.out.println("PGLINE CATCH ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
             return line;
-
         }
 
-        public static Object convertLseg(Object value){
+        public static PGlseg convertLseg(Object value){
             PGlseg lseg;
             Type type = TypeUtils.getType(value);
-            // type.getTag() != TypeTags.RECORD_TYPE_TAG
-
             if(value instanceof BString){
                 try{
                     lseg = new PGlseg(value.toString());
                 }
                 catch(Exception ex){
-                    System.out.println("PGlseg CATCH ERROR\n"+ex);
-                    return null;
+                    //throw an error
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -277,39 +211,27 @@ public class Convertor {
                         ((BDecimal)(lsegValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
                         ((BDecimal)(lsegValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
-
-                    System.out.println("\nPGlseg:- "+lseg.getValue()+"\n");
-
                 }
 
                 else{
-                        System.out.println("PGlseg CATCH ERROR WRONG SYNTAX RECORD\n");
-                        return null;
+                    // throw an error;
                 }
-                // String sqlType = typedValue.getType().getName();
-                // Object value = typedValue.get(Constants.TypedValueFields.VALUE);
-
             }
             else{
-                System.out.println("PGlseg CATCH ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
             return lseg;
-
         }
 
-        public static Object convertBox(Object value){
+        public static PGbox convertBox(Object value){
             PGbox box;
             Type type = TypeUtils.getType(value);
-            // type.getTag() != TypeTags.RECORD_TYPE_TAG
-
             if(value instanceof BString){
                 try{
                     box = new PGbox(value.toString());
                 }
                 catch(Exception ex){
-                    System.out.println("PGbox CATCH ERROR\n"+ex);
-                    return null;
+                    // throw an error;
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -323,39 +245,27 @@ public class Convertor {
                         ((BDecimal)(boxValue.get(Constants.Geometric.X2))).decimalValue().doubleValue(),
                         ((BDecimal)(boxValue.get(Constants.Geometric.Y2))).decimalValue().doubleValue()
                     );  
-
-                    System.out.println("\nPGbox:- "+box.getValue()+"\n");
-
                 }
 
                 else{
-                        System.out.println("PGbox CATCH ERROR WRONG SYNTAX RECORD\n");
-                        return null;
+                        // throw an error;
                 }
-                // String sqlType = typedValue.getType().getName();
-                // Object value = typedValue.get(Constants.TypedValueFields.VALUE);
-
             }
             else{
-                System.out.println("PGbox CATCH ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
             return box;
-
         }
 
-        public static Object convertCircle(Object value){
+        public static PGcircle convertCircle(Object value){
             PGcircle circle;
             Type type = TypeUtils.getType(value);
-            // type.getTag() != TypeTags.RECORD_TYPE_TAG
-
             if(value instanceof BString){
                 try{
                     circle = new PGcircle(value.toString());
                 }
                 catch(Exception ex){
-                    System.out.println("PGcircle CATCH ERROR\n"+ex);
-                    return null;
+                    // throw an error;
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -368,83 +278,59 @@ public class Convertor {
                         ((BDecimal)(circleValue.get(Constants.Geometric.Y))).decimalValue().doubleValue(),
                         ((BDecimal)(circleValue.get(Constants.Geometric.R))).decimalValue().doubleValue()
                     );  
-
-                    System.out.println("\nPGcircle:- "+circle.getValue()+"\n");
-
                 }
 
                 else{
-                        System.out.println("PGcircle CATCH ERROR WRONG SYNTAX RECORD\n");
-                        return null;
+                        // throw an error;
                 }
-                // String sqlType = typedValue.getType().getName();
-                // Object value = typedValue.get(Constants.TypedValueFields.VALUE);
-
             }
             else{
-                System.out.println("PGcircle CATCH ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
             return circle;
-
         }
 
-        public static Object convertUuid(Object value){
+        public static PGobject convertUuid(Object value){
             String stringValue = value.toString();
 
-            PGobject pgobject = setPGobject(Constants.PGtypes.UUID,stringValue);
-            System.out.println("\nPGUUID:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject uuid = setPGobject(Constants.PGtypes.UUID,stringValue);
+            return uuid;
         }
 
-        public static Object convertTsVector(Object value){
+        public static PGobject convertTsVector(Object value){
             String stringValue = value.toString();
 
-            PGobject pgobject = setPGobject(Constants.PGtypes.TSVECTOR,stringValue);
-            System.out.println("\nPGVector:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject tsvector = setPGobject(Constants.PGtypes.TSVECTOR,stringValue);
+            return tsvector;
         }
 
-        public static Object convertTsQuery(Object value){
+        public static PGobject convertTsQuery(Object value){
             String stringValue = value.toString();
 
-            PGobject pgobject = setPGobject(Constants.PGtypes.TSQUERY,stringValue);
-            System.out.println("\nPGQuery:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject tsquery = setPGobject(Constants.PGtypes.TSQUERY,stringValue);
+            return tsquery;
         }
 
-        public static Object convertJson(Object value){
+        public static PGobject convertJson(Object value){
             String stringValue = value.toString();
-            System.out.println("Json string value:- "+stringValue+"\n");
-            PGobject pgobject = setPGobject(Constants.PGtypes.JSON,stringValue);
-            System.out.println("\nPGJSON:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject json = setPGobject(Constants.PGtypes.JSON,stringValue);
+            return json;
         }
 
-        public static Object convertJsonb(Object value){
+        public static PGobject convertJsonb(Object value){
             String stringValue = value.toString();
-            System.out.println("JsonB string value:- "+stringValue+"\n");
-            PGobject pgobject = setPGobject(Constants.PGtypes.JSONB,stringValue);
-            System.out.println("\nPGJSONB:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject jsonb = setPGobject(Constants.PGtypes.JSONB,stringValue);
+            return jsonb;
         }
 
-        public static Object convertJsonPath(Object value){
+        public static PGobject convertJsonPath(Object value){
             String stringValue = value.toString();
-            System.out.println("Json path string value:- "+stringValue+"\n");
-            PGobject pgobject = setPGobject(Constants.PGtypes.JSONPATH,stringValue);
-            System.out.println("\nPGJSON PATH:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject jsonpath = setPGobject(Constants.PGtypes.JSONPATH,stringValue);
+            return jsonpath;
         }
 
 
-        public static Object convertInterval(Object value){
+        public static PGInterval convertInterval(Object value){
             Type type = TypeUtils.getType(value);
             PGInterval interval; 
             if(value instanceof BString){
@@ -452,8 +338,7 @@ public class Convertor {
                     interval = new PGInterval(value.toString());
                 }
                 catch(Exception ex){
-                    System.out.println("PGInterval CATCH ERROR\n"+ex);
-                    return null;
+                    // throw an error;
                 }
             }
             else if(type.getTag() == TypeTags.RECORD_TYPE_TAG){
@@ -473,22 +358,17 @@ public class Convertor {
                     );
                 }
                 else{
-                    System.out.println("PGINTERVALCATCH - 1 ERROR WRONG SYNTAX RECORD\n");
-                    return null;
+                    // throw an error;
                 }
 
             }
             else{
-                System.out.println("PGINTERVALCATCH -2  ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
-            System.out.println("PGInterval:- "+interval.getValue()+"\n");
             return interval;
-
         }
 
-
-        public static Object convertInt4Range(Object value){
+        public static PGobject convertInt4Range(Object value){
             Type type = TypeUtils.getType(value);
             PGobject int4rangeObject; 
             if(value instanceof BString){
@@ -509,24 +389,19 @@ public class Convertor {
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
                     int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE,range);
-                    System.out.println( "upperValue " + upperValue + "lowerValue " + lowerValue + "upperInclusive " + upperInclusive + "lowerInclusive " + lowerInclusive );
                 }
                 else{
-                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
-                    return null;
+                    // throw an error;
                 }
 
             }
             else{
-                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
-            System.out.println("PGRANGE:- "+int4rangeObject.getValue()+"\n");
             return int4rangeObject;
-
         }
 
-        public static Object convertInt8Range(Object value){
+        public static PGobject convertInt8Range(Object value){
             Type type = TypeUtils.getType(value);
             PGobject int8rangeObject; 
             if(value instanceof BString){
@@ -549,21 +424,17 @@ public class Convertor {
                     int8rangeObject = setPGobject(Constants.PGtypes.INT8RANGE,range);
                 }
                 else{
-                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
-                    return null;
+                    // throw an error;
                 }
 
             }
             else{
-                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
-            System.out.println("PGRANGE:- "+int8rangeObject.getValue()+"\n");
             return int8rangeObject;
-
         }
 
-        public static Object convertNumRange(Object value){
+        public static PGobject convertNumRange(Object value){
             Type type = TypeUtils.getType(value);
             PGobject numrangeObject; 
             if(value instanceof BString){
@@ -586,21 +457,18 @@ public class Convertor {
                     numrangeObject = setPGobject(Constants.PGtypes.NUMRANGE,range);
                 }
                 else{
-                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
-                    return null;
+                    // throw an error;
                 }
 
             }
             else{
-                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
-            System.out.println("PGRANGE:- "+numrangeObject.getValue()+"\n");
             return numrangeObject;
 
         }
 
-        public static Object convertTsRange(Object value){
+        public static PGobject convertTsRange(Object value){
             Type type = TypeUtils.getType(value);
             PGobject tsrangeObject; 
             if(value instanceof BString){
@@ -623,21 +491,17 @@ public class Convertor {
                     tsrangeObject = setPGobject(Constants.PGtypes.TSRANGE,range);
                 }
                 else{
-                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
-                    return null;
+                    // throw an error;
                 }
 
             }
             else{
-                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
-            System.out.println("PGRANGE:- "+tsrangeObject.getValue()+"\n");
             return tsrangeObject;
-
         }
 
-        public static Object convertTstzRange(Object value){
+        public static PGobject convertTstzRange(Object value){
             Type type = TypeUtils.getType(value);
             PGobject tstzrangeObject; 
             if(value instanceof BString){
@@ -660,21 +524,18 @@ public class Convertor {
                     tstzrangeObject = setPGobject(Constants.PGtypes.TSTZRANGE,range);
                 }
                 else{
-                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
-                    return null;
+                    // throw an error;
                 }
 
             }
             else{
-                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
-            System.out.println("PGRANGE:- "+tstzrangeObject.getValue()+"\n");
             return tstzrangeObject;
 
         }
 
-        public static Object convertDateRange(Object value){
+        public static PGobject convertDateRange(Object value){
             Type type = TypeUtils.getType(value);
             PGobject daterangeObject; 
             if(value instanceof BString){
@@ -697,49 +558,37 @@ public class Convertor {
                     daterangeObject = setPGobject(Constants.PGtypes.DATERANGE,range);
                 }
                 else{
-                    System.out.println("PGRANGE CATCH - 1 ERROR WRONG SYNTAX RECORD\n");
-                    return null;
+                    // throw an error;
                 }
 
             }
             else{
-                System.out.println("PGRANGE CATCH -2  ERROR WRONG SYNTAX RECORD\n");
-                return null;
+                // throw an error;
             }
-            System.out.println("PGRANGE:- "+daterangeObject.getValue()+"\n");
             return daterangeObject;
-
         }
 
-
-
-        public static Object convertPglsn(Object value){
+        public static PGobject convertPglsn(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.PGLSN,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject pglsn = setPGobject(Constants.PGtypes.PGLSN,stringValue);
+            return pglsn;
         }
 
 
 
-        public static Object convertBitn(Object value){
+        public static PGobject convertBitn(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.BITSTRING,stringValue);
-            System.out.println("\nPGBIT(N) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject bitn = setPGobject(Constants.PGtypes.BITSTRING,stringValue);
+            return bitn;
         }
 
-        public static Object convertVarbit(Object value){
+        public static PGobject convertVarbit(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.VARBITSTRING,stringValue);
-            System.out.println("\nPGVARBIT(N) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject varbit = setPGobject(Constants.PGtypes.VARBITSTRING,stringValue);
+            return varbit;
         }
 
-        public static Object convertBit(Object value){
+        public static PGobject convertBit(Object value){
             String stringValue;
             if(value instanceof Boolean){
                 Boolean booleanValue = (Boolean)value;
@@ -748,14 +597,12 @@ public class Convertor {
             else{
                 stringValue = value.toString();
             }
-            PGobject pgobject = setPGobject(Constants.PGtypes.PGBIT,stringValue);
-            System.out.println("\nPGBIT(1) VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject bit = setPGobject(Constants.PGtypes.PGBIT,stringValue);
+            return bit;
         }
 
 
-        public static Object convertMoney(Object value){
+        public static PGmoney convertMoney(Object value){
 
             PGmoney money;
             if(value instanceof BString){
@@ -767,14 +614,12 @@ public class Convertor {
                 money = setPGmoney(decimalValue);
             }
             else{
-                System.out.println("Money wrong syntax");
-                return null;
+                // throw an error;
             }
-
             return money;
         }
 
-        public static Object convertCustomType(BString datatype,Object value){
+        public static PGobject convertCustomType(BString datatype,Object value){
             String stringValue;
             Type type = TypeUtils.getType(value);
             String typeName = datatype.toString();
@@ -786,102 +631,79 @@ public class Convertor {
                 stringValue = ConversionHelper.setCustomType(customValue);
             }
             else{
-                System.out.println("Custom wrong syntax");
-                return null;
+                // throw an error;
             }
-            PGobject pgobject = setPGobject(typeName,stringValue);
-            System.out.println(typeName+" VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject customObject = setPGobject(typeName,stringValue);
+            return customObject;
         }
 
 
-        public static Object convertRegclass(Object value){
+        public static PGobject convertRegclass(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGCLASS,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regclass = setPGobject(Constants.PGtypes.REGCLASS,stringValue);
+            return regclass;
         }
 
-        public static Object convertRegconfig(Object value){
+        public static PGobject convertRegconfig(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGCONFIG,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regconfig = setPGobject(Constants.PGtypes.REGCONFIG,stringValue);
+            return regconfig;
         }
 
 
-        public static Object convertRegdictionary(Object value){
+        public static PGobject convertRegdictionary(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGDICTIONARY,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regdictionary = setPGobject(Constants.PGtypes.REGDICTIONARY,stringValue);
+            return regdictionary;
         }
 
 
-        public static Object convertRegnamespace(Object value){
+        public static PGobject convertRegnamespace(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGNAMESPACE,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regnamespace = setPGobject(Constants.PGtypes.REGNAMESPACE,stringValue);
+            return regnamespace;
         }
 
 
-        public static Object convertRegoper(Object value){
+        public static PGobject convertRegoper(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGOPER,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regoper = setPGobject(Constants.PGtypes.REGOPER,stringValue);
+            return regoper;
         }
 
 
-        public static Object convertRegoperator(Object value){
+        public static PGobject convertRegoperator(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGOPERATOR,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regoperator = setPGobject(Constants.PGtypes.REGOPERATOR,stringValue);
+            return regoperator;
         }
 
 
-        public static Object convertRegproc(Object value){
+        public static PGobject convertRegproc(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGPROC,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regproc = setPGobject(Constants.PGtypes.REGPROC,stringValue);
+            return regproc;
         }
 
 
-        public static Object convertRegprocedure(Object value){
+        public static PGobject convertRegprocedure(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGPROCEDURE,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regprocedure = setPGobject(Constants.PGtypes.REGPROCEDURE,stringValue);
+            return regprocedure;
         }
 
 
-        public static Object convertRegrole(Object value){
+        public static PGobject convertRegrole(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGROLE,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regrole = setPGobject(Constants.PGtypes.REGROLE,stringValue);
+            return regrole;
         }
 
 
-        public static Object convertRegtype(Object value){
+        public static PGobject convertRegtype(Object value){
             String stringValue = value.toString();
-            PGobject pgobject = setPGobject(Constants.PGtypes.REGTYPE,stringValue);
-            System.out.println("\nPGLSN VALUE:- "+pgobject.getType()+" "+pgobject.getValue()+"\n");
-
-            return pgobject;
+            PGobject regtype = setPGobject(Constants.PGtypes.REGTYPE,stringValue);
+            return regtype;
         }
 
         public static Object convertXml(Connection connection, Object value){
@@ -890,9 +712,8 @@ public class Convertor {
             return xml;
         }
 
-        public static Object convertIntervalToRecord(Object value, String typeName) {
+        public static BMap convertIntervalToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -909,14 +730,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertPointToRecord(Object value, String typeName) {
+        public static BMap convertPointToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -929,14 +748,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertLineToRecord(Object value, String typeName) {
+        public static BMap convertLineToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -950,14 +767,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertLsegToRecord(Object value, String typeName) {
+        public static BMap convertLsegToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -975,14 +790,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertBoxToRecord(Object value, String typeName) {
+        public static BMap convertBoxToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -1000,14 +813,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertCircleToRecord(Object value, String typeName) {
+        public static BMap convertCircleToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -1022,14 +833,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertInt4rangeToRecord(Object value, String typeName) {
+        public static BMap convertInt4rangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -1046,14 +855,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertInt8rangeToRecord(Object value, String typeName) {
+        public static BMap convertInt8rangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -1070,14 +877,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertNumrangeToRecord(Object value, String typeName) {
+        public static BMap convertNumrangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -1094,14 +899,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertsrangeToRecord(Object value, String typeName) {
+        public static BMap convertsrangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -1124,14 +927,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertTstzrangeToRecord(Object value, String typeName) {
+        public static BMap convertTstzrangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -1154,14 +955,12 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
-        public static Object convertDaterangeToRecord(Object value, String typeName) {
+        public static BMap convertDaterangeToRecord(Object value, String typeName) {
             Map<String, Object> valueMap = new HashMap<>();
-            System.out.println("TypedName:  :"+typeName);
             try{
                 if(value == null){
                     return null;
@@ -1184,8 +983,7 @@ public class Convertor {
                     typeName, valueMap);
             }
             catch(Exception ex) {
-                System.out.println("Error occured in convertIntervalToRecord");
-                return null;
+                // throw an error;
             }
         }
 
@@ -1196,7 +994,7 @@ public class Convertor {
                 pgobject.setValue(value);
 
             }catch(Exception ex){
-                System.out.println(type+" CATCH ERROR\n"+ex);
+                //throw an error
             }
             return pgobject;
         }
@@ -1207,8 +1005,7 @@ public class Convertor {
                 money = new PGmoney(value);
 
             }catch(Exception ex){
-                System.out.println(" CATCH ERROR MONEY:-:\n"+ex);
-                return null;
+                // throw an error;
             }
             return money;
         }
@@ -1219,10 +1016,8 @@ public class Convertor {
                 money = new PGmoney(value);
 
             }catch(Exception ex){
-                System.out.println(" CATCH ERROR MONEY:-:\n"+ex);
-                return null;
+                // throw an error;
             }
             return money;
         }
-
 } 

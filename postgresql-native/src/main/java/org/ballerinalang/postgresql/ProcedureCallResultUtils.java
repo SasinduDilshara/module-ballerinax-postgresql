@@ -6,7 +6,6 @@ import org.ballerinalang.postgresql.parameterprocessor.PostgresResultParameterPr
 
 public class ProcedureCallResultUtils {
     public static Object getNextQueryResult(BObject procedureCallResultset, BObject procedureCallResult) {
-        System.out.println("\nPostgresql RecordIteratorUtilsn procedureCallResult"+ procedureCallResult);
         return org.ballerinalang.sql.utils.ProcedureCallResultUtils.getNextQueryResult(procedureCallResult, PostgresResultParameterProcessor.getInstance());
     }
 }
