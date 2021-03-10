@@ -271,7 +271,7 @@ public class MoneyValue {
 //     string typeName;
 //     public function init(string typeName, record{}|string? value = ()) {
 //         self.typeName = typeName;
-//         self.value = convertCustomType(typeName,value);
+//         self.value = convertCustomType(typeName, value);
 //     }  
 // }
 

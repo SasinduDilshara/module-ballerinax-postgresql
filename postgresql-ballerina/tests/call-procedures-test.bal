@@ -502,7 +502,7 @@ function testDatetimeProcedureCall() {
         sql:DateValue dateType = new(timeValue);
         sql:TimeValue timeType = new(timeValue);
         sql:TimeValue timetzType= new(timeValue);
-        IntervalValue intervalType= new({years:1,months:2,days:3,hours:4,minutes:5,seconds:6});
+        IntervalValue intervalType= new({years:1, months:2, days:3, hours:4, minutes:5, seconds:6});
 
         
         sql:ParameterizedCallQuery sqlQuery =
@@ -1451,7 +1451,7 @@ function testDatetimeProcedureInoutCall() {
         sql:DateValue dateType = new(timeValue);
         sql:TimeValue timeType = new(timeValue);
         sql:TimeValue timetzType= new(timeValue);
-        IntervalValue intervalType= new({years:1,months:2,days:3,hours:4,minutes:5,seconds:7});
+        IntervalValue intervalType= new({years:1, months:2, days:3, hours:4, minutes:5, seconds:7});
 
         InOutParameter rowIdInoutValue = new (rowId);
         InOutParameter timestampInoutValue = new (timestampType);

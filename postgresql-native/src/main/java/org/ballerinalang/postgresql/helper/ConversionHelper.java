@@ -27,9 +27,9 @@ public class ConversionHelper {
 
     }
 
-    public static Map<String,Object> getRecordType(Object value) {
+    public static Map<String, Object> getRecordType(Object value) {
 
-        Map<String,Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         String key;
         Object bValue;
         Type type = TypeUtils.getType(value);
@@ -41,7 +41,7 @@ public class ConversionHelper {
             Field field = fieldIterator.next();
             key = field.getFieldName();
             bValue = ((BMap) value).get(fromString(key));
-            result.put(key,bValue);
+            result.put(key, bValue);
         }
         return result;
     }
@@ -109,12 +109,12 @@ public class ConversionHelper {
         return rangeMap;
     }
 
-    public static String setCustomType(Map<String,Object> record) {
+    public static String setCustomType(Map<String, Object> record) {
 
         String customValue = "";
         customValue+= "(";
 
-        for (Map.Entry<String,Object> entry : record.entrySet()) {  
+        for (Map.Entry<String, Object> entry : record.entrySet()) {  
 
             customValue += entry.getValue().toString();
             customValue += ", ";
@@ -130,7 +130,7 @@ public class ConversionHelper {
 
     public static Object toTimeString(Object timeObject) {
         try {
-            BMap<BString,Object> timeRecord = (BMap<BString,Object>) timeObject;
+            BMap<BString, Object> timeRecord = (BMap<BString, Object>) timeObject;
             return TimeUtils.getDefaultString(timeRecord);
         } catch (BError e) {
             return TimeUtils.getTimeError(e.getMessage());

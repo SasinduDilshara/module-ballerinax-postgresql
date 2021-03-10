@@ -219,7 +219,7 @@ function testInsertIntoGeometricDataTable() {
 
     sql:ParameterizedQuery sqlQuery =
       `
-    INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type,circle_type)
+    INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type, circle_type)
             VALUES(${rowId}, ${pointType}, ${lineType}, ${lsegType}, ${boxType},${circleType})
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
@@ -241,7 +241,7 @@ function testInsertIntoGeometricDataTable2() {
 
     sql:ParameterizedQuery sqlQuery =
       `
-    INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type,circle_type)
+    INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type, circle_type)
             VALUES(${rowId}, ${pointType}, ${lineType}, ${lsegType}, ${boxType},${circleType})
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
@@ -263,7 +263,7 @@ function testInsertIntoGeometricDataTable3() {
 
     sql:ParameterizedQuery sqlQuery =
       `
-    INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type,circle_type)
+    INSERT INTO GeometricTypes (row_id, point_type, line_type, lseg_type, box_type, circle_type)
             VALUES(${rowId}, ${pointType}, ${lineType}, ${lsegType}, ${boxType},${circleType})
     `;
     validateResult(executeQueryPostgresqlClient(sqlQuery, "execute_db"), 1, rowId);
@@ -398,7 +398,7 @@ function testInsertIntoDateDataTable() {
         sql:DateValue dateType = new(timeValue);
         sql:TimeValue timeType = new(timeValue);
         sql:TimeValue timetzType= new(timeValue);
-        IntervalValue intervalType= new({years:1,months:2,days:3,hours:4,minutes:5,seconds:6});
+        IntervalValue intervalType= new({years:1, months:2, days:3, hours:4, minutes:5, seconds:6});
 
         sql:ParameterizedQuery sqlQuery =
             `

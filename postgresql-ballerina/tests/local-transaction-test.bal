@@ -49,9 +49,9 @@
 //     boolean committedBlockExecuted = false;
 //     transactions:Info transInfo;
 //     retry<SQLDefaultRetryManager>(1) transaction {
-//         var res = dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//         var res = dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                                 "values ('James', 'Clerk', 200, 5000.75, 'USA')");
-//         res = dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//         res = dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                                 "values ('James', 'Clerk', 200, 5000.75, 'USA')");
 //         transInfo = transactions:info();
 //         var commitResult = commit;
@@ -91,10 +91,10 @@
 //     retry<SQLDefaultRetryManager>(1) transaction {
 //         transInfo = transactions:info();
 //         retryValRWC = transInfo.retryNumber;
-//         var e1 = check dbClient->execute("Insert into Customers (firstName,lastName,registrationID," +
-//                 "creditLimit,country) values ('James', 'Clerk', 210, 5000.75, 'USA')");
-//         var e2 = check dbClient->execute("Insert into Customers2 (firstName,lastName,registrationID," +
-//                     "creditLimit,country) values ('James', 'Clerk', 210, 5000.75, 'USA')");
+//         var e1 = check dbClient->execute("Insert into Customers (firstName, lastName, registrationID," +
+//                 "creditLimit, country) values ('James', 'Clerk', 210, 5000.75, 'USA')");
+//         var e2 = check dbClient->execute("Insert into Customers2 (firstName, lastName, registrationID," +
+//                     "creditLimit, country) values ('James', 'Clerk', 210, 5000.75, 'USA')");
 //         stmtAfterFailureExecutedRWC  = true;
 //         check commit;
 //     }
@@ -111,13 +111,13 @@
 //     transactions:Info transInfo;
 //     retry<SQLDefaultRetryManager>(1) transaction {
 //         transInfo = transactions:info();
-//         var e1 = dbClient->execute("Insert into Customers (firstName,lastName,registrationID," +
-//                 "creditLimit,country) values ('James', 'Clerk', 211, 5000.75, 'USA')");
+//         var e1 = dbClient->execute("Insert into Customers (firstName, lastName, registrationID," +
+//                 "creditLimit, country) values ('James', 'Clerk', 211, 5000.75, 'USA')");
 //         if (e1 is error) {
 //             rollback;
 //         } else {
-//             var e2 = dbClient->execute("Insert into Customers2 (firstName,lastName,registrationID," +
-//                         "creditLimit,country) values ('James', 'Clerk', 211, 5000.75, 'USA')");
+//             var e2 = dbClient->execute("Insert into Customers2 (firstName, lastName, registrationID," +
+//                         "creditLimit, country) values ('James', 'Clerk', 211, 5000.75, 'USA')");
 //             if (e2 is error) {
 //                 rollback;
 //                 stmtAfterFailureExecuted  = true;
@@ -147,9 +147,9 @@
 //     retry<SQLDefaultRetryManager>(1) transaction {
 //         transInfo = transactions:info();
 //         var e1 = checkpanic dbClient->execute("Insert into Customers " +
-//          "(firstName,lastName,registrationID,creditLimit,country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
+//          "(firstName, lastName, registrationID, creditLimit, country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
 //         var e2 =  checkpanic dbClient->execute("Insert into Customers " +
-//         "(firstName,lastName,registrationID,creditLimit,country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
+//         "(firstName, lastName, registrationID, creditLimit, country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
 //         checkpanic commit;
 //     }
 //     returnVal = transInfo.retryNumber;
@@ -182,9 +182,9 @@
 //         transInfo = transactions:info();
 //         returnValRGK = transInfo.retryNumber;
 //         var e1 = check dbClient->execute("Insert into Customers " +
-//          "(firstName,lastName,registrationID,creditLimit,country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
+//          "(firstName, lastName, registrationID, creditLimit, country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
 //         var e2 = check dbClient->execute("Insert into Customers2 " +
-//         "(firstName,lastName,registrationID,creditLimit,country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
+//         "(firstName, lastName, registrationID, creditLimit, country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
 //         check commit;
 //     }
 // }
@@ -209,9 +209,9 @@
 //         transInfo = transactions:info();
 //         transactions:onRollback(abortFunc);
 //         var e1 = dbClient->execute("Insert into Customers " +
-//          "(firstName,lastName,registrationID,creditLimit,country) values ('James', 'Clerk', 220, 5000.75, 'USA')");
+//          "(firstName, lastName, registrationID, creditLimit, country) values ('James', 'Clerk', 220, 5000.75, 'USA')");
 //         var e2 =  dbClient->execute("Insert into Customers " +
-//         "(firstName,lastName,registrationID,creditLimit,country) values ('James', 'Clerk', 220, 5000.75, 'USA')");
+//         "(firstName, lastName, registrationID, creditLimit, country) values ('James', 'Clerk', 220, 5000.75, 'USA')");
 //         int i = 0;
 //         if (i == 0) {
 //             rollback;
@@ -258,8 +258,8 @@
 //     transactions:Info transInfo;
 //     retry<SQLDefaultRetryManager>(1) transaction {
 //         transInfo = transactions:info();
-//         var e1 = dbClient->execute("Insert into Customers (firstName,lastName," +
-//                               "registrationID,creditLimit,country) values ('James', 'Clerk', 260, 5000.75, 'USA')");
+//         var e1 = dbClient->execute("Insert into Customers (firstName, lastName," +
+//                               "registrationID, creditLimit, country) values ('James', 'Clerk', 260, 5000.75, 'USA')");
 //         int i = 0;
 //         if (i == 0) {
 //             error e = error("error");
@@ -283,8 +283,8 @@
 //     transactions:Info transInfo;
 //     retry<SQLDefaultRetryManager>(1) transaction {
 //         transInfo = transactions:info();
-//         var e1 = dbClient->execute("Insert into Customers (firstName,lastName,registrationID," +
-//                  "creditLimit,country) values ('James', 'Clerk', 250, 5000.75, 'USA')");
+//         var e1 = dbClient->execute("Insert into Customers (firstName, lastName, registrationID," +
+//                  "creditLimit, country) values ('James', 'Clerk', 250, 5000.75, 'USA')");
 //         var ret = trap testTransactionErrorPanicAndTrapHelper(0);
 //         if (ret is error) {
 //             catchValue = -1;
@@ -318,9 +318,9 @@
 //      transactions:Info transInfo2;
 //      retry<SQLDefaultRetryManager>(1) transaction {
 //          transInfo1 = transactions:info();
-//          var e1 = checkpanic dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//          var e1 = checkpanic dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                              "values ('James', 'Clerk', 400, 5000.75, 'USA')");
-//          var e2 = checkpanic dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//          var e2 = checkpanic dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                              "values ('James', 'Clerk', 400, 5000.75, 'USA')");
 //          checkpanic commit;
 //      }
@@ -328,9 +328,9 @@
 
 //      retry<SQLDefaultRetryManager>(1) transaction {
 //          transInfo2 = transactions:info();
-//          var e1 = dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//          var e1 = dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                              "values ('James', 'Clerk', 400, 5000.75, 'USA')");
-//          var e2 = dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//          var e2 = dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                              "values ('James', 'Clerk', 400, 5000.75, 'USA')");
 //          checkpanic commit;
 //      }
@@ -351,9 +351,9 @@
 // function testTransactionWithoutHandlers() {
 //     Client dbClient = checkpanic new (host, user, password, localTransactionDB, port);
 //     transaction {
-//         var e1 = checkpanic dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//         var e1 = checkpanic dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                             "values ('James', 'Clerk', 350, 5000.75, 'USA')");
-//         var e2 = checkpanic dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//         var e2 = checkpanic dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                             "values ('James', 'Clerk', 350, 5000.75, 'USA')");
 //         checkpanic commit;
 //     }
@@ -404,9 +404,9 @@
 //         }
 //         transInfo = transactions:info();
 //         transactions:onRollback(onRollbackFunc);
-//         var e1 = check dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//         var e1 = check dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                         "values ('James', 'Clerk', 111, 5000.75, 'USA')");
-//         var e2 = dbClient->execute("Insert into Customers2 (firstName,lastName,registrationID,creditLimit,country) " +
+//         var e2 = dbClient->execute("Insert into Customers2 (firstName, lastName, registrationID, creditLimit, country) " +
 //                         "values ('Anne', 'Clerk', 111, 5000.75, 'USA')");
 //         if (e2 is error) {
 //            check getError();
@@ -445,19 +445,19 @@
 //     test:assertEquals(count, 2);
 // }
 
-// function testLocalTransactionSuccessWithFailedHelper(string status,Client dbClient) returns string|error {
+// function testLocalTransactionSuccessWithFailedHelper(string status, Client dbClient) returns string|error {
 //     int i = 0;
 //     string a = status;
 //     retry<SQLDefaultRetryManager>(3) transaction {
 //         i = i + 1;
 //         a = a + " inTrx";
-//         var e1 = check dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country)" +
+//         var e1 = check dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country)" +
 //                                     " values ('James', 'Clerk', 222, 5000.75, 'USA')");
 //         if (i == 3) {
-//             var e2 = check dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+//             var e2 = check dbClient->execute("Insert into Customers (firstName, lastName, registrationID, creditLimit, country) " +
 //                                         "values ('Anne', 'Clerk', 222, 5000.75, 'USA')");
 //         } else {
-//             var e3 = check dbClient->execute("Insert into Customers2 (firstName,lastName,registrationID,creditLimit,country) " +
+//             var e3 = check dbClient->execute("Insert into Customers2 (firstName, lastName, registrationID, creditLimit, country) " +
 //                                         "values ('Anne', 'Clerk', 222, 5000.75, 'USA')");
 //         }
 //         check commit;

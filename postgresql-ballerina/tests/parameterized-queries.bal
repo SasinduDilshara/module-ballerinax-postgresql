@@ -482,10 +482,10 @@ sql:ParameterizedQuery connectonPool1InitQuery =
         PRIMARY KEY (customerId)
         );
 
-        INSERT INTO Customers (firstName,lastName,registrationID,creditLimit,country)
+        INSERT INTO Customers (firstName, lastName, registrationID, creditLimit, country)
         VALUES ('Peter', 'Stuart', 1, 5000.75, 'USA');
 
-        INSERT INTO Customers (firstName,lastName,registrationID,creditLimit,country)
+        INSERT INTO Customers (firstName, lastName, registrationID, creditLimit, country)
         VALUES ('Dan', 'Brown', 2, 10000, 'UK');
     `
 ;
@@ -503,10 +503,10 @@ sql:ParameterizedQuery connectonPool2InitQuery =
         PRIMARY KEY (customerId)
         );
 
-        INSERT INTO Customers (firstName,lastName,registrationID,creditLimit,country)
+        INSERT INTO Customers (firstName, lastName, registrationID, creditLimit, country)
         VALUES ('Peter', 'Stuart', 1, 5000.75, 'USA');
 
-        INSERT INTO Customers (firstName,lastName,registrationID,creditLimit,country)
+        INSERT INTO Customers (firstName, lastName, registrationID, creditLimit, country)
         VALUES ('Dan', 'Brown', 2, 10000, 'UK');
     `
 ;
@@ -916,7 +916,7 @@ sql:ParameterizedQuery procedureOutQuery =
             language plpgsql    
             as $$
             begin
-                SELECT row_id, point_type, line_type, lseg_type, box_type,circle_type 
+                SELECT row_id, point_type, line_type, lseg_type, box_type, circle_type 
                 into row_id_inout, point_inout, line_inout, lseg_inout, box_inout, circle_inout
                 from GeometricTypes where GeometricTypes.row_id = row_id_inout;
         end;$$;  
@@ -1149,7 +1149,7 @@ sql:ParameterizedQuery procedureInoutQuery =
             VALUES (
                 row_id_inout, point_inout, line_inout, lseg_inout, box_inout, circle_inout
             );
-                SELECT row_id, point_type, line_type, lseg_type, box_type,circle_type 
+                SELECT row_id, point_type, line_type, lseg_type, box_type, circle_type 
                 into row_id_inout, point_inout, line_inout, lseg_inout, box_inout, circle_inout
                 from GeometricTypes where GeometricTypes.row_id = row_id_inout;
         end;$$;  

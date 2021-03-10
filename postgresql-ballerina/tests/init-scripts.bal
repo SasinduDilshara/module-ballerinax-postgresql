@@ -65,10 +65,10 @@ public function createProcedureDB() {
 
 public function createDatabaseQuery(sql:ParameterizedQuery query) {
 
-    Client|sql:Error postgresClient = new(username="postgres",password="postgres");
+    Client|sql:Error postgresClient = new(username="postgres", password="postgres");
 
     if (postgresClient is sql:Error) {
-        io:println("Client init failed\n",postgresClient);
+        io:println("Client init failed\n", postgresClient);
     }
     else {
         sql:ExecutionResult|sql:Error result__;
@@ -76,7 +76,7 @@ public function createDatabaseQuery(sql:ParameterizedQuery query) {
 
         result__ = postgresClient->execute(query);
         if (result__ is sql:Error) {
-            io:println("Database drop failed\n",result__);
+            io:println("Database drop failed\n", result__);
         }
         checkpanic postgresClient.close();
 
@@ -86,10 +86,10 @@ public function createDatabaseQuery(sql:ParameterizedQuery query) {
 
 public function executeQuery(string database, sql:ParameterizedQuery query) {
 
-    Client|sql:Error postgresClient = new(username="postgres",password="postgres", database = database);
+    Client|sql:Error postgresClient = new(username="postgres", password="postgres", database = database);
 
     if (postgresClient is sql:Error) {
-        io:println("Client init failed\n",postgresClient);
+        io:println("Client init failed\n", postgresClient);
     }
     else {
         sql:ExecutionResult|sql:Error result__;
@@ -97,7 +97,7 @@ public function executeQuery(string database, sql:ParameterizedQuery query) {
 
         result__ = postgresClient->execute(query);
         if (result__ is sql:Error) {
-            io:println("Init Execute drop failed\n",result__);
+            io:println("Init Execute drop failed\n", result__);
         }
         checkpanic postgresClient.close();
     }

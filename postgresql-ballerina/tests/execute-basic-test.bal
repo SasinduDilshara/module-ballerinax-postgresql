@@ -122,7 +122,7 @@ function testInsertWithAllNilAndSelectTableWithGeneratedKeys() {
     Client dbClient = checkpanic new (host, user, password, executeDb, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("Insert into NumericTypes2 (smallint_type, int_type, "
         + "bigint_type, decimal_type, numeric_type, double_type, real_type) "
-        + "values (null,null,null,null,null,null,null)");
+        + "values (null, null, null, null, null, null, null)");
 
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
 
@@ -155,7 +155,7 @@ type StringDataType record {
 function testInsertWithStringAndSelectTable() {
     Client dbClient = checkpanic new (host, user, password, executeDb, port);
     string intIDVal = "25";
-    string insertQuery = "Insert into CharacterTypes (row_id,varchar_type ,char_type ,text_type , "
+    string insertQuery = "Insert into CharacterTypes (row_id,varchar_type , char_type , text_type , "
         + "name_type) values ("
         + intIDVal + ",'str1','This is a char','This is a text','This is a name')";
     sql:ExecutionResult result = checkpanic dbClient->execute(insertQuery);
@@ -187,7 +187,7 @@ function testInsertWithStringAndSelectTable() {
 function testInsertWithEmptyStringAndSelectTable() {
     Client dbClient = checkpanic new (host, user, password, executeDb, port);
     string intIDVal = "35";
-    string insertQuery = "Insert into CharacterTypes (row_id,varchar_type ,char_type ,text_type , "
+    string insertQuery = "Insert into CharacterTypes (row_id,varchar_type , char_type , text_type , "
         + "name_type) values (" + intIDVal +
         ",'','','','')";
     sql:ExecutionResult result = checkpanic dbClient->execute(insertQuery);
@@ -226,9 +226,9 @@ type StringNilData record {
 function testInsertWithNilStringAndSelectTable() {
     Client dbClient = checkpanic new (host, user, password, executeDb, port);
     string intIDVal = "45";
-    string insertQuery = "Insert into CharacterTypes (row_id,varchar_type ,char_type ,text_type , "
+    string insertQuery = "Insert into CharacterTypes (row_id,varchar_type , char_type , text_type , "
         + "name_type) values ("
-        + intIDVal + ",null,null,null,null)";
+        + intIDVal + ", null, null, null, null)";
     sql:ExecutionResult result = checkpanic dbClient->execute(insertQuery);
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
 

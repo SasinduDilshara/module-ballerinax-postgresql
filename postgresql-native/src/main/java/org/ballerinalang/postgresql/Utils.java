@@ -154,12 +154,12 @@ public class Utils {
 
             BString sslrootcert = sslConfig.getStringValue(Constants.SSLConfig.SSL_ROOT_CERT);
             if (sslrootcert != null) {
-                options.put(Constants.SSLConfig.SSL_ROOT_CERT,sslrootcert);
+                options.put(Constants.SSLConfig.SSL_ROOT_CERT, sslrootcert);
             }
 
             BString sslcert = sslConfig.getStringValue(Constants.SSLConfig.SSL_ROOT_CERT);
             if (sslcert != null) {
-                options.put(Constants.SSLConfig.SSL_CERT,sslcert);
+                options.put(Constants.SSLConfig.SSL_CERT, sslcert);
             }
 
             

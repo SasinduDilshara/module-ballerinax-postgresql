@@ -57,7 +57,7 @@ public class Convertor {
         }
         public static PGobject convertInet(Object value) {
             String stringValue = value.toString();
-            PGobject inet = setPGobject(Constants.PGtypes.INET,stringValue);
+            PGobject inet = setPGobject(Constants.PGtypes.INET, stringValue);
             return inet;
         }
 
@@ -90,7 +90,7 @@ public class Convertor {
                 }
             }
             else {
-                Map<String,Object> pointValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> pointValue = ConversionHelper.getRecordType(value);
 
                 point = new PGpoint(
                     ((BDecimal) (pointValue.get(Constants.Geometric.X))).decimalValue().doubleValue(),
@@ -112,7 +112,7 @@ public class Convertor {
                 }
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> lineValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> lineValue = ConversionHelper.getRecordType(value);
 
                 if (lineValue.containsKey(Constants.Geometric.A) && lineValue
                             .containsKey(Constants.Geometric.B)
@@ -157,7 +157,7 @@ public class Convertor {
                 }
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> lsegValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> lsegValue = ConversionHelper.getRecordType(value);
 
                 if (lsegValue.containsKey(Constants.Geometric.X1) && lsegValue
                         .containsKey(Constants.Geometric.Y1)
@@ -192,7 +192,7 @@ public class Convertor {
                 }
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> boxValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> boxValue = ConversionHelper.getRecordType(value);
 
                 if (boxValue.containsKey(Constants.Geometric.X1) && boxValue
                         .containsKey(Constants.Geometric.Y1)
@@ -228,7 +228,7 @@ public class Convertor {
                 }
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> circleValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> circleValue = ConversionHelper.getRecordType(value);
                 if (circleValue.containsKey(Constants.Geometric.X) && circleValue
                         .containsKey(Constants.Geometric.Y)
                     && circleValue.containsKey(Constants.Geometric.R)) {
@@ -251,39 +251,39 @@ public class Convertor {
         public static PGobject convertUuid(Object value) {
             String stringValue = value.toString();
 
-            PGobject uuid = setPGobject(Constants.PGtypes.UUID,stringValue);
+            PGobject uuid = setPGobject(Constants.PGtypes.UUID, stringValue);
             return uuid;
         }
 
         public static PGobject convertTsVector(Object value) {
             String stringValue = value.toString();
 
-            PGobject tsvector = setPGobject(Constants.PGtypes.TSVECTOR,stringValue);
+            PGobject tsvector = setPGobject(Constants.PGtypes.TSVECTOR, stringValue);
             return tsvector;
         }
 
         public static PGobject convertTsQuery(Object value) {
             String stringValue = value.toString();
 
-            PGobject tsquery = setPGobject(Constants.PGtypes.TSQUERY,stringValue);
+            PGobject tsquery = setPGobject(Constants.PGtypes.TSQUERY, stringValue);
             return tsquery;
         }
 
         public static PGobject convertJson(Object value) {
             String stringValue = value.toString();
-            PGobject json = setPGobject(Constants.PGtypes.JSON,stringValue);
+            PGobject json = setPGobject(Constants.PGtypes.JSON, stringValue);
             return json;
         }
 
         public static PGobject convertJsonb(Object value) {
             String stringValue = value.toString();
-            PGobject jsonb = setPGobject(Constants.PGtypes.JSONB,stringValue);
+            PGobject jsonb = setPGobject(Constants.PGtypes.JSONB, stringValue);
             return jsonb;
         }
 
         public static PGobject convertJsonPath(Object value) {
             String stringValue = value.toString();
-            PGobject jsonpath = setPGobject(Constants.PGtypes.JSONPATH,stringValue);
+            PGobject jsonpath = setPGobject(Constants.PGtypes.JSONPATH, stringValue);
             return jsonpath;
         }
 
@@ -300,7 +300,7 @@ public class Convertor {
                 }
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> intervalValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> intervalValue = ConversionHelper.getRecordType(value);
 
                 if (intervalValue.containsKey(Constants.Interval.YEARS) && intervalValue
                         .containsKey(Constants.Interval.MONTHS)
@@ -334,10 +334,10 @@ public class Convertor {
             PGobject int4rangeObject; 
             if (value instanceof BString) {
                 String stringValue = value.toString();
-                int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE,stringValue);
+                int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE, stringValue);
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
                         .containsKey(Constants.Range.LOWER)
@@ -353,7 +353,7 @@ public class Convertor {
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
-                    int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE,range);
+                    int4rangeObject = setPGobject(Constants.PGtypes.INT4RANGE, range);
                 }
                 else {
                     throw new Error("Error");
@@ -371,10 +371,10 @@ public class Convertor {
             PGobject int8rangeObject; 
             if (value instanceof BString) {
                 String stringValue = value.toString();
-                int8rangeObject = setPGobject(Constants.PGtypes.INT8RANGE,stringValue);
+                int8rangeObject = setPGobject(Constants.PGtypes.INT8RANGE, stringValue);
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
                         .containsKey(Constants.Range.LOWER)
                     && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue
@@ -388,7 +388,7 @@ public class Convertor {
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
-                    int8rangeObject = setPGobject(Constants.PGtypes.INT8RANGE,range);
+                    int8rangeObject = setPGobject(Constants.PGtypes.INT8RANGE, range);
                 }
                 else {
                     throw new Error("Error");
@@ -406,10 +406,10 @@ public class Convertor {
             PGobject numrangeObject; 
             if (value instanceof BString) {
                 String stringValue = value.toString();
-                numrangeObject = setPGobject(Constants.PGtypes.NUMRANGE,stringValue);
+                numrangeObject = setPGobject(Constants.PGtypes.NUMRANGE, stringValue);
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue
                             .containsKey(Constants.Range.LOWER)
@@ -425,7 +425,7 @@ public class Convertor {
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
-                    numrangeObject = setPGobject(Constants.PGtypes.NUMRANGE,range);
+                    numrangeObject = setPGobject(Constants.PGtypes.NUMRANGE, range);
                 }
                 else {
                     throw new Error("Error");
@@ -444,10 +444,10 @@ public class Convertor {
             PGobject tsrangeObject; 
             if (value instanceof BString) {
                 String stringValue = value.toString();
-                tsrangeObject = setPGobject(Constants.PGtypes.TSRANGE,stringValue);
+                tsrangeObject = setPGobject(Constants.PGtypes.TSRANGE, stringValue);
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
                     && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue
@@ -464,7 +464,7 @@ public class Convertor {
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
-                    tsrangeObject = setPGobject(Constants.PGtypes.TSRANGE,range);
+                    tsrangeObject = setPGobject(Constants.PGtypes.TSRANGE, range);
                 }
                 else {
                     throw new Error("Error");
@@ -482,10 +482,10 @@ public class Convertor {
             PGobject tstzrangeObject; 
             if (value instanceof BString) {
                 String stringValue = value.toString();
-                tstzrangeObject = setPGobject(Constants.PGtypes.TSTZRANGE,stringValue);
+                tstzrangeObject = setPGobject(Constants.PGtypes.TSTZRANGE, stringValue);
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
                     && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && rangeValue
@@ -502,7 +502,7 @@ public class Convertor {
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
-                    tstzrangeObject = setPGobject(Constants.PGtypes.TSTZRANGE,range);
+                    tstzrangeObject = setPGobject(Constants.PGtypes.TSTZRANGE, range);
                 }
                 else {
                     throw new Error("Error");
@@ -521,10 +521,10 @@ public class Convertor {
             PGobject daterangeObject; 
             if (value instanceof BString) {
                 String stringValue = value.toString();
-                daterangeObject = setPGobject(Constants.PGtypes.DATERANGE,stringValue);
+                daterangeObject = setPGobject(Constants.PGtypes.DATERANGE, stringValue);
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> rangeValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> rangeValue = ConversionHelper.getRecordType(value);
 
                 if (rangeValue.containsKey(Constants.Range.UPPER) && rangeValue.containsKey(Constants.Range.LOWER)
                     && rangeValue.containsKey(Constants.Range.UPPERINCLUSIVE) && 
@@ -541,7 +541,7 @@ public class Convertor {
 
                     String range = ConversionHelper.setRange(upperValue, lowerValue, upperInclusive, lowerInclusive);
 
-                    daterangeObject = setPGobject(Constants.PGtypes.DATERANGE,range);
+                    daterangeObject = setPGobject(Constants.PGtypes.DATERANGE, range);
                 }
                 else {
                     throw new Error("Error");
@@ -556,7 +556,7 @@ public class Convertor {
 
         public static PGobject convertPglsn(Object value) {
             String stringValue = value.toString();
-            PGobject pglsn = setPGobject(Constants.PGtypes.PGLSN,stringValue);
+            PGobject pglsn = setPGobject(Constants.PGtypes.PGLSN, stringValue);
             return pglsn;
         }
 
@@ -564,13 +564,13 @@ public class Convertor {
 
         public static PGobject convertBitn(Object value) {
             String stringValue = value.toString();
-            PGobject bitn = setPGobject(Constants.PGtypes.BITSTRING,stringValue);
+            PGobject bitn = setPGobject(Constants.PGtypes.BITSTRING, stringValue);
             return bitn;
         }
 
         public static PGobject convertVarbit(Object value) {
             String stringValue = value.toString();
-            PGobject varbit = setPGobject(Constants.PGtypes.VARBITSTRING,stringValue);
+            PGobject varbit = setPGobject(Constants.PGtypes.VARBITSTRING, stringValue);
             return varbit;
         }
 
@@ -583,7 +583,7 @@ public class Convertor {
             else {
                 stringValue = value.toString();
             }
-            PGobject bit = setPGobject(Constants.PGtypes.PGBIT,stringValue);
+            PGobject bit = setPGobject(Constants.PGtypes.PGBIT, stringValue);
             return bit;
         }
 
@@ -605,7 +605,7 @@ public class Convertor {
             return money;
         }
 
-        public static PGobject convertCustomType(BString datatype,Object value) {
+        public static PGobject convertCustomType(BString datatype, Object value) {
             String stringValue;
             Type type = TypeUtils.getType(value);
             String typeName = datatype.toString();
@@ -613,88 +613,88 @@ public class Convertor {
                 stringValue = value.toString();
             }
             else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
-                Map<String,Object> customValue = ConversionHelper.getRecordType(value);
+                Map<String, Object> customValue = ConversionHelper.getRecordType(value);
                 stringValue = ConversionHelper.setCustomType(customValue);
             }
             else {
                 throw new Error("Error");
             }
-            PGobject customObject = setPGobject(typeName,stringValue);
+            PGobject customObject = setPGobject(typeName, stringValue);
             return customObject;
         }
 
 
         public static PGobject convertRegclass(Object value) {
             String stringValue = value.toString();
-            PGobject regclass = setPGobject(Constants.PGtypes.REGCLASS,stringValue);
+            PGobject regclass = setPGobject(Constants.PGtypes.REGCLASS, stringValue);
             return regclass;
         }
 
         public static PGobject convertRegconfig(Object value) {
             String stringValue = value.toString();
-            PGobject regconfig = setPGobject(Constants.PGtypes.REGCONFIG,stringValue);
+            PGobject regconfig = setPGobject(Constants.PGtypes.REGCONFIG, stringValue);
             return regconfig;
         }
 
 
         public static PGobject convertRegdictionary(Object value) {
             String stringValue = value.toString();
-            PGobject regdictionary = setPGobject(Constants.PGtypes.REGDICTIONARY,stringValue);
+            PGobject regdictionary = setPGobject(Constants.PGtypes.REGDICTIONARY, stringValue);
             return regdictionary;
         }
 
 
         public static PGobject convertRegnamespace(Object value) {
             String stringValue = value.toString();
-            PGobject regnamespace = setPGobject(Constants.PGtypes.REGNAMESPACE,stringValue);
+            PGobject regnamespace = setPGobject(Constants.PGtypes.REGNAMESPACE, stringValue);
             return regnamespace;
         }
 
 
         public static PGobject convertRegoper(Object value) {
             String stringValue = value.toString();
-            PGobject regoper = setPGobject(Constants.PGtypes.REGOPER,stringValue);
+            PGobject regoper = setPGobject(Constants.PGtypes.REGOPER, stringValue);
             return regoper;
         }
 
 
         public static PGobject convertRegoperator(Object value) {
             String stringValue = value.toString();
-            PGobject regoperator = setPGobject(Constants.PGtypes.REGOPERATOR,stringValue);
+            PGobject regoperator = setPGobject(Constants.PGtypes.REGOPERATOR, stringValue);
             return regoperator;
         }
 
 
         public static PGobject convertRegproc(Object value) {
             String stringValue = value.toString();
-            PGobject regproc = setPGobject(Constants.PGtypes.REGPROC,stringValue);
+            PGobject regproc = setPGobject(Constants.PGtypes.REGPROC, stringValue);
             return regproc;
         }
 
 
         public static PGobject convertRegprocedure(Object value) {
             String stringValue = value.toString();
-            PGobject regprocedure = setPGobject(Constants.PGtypes.REGPROCEDURE,stringValue);
+            PGobject regprocedure = setPGobject(Constants.PGtypes.REGPROCEDURE, stringValue);
             return regprocedure;
         }
 
 
         public static PGobject convertRegrole(Object value) {
             String stringValue = value.toString();
-            PGobject regrole = setPGobject(Constants.PGtypes.REGROLE,stringValue);
+            PGobject regrole = setPGobject(Constants.PGtypes.REGROLE, stringValue);
             return regrole;
         }
 
 
         public static PGobject convertRegtype(Object value) {
             String stringValue = value.toString();
-            PGobject regtype = setPGobject(Constants.PGtypes.REGTYPE,stringValue);
+            PGobject regtype = setPGobject(Constants.PGtypes.REGTYPE, stringValue);
             return regtype;
         }
 
         public static Object convertXml(Connection connection, Object value) {
             String xmlValue = value.toString();
-            SQLXML xml = new PgSQLXML((BaseConnection) connection,xmlValue);
+            SQLXML xml = new PgSQLXML((BaseConnection) connection, xmlValue);
             return xml;
         }
 
