@@ -21,14 +21,14 @@ import ballerina/file;
 
 string resourcePath = check file:getAbsolutePath("tests/resources");
 
-string host = "localhost";
+string host = "127.0.0.1";
 string user = "postgres";
 string password = "postgres";
 int port = 5432;
 
 @test:BeforeSuite
     function beforeSuite() {
-        _ = initTestScripts();
+        // _ = initTestScripts();
     }
 
 @test:AfterSuite {}

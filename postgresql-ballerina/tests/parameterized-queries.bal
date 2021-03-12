@@ -1634,6 +1634,63 @@ sql:ParameterizedQuery createInoutFunctions =
         end;
         $$  
             language plpgsql;
+    create or replace function CharacterInoutProcedure(inout row_id_inout bigint, inout char_inout char, inout varchar_inout varchar,
+        inout text_inout text, inout name_inout name)
+            as $$
+            DECLARE
+           begin
+                INSERT INTO CharacterTypes(row_id, char_type,varchar_type,text_type,name_type)
+                VALUES (
+                    row_id_inout, char_inout, varchar_inout, text_inout, name_inout
+                 );
+                SELECT row_id, char_type, varchar_type, text_type, name_type, numeric_type, real_type,
+                    double_type into row_id_inout, char_inout, varchar_inout, text_inout, name_inout
+                    FROM CharacterTypes where row_id = 1;
+        end;
+        $$  
+            language plpgsql;
+    create or replace function BooleanInoutProcedure(inout row_id_inout bigint, inout boolean_inout boolean)
+            as $$
+            DECLARE
+           begin
+                INSERT INTO BooleanTypes(row_id, boolean_type)
+                VALUES (
+                    row_id_inout, boolean_inout
+                 );
+                SELECT row_id, boolean_type
+                    into row_id_inout, boolean_inout
+                    FROM BooleanTypes where row_id = 1;
+        end;
+        $$  
+            language plpgsql;
+    create or replace function UuidInoutProcedure(inout row_id_inout bigint, inout uuid_inout UUID)
+            as $$
+            DECLARE
+           begin
+                INSERT INTO UuidTypes(row_id, uuid_type)
+                VALUES (
+                    row_id_inout, uuid_inout
+                 );
+                SELECT row_id, uuid_type
+                    into row_id_inout, uuid_inout
+                    FROM UuidTypes where row_id = 1;
+        end;
+        $$  
+            language plpgsql;
+    create or replace function PglsnInoutProcedure(inout row_id_inout bigint, inout pglsn_inout pg_lsn)
+            as $$
+            DECLARE
+           begin
+                INSERT INTO PglsnTypes(row_id, pglsn_type)
+                VALUES (
+                    row_id_inout, pglsn_inout
+                 );
+                SELECT row_id, pglsn_type
+                    into row_id_inout, pglsn_inout
+                    FROM PglsnTypes where row_id = 1;
+        end;
+        $$  
+            language plpgsql;
 `
 ;
 
