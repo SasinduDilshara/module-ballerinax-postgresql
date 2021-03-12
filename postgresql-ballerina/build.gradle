@@ -378,19 +378,19 @@ task startTestDockerContainer(type: Exec) {
 }
 
 task stopTestDockerContainer() {
-    // doLast {
-    //     if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-    //         try {
-    //             def stdOut = new ByteArrayOutputStream()
-    //             exec {
-    //                 commandLine 'sh', '-c', "docker stop ballerina-postgresql"
-    //                 standardOutput = stdOut
-    //             }
-    //         } catch (all) {
-    //             println("Process can safely ignore stopTestDockerContainer task")
-    //         }
-    //     }
-    // }
+    doLast {
+        if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+            try {
+                def stdOut = new ByteArrayOutputStream()
+                exec {
+                    commandLine 'sh', '-c', "docker stop ballerina-postgresql-container"
+                    standardOutput = stdOut
+                }
+            } catch (all) {
+                println("Process can safely ignore stopTestDockerContainer task")
+            }
+        }
+    }
 }
 
 unpackJballerinaTools.dependsOn copyToLib
