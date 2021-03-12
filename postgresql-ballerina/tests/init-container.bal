@@ -21,7 +21,7 @@ import ballerina/file;
 
 string resourcePath = check file:getAbsolutePath("tests/resources");
 
-string host = "127.0.0.1";
+string host = "localhost";
 string user = "postgres";
 string password = "postgres";
 int port = 5432;

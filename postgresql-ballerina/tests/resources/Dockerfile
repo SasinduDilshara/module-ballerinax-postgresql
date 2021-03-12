@@ -13,10 +13,18 @@
 # limitations under the License.
 
 
-FROM library/postgres
+FROM postgres
 # Connection test case
-COPY sql-scripts/connection/connections-test-data.sql /docker-entrypoint-initdb.d/
+# COPY /sql-scripts/connection/connections-test-data.sql /docker-entrypoint-initdb.d/
+# COPY /sql-scripts/connection/connections-test-data.sql /docker-entrypoint-initdb.d/
+# ADD ./sql-scripts/connection/connections-test-data.sql /docker-entrypoint-initdb.d/
+# ENTRYPOINT ["docker-entrypoint.sh"]
+# EXPOSE 5432
+# ADD /sql-scripts/connection/connections-test-data.sql /docker-entrypoint-initdb.d/
+WORKDIR /
+COPY connections-test-data.sql /docker-entrypoint-initdb.d/
 
 ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD postgres
+
 

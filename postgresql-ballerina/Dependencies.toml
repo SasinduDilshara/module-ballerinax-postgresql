@@ -1,12 +1,36 @@
 [[dependency]]
 org = "ballerina"
-name = "sql"
-version = "@stdlib.sql.version@"
+name = "crypto"
+version = "1.1.0-alpha5"
 
 [[dependency]]
 org = "ballerina"
-name = "crypto"
-version = "@stdlib.crypto.version@"
+name = "io"
+version = "0.6.0-alpha5"
 
+[[dependency]]
+org = "ballerina"
+name = "test"
+version = "0.0.0"
+
+[[dependency]]
+org = "ballerina"
+name = "jballerina.java"
+version = "0.9.0"
+
+[[dependency]]
+org = "ballerina"
+name = "sql"
+version = "0.6.0-alpha5"
+
+[[dependency]]
+org = "ballerina"
+name = "file"
+version = "0.7.0-alpha5"
+
+[[dependency]]
+org = "ballerina"
+name = "time"
+version = "1.1.0-alpha5"
 
 

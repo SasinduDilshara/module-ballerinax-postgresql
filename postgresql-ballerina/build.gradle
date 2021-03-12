@@ -355,7 +355,9 @@ def checkTestDockerContainerStatus() {
 task startTestDockerContainer(type: Exec) {
     if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
         def standardOutput = new ByteArrayOutputStream()
+        // commandLine 'sh', '-c', "docker cp ./tests/resources/connections-test-data.sql ballerina-postgresql:/docker-entrypoint-initdb.d/connections-test-data.sql "
         commandLine 'sh', '-c', "docker run --name ballerina-postgresql -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres"
+        
         def healthCheck = 1;
         def counter = 0;
         doLast {
