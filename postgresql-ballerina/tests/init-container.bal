@@ -28,7 +28,7 @@ int port = 5432;
 
 @test:BeforeSuite
     function beforeSuite() {
-        // _ = initTestScripts();
+        _ = initTestScripts();
     }
 
 @test:AfterSuite {}

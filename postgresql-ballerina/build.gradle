@@ -314,9 +314,11 @@ def checkTestDockerContainerStatus() {
     if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
         try {
             return exec {
-                commandLine 'sh', '-c',
+                commandLine 'sh', '-c', "docker exec ballerina-postgresql psql -U postgres -h localhost -p 5432"
                         // "docker exec ballerina-postgresql postgresqladmin ping -h localhost -u postgres -p postgres --silent"
-                        "docker exec ballerina-postgresql psql -U postgres -h localhost -p 5432"
+                // commandLine 'sh', '-c', "docker exec ballerina-postgresql psql -U postgres -f ${project.projectDir}/tests/resources/a.sql"
+                        
+                
             }.exitValue
         } catch (all) {
             return 1;
@@ -366,6 +368,7 @@ task startTestDockerContainer(type: Exec) {
                 sleep(5 * 1000)
                 healthCheck = checkTestDockerContainerStatus()
                 counter = counter + 1;
+                println("healthCheck ${healthCheck}")
             }
             if (healthCheck != 0) {
                 throw new GradleException("Docker container 'ballerina-postgresql' health test exceeded timeout!")
