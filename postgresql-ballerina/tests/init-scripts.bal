@@ -32,51 +32,51 @@ public function initTestScripts() {
 }
 
 public function createConnectDB() {
-    _ = createDatabaseQuery(createConnectDBQuery);
+    // _ = createDatabaseQuery(createConnectDBQuery);
 }
 
 public function createExecuteDB() {
-    _ = createDatabaseQuery(createExecuteDBQuery);
+    // _ = createDatabaseQuery(createExecuteDBQuery);
     _ = executeQuery("execute_db", tableInitDBQuery);
 }
 
 public function createBatchExecuteDB() {
-    _ = createDatabaseQuery(createBatchExecuteDBQuery);
+    // _ = createDatabaseQuery(createBatchExecuteDBQuery);
     _ = executeQuery("batch_execute_db", tableInitDBQuery);
 }
 
 public function createBasicExecuteDB() {
-    _ = createDatabaseQuery(createBasicExecuteDBQuery);
+    // _ = createDatabaseQuery(createBasicExecuteDBQuery);
     _ = executeQuery("basic_execute_db", tableInitDBQuery);
 }
 
 public function createSimpleQueryDB() {
-    _ = createDatabaseQuery(simpleQueryDBQuery);
+    // _ = createDatabaseQuery(simpleQueryDBQuery);
     _ = executeQuery("simple_query_params_db", tableInitDBQuery);
 }
 
 public function createQueryDB() {
-    _ = createDatabaseQuery(createQueryDBQuery);
+    // _ = createDatabaseQuery(createQueryDBQuery);
     _ = executeQuery("query_db", tableInitDBQuery);
 }
 
 public function createLocalTransactionDB() {
-    _ = createDatabaseQuery(createLocalTransactionDBQuery);
+    // _ = createDatabaseQuery(createLocalTransactionDBQuery);
     _ = executeQuery("local_transaction", localTransactionInitQuery);
 }
 
 public function createConnectionPool1DB() {
-    _ = createDatabaseQuery(createConnectionPool1DBQuery);
+    // _ = createDatabaseQuery(createConnectionPool1DBQuery);
     _ = executeQuery("pool_db_1", connectonPool1InitQuery);
 }
 
 public function createConnectionPool2DB() {
-    _ = createDatabaseQuery(createConnectionPool2DBQuery);
+    // _ = createDatabaseQuery(createConnectionPool2DBQuery);
     _ = executeQuery("pool_db_2", connectonPool2InitQuery);
 }
 
 public function createProcedureDB() {
-    _ = createDatabaseQuery(procedureDBQuery);
+    // _ = createDatabaseQuery(procedureDBQuery);
     _ = executeQuery("procedure_db", tableInitDBQuery);
     _ = executeQuery("procedure_db", procedureInQuery);
     _ = executeQuery("procedure_db", procedureOutQuery);
@@ -85,7 +85,7 @@ public function createProcedureDB() {
 }
 
 public function createFunctionsDB() {
-    // _ = createDatabaseQuery(functionsDBQuery);
+    _ = createDatabaseQuery(functionsDBQuery);
     // _ = executeQuery("function_db", tableInitDBQuery);
     // _ = executeQuery("function_db", createQueryFunctions);
     // _ = executeQuery("function_db", createInFunctions);
@@ -116,7 +116,7 @@ public function createDatabaseQuery(sql:ParameterizedQuery query) {
 
 public function executeQuery(string database, sql:ParameterizedQuery query) {
 
-    Client|sql:Error postgresClient = new(username="postgres", password="postgres", database = database);
+    Client|sql:Error postgresClient = new(username="postgres", password="postgres", database = database, port = port);
 
     if (postgresClient is sql:Error) {
         io:println("Client init failed\n", postgresClient);

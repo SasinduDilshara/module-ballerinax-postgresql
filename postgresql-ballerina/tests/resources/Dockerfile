@@ -25,7 +25,12 @@ FROM postgres
 ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD postgres
 
-ADD ./a.sql docker-entrypoint-initdb.d/a.sql
+WORKDIR /docker-entrypoint-initdb.d
 
+COPY a.sql a.sql
 
+RUN echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
+RUN ls
+
+RUN echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"

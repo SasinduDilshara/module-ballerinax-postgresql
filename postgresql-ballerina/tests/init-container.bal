@@ -24,7 +24,7 @@ string resourcePath = check file:getAbsolutePath("tests/resources");
 string host = "localhost";
 string user = "postgres";
 string password = "postgres";
-int port = 5432;
+int port = 8000;
 
 @test:BeforeSuite
     function beforeSuite() {

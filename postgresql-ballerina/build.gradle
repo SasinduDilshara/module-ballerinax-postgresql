@@ -314,7 +314,7 @@ def checkTestDockerContainerStatus() {
     if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
         try {
             return exec {
-                commandLine 'sh', '-c', "docker exec ballerina-postgresql psql -U postgres -h localhost -p 5432"
+                commandLine 'sh', '-c', "docker exec ballerina-postgresql-container psql -U postgres -h localhost -p 5432"
                         // "docker exec ballerina-postgresql postgresqladmin ping -h localhost -u postgres -p postgres --silent"
                 // commandLine 'sh', '-c', "docker exec ballerina-postgresql psql -U postgres -f ${project.projectDir}/tests/resources/a.sql"
                         
@@ -358,7 +358,7 @@ task startTestDockerContainer(type: Exec) {
     if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
         def standardOutput = new ByteArrayOutputStream()
         // commandLine 'sh', '-c', "docker cp ./tests/resources/connections-test-data.sql ballerina-postgresql:/docker-entrypoint-initdb.d/connections-test-data.sql "
-        commandLine 'sh', '-c', "docker run --name ballerina-postgresql -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres"
+        commandLine 'sh', '-c', "docker run --name ballerina-postgresql-container -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 8000:5432 -d ballerina-postgresql"
         
         def healthCheck = 1;
         def counter = 0;
@@ -378,19 +378,19 @@ task startTestDockerContainer(type: Exec) {
 }
 
 task stopTestDockerContainer() {
-    doLast {
-        if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-            try {
-                def stdOut = new ByteArrayOutputStream()
-                exec {
-                    commandLine 'sh', '-c', "docker stop ballerina-postgresql"
-                    standardOutput = stdOut
-                }
-            } catch (all) {
-                println("Process can safely ignore stopTestDockerContainer task")
-            }
-        }
-    }
+    // doLast {
+    //     if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+    //         try {
+    //             def stdOut = new ByteArrayOutputStream()
+    //             exec {
+    //                 commandLine 'sh', '-c', "docker stop ballerina-postgresql"
+    //                 standardOutput = stdOut
+    //             }
+    //         } catch (all) {
+    //             println("Process can safely ignore stopTestDockerContainer task")
+    //         }
+    //     }
+    // }
 }
 
 unpackJballerinaTools.dependsOn copyToLib
