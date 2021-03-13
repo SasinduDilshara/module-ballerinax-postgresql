@@ -51,14 +51,14 @@ function testWithoutHost() {
     test:assertExactEquals(exitCode, (), "Initialising connection without host fails.");
 }
 
-@test:Config {
-    groups: ["connection", "connection-init"]
-}
-function testWithoutPort() {
-    Client dbClient = checkpanic new (username = user, password = password, database = connectDB, host = host);
-    var exitCode = dbClient.close();
-    test:assertExactEquals(exitCode, (), "Initialising connection without port fails.");
-}
+// @test:Config {
+//     groups: ["connection", "connection-init"]
+// }
+// function testWithoutPort() {
+//     Client dbClient = checkpanic new (username = user, password = password, database = connectDB, host = host);
+//     var exitCode = dbClient.close();
+//     test:assertExactEquals(exitCode, (), "Initialising connection without port fails.");
+// }
 
 @test:Config {
     groups: ["connection", "connection-init"]
