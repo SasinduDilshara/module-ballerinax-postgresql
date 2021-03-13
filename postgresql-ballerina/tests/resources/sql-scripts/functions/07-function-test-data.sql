@@ -1,4 +1,4 @@
-        create or replace function NumericInProcedure(row_id_in bigint, smallint_in smallint, int_in int,
+        create or replace function NumericInFunction(row_id_in bigint, smallint_in smallint, int_in int,
             bigint_in bigint, decimal_in decimal, numeric_in numeric, 
             real_in real, double_in double precision)
             returns table(row_id int, smallint_type smallint, int_type int, bigint_type bigint, decimal_type decimal, numeric_type numeric)
@@ -18,7 +18,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function CharacterInProcedure(row_id_in bigint, char_in char, varchar_in varchar,
+        create or replace function CharacterInFunction(row_id_in bigint, char_in char, varchar_in varchar,
             text_in text, name_in name)
             returns setof CharacterTypes
                 as $$
@@ -29,12 +29,12 @@
                         row_id_in, char_in, varchar_in, text_in, name_in
                     );
                     return QUERY
-                    SELECT * FROM CharacterTypes;
+                    SELECT * FROM CharacterTypes order by CharacterTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function BooleanInProcedure(row_id_in bigint, boolean_in boolean) returns setof BooleanTypes
+        create or replace function BooleanInFunction(row_id_in bigint, boolean_in boolean) returns setof BooleanTypes
                 as $$
                 DECLARE
             begin
@@ -43,12 +43,12 @@
                         row_id_in, boolean_in
                     );
                     return QUERY
-                    SELECT * FROM BooleanTypes;
+                    SELECT * FROM BooleanTypes order by BooleanTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function UuidInProcedure(row_id_in bigint, uuid_in UUID) returns setof UuidTypes
+        create or replace function UuidInFunction(row_id_in bigint, uuid_in UUID) returns setof UuidTypes
                 as $$
                 DECLARE
             begin
@@ -57,12 +57,12 @@
                         row_id_in, uuid_in
                     );
                     return QUERY
-                    SELECT * FROM UuidTypes;
+                    SELECT * FROM UuidTypes order by UuidTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function NetworkInProcedure(row_id_in bigint, inet_in inet, cidr_in cidr,
+        create or replace function NetworkInFunction(row_id_in bigint, inet_in inet, cidr_in cidr,
             macaddr_in macaddr, macaddr8_in macaddr8)
             returns setof NetworkTypes
                 as $$
@@ -73,12 +73,12 @@
                         row_id_in, inet_in, cidr_in, macaddr_in, macaddr8_in
                     );
                     return QUERY
-                    SELECT * FROM NetworkTypes;
+                    SELECT * FROM NetworkTypes order by NetworkTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function PglsnInProcedure(row_id_in bigint, pglsn_in pg_lsn)
+        create or replace function PglsnInFunction(row_id_in bigint, pglsn_in pg_lsn)
         returns setof PglsnTypes
                 as $$
                 DECLARE
@@ -88,12 +88,12 @@
                         row_id_in, pglsn_in
                     );
                     return QUERY
-                    SELECT * FROM PglsnTypes;
+                    SELECT * FROM PglsnTypes order by PglsnTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
                 
-        create or replace function GeometricInProcedure(row_id_in bigint, point_in point,
+        create or replace function GeometricInFunction(row_id_in bigint, point_in point,
             line_in line, lseg_in lseg, box_in box, circle_in circle)
             returns setof GeometricTypes
                 as $$
@@ -104,12 +104,12 @@
                         row_id_in, point_in, line_in, lseg_in, box_in, circle_in
                     );
                     return QUERY
-                    SELECT * FROM GeometricTypes;
+                    SELECT * FROM GeometricTypes order by GeometricTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function JsonInProcedure(row_id_in bigint, json_in json,
+        create or replace function JsonInFunction(row_id_in bigint, json_in json,
                         jsonb_in jsonb, jsonpath_in jsonpath)
                         returns setof JsonTypes
                 as $$
@@ -120,12 +120,12 @@
                         row_id_in, json_in, jsonb_in, jsonpath_in
                     );
                     return QUERY
-                    SELECT * FROM JsonTypes;
+                    SELECT * FROM JsonTypes order by JsonTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
         
-        create or replace function BitInProcedure(row_id_in bigint,
+        create or replace function BitInFunction(row_id_in bigint,
                         varbitstring_in bit varying(15), bit_in bit)
                         returns table(row_id int, varbitstring_type bit varying(15), bit_type bit)
                 as $$
@@ -136,12 +136,12 @@
                         row_id_in, varbitstring_in, bit_in
                     );
                     return QUERY
-                    SELECT BitTypes.row_id, BitTypes.varbitstring_type, BitTypes.bit_type FROM BitTypes;
+                    SELECT BitTypes.row_id, BitTypes.varbitstring_type, BitTypes.bit_type FROM BitTypes order by BitTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function DatetimeInProcedure(row_id_in bigint, date_in date, time_in time,
+        create or replace function DatetimeInFunction(row_id_in bigint, date_in date, time_in time,
             timetz_in timetz, timestamp_in timestamp, timestamptz_in timestamptz, interval_in interval)
             returns setof DatetimeTypes
                 as $$
@@ -154,12 +154,12 @@
                         timestamptz_in, interval_in
                     );
                     return QUERY
-                    SELECT * FROM DatetimeTypes;
+                    SELECT * FROM DatetimeTypes order by DatetimeTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function RangeInProcedure(row_id_in bigint, int4range_in int4range, int8range_in int8range,
+        create or replace function RangeInFunction(row_id_in bigint, int4range_in int4range, int8range_in int8range,
             numrange_in numrange, tsrange_in tsrange,tstzrange_in tstzrange , daterange_in daterange )
             returns setof RangeTypes
                 as $$
@@ -172,12 +172,12 @@
                         tstzrange_in, daterange_in
                     );
                     return QUERY
-                    SELECT * FROM RangeTypes;
+                    SELECT * FROM RangeTypes order by RangeTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function TextsearchInProcedure(row_id_in bigint,
+        create or replace function TextsearchInFunction(row_id_in bigint,
                         tsvector_in tsvector, tsquery_in tsquery)
                         returns setof TextsearchTypes
                 as $$
@@ -188,12 +188,12 @@
                         row_id_in, tsvector_in, tsquery_in
                     );
                     return QUERY
-                    SELECT * FROM TextsearchTypes;
+                    SELECT * FROM TextsearchTypes order by TextsearchTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-        create or replace function ObjectidentifierInProcedure(row_id_in regconfig, oid_in oid, regclass_in regclass,
+        create or replace function ObjectidentifierInFunction(row_id_in regconfig, oid_in oid, regclass_in regclass,
             regconfig_in regconfig, regdictionary_in regdictionary, regnamespace_in regnamespace, regoper_in regoper,
             regoperator_in regoperator, regproc_in regproc, regprocedure_in regprocedure, regrole_in regrole, regtype_in regtype )
             returns setof ObjectidentifierTypes
@@ -207,12 +207,12 @@
                         regnamespace_in, regoper_in, regoperator_in, regproc_in, regprocedure_in, regrole_in, regtype_in
                     );
                     return QUERY
-                    SELECT * FROM ObjectidentifierTypes;
+                    SELECT * FROM ObjectidentifierTypes order by ObjectidentifierTypes.row_id ASC;
             end;
             $$  
                 language plpgsql;
 
-    create or replace function NumericInoutProcedure(inout row_id_inout bigint, inout smallint_inout smallint, inout int_inout int,
+    create or replace function NumericInoutFunction(inout row_id_inout bigint, inout smallint_inout smallint, inout int_inout int,
             inout bigint_inout bigint, inout decimal_inout decimal, inout numeric_inout numeric, 
             inout real_inout real, inout double_inout double precision)
                 as $$
@@ -232,7 +232,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function CharacterInoutProcedure(inout row_id_inout bigint, inout char_inout char, inout varchar_inout varchar,
+        create or replace function CharacterInoutFunction(inout row_id_inout bigint, inout char_inout char, inout varchar_inout varchar,
             inout text_inout text, inout name_inout name)
                 as $$
                 DECLARE
@@ -248,7 +248,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function BooleanInoutProcedure(inout row_id_inout bigint, inout boolean_inout boolean)
+        create or replace function BooleanInoutFunction(inout row_id_inout bigint, inout boolean_inout boolean)
                 as $$
                 DECLARE
             begin
@@ -263,7 +263,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function UuidInoutProcedure(inout row_id_inout bigint, inout uuid_inout UUID)
+        create or replace function UuidInoutFunction(inout row_id_inout bigint, inout uuid_inout UUID)
                 as $$
                 DECLARE
             begin
@@ -278,7 +278,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function NetworkInoutProcedure(inout row_id_inout bigint, inout inet_inout inet, inout cidr_inout cidr,
+        create or replace function NetworkInoutFunction(inout row_id_inout bigint, inout inet_inout inet, inout cidr_inout cidr,
             inout macaddr_inout macaddr, inout macaddr8_inout macaddr8)
                 as $$
                 DECLARE
@@ -294,7 +294,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function PglsnInoutProcedure(inout row_id_inout bigint, inout pglsn_inout pg_lsn)
+        create or replace function PglsnInoutFunction(inout row_id_inout bigint, inout pglsn_inout pg_lsn)
                 as $$
                 DECLARE
             begin
@@ -309,7 +309,7 @@
             $$  
                 language plpgsql;
                 
-        create or replace function GeometricInoutProcedure(inout row_id_inout bigint, inout point_inout point,
+        create or replace function GeometricInoutFunction(inout row_id_inout bigint, inout point_inout point,
             inout line_inout line, inout lseg_inout lseg, inout box_inout box, inout circle_inout circle)
                 as $$
                 DECLARE
@@ -325,7 +325,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function JsonInoutProcedure(inout row_id_inout bigint, inout json_inout json,
+        create or replace function JsonInoutFunction(inout row_id_inout bigint, inout json_inout json,
                         inout jsonb_inout jsonb, inout jsonpath_inout jsonpath)
                 as $$
                 DECLARE
@@ -340,7 +340,7 @@
             $$  
                 language plpgsql;
         
-        create or replace function BitInoutProcedure(inout row_id_inout bigint,
+        create or replace function BitInoutFunction(inout row_id_inout bigint,
                         inout varbitstring_inout varchar(15), inout bit_inout bit)
                 as $$
                 DECLARE
@@ -355,7 +355,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function DatetimeInoutProcedure(inout row_id_inout timetz, inout date_inout date, inout time_inout time,
+        create or replace function DatetimeInoutFunction(inout row_id_inout timetz, inout date_inout date, inout time_inout time,
             inout timetz_inout timetz, inout timestamp_inout timestamp, inout interval_inout interval, 
             inout timestamptz_inout timestamptz)
                 as $$
@@ -374,7 +374,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function RangeInoutProcedure(inout row_id_inout numrange, inout int4range_inout int4range, inout int8range_inout int8range,
+        create or replace function RangeInoutFunction(inout row_id_inout numrange, inout int4range_inout int4range, inout int8range_inout int8range,
             inout numrange_inout numrange, inout tsrange_inout tsrange, inout daterange_inout daterange, 
             inout tstzrange_inout tstzrange)
                 as $$
@@ -393,7 +393,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function TextsearchInoutProcedure(inout row_id_inout bigint,
+        create or replace function TextsearchInoutFunction(inout row_id_inout bigint,
                         inout tsvector_inout tsvector, inout tsquery_inout tsquery)
                 as $$
                 DECLARE
@@ -408,7 +408,7 @@
             $$  
                 language plpgsql;
 
-        create or replace function ObjectidentifierInoutProcedure(inout row_id_inout regconfig, inout oid_inout oid, inout regclass_inout regclass,
+        create or replace function ObjectidentifierInoutFunction(inout row_id_inout regconfig, inout oid_inout oid, inout regclass_inout regclass,
             inout regconfig_inout regconfig, inout regdictionary_inout regdictionary, inout regnamespace_inout regnamespace, inout regoper_inout regoper,
             inout regoperator_inout regoperator, inout regproc_inout regproc, inout regprocedure_inout regprocedure, inout regrole_inout regrole, inout regtype_inout regtype )
                 as $$
@@ -428,7 +428,7 @@
             $$  
                 language plpgsql;
 
-    create or replace function NumericOutProcedure(inout row_id_out bigint, out smallint_out smallint, out int_out int,
+    create or replace function NumericOutFunction(inout row_id_out bigint, out smallint_out smallint, out int_out int,
         out bigint_out bigint, out decimal_out decimal, out numeric_out numeric, 
         out real_out real, out double_out double precision)
             as $$
@@ -450,7 +450,7 @@
         $$  
             language plpgsql;
 
-    create or replace function CharacterOutProcedure(inout row_id_out bigint, out char_out char, out varchar_out varchar,
+    create or replace function CharacterOutFunction(inout row_id_out bigint, out char_out char, out varchar_out varchar,
         out text_out text, out name_out name)
             as $$
             DECLARE
@@ -462,7 +462,7 @@
         $$  
             language plpgsql;
 
-    create or replace function BooleanOutProcedure(inout row_id_out bigint, out boolean_out boolean)
+    create or replace function BooleanOutFunction(inout row_id_out bigint, out boolean_out boolean)
             as $$
             DECLARE
            begin
@@ -473,7 +473,7 @@
         $$  
             language plpgsql;
 
-    create or replace function UuidOutProcedure(inout row_id_out bigint, out uuid_out UUID)
+    create or replace function UuidOutFunction(inout row_id_out bigint, out uuid_out UUID)
             as $$
             DECLARE
            begin
@@ -484,7 +484,7 @@
         $$  
             language plpgsql;
 
-    create or replace function NetworkOutProcedure(inout row_id_out bigint, out inet_out inet, out cidr_out cidr,
+    create or replace function NetworkOutFunction(inout row_id_out bigint, out inet_out inet, out cidr_out cidr,
         out macaddr_out macaddr, out macaddr8_out macaddr8)
             as $$
             DECLARE
@@ -496,7 +496,7 @@
         $$  
             language plpgsql;
 
-    create or replace function PglsnOutProcedure(inout row_id_out bigint, out pglsn_out pg_lsn)
+    create or replace function PglsnOutFunction(inout row_id_out bigint, out pglsn_out pg_lsn)
             as $$
             DECLARE
            begin
@@ -507,7 +507,7 @@
         $$  
             language plpgsql;
             
-    create or replace function GeometricOutProcedure(inout row_id_out bigint, out point_out point,
+    create or replace function GeometricOutFunction(inout row_id_out bigint, out point_out point,
         out line_out line, out lseg_out lseg, out box_out box, out circle_out circle)
             as $$
             DECLARE
@@ -519,7 +519,7 @@
         $$  
             language plpgsql;
 
-    create or replace function JsonOutProcedure(inout row_id_out bigint, out json_out json,
+    create or replace function JsonOutFunction(inout row_id_out bigint, out json_out json,
                     out jsonb_out jsonb, out jsonpath_out jsonpath)
             as $$
             DECLARE
@@ -531,7 +531,7 @@
         $$  
             language plpgsql;
     
-    create or replace function BitOutProcedure(inout row_id_out bigint,
+    create or replace function BitOutFunction(inout row_id_out bigint,
                     out varbitstring_out varchar(15), out bit_out bit)
             as $$
             DECLARE
@@ -543,7 +543,7 @@
         $$  
             language plpgsql;
 
-    create or replace function DatetimeOutProcedure(inout row_id_out timetz, out date_out date, out time_out time,
+    create or replace function DatetimeOutFunction(inout row_id_out timetz, out date_out date, out time_out time,
         out timetz_out timetz, out timestamp_out timestamp, out interval_out interval, 
         out timestamptz_out timestamptz)
             as $$
@@ -557,7 +557,7 @@
         $$  
             language plpgsql;
 
-    create or replace function RangeOutProcedure(inout row_id_out numrange, out int4range_out int4range, out int8range_out int8,
+    create or replace function RangeOutFunction(inout row_id_out numrange, out int4range_out int4range, out int8range_out int8,
         out numrange_out numrange, out tsrange_out tsrange, out daterange_out daterange, 
         out tstzrange_out tstzrange)
             as $$
@@ -572,7 +572,7 @@
         $$  
             language plpgsql;
 
-    create or replace function TextsearchOutProcedure(inout row_id_out bigint,
+    create or replace function TextsearchOutFunction(inout row_id_out bigint,
                     out tsvector_out tsvector, out tsquery_out tsquery)
             as $$
             DECLARE
@@ -584,7 +584,7 @@
         $$  
             language plpgsql;
 
-    create or replace function ObjectidentifierOutProcedure(inout row_id_out regconfig, out oid_out oid, out regclass_out regclass,
+    create or replace function ObjectidentifierOutFunction(inout row_id_out regconfig, out oid_out oid, out regclass_out regclass,
         out regconfig_out regconfig, out regdictionary_out regdictionary, out regnamespace_out regnamespace, out regoper_out regoper,
          out regoperator_out regoperator, out regproc_out regproc, out regprocedure_out regprocedure, out regrole_out regrole, out regtype_out regtype )
             as $$

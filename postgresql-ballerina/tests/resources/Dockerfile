@@ -20,16 +20,16 @@ ENV POSTGRES_PASSWORD postgres
 
 WORKDIR /docker-entrypoint-initdb.d
 
-COPY sql-scripts/init-scripts/database-init-script.sql database-init-script.sql
+COPY sql-scripts/init-scripts/01-database-init-script.sql 01-database-init-script.sql
 
-COPY sql-scripts/init-scripts/table-init-script.sql table-init-script.sql
+COPY sql-scripts/init-scripts/02-table-init-script.sql 02-table-init-script.sql
 
-COPY sql-scripts/connection-pool/connection-pool1-test.sql connection-pool1-test.sql
+COPY sql-scripts/connection-pool/03-connection-pool1-test.sql 03-connection-pool1-test.sql
 
-COPY sql-scripts/connection-pool/connection-pool1-test.sql connection-pool2-test.sql
+COPY sql-scripts/connection-pool/04-connection-pool2-test.sql 04-connection-pool2-test.sql
 
-COPY sql-scripts/functions/function-test-data.sql function-test-data.sql
+COPY sql-scripts/local-transaction/05-local-transaction-test.sql 05-local-transaction-test.sql
 
-COPY sql-scripts/local-transaction/local-transaction-test.sql local-transaction-test.sql
+COPY sql-scripts/procedures/06-procedures-test-data.sql 06-procedures-test-data.sql
 
-COPY sql-scripts/procedures/procedures-test-data.sql procedures-test-data.sql
+COPY sql-scripts/functions/07-function-test-data.sql 07-function-test-data.sql

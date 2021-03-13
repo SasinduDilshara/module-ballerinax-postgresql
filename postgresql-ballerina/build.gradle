@@ -296,7 +296,7 @@ def checkExecResult(execResult, failText, standardOutput){
     }
 }
 
-def containerName = "ballerina-postgresql-container"
+def containerName = "ballerina-postgresql"
 
 task createTestDockerImage(type: Exec) {
     if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
@@ -346,17 +346,17 @@ task startTestDockerContainer(type: Exec) {
 
 task stopTestDockerContainer() {
     doLast {
-        // if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-        //     try {
-        //         def stdOut = new ByteArrayOutputStream()
-        //         exec {
-        //             commandLine 'sh', '-c', "docker stop ballerina-postgresql-container"
-        //             standardOutput = stdOut
-        //         }
-        //     } catch (all) {
-        //         println("Process can safely ignore stopTestDockerContainer task")
-        //     }
-        // }
+        if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+            try {
+                def stdOut = new ByteArrayOutputStream()
+                exec {
+                    commandLine 'sh', '-c', "docker stop ballerina-postgresql-container"
+                    standardOutput = stdOut
+                }
+            } catch (all) {
+                println("Process can safely ignore stopTestDockerContainer task")
+            }
+        }
     }
 }
 
