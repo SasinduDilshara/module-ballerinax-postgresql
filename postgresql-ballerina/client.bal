@@ -167,6 +167,7 @@ type ClientConfiguration record {|
 # + cancelSignalTimeoutInSeconds - Cancel command is sent out of band over its own connection, so cancel 
 #                                 message can itself get stuck. So the timeout seconds for that.
 # + tcpKeepAlive - Enable or disable TCP keep-alive probe
+# + stringType - Specify the type to use when binding PreparedStatement parameters set via setString.
 
 public type Options record {|
   SSLConfig ssl = {};
@@ -181,6 +182,7 @@ public type Options record {|
   int preparedStatementCacheSize?;
   int cancelSignalTimeoutInSeconds?;
   boolean tcpKeepAlive?;
+  string stringType = "VARCHAR";
 |};
 
 public enum SSLMode {

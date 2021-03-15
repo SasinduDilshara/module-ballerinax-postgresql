@@ -95,6 +95,10 @@ public class Utils {
                     options.put(Constants.DatabaseProps.TCP_KEEP_ALIVE, false);
                 }
             }
+
+            String stringType = postgresqlOptions.get(Constants.Options.STRINGTYPE).toString();
+            options.put(Constants.DatabaseProps.STRINGTYPE, stringType);
+
             return options;
         }
         return null;

@@ -58,6 +58,7 @@ public final class Constants {
                         .fromString("preparedStatementCacheSize");
         public static final BString CANCEL_SIGNAL_TIMEOUT = StringUtils.fromString("cancelSignalTimeoutInSeconds");
         public static final BString TCP_KEEP_ALIVE = StringUtils.fromString("tcpKeepAlive");
+        public static final BString STRINGTYPE = StringUtils.fromString("stringType");
 
         /* 
             Use in upcoming versions
@@ -113,6 +114,7 @@ public final class Constants {
                             fromString("preparedStatementCacheSizeMiB");
         public static final BString CANCEL_SIGNAL_TIMEOUT = StringUtils.fromString("cancelSignalTimeout");
         public static final BString TCP_KEEP_ALIVE = StringUtils.fromString("tcpKeepAlive");
+        public static final BString STRINGTYPE = StringUtils.fromString("stringtype");
         public static final BString CONNECT_TIMEOUT = StringUtils.fromString("connectTimeout");
         public static final BString SOCKET_TIMEOUT = StringUtils.fromString("socketTimeout");
         public static final BString LOGIN_TIMEOUT = StringUtils.fromString("loginTimeout");
