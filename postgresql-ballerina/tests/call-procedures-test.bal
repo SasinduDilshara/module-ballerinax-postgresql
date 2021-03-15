@@ -1730,7 +1730,7 @@ function testXmlProcedureInoutCall() {
 
 function queryProcedureClient(@untainted string|sql:ParameterizedQuery sqlQuery, string database, typedesc<record {}>? resultType = ())
 returns @tainted record {} {
-    Client dbClient = checkpanic new (host, user, password, database, port);
+    Client dbClient = checkpanic new (host, procedureUser, password, database, port);
     stream<record{}, error> streamData = dbClient->query(sqlQuery, resultType);
     record {|record {} value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
@@ -1744,7 +1744,7 @@ returns @tainted record {} {
 }
 
 function callProcedure(sql:ParameterizedCallQuery sqlQuery, string database, typedesc<record {}>[] rowTypes = []) returns sql:ProcedureCallResult {
-    Client dbClient = checkpanic new (host, user, password, database, port);
+    Client dbClient = checkpanic new (host, procedureUser, password, database, port);
     sql:ProcedureCallResult result = checkpanic dbClient->call(sqlQuery, rowTypes);
     checkpanic dbClient.close();
     return result;

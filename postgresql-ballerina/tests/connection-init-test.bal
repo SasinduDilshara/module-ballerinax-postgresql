@@ -28,7 +28,7 @@ function testConnectionWithNoFields() {
     groups: ["connection", "connection-init"]
 }
 function testConnectionWithUsernameAndPassword() {
-    Client dbClient = checkpanic new (username = user, password = password);
+    Client dbClient = checkpanic new (username = connectUser, password = password);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with only username and password fail.");
 }
@@ -37,7 +37,7 @@ function testConnectionWithUsernameAndPassword() {
     groups: ["connection", "connection-init"]
 }
 function testWithURLParams() {
-    Client dbClient = checkpanic new (username = user, password = password, database = connectDB, host = host, port = port);
+    Client dbClient = checkpanic new (username = connectUser, password = password, database = connectDB, host = host, port = port);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with params fails.");
 }
@@ -46,7 +46,7 @@ function testWithURLParams() {
     groups: ["connection", "connection-init"]
 }
 function testWithoutHost() {
-    Client dbClient = checkpanic new (username = user, password = password, database = connectDB, port = port);
+    Client dbClient = checkpanic new (username = connectUser, password = password, database = connectDB, port = port);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection without host fails.");
 }
@@ -55,7 +55,7 @@ function testWithoutHost() {
     groups: ["connection", "connection-init"]
 }
 function testWithoutPort() {
-    Client dbClient = checkpanic new (username = user, password = password, database = connectDB, host = host);
+    Client dbClient = checkpanic new (username = connectUser, password = password, database = connectDB, host = host);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection without port fails.");
 }
@@ -64,7 +64,7 @@ function testWithoutPort() {
     groups: ["connection", "connection-init"]
 }
 function testWithoutDB() {
-    Client dbClient = checkpanic new (username = user, password = password, port = port, host = host);
+    Client dbClient = checkpanic new (username = connectUser, password = password, port = port, host = host);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection without database fails.");
 }
@@ -89,7 +89,7 @@ function testWithOptions() {
         cancelSignalTimeoutInSeconds:10,
         tcpKeepAlive:true
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = connectDB,
+    Client dbClient = checkpanic new (username = connectUser, password = password, database = connectDB,
         port = port, options = options);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with options fails.");
@@ -115,7 +115,7 @@ function testWithOptions2() {
         cancelSignalTimeoutInSeconds:0,
         tcpKeepAlive:false
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = connectDB,
+    Client dbClient = checkpanic new (username = connectUser, password = password, database = connectDB,
         port = port, options = options);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with options fails.");
@@ -128,7 +128,7 @@ function testWithConnectionPool() {
     sql:ConnectionPool connectionPool = {
         maxOpenConnections: 25
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = connectDB,
+    Client dbClient = checkpanic new (username = connectUser, password = password, database = connectDB,
         port = port, connectionPool = connectionPool);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with option max connection pool fails.");
@@ -144,7 +144,7 @@ function testWithConnectionPool2() {
         maxConnectionLifeTime : 15,
         minIdleConnections : 15
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = connectDB,
+    Client dbClient = checkpanic new (username = connectUser, password = password, database = connectDB,
         port = port, connectionPool = connectionPool);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with option max connection pool fails.");
@@ -178,7 +178,7 @@ function testWithConnectionParams() {
         cancelSignalTimeoutInSeconds:10,
         tcpKeepAlive:true
     };
-    Client dbClient = checkpanic new (host = host, username = user, password = password, database = connectDB, port = port, options = options, connectionPool = connectionPool);
+    Client dbClient = checkpanic new (host = host, username = connectUser, password = password, database = connectDB, port = port, options = options, connectionPool = connectionPool);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with connection params fails.");
 }
@@ -209,7 +209,7 @@ function testWithConnectionParams2() {
         cancelSignalTimeoutInSeconds:10,
         tcpKeepAlive:false
     };
-    Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool);
+    Client dbClient = checkpanic new (host = host, username = connectUser, password = password, options = options, connectionPool = connectionPool);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with connection params fails.");
 }
@@ -236,7 +236,7 @@ function testWithConnectionParams3() {
         cancelSignalTimeoutInSeconds:10,
         tcpKeepAlive:false
     };
-    Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool);
+    Client dbClient = checkpanic new (host = host, username = connectUser, password = password, options = options, connectionPool = connectionPool);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with connection params fails.");
 }

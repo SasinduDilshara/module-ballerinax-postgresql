@@ -20,7 +20,7 @@ import ballerina/test;
     groups: ["execute", "execute-basic"]
 }
 function testCreateTable() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("CREATE TABLE Student(student_id int, LastName"
         + " varchar(255))");
     checkpanic dbClient.close();
@@ -33,7 +33,7 @@ function testCreateTable() {
     dependsOn: [testCreateTable]
 }
 function testInsertTable() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("Insert into Student (student_id) values (20)");
     checkpanic dbClient.close();
     
@@ -51,7 +51,7 @@ function testInsertTable() {
     dependsOn: [testInsertTable]
 }
 function testInsertTableWithoutGeneratedKeys() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("Insert into CharacterTypes (row_id, varchar_type)"
         + " values (20, 'test')");
     checkpanic dbClient.close();
@@ -64,7 +64,7 @@ function testInsertTableWithoutGeneratedKeys() {
     dependsOn: [testInsertTableWithoutGeneratedKeys]
 }
 function testInsertTableWithGeneratedKeys() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("insert into NumericTypes2 (row_id, int_type) values (21, 21)");
     checkpanic dbClient.close();
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
@@ -92,7 +92,7 @@ type NumericType record {
     dependsOn: [testInsertTableWithGeneratedKeys]
 }
 function testInsertAndSelectTableWithGeneratedKeys() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("insert into NumericTypes2 (row_id, int_type) values (22,10)");
 
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
@@ -117,7 +117,7 @@ function testInsertAndSelectTableWithGeneratedKeys() {
     dependsOn: [testInsertAndSelectTableWithGeneratedKeys]
 }
 function testInsertWithAllNilAndSelectTableWithGeneratedKeys() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("Insert into NumericTypes2 (row_id,smallint_type, int_type, "
         + "bigint_type, decimal_type, numeric_type, double_type, real_type) "
         + "values (23, null, null, null, null, null, null, null)");
@@ -151,7 +151,7 @@ type StringDataType record {
     dependsOn: [testInsertWithAllNilAndSelectTableWithGeneratedKeys]
 }
 function testInsertWithStringAndSelectTable() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     string intIDVal = "22";
     string insertQuery = "Insert into CharacterTypes (row_id,varchar_type , char_type , text_type , "
         + "name_type) values ("
@@ -183,7 +183,7 @@ function testInsertWithStringAndSelectTable() {
     dependsOn: [testInsertWithStringAndSelectTable]
 }
 function testInsertWithEmptyStringAndSelectTable() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     string intIDVal = "23";
     string insertQuery = "Insert into CharacterTypes (row_id,varchar_type , char_type , text_type , "
         + "name_type) values (" + intIDVal +
@@ -222,7 +222,7 @@ type StringNilData record {
     dependsOn: [testInsertWithEmptyStringAndSelectTable]
 }
 function testInsertWithNilStringAndSelectTable() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     string intIDVal = "24";
     string insertQuery = "Insert into CharacterTypes (row_id,varchar_type , char_type , text_type , "
         + "name_type) values ("
@@ -257,7 +257,7 @@ type BooleanData record {
     dependsOn: [testInsertWithNilStringAndSelectTable]
 }
 function testInsertWithBooleanAndSelectTable() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     string intIDVal = "20";
     string insertQuery = "Insert into BooleanTypes (row_id, boolean_type "
         + ") values ("
@@ -286,7 +286,7 @@ function testInsertWithBooleanAndSelectTable() {
     dependsOn: [testInsertWithNilStringAndSelectTable]
 }
 function testInsertTableWithDatabaseError() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult|sql:Error result = dbClient->execute("Insert into NumericTypes2NonExistTable (int_type) values (20)");
 
     string expectedErrorMessage = "Error while executing SQL query: Insert into NumericTypes2NonExistTable (int_type) values (20). ERROR: relation \"numerictypes2nonexisttable\" does not exist";
@@ -310,7 +310,7 @@ function testInsertTableWithDatabaseError() {
     dependsOn: [testInsertTableWithDatabaseError]
 }
 function testInsertTableWithDataTypeError() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult|sql:Error result = dbClient->execute("Insert into NumericTypes2 (int_type) values"
         + " ('This is wrong type')");
 
@@ -337,7 +337,7 @@ type ResultCount record {
     dependsOn: [testInsertTableWithDataTypeError]
 }
 function testUpdateNumericData() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("Update NumericTypes2 set int_type = 31 where int_type = 10");
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
     
@@ -356,7 +356,7 @@ function testUpdateNumericData() {
     dependsOn: [testUpdateNumericData]
 }
 function testUpdateStringData() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("Update CharacterTypes set varchar_type = 'updatedstring' where varchar_type = 'str1'");
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
     
@@ -375,7 +375,7 @@ function testUpdateStringData() {
     dependsOn: [testUpdateStringData]
 }
 function testUpdateBooleanData() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     string intId = "22";
     sql:ExecutionResult result = checkpanic dbClient->execute("insert into BooleanTypes (row_id, boolean_type) values ("+
                     intId+", true)");
@@ -397,7 +397,7 @@ function testUpdateBooleanData() {
     dependsOn: [testUpdateStringData]
 }
 function testDeleteNumericData() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult result = checkpanic dbClient->execute("insert into NumericTypes2 (row_id, int_type) values (27, 1451)");
     result = checkpanic dbClient->execute("Delete from NumericTypes2 where int_type = 1451");
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
@@ -417,7 +417,7 @@ function testDeleteNumericData() {
     dependsOn: [testDeleteNumericData]
 }
 function testDeleteStringData() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     string intId = "28";
     sql:ExecutionResult result = checkpanic dbClient->execute("insert into CharacterTypes (row_id, varchar_type) values ("+
                     intId+", 'deletestr')");
@@ -439,7 +439,7 @@ function testDeleteStringData() {
     dependsOn: [testDeleteNumericData]
 }
 function testDeleteBooleanData() {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     string intId = "25";
     sql:ExecutionResult result = checkpanic dbClient->execute("insert into BooleanTypes (row_id, boolean_type) values ("+
                     intId+", false)");
@@ -597,7 +597,7 @@ function testCircleTypeError() {
 }
 
 function executePostgreSQLClient (sql:ParameterizedQuery|string sqlQuery) returns sql:ExecutionResult|sql:Error {
-    Client dbClient = checkpanic new (host, user, password, basicExecuteDatabase, port);
+    Client dbClient = checkpanic new (host, executeUser, password, basicExecuteDatabase, port);
     sql:ExecutionResult|sql:Error result = dbClient->execute(sqlQuery);
     checkpanic dbClient.close();
     return result;

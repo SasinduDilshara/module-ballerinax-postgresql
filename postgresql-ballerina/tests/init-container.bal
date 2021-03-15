@@ -39,6 +39,14 @@ string poolDB_1 = "postgres";
 string poolDB_2 = "postgres";
 string batchExecuteDB = "postgres";
 
+string connectUser = "connectuser";
+string executeUser = "executeuser";
+string queryUser = "queryuser";
+string functionUser = "functionuser";
+string executeParamUser = "executeparamuser";
+string simpleQueryUser = "simplequeryuser";
+string procedureUser = "procedureuser";
+
 @test:BeforeSuite
 function beforeSuite() {
     io:println("Test suite initiated");

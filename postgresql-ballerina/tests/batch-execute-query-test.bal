@@ -124,7 +124,7 @@ isolated function validateBatchExecutionResult(sql:ExecutionResult[] results, in
 }
 
 function batchExecuteQueryPostgreSQLClient(sql:ParameterizedQuery[] sqlQueries) returns sql:ExecutionResult[] {
-    Client dbClient = checkpanic new (host, user, password, batchExecuteDB, port);
+    Client dbClient = checkpanic new (host, executeUser, password, batchExecuteDB, port);
     sql:ExecutionResult[] result = checkpanic dbClient->batchExecute(sqlQueries);
     checkpanic dbClient.close();
     return result;

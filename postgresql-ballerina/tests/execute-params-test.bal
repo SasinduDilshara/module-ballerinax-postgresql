@@ -1054,7 +1054,7 @@ function testInsertIntoXmlDataTable4() {
 }
 
 function executeQueryPostgresqlClient(sql:ParameterizedQuery sqlQuery, string database) returns sql:ExecutionResult {
-    Client dbClient = checkpanic new (host, user, password, database, port);
+    Client dbClient = checkpanic new (host, executeParamUser, password, database, port);
     sql:ExecutionResult result = checkpanic dbClient->execute(sqlQuery);
     checkpanic dbClient.close();
     return result;

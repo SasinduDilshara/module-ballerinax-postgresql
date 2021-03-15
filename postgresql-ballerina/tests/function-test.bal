@@ -1300,7 +1300,7 @@ function testXmlFunctionInParameter() {
 // }
 
 function callFunction(sql:ParameterizedCallQuery sqlQuery, string database, typedesc<record {}>[] rowTypes = []) returns sql:ProcedureCallResult {
-    Client dbClient = checkpanic new (host, user, password, database, port);
+    Client dbClient = checkpanic new (host, functionUser, password, database, port);
     sql:ProcedureCallResult result = checkpanic dbClient->call(sqlQuery, rowTypes);
     checkpanic dbClient.close();
     return result;

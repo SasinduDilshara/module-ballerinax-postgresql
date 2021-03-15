@@ -1190,7 +1190,7 @@ public function validateXmlTableResult2(record{}? returnData) {
 
 function simpleQueryPostgresqlClient(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = (), string database = simpleParamsDb)
 returns @tainted record {}? {
-    Client dbClient = checkpanic new (host, user, password, database, port);
+    Client dbClient = checkpanic new (host, queryUser, password, database, port);
     stream<record {}, error> streamData = dbClient->query(sqlQuery, resultType);
     record {|record {} value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
