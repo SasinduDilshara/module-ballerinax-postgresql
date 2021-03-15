@@ -1053,6 +1053,77 @@ function testInsertIntoXmlDataTable4() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, executeParamsDatabase), 1, rowId);
 }
 
+@test:Config {
+    groups: ["execute-params", "execute"],
+    dependsOn: [testInsertIntoXmlDataTable4]
+}
+function testInsertIntoCustomDataTable() {
+    int rowId = 3;
+    CustomRecordType complexRecord = {typeName: "complex", values: [1.23, 2.34]};
+    CustomRecordType inventoryRecord = {typeName: "inventory_item", values: ["Supplier Name", 12332, true]};
+    CustomObject complexobject = new (complexRecord);
+    CustomObject inventoryobject = new (inventoryRecord);
+    CustomTypeValue complexType = new (complexobject);
+    CustomTypeValue inventoryType = new (inventoryobject);
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO CustomTypes (row_id, complex_type, inventory_type)
+            VALUES(${rowId}, ${complexType}, ${inventoryType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, executeParamsDatabase), 1, rowId);
+}
+
+@test:Config {
+    groups: ["execute-params", "execute"],
+    dependsOn: [testInsertIntoCustomDataTable]
+}
+function testInsertIntoCustomDataTable2() {
+    int rowId = 4;
+    CustomTypeValue complexType = new ();
+    CustomTypeValue inventoryType = new ();
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO CustomTypes (row_id, complex_type, inventory_type)
+            VALUES(${rowId}, ${complexType}, ${inventoryType})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, executeParamsDatabase), 1, rowId);
+}
+
+@test:Config {
+    groups: ["execute-params", "execute"],
+    dependsOn: [testInsertIntoCustomDataTable2]
+}
+function testInsertIntoEnumDataTable() {
+    int rowId = 3;
+    EnumRecordType enumRecord = {value: "value1", typeName: "value"};
+    EnumValue enumValue = new (enumRecord);
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO EnumTypes (row_id, value_type)
+            VALUES(${rowId}, ${enumValue})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, executeParamsDatabase), 1, rowId);
+}
+
+@test:Config {
+    groups: ["execute-params", "execute"],
+    dependsOn: [testInsertIntoEnumDataTable]
+}
+function testInsertIntoEnumDataTable2() {
+    int rowId = 4;
+    EnumValue enumValue = new ();
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO EnumTypes (row_id, value_type)
+            VALUES(${rowId}, ${enumValue})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, executeParamsDatabase), 1, rowId);
+}
+
 function executeQueryPostgresqlClient(sql:ParameterizedQuery sqlQuery, string database) returns sql:ExecutionResult {
     Client dbClient = checkpanic new (host, user, password, database, port);
     sql:ExecutionResult result = checkpanic dbClient->execute(sqlQuery);

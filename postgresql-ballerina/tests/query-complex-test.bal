@@ -1188,6 +1188,103 @@ public function validateXmlTableResult2(record{}? returnData) {
     } 
 }
 
+public type CustomRecord record {
+  int row_id;
+  CustomType? complex_type;
+  CustomType? inventory_type;
+};
+
+// @test:Config {
+//     groups: ["query"],
+//     dependsOn: [testSelectFromXmlDataTable2]
+// }
+// function testSelectFromCustomDataTable() {
+//     int rowId = 1;
+    
+//     sql:ParameterizedQuery sqlQuery = `select * from CustomTypes where row_id = ${rowId}`;
+
+//     _ = validateCustomTableResult(simpleQueryPostgresqlClient(sqlQuery, CustomRecord, database = queryComplexDatabase));
+// }
+
+// public function validateCustomTableResult(record{}? returnData) {
+//     if (returnData is ()) {
+//         test:assertFail("Empty row returned.");
+//     } else {
+//         test:assertEquals(returnData["row_id"], 1);
+//         test:assertEquals(returnData["complex_type"], {value: "(1.1, 2.2)"});
+//         test:assertEquals(returnData["inventory_type"], {value: "(\"Supplier Name\",12332,t)"});
+//     } 
+// }
+
+@test:Config {
+    groups: ["query"],
+    dependsOn: [testSelectFromXmlDataTable2]
+}
+function testSelectFromCustomDataTable2() {
+    int rowId = 2;
+    
+    sql:ParameterizedQuery sqlQuery = `select * from CustomTypes where row_id = ${rowId}`;
+
+    _ = validateCustomTableResult2(simpleQueryPostgresqlClient(sqlQuery, CustomRecord, database = queryComplexDatabase));
+}
+
+public function validateCustomTableResult2(record{}? returnData) {
+    if (returnData is ()) {
+        test:assertFail("Empty row returned.");
+    } else {
+        test:assertEquals(returnData["row_id"], 2);
+        test:assertEquals(returnData["complex_type"], ());
+        test:assertEquals(returnData["inventory_type"], ());
+    } 
+}
+
+// public type EnumRecord record {
+//   int row_id;
+//   EnumType? value_type;
+// };
+
+// @test:Config {
+//     groups: ["query"],
+//     dependsOn: [testSelectFromCustomDataTable2]
+// }
+// function testSelectFromEnumDataTable() {
+//     int rowId = 1;
+    
+//     sql:ParameterizedQuery sqlQuery = `select * from EnumTypes where row_id = ${rowId}`;
+
+//     _ = validateEnumTableResult(simpleQueryPostgresqlClient(sqlQuery, EnumRecord, database = queryComplexDatabase));
+// }
+
+// public function validateEnumTableResult(record{}? returnData) {
+//     if (returnData is ()) {
+//         test:assertFail("Empty row returned.");
+//     } else {
+//         test:assertEquals(returnData["row_id"], 1);
+//         test:assertEquals(returnData["value_type"], {value: "value1"});
+//     } 
+// }
+
+// @test:Config {
+//     groups: ["query"],
+//     dependsOn: [testSelectFromCustomDataTable2]
+// }
+// function testSelectFromEnumDataTable2() {
+//     int rowId = 2;
+    
+//     sql:ParameterizedQuery sqlQuery = `select * from EnumTypes where row_id = ${rowId}`;
+
+//     _ = validateEnumTableResult2(simpleQueryPostgresqlClient(sqlQuery, EnumRecord, database = queryComplexDatabase));
+// }
+
+// public function validateEnumTableResult2(record{}? returnData) {
+//     if (returnData is ()) {
+//         test:assertFail("Empty row returned.");
+//     } else {
+//         test:assertEquals(returnData["row_id"], 2);
+//         test:assertEquals(returnData["value_type"], ());
+//     } 
+// }
+
 function simpleQueryPostgresqlClient(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = (), string database = simpleParamsDb)
 returns @tainted record {}? {
     Client dbClient = checkpanic new (host, user, password, database, port);

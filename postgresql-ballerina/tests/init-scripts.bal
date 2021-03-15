@@ -38,26 +38,31 @@ public function createConnectDB() {
 public function createExecuteDB() {
     _ = createDatabaseQuery(createExecuteDBQuery);
     _ = executeQuery("execute_db", tableInitDBQuery);
+    _ = executeQuery("execute_db", customTypeQuery);
 }
 
 public function createBatchExecuteDB() {
     _ = createDatabaseQuery(createBatchExecuteDBQuery);
     _ = executeQuery("batch_execute_db", tableInitDBQuery);
+    _ = executeQuery("batch_execute_db", customTypeQuery);
 }
 
 public function createBasicExecuteDB() {
     _ = createDatabaseQuery(createBasicExecuteDBQuery);
     _ = executeQuery("basic_execute_db", tableInitDBQuery);
+    _ = executeQuery("basic_execute_db", customTypeQuery);
 }
 
 public function createSimpleQueryDB() {
     _ = createDatabaseQuery(simpleQueryDBQuery);
     _ = executeQuery("simple_query_params_db", tableInitDBQuery);
+    _ = executeQuery("simple_query_params_db", customTypeQuery);
 }
 
 public function createQueryDB() {
     _ = createDatabaseQuery(createQueryDBQuery);
     _ = executeQuery("query_db", tableInitDBQuery);
+    _ = executeQuery("query_db", customTypeQuery);
 }
 
 public function createLocalTransactionDB() {
@@ -82,6 +87,7 @@ public function createProcedureDB() {
     _ = executeQuery("procedure_db", procedureOutQuery);
     _ = executeQuery("procedure_db", procedureInoutQuery);
     _ = executeQuery("procedure_db", procedureSelectQuery);
+    _ = executeQuery("procedure_db", customTypeQuery);
 }
 
 public function createFunctionsDB() {
@@ -91,6 +97,7 @@ public function createFunctionsDB() {
     _ = executeQuery("function_db", createInFunctions);
     _ = executeQuery("function_db", createInoutFunctions);
     _ = executeQuery("function_db", createOutFunctions);
+    _ = executeQuery("function_db", customTypeQuery);
 }
 
 public function createDatabaseQuery(sql:ParameterizedQuery query) {
