@@ -1130,6 +1130,10 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
                     return ConvertorUtils.convertTstzrangeToRecord(value, ballerinaType.getName());
                 case Constants.TypeRecordNames.DATERANGERECORD:
                     return ConvertorUtils.convertDaterangeToRecord(value, ballerinaType.getName());
+                case Constants.TypeRecordNames.CUSTOM:
+                    return ConvertorUtils.convertCustomTypeToRecord(value, ballerinaType.getName());
+                case Constants.TypeRecordNames.ENUM:
+                    return ConvertorUtils.convertEnumToRecord(value, ballerinaType.getName());
                 default:
                     return ErrorGenerator.getSQLApplicationError("Unsupported type : " + ballerinaType.getName());
             }

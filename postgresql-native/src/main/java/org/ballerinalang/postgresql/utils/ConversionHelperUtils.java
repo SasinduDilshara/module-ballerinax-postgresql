@@ -17,6 +17,7 @@
  */
 package org.ballerinalang.postgresql.utils;
 
+import io.ballerina.runtime.api.TypeTags;
 import io.ballerina.runtime.api.types.Field;
 import io.ballerina.runtime.api.types.StructureType;
 import io.ballerina.runtime.api.types.Type;
@@ -25,6 +26,7 @@ import io.ballerina.runtime.api.utils.TypeUtils;
 import io.ballerina.runtime.api.values.BArray;
 import io.ballerina.runtime.api.values.BError;
 import io.ballerina.runtime.api.values.BMap;
+import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
 import org.ballerinalang.postgresql.Constants;
 import org.ballerinalang.sql.exception.ApplicationError;
@@ -79,31 +81,45 @@ public class ConversionHelperUtils {
         return elements;
     }
 
-    public static String setRange(String upper, String lower, boolean upperInclusive, boolean lowerInclusive) {
+    public static String convertCustomType(ArrayList<Object> objectArray) {
+        Object object;
+        BObject bobject;
+        Type type;
+        String stringValue = "(";
+        long length = objectArray.size();
+        for (int i = 0; i < length; i++) {
+            object = objectArray.get(i);
+            type = TypeUtils.getType(object);
+            if (type.getTag() == TypeTags.OBJECT_TYPE_TAG) {
+                stringValue += setCustomRecordType(getRecordType(object));
+            } else {
+                stringValue += object.toString() + ",";
+            }
+        }
+        stringValue = stringValue.substring(0, stringValue.length() - 1);
+        stringValue += ")";
+        return stringValue;
+    }
 
+    public static String setRange(String upper, String lower, boolean upperInclusive, boolean lowerInclusive) {
         String rangeValue = "";
         if (lowerInclusive) {
             rangeValue += "[";
         } else {
             rangeValue += "(";
         }
-
         rangeValue += lower;
         rangeValue += ",";
         rangeValue += upper;
-
         if (upperInclusive) {
             rangeValue += "]";
         } else {
             rangeValue += ")";
         }
-
         return rangeValue;
-
     }
 
     public static HashMap<String, Object> convertRangeToMap(Object value) {
-
         HashMap<String, Object> rangeMap;
         if (value == null) {
             return null;
@@ -118,26 +134,21 @@ public class ConversionHelperUtils {
             } else {
                 rangeMap.put(Constants.Range.LOWERINCLUSIVE, false);
             }
-
             objectValue = objectValue.substring(1);
-
             if (objectValue.endsWith("]")) {
                 rangeMap.put(Constants.Range.UPPERINCLUSIVE, true);
             } else {
                 rangeMap.put(Constants.Range.UPPERINCLUSIVE, false);
             }
-
             objectValue = objectValue.substring(0, objectValue.length() - 1);
-
             String[] rangeElements = objectValue.split(",");
-            
             rangeMap.put(Constants.Range.UPPER, rangeElements[1]);
             rangeMap.put(Constants.Range.LOWER, rangeElements[0]);
         }
         return rangeMap;
     }
 
-    public static String setCustomType(Map<String, Object> record) {
+    public static String setCustomRecordType(Map<String, Object> record) {
 
         String customValue = "";
         customValue += "(";

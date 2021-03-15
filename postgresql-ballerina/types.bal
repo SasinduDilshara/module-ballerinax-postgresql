@@ -278,16 +278,27 @@ public class MoneyValue {
     }  
 }
 
-// # Represents User Define PostgreSQL Fields
-// # Enums, Complex types, Domain
-// public class CustomTypeValue {
-//     any value;
-//     string typeName;
-//     public function init(string typeName, record{}|string? value = ()) {
-//         self.typeName = typeName;
-//         self.value = convertCustomType(typeName, value);
-//     }  
-// }
+# Represents User Define PostgreSQL Fields
+public class CustomTypeValue {
+    public CustomObject? value;
+    public function init(CustomObject? value = ()) {
+        self.value = value;
+    }  
+}
+
+public class EnumValue {
+    public EnumRecordType? value;
+    public function init(EnumRecordType? value = ()) {
+        self.value = value;
+    }  
+}
+
+public class CustomObject {
+    public CustomRecordType? value;
+    public function init(CustomRecordType? value) {
+        self.value = value;
+    }
+}
 
 
 # PostgreSQL Object identifier Data types.
@@ -523,6 +534,15 @@ public type DaterangeRecordType record {
     boolean isLowerboundInclusive = false;
 };
 
+public type CustomRecordType record {
+    string typeName;
+    sql:Value[] values;
+};
+
+public type EnumRecordType record {
+    string typeName;
+    string value;
+};
 
 // These Range Types are use for Query Operation
 public type Int4rangeType record {
@@ -565,4 +585,12 @@ public type DaterangeType record {
     string lower; 
     boolean isUpperboundInclusive = false; 
     boolean isLowerboundInclusive = false;
+};
+
+public type CustomType record {
+    string value;
+};
+
+public type EnumType record {
+    string typeName;
 };

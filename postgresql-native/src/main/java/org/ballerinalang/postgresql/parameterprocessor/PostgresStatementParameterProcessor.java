@@ -423,6 +423,12 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.XML:
                 setXml(connection, preparedStatement, index, value);
                 break;
+            case Constants.PGTypeNames.CUSTOM_TYPES:
+                setCustomType(preparedStatement, index, value);
+                break;
+            case Constants.PGTypeNames.ENUM:
+                setEnum(preparedStatement, index, value);
+                break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
         }
@@ -824,6 +830,26 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             preparedStatement.setObject(index, null);
         } else {
             Object object = ConvertorUtils.convertXml(connection, value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setCustomType(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException, ApplicationError {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = ConvertorUtils.convertCustomType(value);
+            preparedStatement.setObject(index, object);
+        }
+    }
+
+    private void setEnum(PreparedStatement preparedStatement, int index, Object value)
+        throws SQLException, ApplicationError {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = ConvertorUtils.convertEnum(value);
             preparedStatement.setObject(index, object);
         }
     }
