@@ -680,7 +680,6 @@ public type DatetimeFunctionRecord record {
     int? row_id;
     string? date_type;
     string? time_type;
-    string? timetz_type;
     string? timestamp_type;
     Interval? interval_type;
 };
@@ -720,7 +719,6 @@ function testDatetimeFunctionInParameter() returns error? {
             row_id: 1,
             date_type: "1999-01-08+00:00",
             time_type: "04:05:06.000+00:00",
-            timetz_type: "08:05:06.000+00:00",
             timestamp_type: "1999-01-08T04:05:06.000+00:00",
             interval_type: {years:1, months:2, days:3, hours:4, minutes:5, seconds:6}
         };      
@@ -737,7 +735,6 @@ function testDatetimeFunctionInParameter() returns error? {
             row_id: 2,
             date_type: (),
             time_type: (),
-            timetz_type: (),
             timestamp_type: (),
             interval_type: ()
         }; 
@@ -755,7 +752,6 @@ function testDatetimeFunctionInParameter() returns error? {
             row_id: rowId,
             date_type: "2017-12-18+00:00",
             time_type: "23:12:18.000+00:00",
-            timetz_type: "17:42:18.000+00:00",
             timestamp_type: "1970-01-02T03:46:40.500+00:00",
             interval_type: {years:1, months:2, days:3, hours:4, minutes:5, seconds:6}
         }; 

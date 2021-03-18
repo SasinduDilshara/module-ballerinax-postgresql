@@ -470,7 +470,6 @@ public type DatetimeProcedureRecord record {
   int row_id;
   string date_type;
   string time_type;
-  string timetz_type;
   string timestamp_type;
   string interval_type;
 };
@@ -505,7 +504,6 @@ function testDatetimeProcedureCall() {
         row_id: rowId,
         date_type: "2017-12-18+00:00",
         time_type: "23:12:18.000+00:00",
-        timetz_type: "17:42:18.000+00:00",
         timestamp_type: "1970-01-02T03:46:40.500+00:00",
         interval_type: "1 year 2 mons 3 days 04:05:06"
     };
