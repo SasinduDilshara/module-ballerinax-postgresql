@@ -978,7 +978,7 @@ function testDatetimeProcedureOutCall() {
     test:assertTrue(timestamptzInoutValue.get(string) is string, " Timestamptz Datatype Doesn't Match");
     test:assertEquals(dateInoutValue.get(string), "1999-01-08+00:00", " Date Datatype Doesn't Match");
     test:assertEquals(timeInoutValue.get(string), "04:05:06.000+00:00", " Time Datatype Doesn't Match");
-    test:assertTrue(timetzInoutValue.get(string) is "13:35:06.000+00:00", " Timetz Datatype Doesn't Match");
+    test:assertTrue(timetzInoutValue.get(string) is string, " Timetz Datatype Doesn't Match");
     test:assertEquals(intervalInoutValue.get(string), "1 years 2 mons 3 days 4 hours 5 mins 6.0 secs", " Interval Datatype Doesn't Match");
 }
 
