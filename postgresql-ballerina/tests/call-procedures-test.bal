@@ -540,7 +540,7 @@ function testRangeProcedureCall() {
         sql:ProcedureCallResult result = callProcedure(sqlQuery, proceduresDatabase);
 
         sql:ParameterizedQuery query = `SELECT row_id, int4range_type, int8range_type, numrange_type, tsrange_type, 
-                tstzrange_type, daterange_type from RangeTypes where row_id = ${rowId}`;
+                daterange_type from RangeTypes where row_id = ${rowId}`;
 
         RangeProcedureRecord expectedDataRow = {
             row_id: rowId,

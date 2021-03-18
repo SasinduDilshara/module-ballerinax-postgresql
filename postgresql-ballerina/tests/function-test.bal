@@ -787,7 +787,7 @@ function testRangeFunctionInParameter() returns error? {
 
     sql:ParameterizedCallQuery sqlQuery =
     `
-    select int4range_type, int8range_type, numrange_type, tsrange_type, daterange_type from RangeInFunction(${rowId},
+    select row_id, int4range_type, int8range_type, numrange_type, tsrange_type, daterange_type from RangeInFunction(${rowId},
      ${int4rangeValue}, ${int8rangeValue}, ${numrangeValue}, ${tsrangeValue}, ${tstzrangeValue}, ${daterangeValue});
     `;
     sql:ProcedureCallResult ret = callFunction(sqlQuery, functionsDatabase, [RangeFunctionRecord, RangeFunctionRecord, RangeFunctionRecord]);
