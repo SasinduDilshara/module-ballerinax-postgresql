@@ -25,7 +25,7 @@ string user = "postgres";
 string password = "postgres";
 
 // Port 5431 will use to connect with Docker container
-int port = 5431;
+int port = 5432;
 
 string connectDB = "postgres";
 string functionsDatabase = "postgres";
