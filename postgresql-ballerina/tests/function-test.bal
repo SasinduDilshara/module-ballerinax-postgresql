@@ -702,7 +702,7 @@ function testDatetimeFunctionInParameter() returns error? {
 
     sql:ParameterizedCallQuery sqlQuery =
     `
-    select row_id, date_type, time_type, timetz_type, timestamp_type, interval_type from 
+    select row_id, date_type, time_type, timestamp_type, interval_type from 
                 DatetimeInFunction(${rowId}, ${dateType}, ${timeType}, ${timetzType}, ${timestampType},
                  ${timestamptzType}, ${intervalType});
     `;

@@ -497,7 +497,7 @@ function testDatetimeProcedureCall() {
     `;
     sql:ProcedureCallResult result = callProcedure(sqlQuery, proceduresDatabase);
 
-    sql:ParameterizedQuery query = `SELECT row_id, date_type, time_type, timetz_type, timestamp_type, 
+    sql:ParameterizedQuery query = `SELECT row_id, date_type, time_type, timestamp_type, 
             interval_type from DatetimeTypes where row_id = ${rowId}`;
 
     DatetimeProcedureRecord expectedDataRow = {
