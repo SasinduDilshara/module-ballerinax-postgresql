@@ -516,7 +516,6 @@ public type RangeProcedureRecord record {
   string int8range_type;
   string numrange_type;
   string tsrange_type;
-  string tstzrange_type;
   string daterange_type;
 };
 
@@ -549,7 +548,6 @@ function testRangeProcedureCall() {
             int8range_type: "[11,100)",
             numrange_type: "(0.1,2.4)",
             tsrange_type: "(\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")",
-            tstzrange_type: "(\"2010-01-01 14:30:00+05:30\",\"2010-01-01 15:30:00+05:30\")",
             daterange_type: "[2010-01-02,2010-01-03)"
         };
         test:assertEquals(queryProcedureClient(query, proceduresDatabase, RangeProcedureRecord), expectedDataRow, "Range Call procedure insert and query did not match.");
