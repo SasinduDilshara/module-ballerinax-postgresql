@@ -200,7 +200,7 @@ function testWithConnectionParams2() {
         cancelSignalTimeout:10,
         tcpKeepAlive:false
     };
-    Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool);
+    Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool, port = port);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with connection params fails.");
 }
@@ -227,7 +227,7 @@ function testWithConnectionParams3() {
         cancelSignalTimeout:10,
         tcpKeepAlive:false
     };
-    Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool);
+    Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool, port = port);
     var exitCode = dbClient.close();
     test:assertExactEquals(exitCode, (), "Initialising connection with connection params fails.");
 }
