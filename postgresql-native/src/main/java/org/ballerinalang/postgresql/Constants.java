@@ -160,6 +160,8 @@ public final class Constants {
         public static final String TIMESTAMPRANGERECORD = "TimestampRange";
         public static final String TIMESTAMPTZRANGERECORD = "TimestamptzRange";
         public static final String DATERANGERECORD = "DateRange";
+        public static final String CUSTOMRECORD = "CustomRecord";
+        public static final String CUSTOM_QUERY_RECORD = "CustomType";
     }    
     /**
      * Constants for Custom PostgreSQL Ballerina Datatypes names.
@@ -205,6 +207,7 @@ public final class Constants {
         public static final String REGROLE = "RegroleValue";
         public static final String REGTYPE = "RegtypeValue";
         public static final String XML = "PGXmlValue";
+        public static final String CUSTOM = "CustomValue";
     }
     /**
      * Constants for Custom PostgreSQL Ballerina Out Parameter names.

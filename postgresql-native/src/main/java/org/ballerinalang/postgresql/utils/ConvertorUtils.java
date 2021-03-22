@@ -42,6 +42,7 @@ import org.postgresql.util.PGInterval;
 import org.postgresql.util.PGmoney;
 import org.postgresql.util.PGobject;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -610,20 +611,20 @@ public class ConvertorUtils {
         return money;
     }
 
-    public static PGobject convertCustomType(BString datatype, Object value) throws SQLException {
-        String stringValue;
+    public static PGobject convertCustomType(Connection conn, Object value) throws SQLException, ApplicationError {
+        String stringValue, stringTypeValue;
         Type type = TypeUtils.getType(value);
-        String typeName = datatype.toString();
-        if (value instanceof BString) {
-            stringValue = value.toString();
-        } else if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
+        if (type.getTag() == TypeTags.RECORD_TYPE_TAG) {
             Map<String, Object> customValue = ConversionHelperUtils.getRecordType(value);
-            stringValue = ConversionHelperUtils.setCustomType(customValue);
+            String typeName = customValue.get("sqlTypeName").toString();
+        //    Object[] customTypeValue = ConversionHelperUtils.
+        //     getCustomRecordType(conn, (BMap) customValue.get("customType"));
+            stringTypeValue = ConversionHelperUtils.setCustomType(new HashMap<>());
+            PGobject customObject = setPGobject(typeName, stringTypeValue);
+            return customObject;
         } else {
             throw new SQLException("Unsupported Value: " + value + " for type: " + "interval");
         }
-        PGobject customObject = setPGobject(typeName, stringValue);
-        return customObject;
     }
 
     public static PGobject convertRegclass(Object value) throws SQLException {

@@ -448,6 +448,28 @@ public class PGXmlValue {
     }  
 }
 
+
+# Represents Enum PostgreSQL Field
+#
+# + value - Value of parameter passed into the SQL statement
+public class EnumValue {
+    public Enum? value;
+    public function init(Enum? value = ()) {
+        self.value = value;
+    }  
+}
+
+
+# Represents User Defined PostgreSQL Fields
+#
+# + value - Value of parameter passed into the SQL statement
+public class CustomValue {
+    public CustomRecord? value;
+    public function init(CustomRecord? value) {
+        self.value = value;
+    }
+}
+
 # Represents OutParameters for PostgreSQL 
 
 # Represents Interval OutParameter used in procedure calls
@@ -1086,4 +1108,22 @@ public type DateRange record {
     *Range;
     string upper; 
     string lower;
+};
+
+# Represents User Defined Datatypes in PostgreSQL.
+#
+# + typeName - Name of the User Defined SQL type
+# + customType - User Defined Values
+public type CustomRecord record {
+    string sqlTypeName;
+    record{}? customType;
+};
+
+# Represents Enum Datatype in PostgreSQL.
+#
+# + sqlTypeName - Name of the User Defined Enum type
+# + value - Value of the Enum
+public type Enum record {
+    string sqlTypeName;
+    string value;
 };
