@@ -989,6 +989,26 @@ function testInsertIntoMoneyDataTable4() {
     validateResult(executeQueryPostgresqlClient(sqlQuery, executeParamsDatabase), 1, rowId);
 }
 
+@test:Config {
+    groups: ["execute-params", "execute"],
+    dependsOn: [testInsertIntoMoneyDataTable4]
+}
+function testInsertIntoCustomDataTable() {
+    int rowId = 3;
+
+    CustomRecord complexType = {sqlTypeName: "complex", customType: {"r": 11.12, "i": 23.1}};
+    CustomValue complexValue = new (complexType);
+    CustomRecord inventorType = {sqlTypeName: "inventory_item", customType: {"name": "supplier Name", "supplierId": 11234, "isExpired": true}};
+    CustomValue inventorValue = new (inventorType);
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO CustomTypes (row_id, complex_type, inventory_type)
+            VALUES(${rowId}, ${complexValue}, ${inventorValue})
+    `;
+    validateResult(executeQueryPostgresqlClient(sqlQuery, executeParamsDatabase), 1, rowId);
+}
+
 function executeQueryPostgresqlClient(sql:ParameterizedQuery sqlQuery, string database) returns sql:ExecutionResult {
     Client dbClient = checkpanic new (host, user, password, database, port);
     sql:ExecutionResult result = checkpanic dbClient->execute(sqlQuery);
