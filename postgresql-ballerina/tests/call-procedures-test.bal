@@ -1332,6 +1332,29 @@ function testEnumProcedureOutCall() {
 
 @test:Config {
     groups: ["procedures"],
+    dependsOn: [testRangeProcedureOutCall]
+}
+function testCustomProcedureOutCall() {
+    int rowId = 1;
+    CustomTypeValue complexType = new ();
+    CustomTypeValue inventoryType = new ();
+
+    InOutParameter rowIdInoutValue = new (rowId);
+    InOutParameter complexInoutValue = new (complexType);
+    InOutParameter inventoryInoutValue = new (inventoryType);
+
+    sql:ParameterizedCallQuery sqlQuery =
+      `
+      call CustomOutProcedure(${rowIdInoutValue}, ${complexInoutValue}, ${inventoryInoutValue});
+    `;
+    sql:ProcedureCallResult result = callProcedure(sqlQuery, proceduresDatabase);
+
+    test:assertEquals(complexInoutValue.get(CustomTypeValue), "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'", "Tsvector Datatype Doesn't Match");
+    test:assertEquals(inventoryInoutValue.get(CustomTypeValue), "'fat' & 'rat'", "Tsquery Datatype Doesn't Match");
+}
+
+@test:Config {
+    groups: ["procedures"],
     dependsOn: [testMoneyProcedureOutCall]
 }
 function testNumericProcedureInoutCall() {

@@ -722,6 +722,19 @@
                  where EnumTypes.row_id = row_id_inout;
         end;$$;
 
+        create or replace procedure CustomOutProcedure(
+            inout row_id_inout bigint,
+            inout complex_inout complex,
+            inout inventory_inout inventory_item
+            )
+            language plpgsql    
+            as $$
+            begin
+                SELECT row_id, complex_type, inventory_type 
+                into row_id_inout, complex_inout, inventory_inout
+                from CustomTypes where CustomTypes.row_id = row_id_inout;
+        end;$$;  
+
         create or replace procedure NumericInoutProcedure(
             inout row_id_inout bigint,
             inout smallint_inout smallint,
