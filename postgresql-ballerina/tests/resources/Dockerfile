@@ -38,4 +38,4 @@ RUN mkdir -p /etc/ssl
 COPY keystore/certs/ /etc/ssl/
 RUN chown -R postgres /etc/ssl
 
-COPY my.cnf /etc/
+COPY postgresql.cnf /etc/
