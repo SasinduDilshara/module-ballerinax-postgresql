@@ -1,0 +1,4 @@
+[postgresqld]
+ssl_cert_file=/etc/ssl/server-cert.pem
+ssl_key_file=/etc/ssl/server-key.pem
+port=5432

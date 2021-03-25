@@ -33,3 +33,9 @@ COPY sql-scripts/local-transaction/local-transaction-test.sql 05-local-transacti
 COPY sql-scripts/procedures/procedures-test-data.sql 06-procedures-test-data.sql
 
 COPY sql-scripts/functions/function-test-data.sql 07-function-test-data.sql
+
+RUN mkdir -p /etc/ssl
+COPY keystore/certs/ /etc/ssl/
+RUN chown -R postgres /etc/ssl
+
+COPY postgresql.cnf /etc/

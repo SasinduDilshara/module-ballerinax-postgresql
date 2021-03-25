@@ -219,8 +219,8 @@ public enum LoggerLevel {
  
 public type SSLConfig record {|
     SSLMode mode = PREFER;
-    crypto:TrustStore|string sslcert?;
-    crypto:KeyStore|CertKey sslkey?;
+    crypto:TrustStore sslcert?;
+    crypto:KeyStore sslkey?;
 |};
 
 # Represents combination of certificate, private key and private key password if encrypted.

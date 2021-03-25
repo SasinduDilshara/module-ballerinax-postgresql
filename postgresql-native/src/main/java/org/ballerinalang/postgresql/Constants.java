@@ -68,7 +68,7 @@ public final class Constants {
     public static final class SSLConfig {
         public static final BString MODE = StringUtils.fromString("mode");
         public static final BString SSL_KEY = StringUtils.fromString("sslkey");
-        public static final BString SSL_PASWORD = StringUtils.fromString("sslpassword");
+        public static final BString SSL_PASSWORD = StringUtils.fromString("sslpassword");
         public static final BString SSL_CERT = StringUtils.fromString("sslcert");
 
         /**

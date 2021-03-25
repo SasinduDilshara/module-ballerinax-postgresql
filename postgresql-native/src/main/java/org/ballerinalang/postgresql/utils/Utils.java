@@ -174,8 +174,16 @@ public class Utils {
                 options.put(Constants.SSLConfig.SSL_KEY, StringUtils.fromString(
                         Constants.FILE + sslkey.getStringValue(
                                 Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
-                options.put(Constants.SSLConfig.SSL_PASWORD, sslkey
+                options.put(Constants.SSLConfig.SSL_PASSWORD, sslkey
                         .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
+            }
+            BMap sslcert = sslConfig.getMapValue(Constants.SSLConfig.SSL_CERT);
+            if (sslcert != null) {
+                options.put(Constants.SSLConfig.SSL_CERT, StringUtils.fromString(
+                        Constants.FILE + sslcert.getStringValue(
+                                Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
+                // options.put(Constants.SSLConfig.SSL_PASSWORD, sslcert
+                //         .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
             }    
         }
     }
