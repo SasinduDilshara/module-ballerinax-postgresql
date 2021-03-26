@@ -29,7 +29,7 @@ function testSSLVerifyCert() {
     Options options = {
         ssl: {
             mode: VERIFY_CA,
-            sslcert: {
+            sslrootcert: {
                 path: serverCertPath,
                 password: "changeit"
             },

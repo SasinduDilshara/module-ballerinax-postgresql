@@ -219,7 +219,7 @@ public enum LoggerLevel {
  
 public type SSLConfig record {|
     SSLMode mode = PREFER;
-    crypto:TrustStore sslcert?;
+    crypto:TrustStore sslrootcert?;
     crypto:KeyStore sslkey?;
 |};
 

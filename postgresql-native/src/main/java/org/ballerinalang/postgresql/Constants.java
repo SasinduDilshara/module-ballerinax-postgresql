@@ -69,7 +69,7 @@ public final class Constants {
         public static final BString MODE = StringUtils.fromString("mode");
         public static final BString SSL_KEY = StringUtils.fromString("sslkey");
         public static final BString SSL_PASSWORD = StringUtils.fromString("sslpassword");
-        public static final BString SSL_CERT = StringUtils.fromString("sslcert");
+        public static final BString SSL_CERT = StringUtils.fromString("sslrootcert");
 
         /**
          The following constants are used to process ballerina `crypto:KeyStore`.
@@ -321,7 +321,7 @@ public final class Constants {
      * Other Constants.
      */
     public static final String POSTGRESQL_DATASOURCE_NAME = "org.postgresql.ds.PGSimpleDataSource";
-    public static final String FILE = "file:";
+    public static final String FILE = "";
     public static final String POOL_CONNECT_TIMEOUT = "ConnectionTimeout";
     public static final String CUSTOM_RESULT_ITERATOR_OBJECT = "CustomResultIterator";
     public static final String JDBC_URL = "jdbc:postgresql://";
