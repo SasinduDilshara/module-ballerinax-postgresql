@@ -69,7 +69,8 @@ public final class Constants {
         public static final BString MODE = StringUtils.fromString("mode");
         public static final BString SSL_KEY = StringUtils.fromString("sslkey");
         public static final BString SSL_PASSWORD = StringUtils.fromString("sslpassword");
-        public static final BString SSL_CERT = StringUtils.fromString("sslrootcert");
+        public static final BString SSL_ROOT_CERT = StringUtils.fromString("sslrootcert");
+        public static final BString SSL_CERT = StringUtils.fromString("sslcert");
 
         /**
          The following constants are used to process ballerina `crypto:KeyStore`.

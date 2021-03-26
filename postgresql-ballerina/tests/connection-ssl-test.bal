@@ -16,8 +16,6 @@
 import ballerina/file;
 import ballerina/test;
 
-string sslDB = "SSL_CONNECT_DB";
-
 string clientkeyPath = checkpanic file:getAbsolutePath("./tests/resources/keystore/client/postgresql.key");
 string clientCertPath = checkpanic file:getAbsolutePath("./tests/resources/keystore/client/postgresql.crt");
 string serverCertPath = checkpanic file:getAbsolutePath("./tests/resources/keystore/server/root.crt");
@@ -28,6 +26,32 @@ string serverCertPath = checkpanic file:getAbsolutePath("./tests/resources/keyst
 function testSSLVerifyCert() {
     Options options = {
         ssl: {
+            mode: REQUIRE,
+            sslrootcert: {
+                path: serverCertPath,
+                password: "changeit"
+            },
+            sslkey: {
+                path: clientkeyPath,
+                password: "changeit"
+            },
+            sslcert: {
+                path: clientCertPath,
+                password: "changeit"
+            }
+        }
+    };
+    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
+        port = port, options = options);
+    test:assertEquals(dbClient.close(), ());
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLVerifyCert2() {
+    Options options = {
+        ssl: {
             mode: VERIFY_CA,
             sslrootcert: {
                 path: serverCertPath,
@@ -36,10 +60,14 @@ function testSSLVerifyCert() {
             sslkey: {
                 path: clientkeyPath,
                 password: "changeit"
+            },
+            sslcert: {
+                path: clientCertPath,
+                password: "changeit"
             }
         }
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = sslDB,
+    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
         port = port, options = options);
     test:assertEquals(dbClient.close(), ());
 }
@@ -61,7 +89,7 @@ function testSSLVerifyCert() {
 //             }
 //         }
 //     };
-//     Client dbClient = checkpanic new (user = user, password = password, database = sslDB,
+//     Client dbClient = checkpanic new (user = user, password = password, database = sslDb,
 //         port = port, options = options);
 //     test:assertEquals(dbClient.close(), ());
 // }
@@ -79,7 +107,7 @@ function testSSLVerifyCert() {
 //             }
 //         }
 //     };
-//     Client dbClient = checkpanic new (user = user, password = password, database = sslDB,
+//     Client dbClient = checkpanic new (user = user, password = password, database = sslDb,
 //         port = port, options = options);
 //     test:assertEquals(dbClient.close(), ());
 // }
@@ -101,7 +129,7 @@ function testSSLVerifyCert() {
 //             }
 //         }
 //     };
-//     Client|sql:Error dbClient = new (user = user, password = password, database = sslDB,
+//     Client|sql:Error dbClient = new (user = user, password = password, database = sslDb,
 //         port = port, options = options);
 //     test:assertTrue(dbClient is error);
 //     error dbError = <error> dbClient;

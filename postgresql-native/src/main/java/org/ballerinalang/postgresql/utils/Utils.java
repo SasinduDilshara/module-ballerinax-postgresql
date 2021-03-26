@@ -177,6 +177,14 @@ public class Utils {
                 options.put(Constants.SSLConfig.SSL_PASSWORD, sslkey
                         .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
             }
+            BMap sslrootcert = sslConfig.getMapValue(Constants.SSLConfig.SSL_ROOT_CERT);
+            if (sslrootcert != null) {
+                options.put(Constants.SSLConfig.SSL_ROOT_CERT, StringUtils.fromString(
+                        Constants.FILE + sslrootcert.getStringValue(
+                                Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
+                // options.put(Constants.SSLConfig.SSL_PASSWORD, sslrootcert
+                //         .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
+            }
             BMap sslcert = sslConfig.getMapValue(Constants.SSLConfig.SSL_CERT);
             if (sslcert != null) {
                 options.put(Constants.SSLConfig.SSL_CERT, StringUtils.fromString(
@@ -186,5 +194,6 @@ public class Utils {
                 //         .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
             }    
         }
+        System.out.println("Options " + options);
     }
 }
