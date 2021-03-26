@@ -32,8 +32,9 @@ COPY sql-scripts/procedures/procedures-test-data.sql /docker-entrypoint-initdb.d
 
 COPY sql-scripts/functions/function-test-data.sql /docker-entrypoint-initdb.d/07-function-test-data.sql
 
-RUN mkdir -p /etc/ssl
-COPY keystore/certs/ /etc/ssl/
-RUN chown -R postgres /etc/ssl
+# RUN mkdir -p /etc/ssl
+# COPY keystore/certs/server-cert.pem /etc/ssl/server-cert.pem
+# COPY keystore/certs/server-key.pem /etc/ssl/server-key.pem
+# RUN chown -R postgres /etc/ssl
 
-COPY postgresql.conf /etc/postgresql/postgresql.conf
+# COPY postgresql.conf /etc/postgresql.conf

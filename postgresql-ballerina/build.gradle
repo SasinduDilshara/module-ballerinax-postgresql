@@ -326,7 +326,7 @@ def checkTestDockerContainerStatus(containerName) {
 task startTestDockerContainer(type: Exec) {
     if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
         def standardOutput = new ByteArrayOutputStream()
-        commandLine 'sh', '-c', "docker run --rm -d --name ${testContainerName} -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 -d ballerina-postgresql"
+        commandLine 'sh', '-c', "docker run --rm -d --name ${testContainerName} -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 -d ballerina-postgresql -c ssl=on"
         
         def healthCheck = 1;
         def counter = 0;
@@ -370,10 +370,10 @@ task stopTestDockerContainer() {
         if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
             try {
                 def stdOut = new ByteArrayOutputStream()
-                exec {
-                    commandLine 'sh', '-c', "docker stop ${testContainerName}"
-                    standardOutput = stdOut
-                }
+                // exec {
+                //     commandLine 'sh', '-c', "docker stop ${testContainerName}"
+                //     standardOutput = stdOut
+                // }
                 exec {
                     commandLine 'sh', '-c', "docker stop ${poolContainerName}"
                     standardOutput = stdOut
