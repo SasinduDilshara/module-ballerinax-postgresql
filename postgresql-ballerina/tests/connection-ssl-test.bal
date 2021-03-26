@@ -23,7 +23,7 @@ string serverCertPath = checkpanic file:getAbsolutePath("./tests/resources/keyst
 @test:Config {
     groups: ["connection","ssl"]
 }
-function testSSLVerifyCert() {
+function testSSLRequire() {
     Options options = {
         ssl: {
             mode: REQUIRE,
@@ -49,7 +49,85 @@ function testSSLVerifyCert() {
 @test:Config {
     groups: ["connection","ssl"]
 }
-function testSSLVerifyCert2() {
+function testSSLPrefer() {
+    Options options = {
+        ssl: {
+            mode: PREFER,
+            sslrootcert: {
+                path: serverCertPath,
+                password: "changeit"
+            },
+            sslkey: {
+                path: clientkeyPath,
+                password: "changeit"
+            },
+            sslcert: {
+                path: clientCertPath,
+                password: "changeit"
+            }
+        }
+    };
+    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
+        port = port, options = options);
+    test:assertEquals(dbClient.close(), ());
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLAllow() {
+    Options options = {
+        ssl: {
+            mode:  ALLOW,
+            sslrootcert: {
+                path: serverCertPath,
+                password: "changeit"
+            },
+            sslkey: {
+                path: clientkeyPath,
+                password: "changeit"
+            },
+            sslcert: {
+                path: clientCertPath,
+                password: "changeit"
+            }
+        }
+    };
+    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
+        port = port, options = options);
+    test:assertEquals(dbClient.close(), ());
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLDisable() {
+    Options options = {
+        ssl: {
+            mode:  DISABLE,
+            sslrootcert: {
+                path: serverCertPath,
+                password: "changeit"
+            },
+            sslkey: {
+                path: clientkeyPath,
+                password: "changeit"
+            },
+            sslcert: {
+                path: clientCertPath,
+                password: "changeit"
+            }
+        }
+    };
+    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
+        port = port, options = options);
+    test:assertEquals(dbClient.close(), ());
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLVerifyCert() {
     Options options = {
         ssl: {
             mode: VERIFY_CA,
@@ -72,67 +150,28 @@ function testSSLVerifyCert2() {
     test:assertEquals(dbClient.close(), ());
 }
 
-// @test:Config {
-//     groups: ["connection","ssl"]
-// }
-// function testSSLPreferred() {
-//     Options options = {
-//         ssl: {
-//             mode:  SSL_PREFERRED,
-//             clientCertKeystore: {
-//                 path: clientStorePath,
-//                 password: "changeit"
-//             },
-//             trustCertKeystore: {
-//                 path: turstStorePath,
-//                 password: "changeit"
-//             }
-//         }
-//     };
-//     Client dbClient = checkpanic new (user = user, password = password, database = sslDb,
-//         port = port, options = options);
-//     test:assertEquals(dbClient.close(), ());
-// }
-
-// @test:Config {
-//     groups: ["connection","ssl"]
-// }
-// function testSSLRequiredWithClientCert() {
-//     Options options = {
-//         ssl: {
-//             mode:  SSL_REQUIRED,
-//             clientCertKeystore: {
-//                 path: clientStorePath,
-//                 password: "changeit"
-//             }
-//         }
-//     };
-//     Client dbClient = checkpanic new (user = user, password = password, database = sslDb,
-//         port = port, options = options);
-//     test:assertEquals(dbClient.close(), ());
-// }
-
-// @test:Config {
-//     groups: ["connection","ssl"]
-// }
-// function testSSLVerifyIdentity() {
-//     Options options = {
-//         ssl: {
-//             mode:  SSL_VERIFY_IDENTITY,
-//             clientCertKeystore: {
-//                 path: clientStorePath,
-//                 password: "changeit"
-//             },
-//             trustCertKeystore: {
-//                 path: turstStorePath,
-//                 password: "changeit"
-//             }
-//         }
-//     };
-//     Client|sql:Error dbClient = new (user = user, password = password, database = sslDb,
-//         port = port, options = options);
-//     test:assertTrue(dbClient is error);
-//     error dbError = <error> dbClient;
-//     test:assertTrue(strings:includes(dbError.message(),  "The certificate Common Name 'Server' does not match " +
-//     "with 'localhost'."), dbError.message());
-// }
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLVerifyFull() {
+    Options options = {
+        ssl: {
+            mode: VERIFY_FULL,
+            sslrootcert: {
+                path: serverCertPath,
+                password: "changeit"
+            },
+            sslkey: {
+                path: clientkeyPath,
+                password: "changeit"
+            },
+            sslcert: {
+                path: clientCertPath,
+                password: "changeit"
+            }
+        }
+    };
+    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
+        port = port, options = options);
+    test:assertEquals(dbClient.close(), ());
+}
