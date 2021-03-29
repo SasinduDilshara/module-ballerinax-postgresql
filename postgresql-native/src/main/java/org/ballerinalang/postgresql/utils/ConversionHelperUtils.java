@@ -200,4 +200,18 @@ public class ConversionHelperUtils {
         }
         return stringArray;
     }
+
+    public static String convertArrayToString(ArrayList<String> array) {
+        System.out.println("Inside convertArrayToString " + array);
+        String string = "{";
+        for (String element : array) {
+            System.out.println("Inside convertArrayToString element" + element);
+            string += "\"" + element + "\"";
+            string += ",";
+        }
+        string = string.substring(0, string.length() - 1);
+        string += "}";
+        System.out.println("Inside convertArrayToString string " + string);
+        return string;
+    }
 }

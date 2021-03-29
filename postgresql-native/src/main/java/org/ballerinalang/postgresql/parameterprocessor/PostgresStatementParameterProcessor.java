@@ -318,6 +318,9 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             case Constants.PGTypeNames.ENUM:
                 setEnum(preparedStatement, index, value);
                 break;
+            case Constants.PGTypeNames.ARRAY:
+                setArray(preparedStatement, index, value);
+                break;
             default:
                 throw new ApplicationError("Unsupported SQL type: " + sqlType);
         }
@@ -345,6 +348,16 @@ public class PostgresStatementParameterProcessor extends DefaultStatementParamet
             preparedStatement.setNull(index, Types.CHAR);
         } else {
             preparedStatement.setString(index, value.toString());
+        }
+    }
+
+    private void setArray(PreparedStatement preparedStatement, int index, Object value)
+            throws SQLException, ApplicationError {
+        if (value == null) {
+            preparedStatement.setObject(index, null);
+        } else {
+            Object object = ConvertorUtils.convertArray(value);
+            preparedStatement.setObject(index, object);
         }
     }
 

@@ -18,6 +18,18 @@
 import ballerina/jballerina.java;
 import ballerina/sql;
 
+# PostgreSQL Array Data types.
+
+# Represents Array PostgreSQL Field
+#
+# + value - Value of parameter passed into the SQL statement
+public class PGArrayValue {
+    public string[] | Point[]? value;
+    public isolated function init(string[] | Point[]? value = ()) {
+        self.value = value;
+    }  
+}
+
 # PostgreSQL Network Data types.
 
 # Represents Inet PostgreSQL Field

@@ -725,3 +725,24 @@
 
         Insert into EnumTypes (value_type) Values ('value1');
         Insert into EnumTypes (value_type) Values (null);
+
+        DROP TABLE IF EXISTS ArrayTypes2;
+        CREATE TABLE IF NOT EXISTS ArrayTypes2(
+            row_id SERIAL,
+            pointarray_type point[],
+            PRIMARY KEY(row_id)
+        );
+
+            INSERT INTO ArrayTypes2(
+                pointarray_type
+                ) 
+            VALUES (
+                '{"(1,2)","(2,3)"}'
+                );
+
+            INSERT INTO ArrayTypes2(
+                pointarray_type
+                ) 
+            VALUES (
+                null
+                );

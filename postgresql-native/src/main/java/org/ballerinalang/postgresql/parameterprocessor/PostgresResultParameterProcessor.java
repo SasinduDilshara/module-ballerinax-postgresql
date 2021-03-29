@@ -25,6 +25,7 @@ import io.ballerina.runtime.api.types.ArrayType;
 import io.ballerina.runtime.api.types.StructureType;
 import io.ballerina.runtime.api.types.Type;
 import io.ballerina.runtime.api.utils.XmlUtils;
+import io.ballerina.runtime.api.values.BArray;
 import io.ballerina.runtime.api.values.BObject;
 import org.ballerinalang.postgresql.Constants;
 import org.ballerinalang.postgresql.utils.ConvertorUtils;
@@ -35,12 +36,14 @@ import org.ballerinalang.sql.utils.ColumnDefinition;
 import org.ballerinalang.sql.utils.ErrorGenerator;
 import org.ballerinalang.sql.utils.Utils;
 
+import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLXML;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -73,6 +76,17 @@ public class PostgresResultParameterProcessor extends DefaultResultParameterProc
     */
     public static PostgresResultParameterProcessor getInstance() {
         return instance;
+    }
+
+    // @Override
+    // protected BArray createAndPopulateCustomValueArray(Object firstNonNullElement, Object[] dataArray) {
+    //     return ConvertorUtils.convertArrayType(firstNonNullElement, dataArray);
+    // }
+
+    @Override
+    public BArray convertArray(Array array, int sqlType, Type type) throws SQLException, ApplicationError {
+        //TODO: SQL Array Types
+        return ConvertorUtils.convertArrayType(array, sqlType, type);
     }
 
     @Override

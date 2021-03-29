@@ -131,6 +131,13 @@ public final class Constants {
         public static final String OPEN = "open";
     }
     /**
+     * Constants for PostgreSQL Array datatypes.
+     */
+    public static final class Array {
+        public static final String ARRAY_SUFFIX = "[]";
+        public static final String POINT_ARRAY= "point";
+    }
+    /**
      * Constants for PostgreSQL Interval datatype.
      */
     public static final class Interval {
@@ -225,6 +232,7 @@ public final class Constants {
         public static final String XML = "PGXmlValue";
         public static final String CUSTOM_TYPES = "CustomTypeValue";
         public static final String ENUM = "EnumValue";
+        public static final String ARRAY = "PGArrayValue";
     }
     /**
      * Constants for Custom PostgreSQL Ballerina Out Parameter names.

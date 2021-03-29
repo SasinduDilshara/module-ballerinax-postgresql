@@ -38,11 +38,13 @@ import org.postgresql.geometric.PGlseg;
 import org.postgresql.geometric.PGpath;
 import org.postgresql.geometric.PGpoint;
 import org.postgresql.geometric.PGpolygon;
+import org.postgresql.jdbc.PgArray;
 import org.postgresql.util.PGInterval;
 import org.postgresql.util.PGmoney;
 import org.postgresql.util.PGobject;
 
 import java.sql.SQLException;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -718,6 +720,54 @@ public class ConvertorUtils {
         String stringValue = value.toString();
         PGobject xml = setPGobject(Constants.PGtypes.XML, stringValue);
         return xml;
+    }
+
+    public static PGobject convertArray(Object value) throws SQLException, ApplicationError {
+        Type type = TypeUtils.getType(value);
+        if (value instanceof BString) {
+            return setPGobject(Constants.Array.POINT_ARRAY + Constants.Array.ARRAY_SUFFIX, value.toString());
+        } else if (type.getTag() == TypeTags.ARRAY_TAG) {
+            PGpoint point;
+            String arrayTypeName = ((ArrayType) type).getElementType().getName();
+            ArrayList<String> stringArrayList = new ArrayList<>();
+            ArrayList<Object> array = ConversionHelperUtils.getArrayType((BArray) value);
+            if (arrayTypeName.equals(Constants.TypeRecordNames.POINTRECORD)) {
+                for (Object object : array) {
+                    point = convertPoint(object);
+                    stringArrayList.add(point.getValue());
+                }
+                return setPGobject(Constants.Array.POINT_ARRAY + 
+                    Constants.Array.ARRAY_SUFFIX, ConversionHelperUtils.convertArrayToString(stringArrayList));
+            } else {
+                throw new ApplicationError(
+                        "Unsupported Ballerina Type " + arrayTypeName + " for PostgreSQL Array Datatype");
+            }
+        } else {
+            throw new ApplicationError("Unsupported Ballerina Type for PostgreSQL Array Datatype");
+        }
+    }
+
+    public static BArray convertArrayType(Array array, int sqlType, Type type) throws SQLException {
+        //TODO: Check Ballerina Type
+        PgArray pgArray = (PgArray) array;
+        String balerinaTypeName = type.getName();
+        Object[] dataArray = (Object[]) array.getArray();
+        System.out.println("dataArray " + dataArray);
+        String typeName = pgArray.getBaseTypeName();
+        System.out.println("typeName " + typeName);
+        BArray mapDataArray = ValueCreator.createArrayValue(mapArrayType);
+        System.out.println(" mapDataArray empty " + mapDataArray);
+        System.out.println("dataArray.length " + dataArray.length);
+        System.out.println("typeName " + typeName);
+        System.out.println("Constants.Array.POINT_ARRAY " + Constants.Array.POINT_ARRAY);
+        // if (typeName.equals("point"))) {
+            for (var i = 0; i < dataArray.length; i++) {
+                System.out.println("convertPointToRecord(dataArray[i], balerinaTypeName) " + convertPointToRecord(dataArray[i], balerinaTypeName));
+                mapDataArray.add(i, convertPointToRecord(dataArray[i], balerinaTypeName));
+            }
+            System.out.println("maparraydata " + mapDataArray);
+        // }
+        return mapDataArray;
     }
 
     public static BMap convertIntervalToRecord(Object value, String typeName) throws SQLException {
