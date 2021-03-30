@@ -702,10 +702,10 @@ isolated function validateDateTableResult4(record{}? returnData) {
         test:assertEquals(returnData["row_id"], 1);
         test:assertTrue(returnData["date_type"] is time:Date);
         test:assertTrue(returnData["time_type"] is time:TimeOfDay);
-        test:assertTrue(returnData["timestamp_type"] is time:Civil);
-        test:assertTrue(returnData["timestamptz_type"] is time:Civil);
         test:assertTrue(returnData["timetz_type"] is time:TimeOfDay);
         test:assertEquals(returnData["interval_type"], interval);
+        test:assertTrue(returnData["timestamp_type"] is time:Civil);
+        test:assertTrue(returnData["timestamptz_type"] is time:Civil);
     } 
 }
 

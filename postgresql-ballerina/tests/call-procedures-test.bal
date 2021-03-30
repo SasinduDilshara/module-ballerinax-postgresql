@@ -1124,12 +1124,12 @@ function testDatetimeProcedureOutCall() returns error? {
     time:TimeOfDay time = {hour: 9, minute: 35, second:6};
     Interval interval = {years: 1, months: 2, days: 3, hours: 4, minutes: 5, seconds: 6};
 
-    test:assertTrue(timestampInoutValue.get(time:Civil) is time:Civil, "Timestamp Datatype Doesn't Match");
-    test:assertTrue(timestamptzInoutValue.get(time:Civil) is time:Civil, "Timestamptz Datatype Doesn't Match");
     test:assertTrue(timeInoutValue.get(time:TimeOfDay) is time:TimeOfDay, "Time Datatype Doesn't Match");
     test:assertTrue(dateInoutValue.get(time:Date) is time:Date, "Date Datatype Doesn't Match");
     test:assertTrue(timetzInoutValue.get(time:TimeOfDay) is time:TimeOfDay, "Timetz Datatype Doesn't Match");
     test:assertEquals(intervalInoutValue.get(Interval), interval, "Interval Datatype Doesn't Match");
+    test:assertTrue(timestampInoutValue.get(time:Civil) is time:Civil, "Timestamp Datatype Doesn't Match");
+    test:assertTrue(timestamptzInoutValue.get(time:Civil) is time:Civil, "Timestamptz Datatype Doesn't Match");
 }
 
 @test:Config {
