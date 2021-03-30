@@ -1496,12 +1496,12 @@ function testDatetimeFunctionOutParameter() returns error? {
 
     Interval interval = {years: 1, months: 2, days: 3, hours: 4, minutes: 5, seconds: 6};
 
-    test:assertTrue(timestampOutValue.get(time:Civil) is time:Civil, "Timestamp Datatype Doesn't Match");
     test:assertTrue(dateOutValue.get(time:Date) is time:Date, "Date Datatype Doesn't Match");
-    test:assertTrue(timestamptzOutValue.get(time:Civil) is time:Civil, "Timestamptz Datatype Doesn't Match");
     test:assertTrue(timeOutValue.get(time:TimeOfDay) is time:TimeOfDay, "Time Datatype Doesn't Match");
     test:assertTrue(timetzOutValue.get(time:TimeOfDay) is time:TimeOfDay, "Timetz Datatype Doesn't Match");
     test:assertEquals(intervalOutValue.get(Interval), interval, "Interval Datatype Doesn't Match");
+    test:assertTrue(timestampOutValue.get(time:Civil) is time:Civil, "Timestamp Datatype Doesn't Match");
+    test:assertTrue(timestamptzOutValue.get(time:Civil) is time:Civil, "Timestamptz Datatype Doesn't Match");
 }
 
 @test:Config {
