@@ -20,7 +20,7 @@ import ballerina/test;
 
 int sslPort = 8001;
 string clientkeyPath = check file:getAbsolutePath("./tests/resources/keystore/client/postgresql.pfx");
-string clientkeyPath2 = check file:getAbsolutePath("./tests/resources/keystore/client/postgresql.pk8");
+string clientkeyPath2 = check file:getAbsolutePath("./tests/resources/keystore/client/postgresql.key");
 string clientCertPath = check file:getAbsolutePath("./tests/resources/keystore/client/postgresql.crt");
 string serverCertPath = check file:getAbsolutePath("./tests/resources/keystore/server/root.crt");
 string sslPassword = "changeit";
@@ -184,7 +184,7 @@ function testSSLVerifyCertWithSslCert() returns error? {
             mode: VERIFY_CA,
             rootcert: serverCertPath,
             key: {
-                certFile: "./clientCertPath",
+                certFile: clientCertPath,
                 keyFile: clientkeyPath2,
                 keyPassword: sslPassword
             }
@@ -236,4 +236,16 @@ function testSSLVerifyFullWithSslCert() returns error? {
     test:assertTrue(dbClient is error);
     error dbError = <error> dbClient;
     test:assertTrue(strings:includes(dbError.message(),  "The hostname localhost could not be verified"));
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLWithEmptyRecord() returns error? {
+    Options options = {
+        ssl: {}
+    };
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
+    test:assertEquals(dbClient.close(), ());
 }
