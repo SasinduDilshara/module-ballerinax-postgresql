@@ -65,18 +65,28 @@ public final class Constants {
     /**
      * Constants for ssl configuration.
      */
-    public static final class SSLConfig {
+    public static final class SecureSocket {
         public static final BString MODE = StringUtils.fromString("mode");
         public static final BString SSL_KEY = StringUtils.fromString("sslkey");
-        public static final BString SSL_PASWORD = StringUtils.fromString("sslpassword");
+        public static final BString SSL_PASSWORD = StringUtils.fromString("sslpassword");
+        public static final BString SSL_ROOT_CERT = StringUtils.fromString("sslrootcert");
         public static final BString SSL_CERT = StringUtils.fromString("sslcert");
-
+        public static final BString KEY = StringUtils.fromString("key");
+        public static final BString ROOT_CERT = StringUtils.fromString("rootcert");
         /**
-         The following constants are used to process ballerina `crypto:KeyStore`.
+         The following constants are used to process through ballerina `crypto:KeyStore`.
         */
         public static final class CryptoKeyStoreRecord {
             public static final BString KEY_STORE_RECORD_PATH_FIELD = StringUtils.fromString("path");
             public static final BString KEY_STORE_RECORD_PASSWORD_FIELD = StringUtils.fromString("password");
+        }
+        /**
+         The following constants are used to process through ballerina `postgresql:CertKey`.
+        */
+        public static final class CertKeyRecord {
+            public static final BString CERT_FILE = StringUtils.fromString("certFile");
+            public static final BString KEY_FILE = StringUtils.fromString("keyFile");
+            public static final BString KEY_PASSWORD = StringUtils.fromString("keyPassword");
         }
     }
     /**
@@ -321,7 +331,6 @@ public final class Constants {
      * Other Constants.
      */
     public static final String POSTGRESQL_DATASOURCE_NAME = "org.postgresql.ds.PGSimpleDataSource";
-    public static final String FILE = "file:";
     public static final String POOL_CONNECT_TIMEOUT = "ConnectionTimeout";
     public static final String CUSTOM_RESULT_ITERATOR_OBJECT = "CustomResultIterator";
     public static final String JDBC_URL = "jdbc:postgresql://";

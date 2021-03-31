@@ -492,31 +492,15 @@ function queryJsonbParam() returns error? {
     groups: ["query","query-simple-params"],
     dependsOn: [queryJsonbParam]
 }
-function queryDateValueParam() returns error? {
-    int rowId = 1;
-    time:Date dateValue = {year: 1999, month: 1, day: 8};
-    sql:DateValue dateValue1 = new (dateValue);
-    sql:ParameterizedQuery sqlQuery1 = `SELECT * from DatetimeTypes WHERE date_type = ${dateValue1}`;
-    sql:ParameterizedQuery sqlQuery2 = `SELECT * from DatetimeTypes WHERE date_type = ${dateValue1} and row_id = ${rowId}`;
-    
-    validateDatetimeTableQueryResult(check simpleQueryPostgresqlClient(sqlQuery1, database = simpleParamsDb));
-    validateDatetimeTableQueryResult(check simpleQueryPostgresqlClient(sqlQuery2, database = simpleParamsDb));
-}
-
-@test:Config {
-    groups: ["query","query-simple-params"],
-    dependsOn: [queryDateValueParam]
-}
 function queryTimeValueParam() returns error? {
     int rowId = 1;
     time:TimeOfDay time = {hour: 4, minute: 5, second: 6};
     sql:TimeValue timeValue1 = new (time);
     sql:ParameterizedQuery sqlQuery1 = `SELECT * from DatetimeTypes WHERE time_type = ${timeValue1}`;
     sql:ParameterizedQuery sqlQuery2 = `SELECT * from DatetimeTypes WHERE time_type = ${timeValue1} and row_id = ${rowId}`;
-    
     validateDatetimeTableQueryResult(check simpleQueryPostgresqlClient(sqlQuery1, database = simpleParamsDb));
     validateDatetimeTableQueryResult(check simpleQueryPostgresqlClient(sqlQuery2, database = simpleParamsDb));
- }
+}
 
 @test:Config {
     groups: ["query","query-simple-params"],
