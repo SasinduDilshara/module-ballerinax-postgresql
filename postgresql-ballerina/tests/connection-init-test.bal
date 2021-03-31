@@ -251,9 +251,6 @@ function testWithConnectionParams4() {
         minIdleConnections : 15
     };
     Options options = {
-        loggerLevel: "TRACE",
-        loggerFile: "./tests/resources/files/test_log.conf",
-        logUnclosedConnections: true,
         binaryTransfer: true
     };
     Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool);
@@ -307,9 +304,6 @@ function testWithConnectionParams7() {
         preparedStatementCacheSize:5,
         cancelSignalTimeout:10,
         tcpKeepAlive:false,
-        loggerLevel: "TRACE",
-        loggerFile: "./tests/resources/files/test_log.conf",
-        logUnclosedConnections: true,
         binaryTransfer: true
     };
     Client dbClient = checkpanic new (host = host, username = user, password = password, options = options, connectionPool = connectionPool);

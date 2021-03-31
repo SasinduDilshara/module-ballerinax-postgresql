@@ -173,20 +173,17 @@ type ClientConfiguration record {|
 
 public type Options record {|
   SecureSocket ssl = {};
-  decimal connectTimeout?;
-  decimal socketTimeout?;
-  decimal loginTimeout?;
+  decimal connectTimeout = 0;
+  decimal socketTimeout = 0;
+  decimal loginTimeout = 0;
   int rowFetchSize?;
   int dbMetadataCacheFields?;
   int dbMetadataCacheFieldsMiB?;
   int prepareThreshold?;
   int preparedStatementCacheQueries?;
   int preparedStatementCacheSize?;
-  decimal cancelSignalTimeout?;
+  decimal cancelSignalTimeout = 10;
   boolean tcpKeepAlive?;
-  LoggerLevel loggerLevel?;
-  string loggerFile?;
-  boolean logUnclosedConnections?;
   boolean binaryTransfer?;
 |};
 
@@ -212,16 +209,10 @@ public enum LoggerLevel {
 # SSL Configuration to be used when connecting to Postgresql server.
 #
 # + mode - `SSLMode` to be used during the connection
-# + sslkey - Keystore configuration of the client certificates
-# + sslcert - Provide the full path for the client certificate file.
+# + key - Keystore configuration of the client certificates
+# + rootcert - File name of the SSL root certificate. Defaults to defaultdir/root.crt.
 #             Defaults to /defaultdir/postgresql.crt,
-#             where defaultdir is ${user.home}/.postgresql/ in unix        systems and %appdata%/postgresql/ on windows.
- 
-// public type SecureSocket record {|
-//     SSLMode mode = PREFER;
-//     string sslrootcert?;
-//     crypto:KeyStore | string sslkey?;
-// |};
+#             where defaultdir is ${user.home}/.postgresql/ in unix systems and %appdata%/postgresql/ on windows.
 
 public type SecureSocket record {|
     SSLMode mode = PREFER;

@@ -102,23 +102,7 @@ public class Utils {
                     options.put(Constants.DatabaseProps.TCP_KEEP_ALIVE, false);
                 }
             }
-            BString loggerLevel = postgresqlOptions.getStringValue(Constants.Options.LOGGER_LEVEL);
-            if (loggerLevel != null) {
-                options.put(Constants.DatabaseProps.LOGGER_LEVEL, loggerLevel);
-                BString loggerFile = postgresqlOptions.getStringValue(Constants.Options.LOGGER_FILE);
-                if (loggerFile != null) {
-                    options.put(Constants.DatabaseProps.LOGGER_FILE, loggerFile);
-                }
-            }
-            int logUnclosedConnections = getBooleanValue(postgresqlOptions
-                        .get(Constants.Options.LOG_UNCLOSED_CONNECTIONS));
-            if (logUnclosedConnections >= 0) {
-                if (logUnclosedConnections == 1) {
-                    options.put(Constants.DatabaseProps.LOG_UNCLOSED_CONNECTIONS, true);
-                } else {
-                    options.put(Constants.DatabaseProps.LOG_UNCLOSED_CONNECTIONS, false);
-                }
-            }
+            
             int binaryTransfer = getBooleanValue(postgresqlOptions
                         .get(Constants.Options.BINARY_TRANSFER));
             if (binaryTransfer >= 0) {

@@ -492,21 +492,6 @@ function queryJsonbParam() {
     groups: ["query","query-simple-params"],
     dependsOn: [queryJsonbParam]
 }
-function queryDateValueParam() {
-    int rowId = 1;
-    time:Date dateValue = {year: 1999, month: 1, day: 8};
-    sql:DateValue dateValue1 = new (dateValue);
-    sql:ParameterizedQuery sqlQuery1 = `SELECT * from DatetimeTypes WHERE date_type = ${dateValue1}`;
-    sql:ParameterizedQuery sqlQuery2 = `SELECT * from DatetimeTypes WHERE date_type = ${dateValue1} and row_id = ${rowId}`;
-    
-    validateDatetimeTableQueryResult(simpleQueryPostgresqlClient(sqlQuery1, database = simpleParamsDb));
-    validateDatetimeTableQueryResult(simpleQueryPostgresqlClient(sqlQuery2, database = simpleParamsDb));
-}
-
-@test:Config {
-    groups: ["query","query-simple-params"],
-    dependsOn: [queryDateValueParam]
-}
 function queryTimeValueParam() {
     int rowId = 1;
     time:TimeOfDay time = {hour: 4, minute: 5, second: 6};
