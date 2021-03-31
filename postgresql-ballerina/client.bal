@@ -172,7 +172,7 @@ type ClientConfiguration record {|
 # + binaryTransfer - Use binary format for sending and receiving data if possible
 
 public type Options record {|
-  SSLConfig ssl = {};
+  SecureSocket ssl = {};
   decimal connectTimeout?;
   decimal socketTimeout?;
   decimal loginTimeout?;
@@ -217,11 +217,16 @@ public enum LoggerLevel {
 #             Defaults to /defaultdir/postgresql.crt,
 #             where defaultdir is ${user.home}/.postgresql/ in unix        systems and %appdata%/postgresql/ on windows.
  
-public type SSLConfig record {|
+// public type SecureSocket record {|
+//     SSLMode mode = PREFER;
+//     string sslrootcert?;
+//     crypto:KeyStore | string sslkey?;
+// |};
+
+public type SecureSocket record {|
     SSLMode mode = PREFER;
-    crypto:TrustStore sslrootcert?;
-    crypto:TrustStore sslcert?;
-    crypto:KeyStore sslkey?;
+    string rootcert?;
+    crypto:KeyStore | CertKey key?;
 |};
 
 # Represents combination of certificate, private key and private key password if encrypted.
@@ -229,7 +234,7 @@ public type SSLConfig record {|
 # + certFile - A file containing the certificate
 # + keyFile - A file containing the private key
 # + keyPassword - Password of the private key if it is encrypted
-type CertKey record {|
+public type CertKey record {|
    string certFile;
    string keyFile;
    string keyPassword?;

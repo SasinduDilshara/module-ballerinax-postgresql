@@ -24,6 +24,10 @@ import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BString;
 import org.ballerinalang.postgresql.Constants;
 
+import java.io.FileOutputStream;
+import java.security.KeyStore;
+import java.security.cert.X509Certificate;
+
 /**
  * This class includes utility functions.
  */
@@ -163,37 +167,32 @@ public class Utils {
         if (sslConfig == null) {
             options.put(Constants.DatabaseProps.SSL_MODE, Constants.DatabaseProps.SSL_MODE_DISABLED);
         } else {
-            BString mode = sslConfig.getStringValue(Constants.SSLConfig.MODE);
+            BString mode = sslConfig.getStringValue(Constants.SecureSocket.MODE);
             options.put(Constants.DatabaseProps.SSL_MODE, mode);
-
-            /*
-             Need to figure out
-            */
-            BMap sslkey = sslConfig.getMapValue(Constants.SSLConfig.SSL_KEY);
-            if (sslkey != null) {
-                options.put(Constants.SSLConfig.SSL_KEY, StringUtils.fromString(
-                        Constants.FILE + sslkey.getStringValue(
-                                Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
-                options.put(Constants.SSLConfig.SSL_PASSWORD, sslkey
-                        .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
+            BMap key = sslConfig.getMapValue(Constants.SecureSocket.KEY);
+            if (key != null) {
+                if (key.containsKey(Constants.SecureSocket.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD) 
+                        && key.
+                        containsKey(Constants.SecureSocket.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD)) {
+                    options.put(Constants.SecureSocket.SSL_KEY, 
+                             key.getStringValue(
+                                    Constants.SecureSocket.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD));
+                    options.put(Constants.SecureSocket.SSL_PASSWORD, key
+                        .getStringValue(Constants.SecureSocket.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
+                } else {
+                    options.put(Constants.SecureSocket.SSL_CERT, key
+                        .getStringValue(Constants.SecureSocket.CertKeyRecord.CERT_FILE));
+                    options.put(Constants.SecureSocket.SSL_PASSWORD, key
+                        .getStringValue(Constants.SecureSocket.CertKeyRecord.KEY_PASSWORD));
+                    options.put(Constants.SecureSocket.SSL_KEY, key
+                        .getStringValue(Constants.SecureSocket.CertKeyRecord.KEY_FILE));
+                }
             }
-            BMap sslrootcert = sslConfig.getMapValue(Constants.SSLConfig.SSL_ROOT_CERT);
+            BString sslrootcert = sslConfig.getStringValue(Constants.SecureSocket.ROOT_CERT);
             if (sslrootcert != null) {
-                options.put(Constants.SSLConfig.SSL_ROOT_CERT, StringUtils.fromString(
-                        Constants.FILE + sslrootcert.getStringValue(
-                                Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
-                // options.put(Constants.SSLConfig.SSL_PASSWORD, sslrootcert
-                //         .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
+                options.put(Constants.SecureSocket.SSL_ROOT_CERT, sslrootcert);
             }
-            BMap sslcert = sslConfig.getMapValue(Constants.SSLConfig.SSL_CERT);
-            if (sslcert != null) {
-                options.put(Constants.SSLConfig.SSL_CERT, StringUtils.fromString(
-                        Constants.FILE + sslcert.getStringValue(
-                                Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PATH_FIELD)));
-                // options.put(Constants.SSLConfig.SSL_PASSWORD, sslcert
-                //         .getStringValue(Constants.SSLConfig.CryptoKeyStoreRecord.KEY_STORE_RECORD_PASSWORD_FIELD));
-            }    
         }
-        System.out.println("Options " + options);
+        System.out.println("\n\nOptions " + options + "\n\n");
     }
 }

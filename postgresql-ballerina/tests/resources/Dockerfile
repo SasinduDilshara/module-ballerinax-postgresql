@@ -33,20 +33,12 @@ COPY sql-scripts/procedures/procedures-test-data.sql /docker-entrypoint-initdb.d
 COPY sql-scripts/functions/function-test-data.sql /docker-entrypoint-initdb.d/07-function-test-data.sql
 
 RUN mkdir -p /etc/ssl
-COPY keystore/certs/server-cert.pem /etc/ssl/server-cert.pem
-COPY keystore/certs/server-key.pem /etc/ssl/server-key.pem
-
-
-
-COPY keystore/certs/ca.pem /etc/postgresql/ca.pem
-
-
+COPY keystore/server/server.crt /etc/ssl/server.crt
+COPY keystore/server/server.key /etc/ssl/server.key
+COPY keystore/server/root.crt /etc/postgresql/root.crt
 
 RUN chown -R postgres /etc/ssl
 
-RUN chmod -R 0600 /etc/ssl/server-key.pem
+RUN chmod -R 0600 /etc/ssl/server.key
 
-
-
-RUN chmod -R 0777 /etc/postgresql/ca.pem
-# COPY postgresql.conf /etc/postgresql.conf
+RUN chmod -R 0777 /etc/postgresql/root.crt

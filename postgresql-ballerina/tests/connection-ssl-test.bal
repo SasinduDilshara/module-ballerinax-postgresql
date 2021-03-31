@@ -14,164 +14,226 @@
 // under the License.
 
 import ballerina/file;
+import ballerina/lang.'string as strings;
+import ballerina/sql;
 import ballerina/test;
 
-string clientkeyPath = checkpanic file:getAbsolutePath("./tests/resources/keystore/client/postgresql.key");
-string clientCertPath = checkpanic file:getAbsolutePath("./tests/resources/keystore/client/postgresql.crt");
-string serverCertPath = checkpanic file:getAbsolutePath("./tests/resources/keystore/server/root.crt");
+int sslPort = 8001;
+string clientkeyPath = check file:getAbsolutePath("./tests/resources/keystore/client/postgresql.pfx");
+string clientkeyPath2 = check file:getAbsolutePath("./tests/resources/keystore/client/postgresql.pk8");
+string clientCertPath = check file:getAbsolutePath("./tests/resources/keystore/client/postgresql.crt");
+string serverCertPath = check file:getAbsolutePath("./tests/resources/keystore/server/root.crt");
+string sslPassword = "changeit";
 
 @test:Config {
     groups: ["connection","ssl"]
 }
-function testSSLRequire() {
+function testSSLRequireWithPfxKey() returns error? {
     Options options = {
         ssl: {
             mode: REQUIRE,
-            sslrootcert: {
-                path: serverCertPath,
-                password: "changeit"
-            },
-            sslkey: {
+            rootcert: serverCertPath,
+            key: {
                 path: clientkeyPath,
-                password: "changeit"
-            },
-            sslcert: {
-                path: clientCertPath,
-                password: "changeit"
+                password: sslPassword
             }
         }
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
-        port = port, options = options);
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
     test:assertEquals(dbClient.close(), ());
 }
 
 @test:Config {
     groups: ["connection","ssl"]
 }
-function testSSLPrefer() {
+function testSSLRequireWithSslCert() returns error? {
+    Options options = {
+        ssl: {
+            mode: REQUIRE,
+            rootcert: serverCertPath,
+            key: {
+                certFile: clientCertPath,
+                keyFile: clientkeyPath2,
+                keyPassword: sslPassword
+            }
+        }
+    };
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
+    test:assertEquals(dbClient.close(), ());
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLPreferWithPfxKey() returns error? {
     Options options = {
         ssl: {
             mode: PREFER,
-            sslrootcert: {
-                path: serverCertPath,
-                password: "changeit"
-            },
-            sslkey: {
+            rootcert: serverCertPath,
+            key: {
                 path: clientkeyPath,
-                password: "changeit"
-            },
-            sslcert: {
-                path: clientCertPath,
-                password: "changeit"
+                password: sslPassword
             }
         }
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
-        port = port, options = options);
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
     test:assertEquals(dbClient.close(), ());
 }
 
 @test:Config {
     groups: ["connection","ssl"]
 }
-function testSSLAllow() {
+function testSSLPreferWithSslCert() returns error? {
     Options options = {
         ssl: {
-            mode:  ALLOW,
-            sslrootcert: {
-                path: serverCertPath,
-                password: "changeit"
-            },
-            sslkey: {
-                path: clientkeyPath,
-                password: "changeit"
-            },
-            sslcert: {
-                path: clientCertPath,
-                password: "changeit"
+            mode: PREFER,
+            rootcert: serverCertPath,
+            key: {
+                certFile: clientCertPath,
+                keyFile: clientkeyPath2,
+                keyPassword: sslPassword
             }
         }
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
-        port = port, options = options);
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
     test:assertEquals(dbClient.close(), ());
 }
 
 @test:Config {
     groups: ["connection","ssl"]
 }
-function testSSLDisable() {
+function testSSLAllowWithPfxKey() returns error? {
     Options options = {
         ssl: {
-            mode:  DISABLE,
-            sslrootcert: {
-                path: serverCertPath,
-                password: "changeit"
-            },
-            sslkey: {
+            mode: ALLOW,
+            rootcert: serverCertPath,
+            key: {
                 path: clientkeyPath,
-                password: "changeit"
-            },
-            sslcert: {
-                path: clientCertPath,
-                password: "changeit"
+                password: sslPassword
             }
         }
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
-        port = port, options = options);
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
     test:assertEquals(dbClient.close(), ());
 }
 
 @test:Config {
     groups: ["connection","ssl"]
 }
-function testSSLVerifyCert() {
+function testSSLAllowWithSslCert() returns error? {
+    Options options = {
+        ssl: {
+            mode: ALLOW,
+            rootcert: serverCertPath,
+            key: {
+                certFile: clientCertPath,
+                keyFile: clientkeyPath2,
+                keyPassword: sslPassword
+            }
+        }
+    };
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
+    test:assertEquals(dbClient.close(), ());
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLDisable() returns error? {
+    Options options = {
+        ssl: {
+            mode:  DISABLE
+        }
+    };
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
+    test:assertEquals(dbClient.close(), ());
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLVerifyCertWithPfxKey() returns error? {
     Options options = {
         ssl: {
             mode: VERIFY_CA,
-            sslrootcert: {
-                path: serverCertPath,
-                password: "changeit"
-            },
-            sslkey: {
+            rootcert: serverCertPath,
+            key: {
                 path: clientkeyPath,
-                password: "changeit"
-            },
-            sslcert: {
-                path: clientCertPath,
-                password: "changeit"
+                password: sslPassword
             }
         }
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
-        port = port, options = options);
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
     test:assertEquals(dbClient.close(), ());
 }
 
 @test:Config {
     groups: ["connection","ssl"]
 }
-function testSSLVerifyFull() {
+function testSSLVerifyCertWithSslCert() returns error? {
     Options options = {
         ssl: {
-            mode: VERIFY_FULL,
-            sslrootcert: {
-                path: serverCertPath,
-                password: "changeit"
-            },
-            sslkey: {
-                path: clientkeyPath,
-                password: "changeit"
-            },
-            sslcert: {
-                path: clientCertPath,
-                password: "changeit"
+            mode: VERIFY_CA,
+            rootcert: serverCertPath,
+            key: {
+                certFile: clientCertPath,
+                keyFile: clientkeyPath2,
+                keyPassword: sslPassword
             }
         }
     };
-    Client dbClient = checkpanic new (username = user, password = password, database = sslDb,
-        port = port, options = options);
+    Client dbClient = check new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
     test:assertEquals(dbClient.close(), ());
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLVerifyFullWithPfxKey() returns error? {
+    Options options = {
+        ssl: {
+            mode: VERIFY_FULL,
+            rootcert: serverCertPath,
+            key: {
+                path: clientkeyPath,
+                password: sslPassword
+            }
+        }
+    };
+    Client | sql:Error dbClient = new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
+    test:assertTrue(dbClient is error);
+    error dbError = <error> dbClient;
+    test:assertTrue(strings:includes(dbError.message(),  "The hostname localhost could not be verified"));
+}
+
+@test:Config {
+    groups: ["connection","ssl"]
+}
+function testSSLVerifyFullWithSslCert() returns error? {
+    Options options = {
+        ssl: {
+            mode: VERIFY_FULL,
+            rootcert: serverCertPath,
+            key: {
+                certFile: clientCertPath,
+                keyFile: clientkeyPath2,
+                keyPassword: sslPassword
+            }
+        }
+    };
+    Client | sql:Error dbClient = new (username = user, password = password, database = sslDb,
+        port = sslPort, options = options);
+    test:assertTrue(dbClient is error);
+    error dbError = <error> dbClient;
+    test:assertTrue(strings:includes(dbError.message(),  "The hostname localhost could not be verified"));
 }
