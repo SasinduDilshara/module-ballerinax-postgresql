@@ -148,7 +148,7 @@ function testSSLAllowWithSslCert() returns error? {
 function testSSLDisable() returns error? {
     Options options = {
         ssl: {
-            mode:  DISABLE
+            mode: DISABLE
         }
     };
     Client dbClient = check new (username = user, password = password, database = sslDb,
@@ -184,7 +184,7 @@ function testSSLVerifyCertWithSslCert() returns error? {
             mode: VERIFY_CA,
             rootcert: serverCertPath,
             key: {
-                certFile: clientCertPath,
+                certFile: "./clientCertPath",
                 keyFile: clientkeyPath2,
                 keyPassword: sslPassword
             }
