@@ -49,6 +49,9 @@ dependencies {
         transitive = false
     }
     compile project(":${packageName}-native")
+    externalJars (group: 'org.ballerinalang', name: 'sql-native', version: "${stdlibSqlVersion}") {
+        transitive = false
+    }
  }
 
 clean {
