@@ -49,6 +49,9 @@ dependencies {
         transitive = false
     }
     compile project(":${packageName}-native")
+    externalJars (group: 'org.ballerinalang', name: 'sql-native', version: "${stdlibSqlVersion}") {
+        transitive = false
+    }
  }
 
 clean {
@@ -105,9 +108,8 @@ task updateTomlFile {
 
         def newConfig = ballerinaConfigFile.text.replace("@project.version@", project.version.toString())
         newConfig = newConfig.replace("@toml.version@", tomlVersion)
-        newConfig = newConfig.replace("@project.path@", distributionPath)
         newConfig = newConfig.replace("@stdlib.sql.native.version@", project.stdlibSqlVersion.toString())
-        newConfig = newConfig.replace("@stdlib.sql.version@", stdlibDependentSqlVersion)
+        newConfig = newConfig.replace("@postgresqlDriverVersion@", "${postgreSQLDriverVersion}")
         
         ballerinaConfigFile.text = newConfig
 
