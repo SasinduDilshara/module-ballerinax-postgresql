@@ -17,6 +17,7 @@
  
 import ballerina/jballerina.java;
 import ballerina/sql;
+import ballerina/time;
 
 # PostgreSQL Network Data types.
 
@@ -263,9 +264,9 @@ public distinct class LongRangeValue {
 # + value - Value of parameter passed into the SQL statement
 public distinct class NumericRangeValue {
     *sql:TypedValue;
-    public NumericaRange |string? value;
+    public NumericalRange |string? value;
 
-    public isolated function init(NumericaRange |string? value = ()) {
+    public isolated function init(NumericalRange |string? value = ()) {
         self.value = value;
     }
 }
@@ -275,9 +276,9 @@ public distinct class NumericRangeValue {
 # + value - Value of parameter passed into the SQL statement
 public distinct class TsrangeValue {
     *sql:TypedValue;
-    public TimestampRange | string? value;
+    public TimestampRange | TimestampRangeToCivil | string? value;
 
-    public isolated function init(TimestampRange | string? value = ()) {
+    public isolated function init(TimestampRange | TimestampRangeToCivil | string? value = ()) {
         self.value = value;
     }
 }
@@ -287,9 +288,9 @@ public distinct class TsrangeValue {
 # + value - Value of parameter passed into the SQL statement
 public distinct class TstzrangeValue {
     *sql:TypedValue;
-    public TimestamptzRange | string? value;
+    public TimestamptzRange | TimestamptzRangeToCivil | string? value;
 
-    public isolated function init(TimestamptzRange | string? value = ()) {
+    public isolated function init(TimestamptzRange | TimestamptzRangeToCivil | string? value = ()) {
         self.value = value;
     }
 }
@@ -299,9 +300,9 @@ public distinct class TstzrangeValue {
 # + value - Value of parameter passed into the SQL statement
 public distinct class DaterangeValue {
     *sql:TypedValue;
-    public DateRange | string? value;
+    public DateRange | DateRangeToCivil | string? value;
 
-    public isolated function init(DateRange | string? value = ()) {
+    public isolated function init(DateRange | DateRangeToCivil | string? value = ()) {
         self.value = value;
     }
 }
@@ -1127,7 +1128,7 @@ public type LongRange record {
 #
 # + upper - Upper value in the Range 
 # + lower - Lower value in the Range
-public type NumericaRange record {
+public type NumericalRange record {
     *Range; 
     decimal upper; 
     decimal lower;
@@ -1193,4 +1194,34 @@ public type CustomValueRecord record {
 public type EnumRecord record {
     string sqlTypeName;
     Enum? value;
+};
+
+# Represents Timestamp Range Datatype in PostgreSQL.
+#
+# + upper - Upper value in the Range 
+# + lower - Lower value in the Range
+public type TimestampRangeToCivil record {
+    *Range;
+    time:Civil upper; 
+    time:Civil lower;
+};
+
+# Represents Timestamp with Timezone Range Datatype in PostgreSQL.
+#
+# + upper - Upper value in the Range 
+# + lower - Lower value in the Range 
+public type TimestamptzRangeToCivil record {
+    *Range;
+    time:Civil upper; 
+    time:Civil lower;
+};
+
+# Represents Date Range Datatype in PostgreSQL.
+#
+# + upper - Upper value in the Range 
+# + lower - Lower value in the Range 
+public type DateRangeToCivil record {
+    *Range;
+    time:Date upper; 
+    time:Date lower;
 };
