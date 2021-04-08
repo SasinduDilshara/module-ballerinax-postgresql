@@ -1021,20 +1021,18 @@ function testInsertIntoMoneyDataTable4() returns error? {
 }
 function testInsertIntoArrayDataTable() returns error? {
     int rowId = 43;
-
     int[] smallIntArray = [1, 1];
     int[] intArray = [11, 11];
     int[] bigIntArray = [111,111,111];
-    sql:DecimalValue decimalValue = new (1.1);
-    sql:DecimalValue[] decimalArray = [decimalValue, decimalValue];
+    decimal[] decimalArray =  [99.91,71.32];
     decimal[] numericArray =  [11.11,11.11];
-    decimal[] realArray =  [11.11,11.11];
+    decimal[] realArray =  [91.31,13.13];
     decimal[] doubleArray =  [11.11,11.11];
-    string[] charArray = ["This is char123","This is char123"];
-    string[] varcharArray = ["This is varchar","This is varchar"];
-    string[] textArray = ["This is text123","This is text123"];
+    string[] charArray = ["This is char123", "This is char123"];
+    string[] varcharArray = ["This is varchar", "This is varchar"];
+    string[] textArray = ["This is text123", "This is text123"];
     boolean[] booleanArray = [true, false, true];
-    byte[][] byteaArray = [[1,2,3],[11,5,7]];
+    byte[][] byteaArray = [[1,2,3], [11,5,7]];
 
     sql:ArrayValue smallintarrayType = new(smallIntArray);
     sql:ArrayValue intarrayType = new(intArray);
@@ -1067,6 +1065,59 @@ function testInsertIntoArrayDataTable() returns error? {
 }
 function testInsertIntoArrayDataTable2() returns error? {
     int rowId = 44;
+    sql:SmallIntValue smallintValue1 = new (12);
+    sql:SmallIntValue smallintValue2 = new (1243);
+    sql:SmallIntValue[] smallintArray = [smallintValue1, smallintValue2];
+    sql:IntegerValue intValue1 = new (1222239);
+    sql:IntegerValue intValue2 = new (12439954);
+    sql:IntegerValue[] intArray = [intValue1, intValue2];
+    sql:BigIntValue bigIntValue1 = new (22331222239);
+    sql:BigIntValue bigIntValue2 = new (12323213439954);
+    sql:BigIntValue[] bigIntArray = [bigIntValue1, bigIntValue2];
+    sql:DecimalValue decimalValue = new (1.191);
+    sql:DecimalValue[] decimalArray = [decimalValue, decimalValue];
+    sql:NumericValue numericValue = new (1.191);
+    sql:NumericValue[] numericArray = [numericValue, numericValue];
+    sql:RealValue realValue = new (2.239);
+    sql:RealValue[] realArray = [realValue, realValue, realValue];
+    decimal[] doubleArray = [123.232, 342.43];
+    string[] charArray = ["This is char123", "This is char123"];
+    string[] varcharArray = ["This is varchar", "This is varchar"];
+    string[] textArray = ["This is text123", "This is text123"];
+    boolean[] booleanArray = [true, false, true];
+    byte[][] byteaArray = [[1,2,3], [11,5,7]];
+
+    sql:ArrayValue smallintarrayType = new(smallintArray);
+    sql:ArrayValue intarrayType = new(intArray);
+    sql:ArrayValue bigintarrayType = new(bigIntArray);
+    sql:ArrayValue decimalarrayType = new(decimalArray);
+    sql:ArrayValue numericarrayType = new(numericArray);
+    sql:ArrayValue realarrayType = new(realArray);
+    sql:ArrayValue doublearrayType = new(doubleArray);
+    sql:ArrayValue chararrayType = new(charArray);
+    sql:ArrayValue varchararrayType = new(varcharArray);
+    sql:ArrayValue textarrayType = new(textArray);
+    sql:ArrayValue booleanarrayType = new(booleanArray);
+    sql:ArrayValue byteaarrayType = new(byteaArray);
+
+    sql:ParameterizedQuery sqlQuery =
+      `
+    INSERT INTO ArrayTypes (row_id, smallintarray_type, intarray_type, bigintarray_type,
+     decimalarray_type, numericarray_type, realarray_type, doublearray_type,
+      chararray_type, varchararray_type,
+            textarray_type, booleanarray_type, byteaarray_type) 
+            VALUES(${rowId}, ${smallintarrayType}, ${intarrayType}, ${bigintarrayType}, ${decimalarrayType},
+            ${numericarrayType}, ${realarrayType}, ${doublearrayType}, ${chararrayType}, ${varchararrayType}, ${textarrayType}, ${booleanarrayType}, ${byteaarrayType})
+    `;
+    validateResult(check executeQueryPostgresqlClient(sqlQuery, executeParamsDatabase), 1, rowId);
+}
+
+@test:Config {
+    groups: ["execute-params", "execute"],
+    dependsOn: [testInsertIntoArrayDataTable2]
+}
+function testInsertIntoArrayDataTable3() returns error? {
+    int rowId = 45;
 
     sql:ArrayValue smallintarrayType = new();
     sql:ArrayValue intarrayType = new();

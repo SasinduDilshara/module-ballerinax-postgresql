@@ -751,15 +751,35 @@ public type ArrayProcedureRecord record {
 }
 function testArrayProcedureCall() returns error? {
     int rowId = 35;
-    int[]? bigIntArray = [111,111,111];
-    decimal[]? numericArray =  [11.11,11.11];
     string[]? varcharArray = ["This is varchar","This is varchar"];
     string[]? textArray = ["This is text123","This is text123"];
     boolean[]? booleanArray = [true, false, true];
     byte[][]? byteaArray = [[1,2,3],[11,5,7]];
 
+    sql:SmallIntValue smallintValue1 = new (12);
+    sql:SmallIntValue smallintValue2 = new (1243);
+    sql:SmallIntValue[] smallintArray = [smallintValue1, smallintValue2];
+    sql:IntegerValue intValue1 = new (1222239);
+    sql:IntegerValue intValue2 = new (12439954);
+    sql:IntegerValue[] intArray = [intValue1, intValue2];
+    sql:BigIntValue bigIntValue1 = new (99999999);
+    sql:BigIntValue bigIntValue2 = new (921312319);
+    sql:BigIntValue[] bigIntArray = [bigIntValue1, bigIntValue2];
+    sql:DecimalValue decimalValue1 = new (12.145);
+    sql:DecimalValue decimalValue2 = new (12.345);
+    sql:DecimalValue[] decimalArray = [decimalValue1, decimalValue2];
+    sql:NumericValue numericValue = new (13.23453);
+    sql:NumericValue[] numericArray = [numericValue, numericValue];
+    sql:RealValue realValue1 = new (99.145);
+    sql:RealValue realValue2 = new (99.345);
+    sql:RealValue[] realArray = [realValue1, realValue2];
+
+    sql:ArrayValue smallintarrayType = new(smallintArray);
+    sql:ArrayValue intArrayType = new(intArray);
     sql:ArrayValue bigintarrayType = new(bigIntArray);
+    sql:ArrayValue decimalArrayType = new(decimalArray);
     sql:ArrayValue numericarrayType = new(numericArray);
+    sql:ArrayValue realarrayType = new(realArray);
     sql:ArrayValue varchararrayType = new(varcharArray);
     sql:ArrayValue textarrayType = new(textArray);
     sql:ArrayValue booleanarrayType = new(booleanArray);
@@ -767,7 +787,7 @@ function testArrayProcedureCall() returns error? {
 
     sql:ParameterizedCallQuery sqlQuery =
       `
-      call ArrayProcedure(${rowId}, ${bigintarrayType},
+      call ArrayProcedure(${rowId}, ${smallintarrayType}, ${intArrayType}, ${bigintarrayType}, ${decimalArrayType}, ${realarrayType},
             ${numericarrayType}, ${varchararrayType}, ${textarrayType}, ${booleanarrayType}, ${byteaarrayType});
     `;
     sql:ProcedureCallResult result = check callProcedure(sqlQuery, proceduresDatabase);
@@ -777,10 +797,12 @@ function testArrayProcedureCall() returns error? {
            textarray_type, booleanarray_type 
         from ArrayTypes where row_id = ${rowId}`;
 
+    int[] bigIntQueryArray = [99999999, 921312319];
+    decimal[] numericQueryArray = [13.23453, 13.23453];
     ArrayProcedureRecord expectedDataRow = {
         row_id: rowId,
-        bigintarray_type: bigIntArray,
-        numericarray_type: numericArray,
+        bigintarray_type: bigIntQueryArray,
+        numericarray_type: numericQueryArray,
         varchararray_type: varcharArray,
         textarray_type: textArray,
         booleanarray_type: booleanArray

@@ -207,13 +207,13 @@ end
 ;
  $$ ;
 create 
-or replace procedure ArrayProcedure( row_id_in bigint, bigintarray_in bigint[], numericarray_in numeric[], varchararray_in varchar(15)[], textarray_in text[], booleanarray_in boolean[], byteaarray_in bytea[] ) language plpgsql as $$ 
+or replace procedure ArrayProcedure( row_id_in bigint, smallintarray_in smallint[], intarray_in int[], bigintarray_in bigint[], decimalarray_in decimal[], realarray_in real[], numericarray_in numeric[], varchararray_in varchar(15)[], textarray_in text[], booleanarray_in boolean[], byteaarray_in bytea[] ) language plpgsql as $$ 
 begin
    INSERT INTO
-      ArrayTypes( row_id, bigintarray_type, numericarray_type, varchararray_type, textarray_type, booleanarray_type, byteaarray_type ) 
+      ArrayTypes( row_id, smallintarray_type, intarray_type, bigintarray_type, decimalarray_type, realarray_type, numericarray_type, varchararray_type, textarray_type, booleanarray_type, byteaarray_type ) 
    VALUES
       (
-         row_id_in, bigintarray_in, numericarray_in, varchararray_in, textarray_in, booleanarray_in, byteaarray_in 
+         row_id_in, smallintarray_in, intarray_in, bigintarray_in, decimalarray_in, realarray_in, numericarray_in, varchararray_in, textarray_in, booleanarray_in, byteaarray_in 
       )
 ;
 end
