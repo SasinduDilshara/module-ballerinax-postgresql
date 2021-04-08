@@ -1025,7 +1025,8 @@ function testInsertIntoArrayDataTable() returns error? {
     int[] smallIntArray = [1, 1];
     int[] intArray = [11, 11];
     int[] bigIntArray = [111,111,111];
-    decimal[] decimalArray =  [11.11,11.11];
+    sql:DecimalValue decimalValue = new (1.1);
+    sql:DecimalValue[] decimalArray = [decimalValue, decimalValue];
     decimal[] numericArray =  [11.11,11.11];
     decimal[] realArray =  [11.11,11.11];
     decimal[] doubleArray =  [11.11,11.11];

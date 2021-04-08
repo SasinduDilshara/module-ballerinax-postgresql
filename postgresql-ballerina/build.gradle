@@ -397,14 +397,14 @@ task stopTestDockerContainer() {
                     commandLine 'sh', '-c', "docker stop ${testContainerName}"
                     standardOutput = stdOut
                 }
-                exec {
-                    commandLine 'sh', '-c', "docker stop ${poolContainerName}"
-                    standardOutput = stdOut
-                }
-                exec {
-                    commandLine 'sh', '-c', "docker stop ${sslContainerName}"
-                    standardOutput = stdOut
-                }
+                // exec {
+                //     commandLine 'sh', '-c', "docker stop ${poolContainerName}"
+                //     standardOutput = stdOut
+                // }
+                // exec {
+                //     commandLine 'sh', '-c', "docker stop ${sslContainerName}"
+                //     standardOutput = stdOut
+                // }
             } catch (all) {
                 println("Process can safely ignore stopTestDockerContainer task")
             }
@@ -417,15 +417,15 @@ unpackStdLibs.dependsOn unpackJballerinaTools
 copyStdlibs.dependsOn unpackStdLibs
 updateTomlFile.dependsOn copyStdlibs
 startTestDockerContainer.dependsOn createTestDockerImage
-startTestPoolDockerContainer.dependsOn createTestDockerImage
-startSslDockerContainer.dependsOn createTestDockerImage
+// startTestPoolDockerContainer.dependsOn createTestDockerImage
+// startSslDockerContainer.dependsOn createTestDockerImage
 
 ballerinaTest.dependsOn updateTomlFile
 ballerinaTest.dependsOn initializeVariables
 ballerinaTest.dependsOn ":${packageName}-native:build"
 ballerinaTest.dependsOn startTestDockerContainer
-ballerinaTest.dependsOn startTestPoolDockerContainer
-ballerinaTest.dependsOn startSslDockerContainer
+// ballerinaTest.dependsOn startTestPoolDockerContainer
+// ballerinaTest.dependsOn startSslDockerContainer
 ballerinaTest.finalizedBy revertTomlFile
 ballerinaTest.finalizedBy stopTestDockerContainer
 test.dependsOn ballerinaTest
