@@ -310,15 +310,20 @@ def testContainerName = "ballerina-postgresql-testcontainer"
 def poolContainerName = "ballerina-postgresql-poolcontainer"
 def sslContainerName = "ballerina-postgresql-sslcontainer"
 
-task createTestDockerImage(type: Exec) {
-    if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-        def standardOutput = new ByteArrayOutputStream()
-        commandLine 'sh', '-c', "docker build -f ${project.projectDir}/tests/resources/Dockerfile -t ballerina-postgresql" +
-                " -q ${project.projectDir}/tests/resources/"
-        doLast {
-            checkExecResult(execResult, 'Error', standardOutput)
-            sleep(10 * 1000)
-        }
+task createTestDockerImage(type:Exec) {
+    gradle.taskGraph.whenReady { graph ->
+        if (graph.hasTask(":${packageName}-ballerina:test")) {
+            if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+                def standardOutput = new ByteArrayOutputStream()
+                commandLine 'sh', '-c', "docker build -f ${project.projectDir}/tests/resources/Dockerfile -t ballerina-postgresql" +
+                        " -q ${project.projectDir}/tests/resources/"
+                doLast {
+                    checkExecResult(execResult, 'Error', standardOutput)
+                    sleep(10 * 1000)
+                }
+            }
+            
+        }    
     }
 }
 
@@ -334,88 +339,104 @@ def checkTestDockerContainerStatus(containerName) {
     }
 }
 
-task startTestDockerContainer(type: Exec) {
-    if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-        def standardOutput = new ByteArrayOutputStream()
-        commandLine 'sh', '-c', "docker run --rm -d --name ${testContainerName} -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 -d ballerina-postgresql"
-        
-        def healthCheck = 1;
-        def counter = 0;
-        doLast {
-            checkExecResult(execResult, 'Error', standardOutput)
-            while (healthCheck != 0 && counter < 12) {
-                sleep(5 * 1000)
-                healthCheck = checkTestDockerContainerStatus(testContainerName)
-                counter = counter + 1;
-            }
-            if (healthCheck != 0) {
-                throw new GradleException("Docker container '${testContainerName}' health test exceeded timeout!")
-            }
-        }
-    }
-}
-
-task startTestPoolDockerContainer(type: Exec) {
-    if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-        def standardOutput = new ByteArrayOutputStream()
-        commandLine 'sh', '-c', "docker run --rm -d --name ${poolContainerName} -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 8000:5432 -d ballerina-postgresql"
-        
-        def healthCheck = 1;
-        def counter = 0;
-        doLast {
-            checkExecResult(execResult, 'Error', standardOutput)
-            while (healthCheck != 0 && counter < 12) {
-                sleep(5 * 1000)
-                healthCheck = checkTestDockerContainerStatus(poolContainerName)
-                counter = counter + 1;
-            }
-            if (healthCheck != 0) {
-                throw new GradleException("Docker container ${poolContainerName} health test exceeded timeout!")
+task startTestDockerContainer(type:Exec) {
+    gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(":${packageName}-ballerina:test")) {
+        if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+            def standardOutput = new ByteArrayOutputStream()
+            commandLine 'sh', '-c', "docker run --rm -d --name ${testContainerName} -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 -d ballerina-postgresql"
+            
+            def healthCheck = 1;
+            def counter = 0;
+            doLast {
+                checkExecResult(execResult, 'Error', standardOutput)
+                    while (healthCheck != 0 && counter < 12) {
+                        sleep(5 * 1000)
+                        healthCheck = checkTestDockerContainerStatus(testContainerName)
+                        counter = counter + 1;
+                    }
+                    if (healthCheck != 0) {
+                        throw new GradleException("Docker container '${testContainerName}' health test exceeded timeout!")
+                    }
+                }
             }
         }
     }
 }
 
-task startSslDockerContainer(type: Exec) {
-    if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-        def standardOutput = new ByteArrayOutputStream()
-        commandLine 'sh', '-c', "docker run --rm -d --name ${sslContainerName} -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 8001:5432 -d ballerina-postgresql -c ssl=on -c ssl_cert_file=/etc/ssl/server.crt -c ssl_key_file=/etc/ssl/server.key"
-
-        def healthCheck = 1;
-        def counter = 0;
-        doLast {
-            checkExecResult(execResult, 'Error', standardOutput)
-            while (healthCheck != 0 && counter < 12) {
-                sleep(5 * 1000)
-                healthCheck = checkTestDockerContainerStatus(sslContainerName)
-                counter = counter + 1;
+task startTestPoolDockerContainer(type:Exec) {
+    gradle.taskGraph.whenReady { graph ->
+        if (graph.hasTask(":${packageName}-ballerina:test")) {
+            if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+                def standardOutput = new ByteArrayOutputStream()
+                commandLine 'sh', '-c', "docker run --rm -d --name ${poolContainerName} -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 8000:5432 -d ballerina-postgresql"
+                
+                def healthCheck = 1;
+                def counter = 0;
+                doLast {
+                    checkExecResult(execResult, 'Error', standardOutput)
+                    while (healthCheck != 0 && counter < 12) {
+                        sleep(5 * 1000)
+                        healthCheck = checkTestDockerContainerStatus(poolContainerName)
+                        counter = counter + 1;
+                    }
+                    if (healthCheck != 0) {
+                        throw new GradleException("Docker container ${poolContainerName} health test exceeded timeout!")
+                    }
+                }
             }
-            if (healthCheck != 0) {
-                throw new GradleException("Docker container '${sslContainerName}' health test exceeded timeout!")
+        }
+    }
+}
+
+task startSslDockerContainer(type:Exec) {
+    gradle.taskGraph.whenReady { graph ->
+        if (graph.hasTask(":${packageName}-ballerina:test")) {
+            if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+                def standardOutput = new ByteArrayOutputStream()
+                commandLine 'sh', '-c', "docker run --rm -d --name ${sslContainerName} -e POSTGRES_PASSWORD=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 8001:5432 -d ballerina-postgresql -c ssl=on -c ssl_cert_file=/etc/ssl/server.crt -c ssl_key_file=/etc/ssl/server.key"
+
+                def healthCheck = 1;
+                def counter = 0;
+                doLast {
+                    checkExecResult(execResult, 'Error', standardOutput)
+                    while (healthCheck != 0 && counter < 12) {
+                        sleep(5 * 1000)
+                        healthCheck = checkTestDockerContainerStatus(sslContainerName)
+                        counter = counter + 1;
+                    }
+                    if (healthCheck != 0) {
+                        throw new GradleException("Docker container '${sslContainerName}' health test exceeded timeout!")
+                    }
+                }
             }
         }
     }
 }
 
 task stopTestDockerContainer() {
-    doLast {
-        if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-            try {
-                def stdOut = new ByteArrayOutputStream()
-                exec {
-                    commandLine 'sh', '-c', "docker stop ${testContainerName}"
-                    standardOutput = stdOut
+    gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(":${packageName}-ballerina:test")) {
+            doLast {
+                if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+                    try {
+                        def stdOut = new ByteArrayOutputStream()
+                        exec {
+                            commandLine 'sh', '-c', "docker stop ${testContainerName}"
+                            standardOutput = stdOut
+                        }
+                        exec {
+                            commandLine 'sh', '-c', "docker stop ${poolContainerName}"
+                            standardOutput = stdOut
+                        }
+                        exec {
+                            commandLine 'sh', '-c', "docker stop ${sslContainerName}"
+                            standardOutput = stdOut
+                        }
+                    } catch (all) {
+                        println("Process can safely ignore stopTestDockerContainer task")
+                    }
                 }
-                exec {
-                    commandLine 'sh', '-c', "docker stop ${poolContainerName}"
-                    standardOutput = stdOut
-                }
-                exec {
-                    commandLine 'sh', '-c', "docker stop ${sslContainerName}"
-                    standardOutput = stdOut
-                }
-            } catch (all) {
-                println("Process can safely ignore stopTestDockerContainer task")
             }
         }
     }
@@ -425,19 +446,20 @@ unpackJballerinaTools.dependsOn copyToLib
 unpackStdLibs.dependsOn unpackJballerinaTools
 copyStdlibs.dependsOn unpackStdLibs
 updateTomlFile.dependsOn copyStdlibs
+createTestDockerImage.dependsOn initializeVariables
 startTestDockerContainer.dependsOn createTestDockerImage
 startTestPoolDockerContainer.dependsOn createTestDockerImage
 startSslDockerContainer.dependsOn createTestDockerImage
 
+
+ballerinaBuild.dependsOn startTestDockerContainer
+ballerinaBuild.dependsOn startTestPoolDockerContainer
+ballerinaBuild.dependsOn startSslDockerContainer
 ballerinaBuild.dependsOn updateTomlFile
-ballerinaBuild.dependsOn initializeVariables
+// ballerinaBuild.dependsOn initializeVariables
 ballerinaBuild.dependsOn ":${packageName}-native:build"
 ballerinaBuild.finalizedBy revertTomlFile
 ballerinaBuild.finalizedBy stopTestDockerContainer
-test.dependsOn startTestDockerContainer
-test.dependsOn startTestPoolDockerContainer
-test.dependsOn startSslDockerContainer
-test.finalizedBy ballerinaBuild
 build.dependsOn ballerinaBuild
 
 publishToMavenLocal.dependsOn build
